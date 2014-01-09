@@ -1,0 +1,33 @@
+{
+    "name": "<%= _.slugify(packageName) %>",
+    "description": "<%= packageDescription %>",
+    "main": "lib/<%= _.slugify(mainName) %>.js",
+    "version": "0.1.0",
+    "author":
+    {
+        "name": "<%= authorName %>",
+        "email": "<%= authorEmail %>",
+        "url": "https://github.com/Marviq"
+    },
+    "scripts":
+    {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "prepublish": "command -v grunt >/dev/null 2>&1 && grunt || { echo >&2 'Grunt is not installed'; }"
+    },
+    "devDependencies":
+    {
+        "grunt-cli": "~0.1.11",
+        "browserify": "~2.35.4",
+        "grunt": "~0.4.1",
+        "grunt-browserify": "~1.2.11",
+        "grunt-contrib-watch": "~0.5.3",
+        "coffeeify": "~0.5.2",
+        "grunt-contrib-clean": "~0.5.0"
+    },
+    "dependencies":
+    {},
+    "licenses": [
+    {
+        "type": "BSD"
+    } ]
+}
