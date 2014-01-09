@@ -1,15 +1,15 @@
 ( ( factory ) ->
     if typeof exports is "object"
         module.exports = factory(
-            require "madLib-console"
+            require "madlib-console"
             require "madlib-settings"
-            require "madlib-xhr-browser-xdm"
+            require "madlib-xhr-browser"
         )
     else if typeof define is "function" and define.amd
         define( [
-            "madLib-console"
+            "madlib-console"
             "madlib-settings"
-            "madlib-xhr-browser-xdm"
+            "madlib-xhr-browser"
         ], factory )
 
 )( ( console, settings, XHR ) ->

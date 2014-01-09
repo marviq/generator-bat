@@ -17,24 +17,81 @@ module.exports = ( grunt ) ->
         browserify:
             dist:
                 files:
-                    "dist/bundle.js": sourceFiles
+                    "lib/bundle.js": sourceFiles
                 options:
                     transform: [ "coffeeify" ]
 
             debug:
                 files:
-                    "dist/bundle.js": sourceFiles
+                    "lib/bundle.js": sourceFiles
                 options:
                     debug:     true
                     transform: [ "coffeeify" ]
 
-    # These plugins provide the necessary tasks
+        # Prepare the dist folder
+        #
+        copy:
+            dist:
+                files:
+                    [
+                        expand: true
+                        cwd: "."
+                        src:
+                            [
+                                "**/*"
+                                "!src"
+                                "!**/*.coffee"
+                                "!log/*.log"
+                                "!node_modules/**"
+                                "!test/**"
+                                "!GruntFile.js"
+                                "!package.json"
+                            ]
+                        dest: "dist/src"
+                    ]
+
+        # Create the distribution archive
+        #
+        compress:
+            dist:
+                options:
+                    archive: "dist/<%= pkg.name %>.zip"
+                expand: true
+                cwd:    "dist/src"
+                src:    [ "**/*" ]
+                dest:   "."
+
+            debug:
+                options:
+                    archive: "dist/<%= pkg.name %>-<%= pkg.version %>-DEBUG.zip"
+                expand: true
+                cwd:    "dist/src"
+                src:    [ "**/*" ]
+                dest:   "."
+
+
+    # These plug-ins provide the necessary tasks
     #
     grunt.loadNpmTasks "grunt-browserify"
     grunt.loadNpmTasks "grunt-contrib-watch"
     grunt.loadNpmTasks "grunt-contrib-clean"
+    grunt.loadNpmTasks "grunt-contrib-copy"
+    grunt.loadNpmTasks "grunt-contrib-compress"
 
     # Default tasks
     #
-    grunt.registerTask "default", [ "browserify:dist"  ]
-    grunt.registerTask "debug",   [ "browserify:debug" ]
+    grunt.registerTask "default",
+    [
+        "clean:dist"
+        "browserify:dist"
+        "copy:dist"
+        "compress:dist"
+    ]
+
+    grunt.registerTask "debug",
+    [
+        "clean:dist"
+        "browserify:debug"
+        "copy:dist"
+        "compress:debug"
+    ]

@@ -79,6 +79,7 @@
     MadlibWebappGenerator.prototype.app = function app( )
     {
         this.mkdir( 'src'  );
+        this.mkdir( 'lib'  );
         this.mkdir( 'test' );
 
         this.template( '_package.json',     'package.json' );
