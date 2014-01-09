@@ -1,6 +1,6 @@
 {
   "name": "generator-madlib-webapp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": " yeoman based generator for madlib based webapps",
   "keywords": [
     "yeoman-generator"
@@ -17,7 +17,6 @@
     "type": "git",
     "url": "https://stash.marviq.com/scm/gen/madlib-webapp.git"
   },
-
   "scripts": {
     "test": "mocha"
   },
