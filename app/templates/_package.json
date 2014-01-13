@@ -30,7 +30,10 @@
     {
         "madlib-console": "~0.1.0",
         "madlib-settings": "~0.1.2",
-        "madlib-xhr-browser": "~0.1.0"
+        "madlib-xhr-browser": "~0.1.0",
+        "madlib-xml-parse": "~0.1.0",
+        "madlib-xml-serialize": "~0.1.0",
+        "madlib-xml-objectifier": "~0.1.2"
     },
     "licenses": [
     {

@@ -19,14 +19,14 @@
     # Setup XHR host mappings
     # These are example values that need to be changed or removed
     #
-    settings.set( "hostMapping",
+    settings.init( "hostMapping",
         "www.myhost.com":       "production"
         "acc.myhost.com":       "acceptance"
         "tst.myhost.com":       "testing"
         "localhost":            "development"
     )
 
-    settings.set( "hostConfig",
+    settings.init( "hostConfig",
         "production":
             "api":              "https://api.myhost.com"
         "acceptance":
@@ -39,7 +39,7 @@
 
     # Setup XHR host settings
     #
-    settings.set(
+    settings.init(
         "api.myhost.com":
             cors:               true
             xdmVersion:         3
