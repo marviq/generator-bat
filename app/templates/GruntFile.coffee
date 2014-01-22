@@ -69,6 +69,13 @@ module.exports = ( grunt ) ->
                 src:    [ "**/*" ]
                 dest:   "."
 
+        mochaTest:
+            test:
+                options:
+                    reporter: 'spec'
+                    require:  'coffee-script'
+                src: [ 'test/**/*.js', "test/**/*.coffee" ]
+
 
     # These plug-ins provide the necessary tasks
     #
@@ -77,6 +84,7 @@ module.exports = ( grunt ) ->
     grunt.loadNpmTasks "grunt-contrib-clean"
     grunt.loadNpmTasks "grunt-contrib-copy"
     grunt.loadNpmTasks "grunt-contrib-compress"
+    grunt.loadNpmTasks 'grunt-mocha-test'
 
     # Default tasks
     #
@@ -94,4 +102,12 @@ module.exports = ( grunt ) ->
         "browserify:debug"
         "copy:dist"
         "compress:debug"
+    ]
+
+    grunt.registerTask "test",
+    [
+        "clean:dist"
+        "browserify:dist"
+        "copy:dist"
+        "mochaTest"
     ]
