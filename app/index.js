@@ -78,9 +78,28 @@
 
     MadlibWebappGenerator.prototype.app = function app( )
     {
+        // Create base folders
+        //
         this.mkdir( 'src'  );
-        this.mkdir( 'lib'  );
         this.mkdir( 'test' );
+
+        // Create Backbone folders
+        //
+        this.mkdir( 'src/models'        );
+        this.mkdir( 'src/collections'   );
+        this.mkdir( 'src/routers'       );
+        this.mkdir( 'src/views'         );
+
+        // Create vendor library folder
+        //
+        this.mkdir( 'src/vendor'        );
+
+        // Create compass folders
+        //
+        this.mkdir( 'src/sass'          );
+        this.mkdir( 'src/style'         );
+        this.mkdir( 'src/style/images'  );
+
 
         this.template( '_package.json',     'package.json' );
         this.template( 'README.md',         'README.md'    );
@@ -88,8 +107,9 @@
 
         this.copy( 'GruntFile.coffee',      'GruntFile.coffee'  );
         this.copy( 'LICENSE',               'LICENSE'           );
-        this.copy( 'src/madlib-xhr.coffee', 'src/madlib-xhr.coffee' );
         this.copy( 'src/index.coffee',      'src/' + this._.slugify( this.mainName ) + '.coffee' );
+        this.copy( 'src/config.rb',         'src/config.rb' );
+        this.copy( 'watchify.sh',           'watchify.sh'   );
     };
 
     MadlibWebappGenerator.prototype.projectfiles = function projectfiles( )

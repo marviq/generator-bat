@@ -1,45 +1,58 @@
 {
-    "name": "<%= _.slugify(packageName) %>",
-    "description": "<%= packageDescription %>",
-    "main": "lib/<%= _.slugify(mainName) %>.js",
-    "version": "0.1.0",
-    "author":
-    {
-        "name": "<%= authorName %>",
+    "author": {
         "email": "<%= authorEmail %>",
+        "name": "<%= authorName %>",
         "url": "https://github.com/Marviq"
     },
-    "scripts":
-    {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "prepublish": "command -v grunt >/dev/null 2>&1 && grunt || { echo >&2 'Grunt is not installed'; }"
+    "browser": {},
+    "browserify": {
+        "transform": [
+            "coffeeify",
+            "browserify-shim",
+            "hbsfy"
+        ]
     },
-    "devDependencies":
-    {
-        "grunt-cli": "~0.1.11",
-        "browserify": "~2.35.4",
-        "grunt": "~0.4.1",
-        "grunt-browserify": "~1.2.11",
-        "grunt-contrib-watch": "~0.5.3",
-        "coffeeify": "~0.5.2",
-        "grunt-contrib-clean": "~0.5.0",
-        "grunt-contrib-copy": "~0.5.0",
-        "grunt-contrib-compress": "~0.5.3",
-        "coffee-script": "~1.6.3",
-        "chai": "~1.8.1",
-        "grunt-mocha-test": "~0.8.2"
-    },
-    "dependencies":
-    {
+    "browserify-shim": {},
+    "contributors": [],
+    "dependencies": {
+        "backbone": "~1.1.2",
         "madlib-console": "~0.1.0",
         "madlib-settings": "~0.1.2",
-        "madlib-xhr-browser": "~0.1.0",
-        "madlib-xml-parse": "~0.1.0",
-        "madlib-xml-serialize": "~0.1.0",
-        "madlib-xml-objectifier": "~0.1.2"
+        "madlib-hostmapping": "~0.1.6",
+        "q": "~1.0.0"
+    },
+    "description": "<%= packageDescription %>",
+    "devDependencies": {
+        "browserify": "~3.23.1",
+        "browserify-shim": "~3.3.2",
+        "chai": "~1.8.1",
+        "coffeeify": "~0.6.0",
+        "grunt": "~0.4.1",
+        "grunt-browserify": "~2.0.1",
+        "grunt-cli": "~0.1.11",
+        "grunt-contrib-clean": "~0.5.0",
+        "grunt-contrib-compass": "~0.7.0",
+        "grunt-contrib-compress": "~0.5.3",
+        "grunt-contrib-copy": "~0.5.0",
+        "grunt-contrib-uglify": "~0.3.1",
+        "grunt-contrib-watch": "~0.5.3",
+        "grunt-contrib-yuidoc": "~0.5.0",
+        "grunt-grunticon": "~1.0.0-beta.0",
+        "grunt-mocha-test": "~0.8.2",
+        "grunt-string-replace": "~0.2.7",
+        "hbsfy": "~1.0.0",
+        "yuidoc-marviq-theme": "~0.1.0"
     },
     "licenses": [
-    {
-        "type": "BSD"
-    } ]
+        {
+            "type": "BSD"
+        }
+    ],
+    "main": "lib/<%= _.slugify(mainName) %>.js",
+    "name": "<%= _.slugify(packageName) %>",
+    "scripts": {
+        "prepublish": "command -v grunt >/dev/null 2>&1 && grunt || { echo >&2 'Grunt is not installed'; }",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "version": "0.1.0"
 }
