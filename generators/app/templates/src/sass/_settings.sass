@@ -1,0 +1,22 @@
+// All variables and loading of mixins should be done here
+//
+
+
+// Load default compass mixins
+//
+@import "compass/utilities/general/clearfix"
+@import "compass/utilities/general/hacks"
+@import "compass/css3"
+@import "compass/css3/box-shadow"
+@import "compass/css3/user-interface"
+
+// Setup the automatic spriting
+//
+// Want to use a sprite?
+// Step 1: Add the image to the sprites folder
+// Step 2: Use example:  "background: sprite( $sprites-sprite, name-of-file-without-extension ) no-repeat"
+// Step 3: Sit back and relax, when compass compiles it generates the sprite for you and
+//         does the heavy lifting for you....
+//
+$sprites-path:    "images/sprites/"
+$sprites-sprite:  sprite-map( "sprites/*.png" )

@@ -1,41 +1,14 @@
 {
-  "name": "generator-madlib-webapp",
-  "version": "0.1.4",
-  "description": " yeoman based generator for madlib based webapps",
+  "name": "generator-bat",
+  "version": "0.1.0",
+  "description": "",
   "keywords": [
     "yeoman-generator"
   ],
-  "homepage": "https://github.com/Marviq/generator-madlib-webapp",
-  "bugs": "https://github.com/Marviq/generator-madlib-webapp/issues",
-  "author": {
-    "name": "Mark Doeswijk",
-    "email": "mark.doeswijk@marviq.com",
-    "url": "https://github.com/Marviq"
-  },
-  "main": "app/index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://stash.marviq.com/scm/gen/madlib-webapp.git"
-  },
-  "scripts": {
-    "test": "mocha"
-  },
   "dependencies": {
-    "yeoman-generator": "~0.13.0"
-  },
-  "devDependencies": {
-    "mocha": "~1.12.0"
-  },
-  "peerDependencies": {
-    "yo": ">=1.0.0"
-  },
-  "engines": {
-    "node": ">=0.8.0",
-    "npm": ">=1.2.10"
-  },
-  "licenses": [
-    {
-      "type": "BSD"
-    }
-  ]
+    "yeoman-generator": "^0.16.0",
+    "coffee-script": "^1.7.1",
+    "yosay": "^0.2.1",
+    "path": "^0.4.9"
+  }
 }
