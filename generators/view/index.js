@@ -81,7 +81,7 @@ module.exports = yeoman.generators.Base.extend(
             // for the newly created sass file
             //
             var views   = this.readFileAsString( "src/sass/_views.sass" )
-            ,   insert  = '@import "views/_' + this.viewName;
+            ,   insert  = '@import "views/_' + this.viewName + '"';
 
             // Check if there isn't already in import for this file
             // just in case....
