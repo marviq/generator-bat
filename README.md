@@ -16,23 +16,33 @@ yo bat
 ```
 
 ### Subgenerators
-The generator also comes with sub-generators for Backbone models, collections and views:
+The generator also comes with sub-generators for Backbone models, collections and views.
+When using a subgenerator it will also automatically fill in the Yuidoc documentation partly
+using your GIT username, views require there Handlebar template already etc.
 
 #### Views
-When creating an view, it will also give you the option to automatically generate and SASS
-file for the view, and add it to the _views.sass file for you. 
+When a view is generated it will create for you: {{viewName}}.coffee, {{viewName}}.hbs. These will be placed in 
+the root of the views folder.
+
+Optionally: _{{viewName}}.sass and add it to the _views.sass.
 
 ```shell
 yo bat:view
 ```
 
 #### Models
+When a model is generated it will create a {{modelName}}.coffee file in the root of the models folder.
+
+Optionally: make the model a singleton.
 
 ```shell
 yo bat:model
 ```
 
 #### Collections
+When a collection is generated it will create a {{collectionName}}.coffee file in the root of the collections folder.
+
+Optionally: make the collection a singleton.
 
 ```shell
 yo bat:collection
