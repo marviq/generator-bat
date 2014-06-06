@@ -9,11 +9,22 @@ npm install -g generator-bat
 ```
 
 ## Usage
-### New project
+
+To use this generator you will need the have the following things installed:
+
+Yeoman:
+```shell
+npm install -g yo
+```
+
+### Main generator
+To start a new project execute the following in your shell:
 
 ```shell
 yo bat
 ```
+
+It will ask you some questions, set everything up, do an npm install and your set to go!
 
 ### Subgenerators
 The generator also comes with sub-generators for Backbone models, collections and views.
