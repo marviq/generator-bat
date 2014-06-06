@@ -3,13 +3,13 @@
         module.exports = factory(
             require "q"
             require "backbone"
-            require "./../models/" + <%= modelName %> + ".coffee"
+            require "./../models/<%= modelName %>.coffee"
         )
     else if typeof define is "function" and define.amd
         define( [
             "q"
             "backbone"
-            "./../models/" + <%= modelName %> + ".coffee"
+            "./../models/<%= modelName %>.coffee"
         ], factory )
 
 )( ( Q, Backbone, <%= modelName %>Model ) ->
