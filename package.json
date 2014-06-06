@@ -1,10 +1,25 @@
 {
   "name": "generator-bat",
   "version": "0.1.0",
-  "description": "",
+  "description": "BAT ( Backbone Application Template ). A yeoman-generator created by Marviq.",
   "keywords": [
     "yeoman-generator"
+  , "marviq"
+  , "backbone"
+  , "browserify"
   ],
+
+  "homepage": "https://www.marviq.com",
+  "author": {
+    "name": "Raymond de Wit",
+    "url": "http://www.marviq.com"
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/marviq/generator-bat.git"
+  },
+
   "dependencies": {
     "yeoman-generator": "^0.16.0",
     "coffee-script": "^1.7.1",
