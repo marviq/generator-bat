@@ -2,20 +2,23 @@
 > Every got tired of having to bootstrap your new projects over and over again? This Yeoman generator will generate it for you!
 
 ## Installation:
+> The generator is available in the global NPM:
 ```shell
 npm install -g generator-bat 
 ```
 
 ## Usage
-
-To generator an new project:
+### New project
+> To generator an new project:
 
 ```shell
 yo bat
 ```
 
-The generator also comes with sub-generators for Backbone models, collections and views:
+### Subgenerators
+>The generator also comes with sub-generators for Backbone models, collections and views:
 
+#### Views
 > When creating an view, it will also give you the option to automatically generate and SASS
 file for the view, and add it to the _views.sass file for you. 
 ```shell
