@@ -75,5 +75,34 @@ Optionally: make the collection a singleton.
 yo bat:collection
 ```
 
+## Grunt watch tasks
+For watching your files for changes and compile and build there are 2 routes you can choose the simple one is:
+
+```shell
+grunt watch
+```
+
+This will watch for changes on your .coffee .hbs and .sass files. The problem with this one is that the building of 
+browserify becomes quite slow if your project becomes bigger.
+
+The quicker way, which still a bit of BETA is using watchify, this caches parts of the browserify builds
+and therefore builds this way quicker when changes occur:
+
+```shell
+npm install -g watchify
+```
+
+Then you can call the following script to watch changes on your .hbs and .coffee files:
+
+```shell
+./watchify.sh
+```
+
+Watchify doesn't watch your sass files so you will have to run a seperate watch process for that:
+
+```shell
+grunt watch:sass
+```
+
 
 
