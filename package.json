@@ -1,6 +1,6 @@
 {
   "name": "generator-bat",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "BAT ( Backbone Application Template ). A yeoman-generator created by Marviq.",
   "keywords": [
     "yeoman-generator",
