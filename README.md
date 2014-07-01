@@ -1,6 +1,3 @@
-# BETA version - STILL IN DEVELOPMENT
-The multilanguage feature doesn't work yet for example
-
 ## generator-bat ( Backbone Application Template )
 Ever got tired of having to bootstrap your new projects over and over again? This Yeoman generator will generate it for you!
 
