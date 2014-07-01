@@ -18,6 +18,11 @@
     "name": "Raymond de Wit",
     "url": "http://www.marviq.com"
   },
+  "contributors": [
+    {
+      "name": "Mark Doeswijk"
+    }  
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/marviq/generator-bat.git"
