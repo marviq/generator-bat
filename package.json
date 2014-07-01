@@ -1,6 +1,6 @@
 {
   "name": "generator-bat",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "BAT ( Backbone Application Template ). A yeoman-generator created by Marviq.",
   "keywords": [
     "yeoman-generator",
@@ -21,7 +21,7 @@
   "contributors": [
     {
       "name": "Mark Doeswijk"
-    }  
+    }
   ],
   "repository": {
     "type": "git",
