@@ -32,11 +32,6 @@ module.exports = yeoman.generators.Base.extend(
             ,   message:    "What is the purpose (description) of this webapp?"
             }
         ,   {
-                name:       "mainName"
-            ,   message:    "What is the main JavaScript file name of this webapp?"
-            ,   default:    "index"
-            }
-        ,   {
                 name:       "authorName"
             ,   message:    "What is your name?"
             ,   default:    this.user.git.username
@@ -65,6 +60,12 @@ module.exports = yeoman.generators.Base.extend(
             ,   message:    "Do you need IE8 and lower support? (Affects the jQuery version)"
             ,   default:    false
             }
+        ,   {
+                name:       "demo"
+            ,   type:       "confirm"
+            ,   message:    "Do you want the demo app?"
+            ,   default:    true
+            }
         ];
 
         this.prompt( prompts, function( props )
@@ -77,6 +78,7 @@ module.exports = yeoman.generators.Base.extend(
             this.bootstrap          = props.bootstrap;
             this.ie8                = props.ie8;
             this.multiLanguage      = props.multiLanguage;
+            this.demo               = props.demo
 
             callback();
         }.bind( this ) );
@@ -100,6 +102,13 @@ module.exports = yeoman.generators.Base.extend(
         //
         this.mkdir( "src/vendor"        );
 
+        // Create i18n folder
+        //
+        if( this.multiLanguage === true )
+        {
+            this.mkdir( "src/i18n" );
+        }
+
         // Create compass folders
         //
         this.mkdir( "src/sass"          );
@@ -121,10 +130,10 @@ module.exports = yeoman.generators.Base.extend(
         //
         if( this.ie8 === true )
         {
-            this.jQueryVersion = "1.11.1";
+            this.jQueryVersion = "^1.11.1";
         }
         else {
-            this.jQueryVersion = "2.1.1";
+            this.jQueryVersion = "^2.1.1";
         }
 
         // write package.sjon and readme file
@@ -144,23 +153,65 @@ module.exports = yeoman.generators.Base.extend(
         this.copy( "src/sass/app.sass",             "src/sass/app.sass" );
         this.copy( "src/sass/_settings.sass",       "src/sass/_settings.sass" );
         this.copy( "src/sass/_views.sass",          "src/sass/_views.sass" );
-        this.copy( "src/sass/views/_index.sass",    "src/sass/views/_index.sass" );
         this.copy( "src/sass/check-green.png",      "src/style/images/sprites/check-green.png" );
 
-        // Create index files
+        // If we want the demo copy the demo files
         //
-        this.template( "src/index.html",    "src/index.html"   );
-        this.copy( "src/index.coffee",      "src/" + this._.slugify( this.mainName ) + ".coffee" );
+        if( this.demo === true )
+        {
+            this.copy( "demo/router.coffee",                "src/router.coffee" );    
+            this.template( "demo/index.html",               "src/index.html"   );
 
-        // Setup the router
-        //
-        this.template( "src/router.coffee", "src/router.coffee" );
+            this.copy( "demo/views/buildscript.hbs",        "src/views/buildscript.hbs" );
+            this.copy( "demo/views/buildscript.coffee",     "src/views/buildscript.coffee" );
 
-        // Copy index view
-        //
-        this.copy( "src/views/index.coffee",            "src/views/index.coffee" );
-        this.copy( "src/views/index.hbs",               "src/views/index.hbs" );
-        this.copy( "src/style/images/batman-logo.jpg",  "src/style/images/batman-logo.jpg" );
+            this.copy( "demo/views/documentation.hbs",      "src/views/documentation.hbs" );
+            this.copy( "demo/views/documentation.coffee",   "src/views/documentation.coffee" );
+
+            this.copy( "demo/views/i18n.hbs",               "src/views/i18n.hbs" );
+            this.copy( "demo/views/i18n.coffee",            "src/views/i18n.coffee" );
+
+            this.copy( "demo/views/index.hbs",              "src/views/index.hbs" );
+            this.copy( "demo/views/index.coffee",           "src/views/index.coffee" );
+            this.copy( "demo/sass/_index.sass",             "src/sass/views/_index.sass" );
+
+            this.copy( "demo/views/navigation.hbs",         "src/views/navigation.hbs" );
+            this.copy( "demo/views/navigation.coffee",      "src/views/navigation.coffee" );
+
+            this.copy( "demo/marviq-logo-web.png",          "src/style/images/marviq-logo-web.png" );
+            this.copy( "demo/documentation.jpg",            "src/style/images/documenting.jpg" );
+
+            // Copy the i18n files
+            //
+            this.copy( "demo/i18n/nl_NL.json",              "src/i18n/nl_NL.json" );
+            this.copy( "demo/i18n/en_GB.json",              "src/i18n/en_GB.json" );    
+
+            // Copy the bootstrap file
+            //
+            this.template( "demo/bootstrap.coffee",         "src/bootstrap.coffee" );
+        }
+        else {
+                
+            if( this.multiLanguage === true )
+            {
+                // Copy the i18n files
+                //
+                this.copy( "src/i18n/nl_NL.json",  "src/i18n/nl_NL.json" );
+                this.copy( "src/i18n/en_GB.json",  "src/i18n/en_GB.json" );    
+            }
+
+             
+            this.template( "src/index.html",                "src/index.html"   );
+            this.template( "src/_router.coffee",            "src/router.coffee" );    
+
+            this.copy( "src/views/index.coffee",            "src/views/index.coffee" );
+            this.copy( "src/views/index.hbs",               "src/views/index.hbs" );
+            this.copy( "src/sass/views/_index.sass",        "src/sass/views/_index.sass" );
+
+            // Copy the bootstrap file
+            //
+            this.template( "src/_bootstrap.coffee",  "src/bootstrap.coffee" );
+        }
     }
 
 

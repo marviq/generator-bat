@@ -20,7 +20,10 @@
         "madlib-settings": "~0.1.2",
         "madlib-hostmapping": "~0.1.6",
         "q": "~1.0.0",
-        "jquery": "~2.1.1"
+        "jquery": "^2.1.1"
+        
+            ,   "madlib-locale": "~0.0.1"
+        
     },
     "description": "",
     "devDependencies": {
@@ -49,7 +52,7 @@
             "type": "BSD"
         }
     ],
-    "main": "lib/index.js",
+    "main": "lib/.js",
     "name": "test",
     "scripts": {
         "prepublish": "command -v grunt >/dev/null 2>&1 && grunt || { echo >&2 'Grunt is not installed'; }",

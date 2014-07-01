@@ -6,7 +6,7 @@ if hash watchify 2>/dev/null; then
         echo ">>> Build failed!"
     else
         echo ">>> Starting watchify... please allow it to finish building once"
-        watchify -d src/index.coffee src/**/*.hbs -o dist/src/bundle.js -v --extension=.coffee --extension=.hbs
+        watchify -d src/bootstrap.coffee src/**/*.hbs -o dist/src/bundle.js -v --extension=.coffee --extension=.hbs
     fi
 else
     echo "You need to npm install -g watchify first."

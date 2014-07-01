@@ -2,7 +2,7 @@
 The multilanguage feature doesn't work yet for example
 
 ## generator-bat ( Backbone Application Template )
-Every got tired of having to bootstrap your new projects over and over again? This Yeoman generator will generate it for you!
+Ever got tired of having to bootstrap your new projects over and over again? This Yeoman generator will generate it for you!
 
 ## Why would you want to use BAT?
 When using the BAT generator you can immediatly start developing your application instead of worrying about setting everything up.

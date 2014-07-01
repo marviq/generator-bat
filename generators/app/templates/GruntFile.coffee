@@ -1,6 +1,6 @@
 module.exports = ( grunt ) ->
 
-    sourceFiles = [ "./src/index.coffee", "./src/**/*.hbs" ]
+    sourceFiles = [ "./src/bootstrap.coffee", "./src/**/*.hbs" ]
     watchFiles  = [ "./src/**/*.coffee", "./src/**/*/js", "./src/**/*.hbs", "./src/**/*.html" ]
     sassFiles   = [ "./src/sass/**/*.scss", "./src/sass/**/*.sass" ]
 

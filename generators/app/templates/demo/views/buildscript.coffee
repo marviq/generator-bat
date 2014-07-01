@@ -3,42 +3,40 @@
         module.exports = factory(
             require "backbone"
             require "jquery"
-            require "./index.hbs"
+            require "./buildscript.hbs"
         )
     else if typeof define is "function" and define.amd
         define( [
             "backbone"
             "jquery"
-            "./index.hbs"
+            "./buildscript.hbs"
         ], factory )
 
 )( ( Backbone, $, template ) ->
     ###*
-    #   Index view
+    #   View contains information about the build tasks in the GruntFile
     #
-    #   @author         rdewit
-    #   @class          IndexView
-    #   @extends        Backbone.View
+    #   @author         Raymond de Wit
+    #   @class          BuildscriptView
     #   @module         view
+    #   @extends        Backbone.View
     #   @constructor
     #   @version        0.1
     ###
-    class IndexView extends Backbone.View
+    class BuildscriptView extends Backbone.View
 
         # We need to expose our name to the router
         #
-        viewName:   "index"
-        className:  "index-view"
+        viewName:   "buildscript"
+        className:  "buildscript-view"
 
-        ###*
-        # Function renders the view
-        #
-        # @method     render
-        # @return     viewInstance
-        ###
-        render: () ->
-
+        initialize: () ->
+            # Add the pre-compiled handlebars template to our element
+            # or do that in your render that's up to you...
+            #
             @$el.append( template() )
+
+        render: () ->
 
             # By convention always return this so people can chain functions
             # for example grab the .el after rendering ;-)
