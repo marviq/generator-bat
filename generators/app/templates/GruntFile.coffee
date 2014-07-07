@@ -134,6 +134,7 @@ module.exports = ( grunt ) ->
                                 "!sass/**"
                                 "!vendor/**"
                                 "!style/images/icons/*.{png,gif,jpg}"
+                                "!config.rb"
                             ]
                         dest: "dist/src"
                     ]
