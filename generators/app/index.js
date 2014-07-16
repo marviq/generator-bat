@@ -146,7 +146,6 @@ module.exports = yeoman.generators.Base.extend(
         //
         this.copy( "GruntFile.coffee",      "GruntFile.coffee"  );
         this.copy( "src/config.rb",         "src/config.rb" );
-        this.copy( "watchify.sh",           "watchify.sh"   );
 
         // Setup the sass files
         //
