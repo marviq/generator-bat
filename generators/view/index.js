@@ -46,7 +46,8 @@ module.exports = yeoman.generators.Base.extend(
         this.prompt( prompts, function( props )
         {
             this.viewName       = props.viewName;
-
+            this.description    = props.descriptoin;
+            
             // Classnames are uppercase by convention
             //
             this.className      = props.viewName.charAt( 0 ).toUpperCase() + props.viewName.slice( 1 );
