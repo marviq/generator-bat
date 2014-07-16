@@ -48,6 +48,8 @@ module.exports = ( grunt ) ->
                     "dist/src/bundle.js": sourceFiles
 
                 options:
+                    watch:                  true
+
                     browserifyOptions:
                         extensions:         [ ".coffee", ".hbs" ]
 
