@@ -24,10 +24,6 @@ module.exports = ( grunt ) ->
             options:
                 livereload: true
 
-            src:
-                files: watchFiles
-                tasks: [ "browserify:watch", "copy:dist", "string-replace:debug" ]
-
             sass:
                 files: sassFiles
                 tasks: [ "compass:debug", "copy:dist", "string-replace:debug" ]
@@ -246,6 +242,16 @@ module.exports = ( grunt ) ->
         "string-replace:debug"
         "writeBuildFile"
         "compress:debug"
+    ]
+
+    grunt.registerTask "dev",
+    [
+        "clean:dist"
+        "browserify:debug"
+        "compass:debug"
+        "copy:dist"
+        "string-replace:debug"
+        "watch"
     ]
 
     grunt.registerTask "test",

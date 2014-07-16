@@ -38,7 +38,7 @@
         ###
         render: () ->
 
-            @$el.append( template() )
+            @$el.html( template() )
 
             # By convention always return this so people can chain functions
             # for example grab the .el after rendering ;-)
