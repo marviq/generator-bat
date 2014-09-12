@@ -19,6 +19,7 @@
     #   @author         <%= user.git.username %>
     #   @class          <%= className %>View
     #   @extends        Backbone.View
+    #   @moduletype     view
     #   @constructor
     #   @version        0.1
     ###
@@ -30,12 +31,13 @@
         className:  "<%= viewName %>-view"
 
         initialize: () ->
-            # Add the pre-compiled handlebars template to our element
-            # or do that in your render that's up to you...
+            
+            # Here you can initialize your view
             #
-            @$el.append( template() )
 
         render: () ->
+
+            @$el.html( template() )
 
             # By convention always return this so people can chain functions
             # for example grab the .el after rendering ;-)
