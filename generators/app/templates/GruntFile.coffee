@@ -18,6 +18,9 @@ module.exports = ( grunt ) ->
             uglify:
                 src: [ "dist/src/bundle.js" ]
 
+            index:
+                src: [ "dist/src/index.html" ]
+
         # Watch the files for changes and rebuild as needed
         #
         watch:
@@ -27,6 +30,10 @@ module.exports = ( grunt ) ->
             sass:
                 files: sassFiles
                 tasks: [ "compass:debug", "copy:dist", "string-replace:debug" ]
+
+            index: 
+                files: [ "src/index.html" ]
+                tasks: [ "clean:index", "copy:index", "string-replace:debug" ]
 
             demo:
                 files: [ "src/style/index.html" ]
@@ -135,6 +142,14 @@ module.exports = ( grunt ) ->
                                 "!config.rb"
                             ]
                         dest: "dist/src"
+                    ]
+
+            index: 
+                files: 
+                    [
+                        cwd:    "src"
+                        src:    [ "index.html" ]
+                        dest:   "dist/src"
                     ]
 
         # Create the distribution archive
