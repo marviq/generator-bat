@@ -67,8 +67,8 @@ module.exports = yeoman.generators.Base.extend(
     {
         // Create the views coffee file and handlebars template file
         //
-        this.template( "view.hbs", "src/views/" + this.viewName + ".hbs"  );
-        this.template( "view.coffee", "src/views/" + this.viewName + ".coffee" );
+        this.template( "view.hbs",      "src/views/" + this.viewName + ".hbs"  );
+        this.template( "view.coffee",   "src/views/" + this.viewName + ".coffee" );
 
         // Check if a sass file should be created for this view
         //
