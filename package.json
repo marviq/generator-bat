@@ -28,9 +28,10 @@
     "url": "git://github.com/marviq/generator-bat.git"
   },
   "dependencies": {
-    "yeoman-generator": "^0.16.0",
     "coffee-script": "^1.7.1",
-    "yosay": "^0.2.1",
-    "path": "^0.4.9"
+    "path": "^0.4.9",
+    "varname": "^1.0.2",
+    "yeoman-generator": "^0.16.0",
+    "yosay": "^0.2.1"
   }
 }

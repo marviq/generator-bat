@@ -1,17 +1,70 @@
-var yeoman  = require( "yeoman-generator" );
-var yosay   = require( "yosay" );
-var path    = require( 'path' );
-
+var yeoman  = require( "yeoman-generator" )
+,   yosay   = require( "yosay" )
+,   path    = require( 'path' )
+,   varname = require( "varname" )
+,   fs      = require( "fs" )
+;
 
 // Get the current running directory name
 //
-var fullPath   = process.cwd();
-var folderName = fullPath.split( '/' ).pop();
+var fullPath        = process.cwd()
+,   folderName      = fullPath.split( '/' ).pop()
+,   rootLocation    = fullPath
+;
 
 
 module.exports = yeoman.generators.Base.extend(
 {
-    askSomeQuestions: function ()
+    // Function is used to determine if we are currently in the root off the project
+    // if not, try to find the root and change to that directory
+    //
+    determineRoot: function()
+    {
+        var callback        = this.async()
+        ,   rootFound       = false 
+        ,   tries           = 0
+        ;
+
+        if( fs.existsSync( "src" ) === false )
+        {
+            while( rootFound === false && tries < 10 )
+            {
+                // Split old path
+                //
+                var previousLocation = rootLocation.split( "/" );
+
+                // Pop the last folder from the path
+                //  
+                previousLocation.pop();
+
+                // Create the new path and open it
+                //
+                rootLocation = previousLocation.join( "/" );
+                
+                // Change the process location
+                //
+                process.chdir( rootLocation );
+                
+                // Check if we found the project root, up the counter
+                // we should stop looking some time.....
+                //
+                rootFound = fs.existsSync( "src" );
+                tries++;
+            }
+
+            // If we couldn't find the root, let the user know and exit the proces...
+            //
+            if( rootFound == false )
+            {
+                yeoman.log( "Failed to find root of the project, check that you are somewhere within your project." );
+                process.exit();
+            }
+        }
+
+        callback();
+    }
+
+,   askSomeQuestions: function ()
     {
         var callback = this.async();
 
@@ -24,7 +77,7 @@ module.exports = yeoman.generators.Base.extend(
         var prompts = [
             {
                 name:       "collectionName"
-            ,   message:    "What's the name of this collection you so desire?"
+            ,   message:    "What's the name of this collection you so desire? ( use camelcasing! )"
             }
         ,   {
                 name:       "description"
@@ -33,7 +86,7 @@ module.exports = yeoman.generators.Base.extend(
             }
         ,   {
                 name:       "modelName"
-            ,   message:    "What's the model name for this collection"
+            ,   message:    "What's the model name for this collection ( use camelcasing! )"
             }
 
         ,   {
@@ -49,8 +102,12 @@ module.exports = yeoman.generators.Base.extend(
             this.collectionName = props.collectionName;
             this.className      = props.collectionName.charAt(0).toUpperCase() + props.collectionName.slice(1);
             this.modelName      = props.modelName;
+            this.modelClass     = props.modelName.charAt(0).toUpperCase() + props.modelName.slice(1);
+            this.modelFileName  = varname.dash( this.modelName )
             this.description    = props.description;
             this.singleton      = props.singleton;
+
+            this.fileName       = varname.dash( this.collectionName )
 
             callback();
         }.bind( this ) );
@@ -58,6 +115,6 @@ module.exports = yeoman.generators.Base.extend(
 
 ,   createCollection: function()
     {
-        this.template( "collection.coffee", "src/collections/" + this.collectionName + ".coffee" );
+        this.template( "collection.coffee", "src/collections/" + this.fileName + ".coffee" );
     }
 } );

@@ -3,16 +3,16 @@
         module.exports = factory(
             require "q"
             require "backbone"
-            require "./../models/<%= modelName %>.coffee"
+            require "./../models/<%= modelFileName %>.coffee"
         )
     else if typeof define is "function" and define.amd
         define( [
             "q"
             "backbone"
-            "./../models/<%= modelName %>.coffee"
+            "./../models/<%= modelFileName %>.coffee"
         ], factory )
 
-)( ( Q, Backbone, <%= modelName %>Model ) ->
+)( ( Q, Backbone, <%= modelClass %>Model ) ->
 
     ###*
     #   <%= description %>
@@ -26,7 +26,7 @@
     ###
     class <%= className %>Collection extends Backbone.Collection
 
-        model: <%= modelName %>Model
+        model: <%= modelClass %>Model
 
 
 <% if( singleton === true ) { %>

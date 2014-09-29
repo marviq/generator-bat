@@ -95,12 +95,12 @@ module.exports = yeoman.generators.Base.extend(
         //
         this.mkdir( "src/models"        );
         this.mkdir( "src/collections"   );
-        this.mkdir( "src/routers"       );
+        // this.mkdir( "src/routers"       );
         this.mkdir( "src/views"         );
 
         // Create vendor library folder
         //
-        this.mkdir( "src/vendor"        );
+        this.mkdir( "vendor"        );
 
         // Create i18n folder
         //
@@ -136,7 +136,7 @@ module.exports = yeoman.generators.Base.extend(
             this.jQueryVersion = "^2.1.1";
         }
 
-        // write package.sjon and readme file
+        // write package.json and readme file
         //
         this.template( "_package.json",     "package.json" );
         this.template( "README.md",         "README.md"    );

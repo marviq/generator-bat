@@ -3,13 +3,13 @@
         module.exports = factory(
             require "backbone"
             require "jquery"
-            require "./<%= viewName %>.hbs"
+            require "./<%= fileName %>.hbs"
         )
     else if typeof define is "function" and define.amd
         define( [
             "backbone"
             "jquery"
-            "./<%= viewName %>.hbs"
+            "./<%= fileName %>.hbs"
         ], factory )
 
 )( ( Backbone, $, template ) ->
@@ -28,12 +28,10 @@
         # We need to expose our name to the router
         #
         viewName:   "<%= viewName %>"
-        className:  "<%= viewName %>-view"
+        className:  "<%= fileName %>-view"
 
         initialize: () ->
-            
-            # Here you can initialize your view
-            #
+            # placeholder
 
         render: () ->
 
