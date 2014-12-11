@@ -31,7 +31,7 @@ module.exports = ( grunt ) ->
                 files: sassFiles
                 tasks: [ "compass:debug", "copy:dist", "string-replace:debug" ]
 
-            index: 
+            index:
                 files: [ "src/index.html" ]
                 tasks: [ "clean:index", "copy:index", "string-replace:debug" ]
 
@@ -144,9 +144,10 @@ module.exports = ( grunt ) ->
                         dest: "dist/src"
                     ]
 
-            index: 
-                files: 
+            index:
+                files:
                     [
+                        expand: true
                         cwd:    "src"
                         src:    [ "index.html" ]
                         dest:   "dist/src"
