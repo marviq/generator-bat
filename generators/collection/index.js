@@ -12,7 +12,6 @@ var fullPath        = process.cwd()
 ,   rootLocation    = fullPath
 ;
 
-
 module.exports = yeoman.generators.Base.extend(
 {
     // Function is used to determine if we are currently in the root off the project
@@ -21,7 +20,7 @@ module.exports = yeoman.generators.Base.extend(
     determineRoot: function()
     {
         var callback        = this.async()
-        ,   rootFound       = false 
+        ,   rootFound       = false
         ,   tries           = 0
         ;
 
@@ -34,17 +33,17 @@ module.exports = yeoman.generators.Base.extend(
                 var previousLocation = rootLocation.split( "/" );
 
                 // Pop the last folder from the path
-                //  
+                //
                 previousLocation.pop();
 
                 // Create the new path and open it
                 //
                 rootLocation = previousLocation.join( "/" );
-                
+
                 // Change the process location
                 //
                 process.chdir( rootLocation );
-                
+
                 // Check if we found the project root, up the counter
                 // we should stop looking some time.....
                 //
@@ -54,7 +53,7 @@ module.exports = yeoman.generators.Base.extend(
 
             // If we couldn't find the root, let the user know and exit the proces...
             //
-            if( rootFound == false )
+            if( rootFound === false )
             {
                 yeoman.log( "Failed to find root of the project, check that you are somewhere within your project." );
                 process.exit();
@@ -78,17 +77,13 @@ module.exports = yeoman.generators.Base.extend(
             {
                 name:       "collectionName"
             ,   message:    "What's the name of this collection you so desire? ( use camelcasing! )"
+            ,   default:    "myCollection"
             }
         ,   {
                 name:       "description"
             ,   message:    "What's the description for this collection?"
             ,   default:    "No description"
             }
-        ,   {
-                name:       "modelName"
-            ,   message:    "What's the model name for this collection ( use camelcasing! )"
-            }
-
         ,   {
                 type:       "confirm"
             ,   name:       "singleton"
@@ -100,21 +95,75 @@ module.exports = yeoman.generators.Base.extend(
         this.prompt( prompts, function( props )
         {
             this.collectionName = props.collectionName;
-            this.className      = props.collectionName.charAt(0).toUpperCase() + props.collectionName.slice(1);
-            this.modelName      = props.modelName;
-            this.modelClass     = props.modelName.charAt(0).toUpperCase() + props.modelName.slice(1);
-            this.modelFileName  = varname.dash( this.modelName )
             this.description    = props.description;
             this.singleton      = props.singleton;
-
-            this.fileName       = varname.dash( this.collectionName )
 
             callback();
         }.bind( this ) );
     }
 
+
+,   askModelQuestions: function()
+    {
+        var callback = this.async();
+
+        // We are gonna do a "smart" guess for the modelName to have a default value
+        // If the last characters of the collectionName is a "s" we are gonna assume it's
+        // plural and remove the trailing as and use that a default modelName
+        //
+        var modelName = this.collectionName;
+
+        if( this.collectionName.slice( -1 ) === "s" )
+        {
+            modelName = this.collectionName.slice( 0, -1 );
+        }
+
+        var prompts = [
+            {
+                name:       "modelName"
+            ,   message:    "Whats the model name for this collection ( use camelcasing! )"
+            ,   default:    modelName
+            }
+        ,   {
+                type:       "confirm"
+            ,   name:       "createModel"
+            ,   message:    "Should i create this model now as well?"
+            ,   default:    true
+            }
+        ];
+
+        this.prompt( prompts, function( props )
+        {
+            this.modelName      = props.modelName;
+            this.createModel    = props.createModel;
+
+            callback();
+        }.bind( this ) );
+
+    }
+
 ,   createCollection: function()
     {
+        // Create the needed variables
+        this.modelClass     = this.modelName.charAt(0).toUpperCase() + this.modelName.slice(1);
+        this.className      = this.collectionName.charAt(0).toUpperCase() + this.collectionName.slice(1);
+        this.modelFileName  = varname.dash( this.modelName );
+        this.fileName       = varname.dash( this.collectionName );
+
+        // Create the collection
         this.template( "collection.coffee", "src/collections/" + this.fileName + ".coffee" );
+
+        // Create the model if needed
+        if( this.crateModel === true )
+        {
+            this.invoke( "bat:model", {
+                options: {
+                    nested:         true
+                ,   modelName:      this.modelName
+                ,   description:    "Model for the " + this.collectionName
+                ,   singleton:      false
+                }
+            } );
+        }
     }
 } );
