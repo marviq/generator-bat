@@ -128,8 +128,6 @@ module.exports = yeoman.generators.Base.extend(
         } else {
             callback();
         }
-
-
     }
 
 ,   createModel: function()

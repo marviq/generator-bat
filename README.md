@@ -17,7 +17,7 @@ It gives you the following things out of the box:
 The generator is available in the global NPM:
 
 ```shell
-npm install -g generator-bat 
+npm install -g generator-bat
 ```
 
 ## Usage
@@ -45,7 +45,7 @@ using your GIT username, views require there Handlebar template already etc. Bas
 alot of time! So use them wisely!
 
 #### Views
-When a view is generated it will create for you: {{viewName}}.coffee, {{viewName}}.hbs. These will be placed in 
+When a view is generated it will create for you: {{viewName}}.coffee, {{viewName}}.hbs. These will be placed in
 the root of the views folder.
 
 Optionally: _{{viewName}}.sass and add it to the _views.sass.
@@ -78,6 +78,9 @@ For watching your files for changes and compile:
 ```shell
 grunt dev
 ```
+
+### Changelog
+11-12-2014 - Added support for generating a model when generating a collection, fixed bug on watch task for index.html
 
 
 
