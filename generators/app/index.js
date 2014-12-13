@@ -145,7 +145,7 @@ module.exports = yeoman.generators.Base.extend(
         // Setup build, watch files etc
         //
         this.copy( "GruntFile.coffee",      "GruntFile.coffee"  );
-        this.copy( "src/config.rb",         "src/config.rb" );
+        this.copy( "config.rb",         "config.rb" );
 
         // Setup the sass files
         //
@@ -158,7 +158,7 @@ module.exports = yeoman.generators.Base.extend(
         //
         if( this.demo === true )
         {
-            this.copy( "demo/router.coffee",                "src/router.coffee" );    
+            this.copy( "demo/router.coffee",                "src/router.coffee" );
             this.template( "demo/index.html",               "src/index.html"   );
 
             this.copy( "demo/views/buildscript.hbs",        "src/views/buildscript.hbs" );
@@ -183,25 +183,25 @@ module.exports = yeoman.generators.Base.extend(
             // Copy the i18n files
             //
             this.copy( "demo/i18n/nl_NL.json",              "src/i18n/nl_NL.json" );
-            this.copy( "demo/i18n/en_GB.json",              "src/i18n/en_GB.json" );    
+            this.copy( "demo/i18n/en_GB.json",              "src/i18n/en_GB.json" );
 
             // Copy the bootstrap file
             //
             this.template( "demo/bootstrap.coffee",         "src/bootstrap.coffee" );
         }
         else {
-                
+
             if( this.multiLanguage === true )
             {
                 // Copy the i18n files
                 //
                 this.copy( "src/i18n/nl_NL.json",  "src/i18n/nl_NL.json" );
-                this.copy( "src/i18n/en_GB.json",  "src/i18n/en_GB.json" );    
+                this.copy( "src/i18n/en_GB.json",  "src/i18n/en_GB.json" );
             }
 
-             
+
             this.template( "src/index.html",                "src/index.html"   );
-            this.template( "src/_router.coffee",            "src/router.coffee" );    
+            this.template( "src/_router.coffee",            "src/router.coffee" );
 
             this.copy( "src/views/index.coffee",            "src/views/index.coffee" );
             this.copy( "src/views/index.hbs",               "src/views/index.hbs" );

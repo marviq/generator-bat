@@ -7,8 +7,11 @@ It gives you the following things out of the box:
 
 - GruntFile: setup completely including, compass, browserify, yuidoc, uglify, compress etc
 - BackboneJS
-- HandlebarsJS
+- jQuery
+- Handlebars
+- Coffeescript
 - Default project structure
+- Multilanguage support
 - Support for browserify shims
 - Watchify
 - Lots more
@@ -80,7 +83,8 @@ grunt dev
 ```
 
 ### Changelog
-13-12-2014 - Updated dependencies, now running on latests versions of browserify, grunt-browserify etc
+13-12-2014 - Moved config.rb from src to root
+13-12-2014 - Updated dependencies, now running on latests versions of browserify, grunt-browserify etc.
 11-12-2014 - Added support for generating a model when generating a collection, fixed bug on watch task for index.html
 
 
