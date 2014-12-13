@@ -51,7 +51,8 @@ alot of time! So use them wisely!
 When a view is generated it will create for you: {{viewName}}.coffee, {{viewName}}.hbs. These will be placed in
 the root of the views folder.
 
-Optionally: _{{viewName}}.sass and add it to the _views.sass.
+Optionally:
+- Create _{{viewName}}.sass and add it to the _views.sass.
 
 ```shell
 yo bat:view
@@ -60,7 +61,8 @@ yo bat:view
 #### Models
 When a model is generated it will create a {{modelName}}.coffee file in the root of the models folder.
 
-Optionally: make the model a singleton.
+Optionally:
+- make the model a singleton.
 
 ```shell
 yo bat:model
@@ -69,7 +71,9 @@ yo bat:model
 #### Collections
 When a collection is generated it will create a {{collectionName}}.coffee file in the root of the collections folder.
 
-Optionally: make the collection a singleton.
+Optionally:
+- make the collection a singleton.
+- create the model for this collection
 
 ```shell
 yo bat:collection
