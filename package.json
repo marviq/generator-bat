@@ -10,8 +10,16 @@
     "backbone",
     "backbonejs",
     "browserify",
+    "browserify-shim",
     "handlebars",
-    "handlebarjs"
+    "handlebarjs",
+    "coffeescript",
+    "watchify",
+    "compass",
+    "sass",
+    "mocha",
+    "chai",
+    "yuidoc"
   ],
   "homepage": "https://www.marviq.com",
   "author": {
