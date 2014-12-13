@@ -1,8 +1,18 @@
 module.exports = ( grunt ) ->
 
-    sourceFiles = [ "./src/bootstrap.coffee", "./src/**/*.hbs" ]
-    watchFiles  = [ "./src/**/*.coffee", "./src/**/*/js", "./src/**/*.hbs", "./src/**/*.html" ]
-    sassFiles   = [ "./src/sass/**/*.scss", "./src/sass/**/*.sass" ]
+    sourceFiles     = [ "./src/bootstrap.coffee", "./src/**/*.hbs" ]
+    watchFiles      = [ "./src/**/*.coffee", "./src/**/*/js", "./src/**/*.hbs", "./src/**/*.html" ]
+    sassFiles       = [ "./src/sass/**/*.scss", "./src/sass/**/*.sass" ]
+
+    # Put any large files that shouldn't be parsed by browserify in this array
+    # this makes the compile proces faster
+    #
+    noParseFiles    = []
+
+    # When opts.detectGlobals is true, scan all files for process, global, __filename, and __dirname,
+    # defining as necessary. With this option npm modules are more likely to work but bundling takes longer.
+    #
+    browserifyDetectGlobals = false;
 
     # Project configuration
     #
@@ -49,7 +59,8 @@ module.exports = ( grunt ) ->
                 options:
                     browserifyOptions:
                         extensions:         [ ".coffee", ".hbs" ]
-
+                        noParse:            noParseFiles
+                        detectGlobals:      browserifyDetectGlobals
             debug:
                 files:
                     "dist/src/bundle.js": sourceFiles
@@ -59,9 +70,9 @@ module.exports = ( grunt ) ->
 
                     browserifyOptions:
                         extensions:         [ ".coffee", ".hbs" ]
-
-                    bundleOptions:
                         debug:              true
+                        noParse:            noParseFiles
+                        detectGlobals:      browserifyDetectGlobals
 
             watch:
                 files:
@@ -72,9 +83,11 @@ module.exports = ( grunt ) ->
 
                     browserifyOptions:
                         extensions:         [ ".coffee", ".hbs" ]
-
-                    bundleOptions:
                         debug:              true
+                        noParse:            noParseFiles
+                        detectGlobals:      browserifyDetectGlobals
+
+
 
         # Optimize the JavaScript code
         #
