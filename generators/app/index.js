@@ -188,6 +188,11 @@ module.exports = yeoman.generators.Base.extend(
             // Copy the bootstrap file
             //
             this.template( "demo/bootstrap.coffee",         "src/bootstrap.coffee" );
+
+            // Copy the test example files
+            //
+            this.copy( "demo/models/example.coffee", "src/models/example.coffee" );
+            this.copy( "demo/test/example.coffee",  "test/example.coffee" );
         }
         else {
 
