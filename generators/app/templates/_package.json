@@ -1,6 +1,6 @@
 {
-    "author": {
-        "email": "<%= authorEmail %>",
+    "author": {<% if ( authorEmail ) { %>
+        "email": "<%= authorEmail %>",<% } %>
         "name": "<%= authorName %>"<% if ( authorUrl ) { %>,
         "url": "<%= authorUrl %>"<% } %>
     },
