@@ -37,7 +37,6 @@
   },
   "dependencies": {
     "coffee-script": "^1.7.1",
-    "path": "^0.4.9",
     "varname": "^1.0.2",
     "yeoman-generator": "^0.16.0",
     "yosay": "^0.2.1"
