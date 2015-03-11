@@ -1,6 +1,7 @@
+"use strict";
+
 var yeoman  = require( "yeoman-generator" );
 var yosay   = require( "yosay" );
-var path    = require( "path" );
 
 
 // Get the current running directory name
@@ -78,7 +79,7 @@ module.exports = yeoman.generators.Base.extend(
             this.bootstrap          = props.bootstrap;
             this.ie8                = props.ie8;
             this.multiLanguage      = props.multiLanguage;
-            this.demo               = props.demo
+            this.demo               = props.demo;
 
             callback();
         }.bind( this ) );

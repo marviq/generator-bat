@@ -1,6 +1,7 @@
+"use strict";
+
 var yeoman  = require( "yeoman-generator" )
 ,   yosay   = require( "yosay" )
-,   path    = require( "path" )
 ,   varname = require( "varname" )
 ,   fs      = require( "fs" )
 ;
@@ -8,7 +9,6 @@ var yeoman  = require( "yeoman-generator" )
 // Get the current running directory name
 //
 var fullPath        = process.cwd()
-,   folderName      = fullPath.split( '/' ).pop()
 ,   rootLocation    = fullPath
 ;
 
@@ -21,7 +21,7 @@ module.exports = yeoman.generators.Base.extend(
     determineRoot: function()
     {
         var callback        = this.async()
-        ,   rootFound       = false 
+        ,   rootFound       = false
         ,   tries           = 0
         ;
 
@@ -34,17 +34,17 @@ module.exports = yeoman.generators.Base.extend(
                 var previousLocation = rootLocation.split( "/" );
 
                 // Pop the last folder from the path
-                //  
+                //
                 previousLocation.pop();
 
                 // Create the new path and open it
                 //
                 rootLocation = previousLocation.join( "/" );
-                
+
                 // Change the process location
                 //
                 process.chdir( rootLocation );
-                
+
                 // Check if we found the project root, up the counter
                 // we should stop looking some time.....
                 //
@@ -54,7 +54,7 @@ module.exports = yeoman.generators.Base.extend(
 
             // If we couldn't find the root, let the user know and exit the proces...
             //
-            if( rootFound == false )
+            if( rootFound === false )
             {
                 yeoman.log( "Failed to find root of the project, check that you are somewhere within your project." );
                 process.exit();
@@ -66,7 +66,7 @@ module.exports = yeoman.generators.Base.extend(
 
 ,   askSomeQuestions: function ()
     {
-        // This is async 
+        // This is async
         //
         var callback = this.async();
 
@@ -102,10 +102,10 @@ module.exports = yeoman.generators.Base.extend(
         {
             this.viewName       = props.viewName;
             this.description    = props.description;
-                
+
             // Convert the filename to dashes instead of camel casing
             //
-            this.fileName       = varname.dash( this.viewName )
+            this.fileName       = varname.dash( this.viewName );
 
             // Classnames are uppercase by convention
             //
@@ -122,7 +122,7 @@ module.exports = yeoman.generators.Base.extend(
         }.bind( this ) );
     }
 
-,   createView: function( obj )
+,   createView: function ()
     {
         // Create the views coffee file and handlebars template file
         //
@@ -145,7 +145,7 @@ module.exports = yeoman.generators.Base.extend(
             // for the newly created sass file
             //
             var views   = this.readFileAsString( "src/sass/_views.sass" )
-            ,   insert  = '@import "views/_' + this.fileName + '"';
+            ,   insert  = "@import \"views/_" + this.fileName + "\"";
 
             // Check if there isn't already in import for this file
             // just in case....

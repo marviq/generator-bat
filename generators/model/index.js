@@ -1,6 +1,7 @@
+"use strict";
+
 var yeoman  = require( "yeoman-generator" )
 ,   yosay   = require( "yosay" )
-,   path    = require( 'path' )
 ,   varname = require( "varname" )
 ,   fs      = require( "fs" )
 ;
@@ -8,7 +9,6 @@ var yeoman  = require( "yeoman-generator" )
 // Get the current running directory name
 //
 var fullPath        = process.cwd()
-,   folderName      = fullPath.split( '/' ).pop()
 ,   rootLocation    = fullPath
 ;
 
@@ -112,7 +112,7 @@ module.exports = yeoman.generators.Base.extend(
             ,   {
                     type:       "confirm"
                 ,   name:       "singleton"
-                ,   message:    'Should this model be a singleton?'
+                ,   message:    "Should this model be a singleton?"
                 ,   default:    false
                 }
             ];
