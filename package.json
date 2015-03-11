@@ -37,6 +37,7 @@
     "chai",
     "yuidoc"
   ],
+  "license": "BSD-3-Clause",
   "name": "generator-bat",
   "repository": {
     "type": "git",
