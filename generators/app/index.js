@@ -225,7 +225,10 @@ module.exports = yeoman.generators.Base.extend(
     {
         this.installDependencies(
             {
-                bower: false
+                bower:          false
+            ,   npm:            true
+            ,   skipInstall:    false
+            ,   skipMessage:    false
             }
         );
     }
