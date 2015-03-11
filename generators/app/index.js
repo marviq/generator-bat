@@ -148,6 +148,7 @@ module.exports = yeoman.generators.Base.extend(
         // write package.json and readme file
         //
         this.template( "_package.json",     "package.json" );
+        this.template( "AUTHORS",           "AUTHORS" );
         this.template( "README.md",         "README.md"    );
         this.copy( "LICENSE",               "LICENSE"           );
 

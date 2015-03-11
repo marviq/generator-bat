@@ -13,7 +13,6 @@
         ]
     },
     "browserify-shim": {},
-    "contributors": [],
     "dependencies": {
         "backbone": "~1.1.2",
         "madlib-console": "~0.1.4",
