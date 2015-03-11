@@ -1,7 +1,23 @@
 {
-  "name": "generator-bat",
-  "version": "0.1.27",
+  "author": {
+    "name": "Raymond de Wit"
+  },
+  "dependencies": {
+    "varname": "^1.0.2",
+    "yeoman-generator": "^0.16.0",
+    "yosay": "^0.2.1"
+
+  },
   "description": "BAT ( Backbone Application Template ). A yeoman-generator created by Marviq.",
+  "devDependencies": {
+    "jshint": "^2.6.3"
+  },
+  "files": [
+    "AUTHORS",
+    "README.md",
+    "generators"
+  ],
+  "homepage": "https://www.marviq.com",
   "keywords": [
     "yeoman-generator",
     "yeoman",
@@ -21,26 +37,10 @@
     "chai",
     "yuidoc"
   ],
-  "homepage": "https://www.marviq.com",
-  "author": {
-    "name": "Raymond de Wit"
-  },
+  "name": "generator-bat",
   "repository": {
     "type": "git",
     "url": "git://github.com/marviq/generator-bat.git"
   },
-  "dependencies": {
-    "varname": "^1.0.2",
-    "yeoman-generator": "^0.16.0",
-    "yosay": "^0.2.1"
-
-  },
-  "devDependencies": {
-    "jshint": "^2.6.3"
-  },
-  "files": [
-    "AUTHORS",
-    "README.md",
-    "generators"
-  ]
+  "version": "0.1.27"
 }
