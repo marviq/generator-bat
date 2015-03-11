@@ -54,6 +54,7 @@
     ],
     "main": "lib/<%= _.slugify(mainName) %>.js",
     "name": "<%= _.slugify(packageName) %>",
+    "private": true,
     "scripts": {
         "prepublish": "command -v grunt >/dev/null 2>&1 && grunt || { echo >&2 'Grunt is not installed'; }",
         "test": "echo \"Error: no test specified\" && exit 1"
