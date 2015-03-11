@@ -26,11 +26,6 @@
     "name": "Raymond de Wit",
     "url": "http://www.marviq.com"
   },
-  "contributors": [
-    {
-      "name": "Mark Doeswijk"
-    }
-  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/marviq/generator-bat.git"
@@ -39,11 +34,13 @@
     "varname": "^1.0.2",
     "yeoman-generator": "^0.16.0",
     "yosay": "^0.2.1"
+
   },
   "devDependencies": {
     "jshint": "^2.6.3"
   },
   "files": [
+    "AUTHORS",
     "README.md",
     "generators"
   ]
