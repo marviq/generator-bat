@@ -36,7 +36,6 @@
     "url": "git://github.com/marviq/generator-bat.git"
   },
   "dependencies": {
-    "coffee-script": "^1.7.1",
     "varname": "^1.0.2",
     "yeoman-generator": "^0.16.0",
     "yosay": "^0.2.1"
