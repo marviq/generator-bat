@@ -42,6 +42,11 @@ module.exports = yeoman.generators.Base.extend(
             ,   message:    "What is your email?"
             ,   default:    this.user.git.email
             }
+        ,   {
+                name:       "authorUrl"
+            ,   message:    "If any, by what url would you like to be known?"
+            ,   default:    ""
+            }
         // ,   {
         //         name:       "bootstrap"
         //     ,   type:       "confirm"
@@ -76,12 +81,14 @@ module.exports = yeoman.generators.Base.extend(
             this.mainName           = props.mainName;
             this.authorName         = props.authorName;
             this.authorEmail        = props.authorEmail;
+            this.authorUrl          = props.authorUrl.trim();
             this.bootstrap          = props.bootstrap;
             this.ie8                = props.ie8;
             this.multiLanguage      = props.multiLanguage;
             this.demo               = props.demo;
 
             callback();
+
         }.bind( this ) );
     }
 

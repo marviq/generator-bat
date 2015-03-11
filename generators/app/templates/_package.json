@@ -1,8 +1,8 @@
 {
     "author": {
         "email": "<%= authorEmail %>",
-        "name": "<%= authorName %>",
-        "url": "https://github.com/Marviq"
+        "name": "<%= authorName %>"<% if ( authorUrl ) { %>,
+        "url": "<%= authorUrl %>"<% } %>
     },
     "browser": {},
     "browserify": {
