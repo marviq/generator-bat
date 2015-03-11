@@ -47,13 +47,6 @@ module.exports = yeoman.generators.Base.extend(
             ,   message:    "If any, by what url would you like to be known?"
             ,   default:    ""
             }
-        // ,   {
-        //         name:       "bootstrap"
-        //     ,   type:       "confirm"
-        //     ,   message:    "Would you like some Twitter Bootstrap with that?"
-        //     ,   default:    true
-        //     }
-
         ,   {
                 name:       "multiLanguage"
             ,   type:       "confirm"
@@ -82,7 +75,6 @@ module.exports = yeoman.generators.Base.extend(
             this.authorName         = props.authorName;
             this.authorEmail        = props.authorEmail.trim();
             this.authorUrl          = props.authorUrl.trim();
-            this.bootstrap          = props.bootstrap;
             this.ie8                = props.ie8;
             this.multiLanguage      = props.multiLanguage;
             this.demo               = props.demo;
@@ -232,10 +224,5 @@ module.exports = yeoman.generators.Base.extend(
 ,   install: function()
     {
         this.installDependencies();
-
-        // if( this.bootstrap === true )
-        // {
-        //     this.bowerInstall( "git://github.com/twbs/bootstrap-sass.git", { save: true } );
-        // }
     }
 } );
