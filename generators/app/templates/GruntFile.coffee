@@ -25,10 +25,10 @@ module.exports = ( grunt ) ->
                 src: [ 'dist' ]
 
             uglify:
-                src: [ 'dist/src/bundle.js' ]
+                src: [ 'dist/app/bundle.js' ]
 
             index:
-                src: [ 'dist/src/index.html' ]
+                src: [ 'dist/app/index.html' ]
 
         # Watch the files for changes and rebuild as needed
         #
@@ -50,7 +50,7 @@ module.exports = ( grunt ) ->
         browserify:
             dist:
                 files:
-                    'dist/src/bundle.js': sourceFiles
+                    'dist/app/bundle.js': sourceFiles
 
                 options:
                     browserifyOptions:
@@ -59,7 +59,7 @@ module.exports = ( grunt ) ->
                         detectGlobals:      browserifyDetectGlobals
             debug:
                 files:
-                    'dist/src/bundle.js': sourceFiles
+                    'dist/app/bundle.js': sourceFiles
 
                 options:
                     watch:                  true
@@ -72,7 +72,7 @@ module.exports = ( grunt ) ->
 
             watch:
                 files:
-                    'dist/src/bundle.js': sourceFiles
+                    'dist/app/bundle.js': sourceFiles
 
                 options:
                     watch:                  true
@@ -90,14 +90,14 @@ module.exports = ( grunt ) ->
         uglify:
             dist:
                 files:
-                    'dist/src/bundle.min.js': [ 'dist/src/bundle.js' ]
+                    'dist/app/bundle.min.js': [ 'dist/app/bundle.js' ]
 
         # Add the build number to the bundle loader for cache busting reasons
         #
         'string-replace':
             dist:
                 files:
-                    'dist/src/index.html': 'src/index.html'
+                    'dist/app/index.html': 'app/index.html'
                 options:
                     replacements: [
                         pattern:        'bundle.min.js'
@@ -105,7 +105,7 @@ module.exports = ( grunt ) ->
                     ]
             debug:
                 files:
-                    'dist/src/index.html': 'src/index.html'
+                    'dist/app/index.html': 'app/index.html'
                 options:
                     replacements: [
                         pattern:        'bundle.min.js'
@@ -150,7 +150,7 @@ module.exports = ( grunt ) ->
                                 '!style/images/icons/*.{png,gif,jpg}'
                                 '!config.rb'
                             ]
-                        dest: 'dist/src'
+                        dest: 'dist/app'
                     ]
 
             index:
@@ -159,7 +159,7 @@ module.exports = ( grunt ) ->
                         expand: true
                         cwd:    'src'
                         src:    [ 'index.html' ]
-                        dest:   'dist/src'
+                        dest:   'dist/app'
                     ]
 
         # Create the distribution archive
@@ -169,7 +169,7 @@ module.exports = ( grunt ) ->
                 options:
                     archive: 'dist/<%= pkg.name %>-<%= pkg.version %>.zip'
                 expand: true
-                cwd:    'dist/src'
+                cwd:    'dist/app'
                 src:    [ '**/*' ]
                 dest:   '.'
 
@@ -177,7 +177,7 @@ module.exports = ( grunt ) ->
                 options:
                     archive: 'dist/<%= pkg.name %>-<%= pkg.version %>-DEBUG.zip'
                 expand: true
-                cwd:    'dist/src'
+                cwd:    'dist/app'
                 src:    [ '**/*' ]
                 dest:   '.'
 
@@ -196,13 +196,13 @@ module.exports = ( grunt ) ->
             dist:
                 options:
                     sassDir:        'src/sass'
-                    cssDir:         'dist/src/style'
+                    cssDir:         'dist/app/style'
                     environment:    'production'
 
             debug:
                 options:
                     sassDir:        'src/sass'
-                    cssDir:         'dist/src/style'
+                    cssDir:         'dist/app/style'
                     outputStyle:    'nested'
 
         mochaTest:
@@ -240,7 +240,7 @@ module.exports = ( grunt ) ->
             version:    pkg.version
             created:    new Date()
 
-        grunt.file.write( 'dist/src/build.json', JSON.stringify( buildInfo, null, '  ' ) )
+        grunt.file.write( 'dist/app/build.json', JSON.stringify( buildInfo, null, '  ' ) )
     )
 
     # Default tasks
