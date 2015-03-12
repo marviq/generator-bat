@@ -17,9 +17,15 @@
 ##        * Tests directory:
 ##            * test/
 ##
+##    * The build's distribution artifacts
+##
+##        * The application
+##        * The application's code documentation
+##
 ##    * The build tools. These almost map 1-to-1 on the npm-loaded grunt tasks:
 ##
 ##        * clean
+##        * compress        - for the application and documentation build artifacts
 ##
 ##  ====
 ##
@@ -71,6 +77,8 @@ module.exports = ( grunt ) ->
 
             test:                       'test/'
 
+            artifactBase:               '<%= build.dist %><%= npm.name %>-<%= npm.version %>'
+
 
         ##  ------------------------------------------------
         ##  Configuration for each npm-loaded task:target
@@ -98,6 +106,43 @@ module.exports = ( grunt ) ->
 
             index:
                 src: [ 'dist/app/index.html' ]
+
+
+        ##
+        ##  Create your distribution artifacts.
+        ##
+        ##  https://github.com/gruntjs/grunt-contrib-compress#readme
+        ##
+
+        compress:
+
+            app_dist:
+                options:
+                    archive:            '<%= build.artifactBase %>.zip'
+
+                files: [
+                    expand:             true
+                    cwd:                '<%= build.assembly.app %>'
+                    src:                '**/*'
+                    dest:               '.'
+                ]
+
+            app_debug:
+                options:
+                    archive:            '<%= build.artifactBase %>-debug.zip'
+
+                files:                  '<%= compress.app_dist.files %>'
+
+            doc:
+                options:
+                    archive:            '<%= build.artifactBase %>-doc.zip'
+
+                files: [
+                    expand:             true
+                    cwd:                '<%= build.assembly.doc %>'
+                    src:                '**/*'
+                    dest:               '.'
+                ]
 
 
         # Watch the files for changes and rebuild as needed
@@ -232,32 +277,6 @@ module.exports = ( grunt ) ->
                         dest:   'dist/app'
                     ]
 
-        # Create the distribution archive
-        #
-        compress:
-            dist:
-                options:
-                    archive: 'dist/<%= npm.name %>-<%= npm.version %>.zip'
-                expand: true
-                cwd:    'dist/app'
-                src:    [ '**/*' ]
-                dest:   '.'
-
-            debug:
-                options:
-                    archive: 'dist/<%= npm.name %>-<%= npm.version %>-DEBUG.zip'
-                expand: true
-                cwd:    'dist/app'
-                src:    [ '**/*' ]
-                dest:   '.'
-
-            yuidoc:
-                options:
-                    archive:  'dist/<%= npm.name %>-<%= npm.version %>-doc.zip'
-                expand: true
-                cwd:    'dist/doc'
-                src:    [ '**/*' ]
-                dest:   '.'
 
         # Setup the SASS compiling using compass
         #
@@ -293,9 +312,9 @@ module.exports = ( grunt ) ->
 
     grunt.loadNpmTasks( 'grunt-browserify' )
     grunt.loadNpmTasks( 'grunt-contrib-clean' )
+    grunt.loadNpmTasks( 'grunt-contrib-compress' )
     grunt.loadNpmTasks( 'grunt-contrib-watch' )
     grunt.loadNpmTasks( 'grunt-contrib-copy' )
-    grunt.loadNpmTasks( 'grunt-contrib-compress' )
     grunt.loadNpmTasks( 'grunt-contrib-compass' )
     grunt.loadNpmTasks( 'grunt-contrib-yuidoc-iq' )
     grunt.loadNpmTasks( 'grunt-contrib-uglify' )
@@ -339,8 +358,9 @@ module.exports = ( grunt ) ->
             'copy:dist'
             'string-replace:dist'
             'writeBuildFile'
-            'compress:dist'
-            'compress:yuidoc'
+
+            'compress:app_dist'
+            'compress:doc'
         ]
     )
 
@@ -354,7 +374,8 @@ module.exports = ( grunt ) ->
             'copy:dist'
             'string-replace:debug'
             'writeBuildFile'
-            'compress:debug'
+
+            'compress:app_debug'
         ]
     )
 
@@ -367,6 +388,7 @@ module.exports = ( grunt ) ->
             'compass:debug'
             'copy:dist'
             'string-replace:debug'
+
             'watch'
         ]
     )
