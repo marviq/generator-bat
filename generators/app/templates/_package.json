@@ -51,7 +51,7 @@
             "type": "BSD"
         }
     ],
-    "main": "lib/<%= _.slugify(mainName) %>.js",
+    "main": "dist/app/bundle.js",
     "name": "<%= _.slugify(packageName) %>",
     "private": true,
     "scripts": {
