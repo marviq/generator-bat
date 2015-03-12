@@ -1,15 +1,15 @@
 ( ( factory ) ->
-    if typeof exports is "object"
+    if typeof exports is 'object'
         module.exports = factory(
-            require "backbone"
-            require "jquery"
-            require "./buildscript.hbs"
+            require( 'backbone' )
+            require( 'jquery' )
+            require( './buildscript.hbs' )
         )
-    else if typeof define is "function" and define.amd
+    else if typeof define is 'function' and define.amd
         define( [
-            "backbone"
-            "jquery"
-            "./buildscript.hbs"
+            'backbone'
+            'jquery'
+            './buildscript.hbs'
         ], factory )
 
 )( ( Backbone, $, template ) ->
@@ -27,8 +27,8 @@
 
         # We need to expose our name to the router
         #
-        viewName:   "buildscript"
-        className:  "buildscript-view"
+        viewName:   'buildscript'
+        className:  'buildscript-view'
 
         initialize: () ->
             # Add the pre-compiled handlebars template to our element

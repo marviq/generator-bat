@@ -1,15 +1,15 @@
 ( ( factory ) ->
-    if typeof exports is "object"
+    if typeof exports is 'object'
         module.exports = factory(
-            require "backbone"
-            require "jquery"
-            require "./navigation.hbs"
+            require( 'backbone' )
+            require( 'jquery' )
+            require( './navigation.hbs' )
         )
-    else if typeof define is "function" and define.amd
+    else if typeof define is 'function' and define.amd
         define( [
-            "backbone"
-            "jquery"
-            "./navigation.hbs"
+            'backbone'
+            'jquery'
+            './navigation.hbs'
         ], factory )
 
 )( ( Backbone, $, template ) ->
@@ -27,8 +27,8 @@
 
         # We need to expose our name to the router
         #
-        viewName:   "navigation"
-        className:  "navigation-view"
+        viewName:   'navigation'
+        className:  'navigation-view'
 
         ###*
         #   Function renders the view
@@ -44,7 +44,7 @@
 
             # Set reference to the navbar
             #
-            @$navBar = @$el.find( ".navbar-nav" )
+            @$navBar = @$el.find( '.navbar-nav' )
 
             # By convention always return this so people can chain functions
             # for example grab the .el after rendering ;-)
@@ -54,13 +54,11 @@
 
         ###*
         # Function to set the activeMenuItem based on the url passed
-        # 
+        #
         # @method setActiveMenuItem
         # @param url {string} Url excluding the hash belonging to the menuitem
         ###
         setActiveMenuItem: ( url ) ->
-            @$navBar.find( ".active" ).removeClass( "active" )
-            @$navBar.find( "a[href='#" + url + "']" ).closest( "li" ).addClass( "active" )
-
-
+            @$navBar.find( '.active' ).removeClass( 'active' )
+            @$navBar.find( "a[href='##{url}']" ).closest( 'li' ).addClass( 'active' )
 )

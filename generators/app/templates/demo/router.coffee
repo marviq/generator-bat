@@ -1,25 +1,25 @@
 ( ( factory ) ->
-    if typeof exports is "object"
+    if typeof exports is 'object'
         module.exports = factory(
-            require "backbone"
-            require "jquery"
-            require "madlib-console"
-            require "./views/navigation.coffee"
-            require "./views/index.coffee"
-            require "./views/i18n.coffee"
-            require "./views/documentation.coffee"
-            require "./views/buildscript.coffee"
+            require( 'backbone' )
+            require( 'jquery' )
+            require( 'madlib-console' )
+            require( './views/navigation.coffee' )
+            require( './views/index.coffee' )
+            require( './views/i18n.coffee' )
+            require( './views/documentation.coffee' )
+            require( './views/buildscript.coffee' )
         )
-    else if typeof define is "function" and define.amd
+    else if typeof define is 'function' and define.amd
         define( [
-            "backbone"
-            "jquery"
-            "madlib-console"
-            "./views/navigation.coffee"
-            "./views/index.coffee"
-            "./views/i18n.coffee"
-            "./views/documentation.coffee"
-            "./views/buildscript.coffee"
+            'backbone'
+            'jquery'
+            'madlib-console'
+            './views/navigation.coffee'
+            './views/index.coffee'
+            './views/i18n.coffee'
+            './views/documentation.coffee'
+            './views/buildscript.coffee'
         ], factory )
 )( ( Backbone, $, console, NavigationView, Views... ) ->
     ###*
@@ -40,13 +40,13 @@
         # @property routers
         ###
         routes:
-            "":                     "index"
-            "index":                "index"
-            "i18n":                 "i18n"
-            "documentation":        "documentation"
-            "buildscript":             "buildscript"
+            '':                     'index'
+            'index':                'index'
+            'i18n':                 'i18n'
+            'documentation':        'documentation'
+            'buildscript':             'buildscript'
 
-        ###* 
+        ###*
         # Will contain mapping of view name to view class
         # is filled with data in initialize method
         #
@@ -63,7 +63,7 @@
 
             # Get handle to the main content container
             #
-            @$mainContent = $( "#main-content" )
+            @$mainContent = $( '#main-content' )
 
             # Populate the views index, each view required in the router
             # should expose a viewName property by convention to identify it
@@ -72,14 +72,14 @@
                 @views[ view.prototype.viewName ] = view
 
         ###*
-        # Overridden 
+        # Overridden
         ###
         navigate: ( fragment, options ) ->
 
             # Force a reload when navigating to current fragment with a forced trigger
             #
             if fragment is Backbone.history.fragment and options? and options.trigger is true
-                console.log( "[ROUTER] forcing current fragment reload" )
+                console.log( '[ROUTER] forcing current fragment reload' )
                 Backbone.history.loadUrl( Backbone.history.fragment )
 
             else
@@ -89,16 +89,16 @@
         # Function called when bootstrap is ready to start
         # the application. Calls Backbone.history.start() to
         # start routing.
-        # 
+        #
         # @method startApp
         ###
         startApp: () ->
-            console.log( "[ROUTER] Starting application..." )
+            console.log( '[ROUTER] Starting application...' )
 
             navigationView = new NavigationView()
-            $( "#navigation" ).html( navigationView.render().$el )
+            $( '#navigation' ).html( navigationView.render().$el )
 
-            @listenTo( @, "route", ( params ) -> 
+            @listenTo( @, 'route', ( params ) ->
                 navigationView.setActiveMenuItem( params )
             )
 
@@ -110,7 +110,7 @@
             Backbone.history.start()
 
         ###*
-        # Function called when opening a new page in the main 
+        # Function called when opening a new page in the main
         # container of the application
         #
         # @method _openPage
@@ -131,7 +131,7 @@
                 # Check if the class for the new view is available
                 #
                 NewViewClass = @views[ pageName ]
-                if typeof NewViewClass is "function"
+                if typeof NewViewClass is 'function'
                     console.log( "[ROUTER] Opening page '#{pageName}'", params )
 
                     # Cleanup previously active view
@@ -151,7 +151,7 @@
 
                     @pageView.remove() if @pageView?
 
-                    @pageView = new @views[ "404" ](
+                    @pageView = new @views[ '404' ](
                         router:         @
                     )
 
@@ -159,13 +159,13 @@
 
 
         index: () ->
-            @_openPage( "index" )
+            @_openPage( 'index' )
         documentation: () ->
-            @_openPage( "documentation" )
+            @_openPage( 'documentation' )
         i18n: () ->
-            @_openPage( "i18n" )
+            @_openPage( 'i18n' )
         buildscript: () ->
-            @_openPage( "buildscript" )
+            @_openPage( 'buildscript' )
 
     # Singleton
     #

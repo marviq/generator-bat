@@ -1,28 +1,28 @@
 ( ( factory ) ->
-    if typeof exports is "object"
+    if typeof exports is 'object'
         module.exports = factory(
-            require "backbone"
-            require "jquery"
-            require "madlib-console"
-            require "./views/index.coffee"
+            require( 'backbone' )
+            require( 'jquery' )
+            require( 'madlib-console' )
+            require( './views/index.coffee' )
         )
-    else if typeof define is "function" and define.amd
+    else if typeof define is 'function' and define.amd
         define( [
-            "backbone"
-            "jquery"
-            "madlib-console"
-            "./views/index.coffee"
+            'backbone'
+            'jquery'
+            'madlib-console'
+            './views/index.coffee'
         ], factory )
 )( ( Backbone, $, console, Views... ) ->
 
     class AppRouter extends Backbone.Router
 
         routes:
-            "":                     "index"
+            '':                     'index'
 
             # Please leave this as the last one :-)
             #
-            "*notFound":            "notFound"
+            '*notFound':            'notFound'
 
         # Will contain mapping of view name to view class
         #
@@ -32,7 +32,7 @@
 
             # Get handle to the main content container
             #
-            @$mainContent = $( "#main-content" )
+            @$mainContent = $( '#main-content' )
 
             # Populate the views index, each view required in the router
             # should expose a viewName property by convention to identify it
@@ -44,14 +44,14 @@
             # Force a reload when navigating to current fragment with a forced trigger
             #
             if fragment is Backbone.history.fragment and options? and options.trigger is true
-                console.log( "[ROUTER] forcing current fragment reload" )
+                console.log( '[ROUTER] forcing current fragment reload' )
                 Backbone.history.loadUrl( Backbone.history.fragment )
 
             else
                 super( fragment, options )
 
         startApp: () ->
-            console.log( "[ROUTER] Starting application..." )
+            console.log( '[ROUTER] Starting application...' )
 
             # You probably want to do some things here
             # setup views that aren't in the main container
@@ -66,7 +66,7 @@
             Backbone.history.start()
 
         index: () ->
-            @_openPage( "index" )
+            @_openPage( 'index' )
 
         _openPage: ( pageName, params ) ->
 
@@ -81,7 +81,7 @@
                 # Check if the class for the new view is available
                 #
                 NewViewClass = @views[ pageName ]
-                if typeof NewViewClass is "function"
+                if typeof NewViewClass is 'function'
                     console.log( "[ROUTER] Opening page '#{pageName}'", params )
 
                     # Cleanup previously active view
@@ -101,13 +101,14 @@
 
                     @pageView.remove() if @pageView?
 
-                    @pageView = new @views[ "404" ](
+                    @pageView = new @views[ '404' ](
                         router:         @
                     )
 
                     @$mainContent.append( @pageView.render( params ).el )
 
-        <% if( multiLanguage === true || demo === true ) { %>
+        #<% if( multiLanguage === true || demo === true ) { %>
+
         localeSwitch: ( locale ) ->
             localeManager.setLocale( locale ).then(
                 () =>
@@ -120,10 +121,11 @@
                     #
                     window.history.back()
 
-            ,   () =>
-                    console.log( "[ROUTER] Failed to switch locale, do nothing..." )
+                () =>
+                    console.log( '[ROUTER] Failed to switch locale, do nothing...' )
             ).done()
-        <% } %>
+
+        #<% } %>
 
     # Singleton
     #

@@ -1,9 +1,9 @@
-Q           = require "q"
-router      = require "./router.coffee"
-Backbone    = require "backbone"
-$           = require "jquery"
-console     = require "madlib-console"
-Handlebars 	= require "hbsfy/runtime"
+Q           = require( 'q' )
+router      = require( './router.coffee' )
+Backbone    = require( 'backbone' )
+$           = require( 'jquery' )
+console     = require( 'madlib-console' )
+Handlebars  = require( 'hbsfy/runtime' )
 
 Backbone.$ = $
 
@@ -15,15 +15,15 @@ Q.stopUnhandledRejectionTracking()
 # On the other hand, when a real promise rejection *does* go unnoticed... rub it in.
 #
 Q.onerror = ( error ) ->
-    message = "[Q] :: Unhandled promise rejection."
+    message = '[Q] :: Unhandled promise rejection.'
 
-    console.log( message + " Error: ", error, error.stack )
+    console.log( message + ' Error: ', error, error.stack )
     throw( error )
 
 # Include required bootstrap modules
 #
-settings    = require "madlib-settings"
-HostMapping = require "madlib-hostmapping"
+settings    = require( 'madlib-settings' )
+HostMapping = require( 'madlib-hostmapping' )
 
 # Initialise your settings and create hostMapping instance
 #
@@ -32,28 +32,29 @@ hostMapping = new HostMapping( settings )
 # Set the debug log level to WARN for production
 #
 # hostMapping.determineTarget()
-# if hostMapping.getCurrentHostMapping() is "production"
-#     console.logLevel = "WARN"
+# if hostMapping.getCurrentHostMapping() is 'production'
+#     console.logLevel = 'WARN'
 # else
-#     console.logLevel = "DEBUG"
+#     console.logLevel = 'DEBUG'
 
 
-<% if( multiLanguage === true || demo === true ) { %>
-locale = require "madlib-locale"
+#<% if( multiLanguage === true || demo === true ) { %>
 
-locale.initialize( Handlebars, "en_GB" ).then(
-	() ->
-		# Start your application here
-		#
-		router.startApp()		
-	() ->
-		console.error( "Failed to retrieve default locale file." )
+locale = require( 'madlib-locale' )
+
+locale.initialize( Handlebars, 'en_GB' ).then(
+    () ->
+        # Start your application here
+        #
+        router.startApp()
+    () ->
+        console.error( 'Failed to retrieve default locale file.' )
 ).done()
-<% } else { %>
+
+#<% } else { %>
+
 # Start your application here
 #
-router.startApp()		
-<% } %>
+router.startApp()
 
-
-
+#<% } %>

@@ -1,13 +1,13 @@
 ( ( factory ) ->
-    if typeof exports is "object"
+    if typeof exports is 'object'
         module.exports = factory(
-            require "q"
-            require "backbone"
+            require( 'q' )
+            require( 'backbone' )
         )
-    else if typeof define is "function" and define.amd
+    else if typeof define is 'function' and define.amd
         define( [
-            "q"
-            "backbone"
+            'q'
+            'backbone'
         ], factory )
 
 )( ( Q, Backbone ) ->
@@ -25,7 +25,7 @@
     class ExampleModel extends Backbone.Model
 
         defaults:
-            propertyOne:    "this should be a string"
+            propertyOne:    'this should be a string'
             propertyTwo:    true
 
 

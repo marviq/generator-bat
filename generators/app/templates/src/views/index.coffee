@@ -1,15 +1,15 @@
 ( ( factory ) ->
-    if typeof exports is "object"
+    if typeof exports is 'object'
         module.exports = factory(
-            require "backbone"
-            require "jquery"
-            require "./index.hbs"
+            require( 'backbone' )
+            require( 'jquery' )
+            require( './index.hbs' )
         )
-    else if typeof define is "function" and define.amd
+    else if typeof define is 'function' and define.amd
         define( [
-            "backbone"
-            "jquery"
-            "./index.hbs"
+            'backbone'
+            'jquery'
+            './index.hbs'
         ], factory )
 
 )( ( Backbone, $, template ) ->
@@ -26,8 +26,8 @@
 
         # We need to expose our name to the router
         #
-        viewName:   "index"
-        className:  "index-view"
+        viewName:   'index'
+        className:  'index-view'
 
         initialize: () ->
             # Add the pre-compiled handlebars template to our element
