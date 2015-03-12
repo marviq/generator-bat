@@ -27,7 +27,13 @@ module.exports = ( grunt ) ->
         ##  Build configuration
         ##  ------------------------------------------------
 
-        pkg:    grunt.file.readJSON( 'package.json' )
+        ##
+        ##  Contents of npm's 'package.json' file as '<%= npm.* %>'
+        ##
+
+        npm:
+            grunt.file.readJSON(        'package.json' )
+
 
         ##  ------------------------------------------------
         ##  Configuration for each npm-loaded task:target
@@ -131,10 +137,10 @@ module.exports = ( grunt ) ->
         #
         yuidoc:
             compile:
-                name: '<%= pkg.name %>'
-                description: '<%= pkg.description %>'
-                version: '<%= pkg.version %>'
-                url: '<%= pkg.homepage %>'
+                name: '<%= npm.name %>'
+                description: '<%= npm.description %>'
+                version: '<%= npm.version %>'
+                url: '<%= npm.homepage %>'
                 options:
                     paths: grunt.file.expand( [ 'src' ] )
                     outdir: 'dist/doc'
@@ -182,7 +188,7 @@ module.exports = ( grunt ) ->
         compress:
             dist:
                 options:
-                    archive: 'dist/<%= pkg.name %>-<%= pkg.version %>.zip'
+                    archive: 'dist/<%= npm.name %>-<%= npm.version %>.zip'
                 expand: true
                 cwd:    'dist/app'
                 src:    [ '**/*' ]
@@ -190,7 +196,7 @@ module.exports = ( grunt ) ->
 
             debug:
                 options:
-                    archive: 'dist/<%= pkg.name %>-<%= pkg.version %>-DEBUG.zip'
+                    archive: 'dist/<%= npm.name %>-<%= npm.version %>-DEBUG.zip'
                 expand: true
                 cwd:    'dist/app'
                 src:    [ '**/*' ]
@@ -198,7 +204,7 @@ module.exports = ( grunt ) ->
 
             yuidoc:
                 options:
-                    archive:  'dist/<%= pkg.name %>-<%= pkg.version %>-doc.zip'
+                    archive:  'dist/<%= npm.name %>-<%= npm.version %>-doc.zip'
                 expand: true
                 cwd:    'dist/doc'
                 src:    [ '**/*' ]
