@@ -3,6 +3,20 @@
 ##
 ##  Anatomy of a build:
 ##
+##    * The build's filesystem layout
+##        * Source directory:
+##            * src/
+##
+##        * Distribution artifacts' destination directory:
+##            * dist/
+##
+##        * Assembly directories:
+##            * dist/app/   - collects the app's build results
+##            * dist/doc/   - collects the app's code documentation
+##
+##        * Tests directory:
+##            * test/
+##
 ##  ====
 ##
 
@@ -33,6 +47,25 @@ module.exports = ( grunt ) ->
 
         npm:
             grunt.file.readJSON(        'package.json' )
+
+
+        ##
+        ##  Local data as '<%= build.* %>'
+        ##
+
+        build:
+
+            ##
+            ##  Filesystem:
+            ##
+
+            source:                     'src/'
+            dist:                       'dist/'
+            assembly:
+                app:                    '<%= build.dist %>app/'
+                doc:                    '<%= build.dist %>doc/'
+
+            test:                       'test/'
 
 
         ##  ------------------------------------------------
