@@ -122,7 +122,7 @@ module.exports = ( grunt ) ->
                 url: '<%= pkg.homepage %>'
                 options:
                     paths: grunt.file.expand( [ 'src' ] )
-                    outdir: 'dist/docs'
+                    outdir: 'dist/doc'
                     themedir: 'node_modules/yuidoc-marviq-theme'
                     exclude: 'vendor'
                     syntaxtype: 'jsAndCoffee'
@@ -183,9 +183,9 @@ module.exports = ( grunt ) ->
 
             yuidoc:
                 options:
-                    archive:  'dist/<%= pkg.name %>-<%= pkg.version %>-docs.zip'
+                    archive:  'dist/<%= pkg.name %>-<%= pkg.version %>-doc.zip'
                 expand: true
-                cwd:    'dist/docs'
+                cwd:    'dist/doc'
                 src:    [ '**/*' ]
                 dest:   '.'
 
