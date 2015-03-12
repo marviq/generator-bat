@@ -10,6 +10,7 @@
   },
   "description": "BAT ( Backbone Application Template ). A yeoman-generator created by Marviq.",
   "devDependencies": {
+    "coffeelint": "^1.9.2",
     "jshint": "^2.6.3"
   },
   "files": [
