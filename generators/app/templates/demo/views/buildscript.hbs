@@ -1,40 +1,40 @@
 <div class="container">
-	<div class="page-header">
-		<h1>Building your application</h1>
-	</div>
-	<p>BAT uses Grunt to build your application. The build file comes with two default build tasks:</p>
+    <div class="page-header">
+        <h1>Building your application</h1>
+    </div>
+    <p>BAT uses Grunt to build your application. The build file comes with two default build tasks:</p>
 
-	<div class="page-header">
-		<h3>Default</h3>
-		<code>grunt</code>
-	</div>
-	<p>This task will create an build ready for deployment to an (production) environment. It will run the following tasks:</p>
-	<ul>
-		<li>Clean: remove old files in the dist folder</li>
-		<li>Browserify: compile CoffeeScript and create bundle file</li>
-		<li>Uglify: minify and uglify the bundle file</li>
-		<li>Compass: compile the sass templates</li>
-		<li>YuiDoc: generate the documentation</li>
-		<li>Copy: copy all the needed files to dist folder</li>
-		<li>String-replace: add cache buster to bundle script tag in index.html</li>
-		<li>writeBuildFile: generate a build number file</li>
-		<li>Compress: create a zip containing the docs and src folder in dist</li>
-	</ul>
+    <div class="page-header">
+        <h3>Default</h3>
+        <code>grunt</code>
+    </div>
+    <p>This task will create an build ready for deployment to an (production) environment. It will run the following tasks:</p>
+    <ul>
+        <li>Clean: remove old files in the dist folder</li>
+        <li>Browserify: compile CoffeeScript and create bundle file</li>
+        <li>Uglify: minify and uglify the bundle file</li>
+        <li>Compass: compile the sass templates</li>
+        <li>YuiDoc: generate the documentation</li>
+        <li>Copy: copy all the needed files to dist folder</li>
+        <li>String-replace: add cache buster to bundle script tag in index.html</li>
+        <li>writeBuildFile: generate a build number file</li>
+        <li>Compress: create a zip containing the docs and src folder in dist</li>
+    </ul>
 
 
-	<div class="page-header">
-		<h3>Debug</h3>
-		<code>grunt debug</code>
-	</div>
-	<p>This task will create an build ready for deployment to an (production) environment. It will run the following tasks:</p>
-	<ul>
-		<li>Clean: remove old files in the dist folder</li>
-		<li>Browserify: compile CoffeeScript and create bundle file including sourcemap</li>
-		<li>Compass: compile the sass templates</li>
-		<li>Copy: copy all the needed files to dist folder</li>
-		<li>String-replace: add cache buster to bundle script tag in index.html</li>
-		<li>writeBuildFile: generate a build number file</li>
-		<li>Compress: create a zip containing the src folder in dist</li>
-	</ul>
+    <div class="page-header">
+        <h3>Debug</h3>
+        <code>grunt debug</code>
+    </div>
+    <p>This task will create an build ready for deployment to an (production) environment. It will run the following tasks:</p>
+    <ul>
+        <li>Clean: remove old files in the dist folder</li>
+        <li>Browserify: compile CoffeeScript and create bundle file including sourcemap</li>
+        <li>Compass: compile the sass templates</li>
+        <li>Copy: copy all the needed files to dist folder</li>
+        <li>String-replace: add cache buster to bundle script tag in index.html</li>
+        <li>writeBuildFile: generate a build number file</li>
+        <li>Compress: create a zip containing the src folder in dist</li>
+    </ul>
 
 </div>

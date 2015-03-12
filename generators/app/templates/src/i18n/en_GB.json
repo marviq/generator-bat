@@ -1,14 +1,14 @@
 {
-    "name":                             "en_GB"
+    "name":                         "en_GB"
 ,   "phrases":
     {
-        "i18n-value":                        "Value"
-    ,   "i18n-type":                         "Type"
-    ,   "i18n-date":                         "Date"
-    ,   "i18n-text":                         "Text"
-    ,   "i18n-exampleText":                  "This text should be english"
-    ,   "i18n-number":                       "Number"
-    ,   "i18n-money":                        "Money"
+        "i18n-value":               "Value"
+    ,   "i18n-type":                "Type"
+    ,   "i18n-date":                "Date"
+    ,   "i18n-text":                "Text"
+    ,   "i18n-exampleText":         "This text should be english"
+    ,   "i18n-number":              "Number"
+    ,   "i18n-money":               "Money"
     }
 ,   "formatting":
     {

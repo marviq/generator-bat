@@ -1,14 +1,14 @@
 {
-    "name":                             "nl_NL"
+    "name":                         "nl_NL"
 ,   "phrases":
     {
-        "i18n-value":                        "Waarde"
-    ,   "i18n-type":                         "Type"
-    ,   "i18n-date":                         "Datum"
-    ,   "i18n-text":                         "Tekst"
-    ,   "i18n-exampleText":                  "Deze tekst is in het Nederlands"
-    ,   "i18n-number":                       "Getallen"
-    ,   "i18n-money":                        "Bedragen"
+        "i18n-value":               "Waarde"
+    ,   "i18n-type":                "Type"
+    ,   "i18n-date":                "Datum"
+    ,   "i18n-text":                "Tekst"
+    ,   "i18n-exampleText":         "Deze tekst is in het Nederlands"
+    ,   "i18n-number":              "Getallen"
+    ,   "i18n-money":               "Bedragen"
     }
 ,   "formatting":
     {
