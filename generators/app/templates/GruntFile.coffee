@@ -302,18 +302,33 @@ module.exports = ( grunt ) ->
         # Setup the SASS compiling using compass
         #
         compass:
-            config:                 'config.rb'
+
+            options:
+                ##  Source
+                sassDir:                'src/sass'
+
+                ##  Destination
+                cssDir:                 'dist/app/style'
+
+                ##  Images will have been copied here first by means of the `copy:dist` task.
+                ##
+                imagesDir:              'dist/app/style/images'
+
+                relativeAssets:         true
+
+                raw:                    'sass_options = { :property_syntax => :new }\n'
+
             dist:
                 options:
-                    sassDir:        'src/sass'
-                    cssDir:         'dist/app/style'
-                    environment:    'production'
+                    environment:        'production'
+                    outputStyle:        'compressed'
+
 
             debug:
                 options:
-                    sassDir:        'src/sass'
-                    cssDir:         'dist/app/style'
-                    outputStyle:    'nested'
+                    environment:        'development'
+                    outputStyle:        'nested'
+
 
         mochaTest:
             test:
@@ -470,11 +485,11 @@ module.exports = ( grunt ) ->
         [
             'clean:dist'
 
+            'copy:dist'
             'browserify:dist'
             'uglify:dist'
             'clean:uglify'
             'compass:dist'
-            'copy:dist'
             'string-replace:dist'
             'writeBuildFile'
 
@@ -490,9 +505,9 @@ module.exports = ( grunt ) ->
         [
             'clean:dist'
 
+            'copy:dist'
             'browserify:debug'
             'compass:debug'
-            'copy:dist'
             'string-replace:debug'
             'writeBuildFile'
 
@@ -505,9 +520,9 @@ module.exports = ( grunt ) ->
         [
             'clean:dist'
 
+            'copy:dist'
             'browserify:debug'
             'compass:debug'
-            'copy:dist'
             'string-replace:debug'
 
             'watch'
