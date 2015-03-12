@@ -71,7 +71,6 @@ module.exports = yeoman.generators.Base.extend(
         {
             this.packageName        = props.packageName;
             this.packageDescription = props.packageDescription;
-            this.mainName           = props.mainName;
             this.authorName         = props.authorName;
             this.authorEmail        = props.authorEmail.trim();
             this.authorUrl          = props.authorUrl.trim();
