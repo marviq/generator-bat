@@ -23,8 +23,7 @@
   ],
   "homepage": "https://www.marviq.com",
   "author": {
-    "name": "Raymond de Wit",
-    "url": "http://www.marviq.com"
+    "name": "Raymond de Wit"
   },
   "repository": {
     "type": "git",
