@@ -328,6 +328,7 @@ module.exports = ( grunt ) ->
                 options:
                     environment:        'development'
                     outputStyle:        'nested'
+                    sourcemap:          true
 
 
         mochaTest:
