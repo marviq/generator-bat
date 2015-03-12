@@ -22,10 +22,14 @@
 ##        * The application
 ##        * The application's code documentation
 ##
+##    * The build parts:
+##        * documentation
+##
 ##    * The build tools. These almost map 1-to-1 on the npm-loaded grunt tasks:
 ##
 ##        * clean
 ##        * compress        - for the application and documentation build artifacts
+##        * yuidoc          - for the documentation build part
 ##
 ##  ====
 ##
@@ -79,10 +83,28 @@ module.exports = ( grunt ) ->
 
             artifactBase:               '<%= build.dist %><%= npm.name %>-<%= npm.version %>'
 
+            ##
+            ##  Parts:
+            ##
+
+            part:
+                doc:
+                    ##                  NOTE:   Directories to include and to exclude cannot be expressed in a single expression.
+                    ##
+                    src:                '<%= build.source %>'
+                    srcExclude:         []
+
+                    ##                  NOTE:   `tgt` - must - be a directory.
+                    ##
+                    tgt:                '<%= build.assembly.doc %>'
+
 
         ##  ------------------------------------------------
         ##  Configuration for each npm-loaded task:target
         ##  ------------------------------------------------
+        ##
+        ##  Where applicable these task have a target per build part.
+        ##
 
         ##
         ##  Remove your previously built build results.
@@ -100,6 +122,16 @@ module.exports = ( grunt ) ->
                 files: [
                     src:                '<%= build.dist %>'
                 ]
+
+            ##
+            ##  Per build part cleaning within the above destination directory:
+            ##
+
+            doc:
+                files: [
+                    src:                '<%= build.part.doc.tgt %>'
+                ]
+
 
             uglify:
                 src: [ 'dist/app/bundle.js' ]
@@ -227,23 +259,6 @@ module.exports = ( grunt ) ->
                         replacement:    'bundle.js?build=' + ( grunt.option( 'bambooNumber' ) or +( new Date() ) )
                     ]
 
-        # Generate code documentation
-        #
-        yuidoc:
-            compile:
-                name: '<%= npm.name %>'
-                description: '<%= npm.description %>'
-                version: '<%= npm.version %>'
-                url: '<%= npm.homepage %>'
-                options:
-                    paths: grunt.file.expand( [ 'src' ] )
-                    outdir: 'dist/doc'
-                    themedir: 'node_modules/yuidoc-marviq-theme'
-                    exclude: 'vendor'
-                    syntaxtype: 'jsAndCoffee'
-                    extension: '.coffee,.js'
-                    helpers: [ 'node_modules/yuidoc-marviq-theme/helpers/helpers.js' ]
-
         # Prepare the dist folder
         #
         copy:
@@ -301,6 +316,48 @@ module.exports = ( grunt ) ->
                     require:    'coffee-script'
                     timeout:    30000
                 src: [ 'test/**/*.js', 'test/**/*.coffee' ]
+
+
+        ##
+        ##  Generate your code's documentation
+        ##
+        ##  https://github.com/gruntjs/grunt-contrib-yuidoc#readme
+        ##
+        ##  http://yui.github.io/yuidoc/args/#command-line
+        ##  http://yui.github.io/yuidoc/args/#yuidocjson-fields
+        ##
+
+        yuidoc:
+
+            app:
+                name:                   '<%= npm.name %>'
+                description:            '<%= npm.description %>'
+                url:                    '<%= npm.homepage %>'
+                version:                '<%= npm.version %>'
+
+                options:
+                    ##                  NOTE:   Globbing patterns in `paths` cannot match - any - symbolically linked directories; yuidoc will not find them.
+                    ##
+                    ##                          Therefore, the 'doc' task will do any globbing expansion beforehand, and then reset `paths` to the result.
+                    ##
+                    paths:              '<%= build.part.doc.src %>'
+
+                    ##                  NOTE:   `exclude` must be a string containing comma separated paths to directories.
+                    ##
+                    ##                          This is exactly what the template expansion below will achieve:
+                    ##
+                    exclude:            '<%= grunt.file.expand( grunt.config( "build.part.doc.srcExclude" )) %>'
+
+                    ##                  NOTE:   Yuidoc will empty the `outdir` directory before construction.
+                    ##
+                    outdir:             '<%= build.part.doc.tgt %>'
+
+                    extension:          '.coffee,.js'
+                    syntaxtype:         'jsAndCoffee'
+
+                    themedir:           'node_modules/yuidoc-marviq-theme'
+                    helpers:            [ 'node_modules/yuidoc-marviq-theme/helpers/helpers.js' ]
+
     )
 
 
@@ -316,8 +373,8 @@ module.exports = ( grunt ) ->
     grunt.loadNpmTasks( 'grunt-contrib-watch' )
     grunt.loadNpmTasks( 'grunt-contrib-copy' )
     grunt.loadNpmTasks( 'grunt-contrib-compass' )
-    grunt.loadNpmTasks( 'grunt-contrib-yuidoc-iq' )
     grunt.loadNpmTasks( 'grunt-contrib-uglify' )
+    grunt.loadNpmTasks( 'grunt-contrib-yuidoc-iq' )
     grunt.loadNpmTasks( 'grunt-mocha-test' )
     grunt.loadNpmTasks( 'grunt-string-replace' )
 
@@ -342,6 +399,33 @@ module.exports = ( grunt ) ->
 
 
     ##  ================================================
+    ##  Per build part tasks:
+    ##  ================================================
+
+    grunt.registerTask(
+        'doc'
+        'Build the documentation'
+        () ->
+
+            ##  Fully, expand any globs in 'build.part.doc.src' before passing the result to `yuidoc`.
+            ##
+            ##  Because `yuidoc` expects either a string containing a single directory path or an array of such strings
+            ##  We cannot use the grunt template mechanism to do the substitution.
+            ##
+            path = 'yuidoc.app.options.paths'
+
+            grunt.config( path, grunt.file.expand( grunt.config( path )))
+
+            ##
+
+            grunt.task.run(
+                'clean:doc'
+                'yuidoc:app'
+            )
+    )
+
+
+    ##  ================================================
     ##  Command line tasks; the usual suspects anyway:
     ##  ================================================
 
@@ -354,12 +438,13 @@ module.exports = ( grunt ) ->
             'uglify:dist'
             'clean:uglify'
             'compass:dist'
-            'yuidoc'
             'copy:dist'
             'string-replace:dist'
             'writeBuildFile'
 
             'compress:app_dist'
+
+            'doc'
             'compress:doc'
         ]
     )
@@ -388,7 +473,6 @@ module.exports = ( grunt ) ->
             'compass:debug'
             'copy:dist'
             'string-replace:debug'
-
             'watch'
         ]
     )
