@@ -1,7 +1,6 @@
 module.exports = ( grunt ) ->
 
     sourceFiles     = [ './src/bootstrap.coffee', './src/**/*.hbs' ]
-    watchFiles      = [ './src/**/*.coffee', './src/**/*/js', './src/**/*.hbs', './src/**/*.html' ]
     sassFiles       = [ './src/sass/**/*.scss', './src/sass/**/*.sass' ]
 
     # Put any large files that shouldn't be parsed by browserify in this array
