@@ -1,3 +1,11 @@
+##
+##  ====
+##
+##  Anatomy of a build:
+##
+##  ====
+##
+
 module.exports = ( grunt ) ->
 
     sourceFiles     = [ './src/bootstrap.coffee', './src/**/*.hbs' ]
@@ -13,10 +21,17 @@ module.exports = ( grunt ) ->
     #
     browserifyDetectGlobals = false
 
-    # Project configuration
-    #
     grunt.initConfig(
+
+        ##  ------------------------------------------------
+        ##  Build configuration
+        ##  ------------------------------------------------
+
         pkg:    grunt.file.readJSON( 'package.json' )
+
+        ##  ------------------------------------------------
+        ##  Configuration for each npm-loaded task:target
+        ##  ------------------------------------------------
 
         # Clean the distribution folder
         #
@@ -214,8 +229,13 @@ module.exports = ( grunt ) ->
                 src: [ 'test/**/*.js', 'test/**/*.coffee' ]
     )
 
-    # These plug-ins provide the necessary tasks
-    #
+
+    ##  ================================================
+    ##  The build tools, npm-loaded tasks:
+    ##
+    ##  Be sure to have `npm install <plugin> --save-dev`-ed each of these:
+    ##  ================================================
+
     grunt.loadNpmTasks( 'grunt-browserify' )
     grunt.loadNpmTasks( 'grunt-contrib-watch' )
     grunt.loadNpmTasks( 'grunt-contrib-clean' )
@@ -227,8 +247,11 @@ module.exports = ( grunt ) ->
     grunt.loadNpmTasks( 'grunt-mocha-test' )
     grunt.loadNpmTasks( 'grunt-string-replace' )
 
-    # Write the build file
-    #
+
+    ##  ================================================
+    ##  The build tools, internally defined tasks:
+    ##  ================================================
+
     grunt.registerTask( 'writeBuildFile', 'Create build description file', () ->
         # Get the bamboo variables if they are present
         #
@@ -243,8 +266,11 @@ module.exports = ( grunt ) ->
         grunt.file.write( 'dist/app/build.json', JSON.stringify( buildInfo, null, '  ' ) )
     )
 
-    # Default tasks
-    #
+
+    ##  ================================================
+    ##  Command line tasks; the usual suspects anyway:
+    ##  ================================================
+
     grunt.registerTask(
         'default'
         [
