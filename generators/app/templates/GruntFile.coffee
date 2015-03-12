@@ -25,6 +25,10 @@
 ##    * The build parts:
 ##        * documentation
 ##
+##    * The build's debugging mode:
+##        * debugging,      - alias debug
+##        * non-debugging,  - alias dist - note the overloading of the 'dist' term.
+##
 ##    * The build tools. These almost map 1-to-1 on the npm-loaded grunt tasks:
 ##
 ##        * clean
@@ -103,7 +107,7 @@ module.exports = ( grunt ) ->
         ##  Configuration for each npm-loaded task:target
         ##  ------------------------------------------------
         ##
-        ##  Where applicable these task have a target per build part.
+        ##  Where applicable these task have a target per build part and sometimes, debugging mode.
         ##
 
         ##
