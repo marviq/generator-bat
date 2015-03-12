@@ -17,6 +17,10 @@
 ##        * Tests directory:
 ##            * test/
 ##
+##    * The build tools. These almost map 1-to-1 on the npm-loaded grunt tasks:
+##
+##        * clean
+##
 ##  ====
 ##
 
@@ -72,17 +76,29 @@ module.exports = ( grunt ) ->
         ##  Configuration for each npm-loaded task:target
         ##  ------------------------------------------------
 
-        # Clean the distribution folder
-        #
+        ##
+        ##  Remove your previously built build results.
+        ##
+        ##  https://github.com/gruntjs/grunt-contrib-clean#readme
+        ##
+
         clean:
+
+            ##
+            ##  Distribution artifact destination directory:
+            ##
+
             dist:
-                src: [ 'dist' ]
+                files: [
+                    src:                '<%= build.dist %>'
+                ]
 
             uglify:
                 src: [ 'dist/app/bundle.js' ]
 
             index:
                 src: [ 'dist/app/index.html' ]
+
 
         # Watch the files for changes and rebuild as needed
         #
@@ -276,8 +292,8 @@ module.exports = ( grunt ) ->
     ##  ================================================
 
     grunt.loadNpmTasks( 'grunt-browserify' )
-    grunt.loadNpmTasks( 'grunt-contrib-watch' )
     grunt.loadNpmTasks( 'grunt-contrib-clean' )
+    grunt.loadNpmTasks( 'grunt-contrib-watch' )
     grunt.loadNpmTasks( 'grunt-contrib-copy' )
     grunt.loadNpmTasks( 'grunt-contrib-compress' )
     grunt.loadNpmTasks( 'grunt-contrib-compass' )
@@ -314,6 +330,7 @@ module.exports = ( grunt ) ->
         'default'
         [
             'clean:dist'
+
             'browserify:dist'
             'uglify:dist'
             'clean:uglify'
@@ -331,6 +348,7 @@ module.exports = ( grunt ) ->
         'debug'
         [
             'clean:dist'
+
             'browserify:debug'
             'compass:debug'
             'copy:dist'
@@ -344,6 +362,7 @@ module.exports = ( grunt ) ->
         'dev'
         [
             'clean:dist'
+
             'browserify:debug'
             'compass:debug'
             'copy:dist'
