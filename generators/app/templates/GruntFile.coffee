@@ -189,6 +189,11 @@ module.exports = ( grunt ) ->
         ##
 
         copy:
+
+            options:
+                mode:                   true
+                timestamp:              true
+
             dist:
                 files:
                     [
