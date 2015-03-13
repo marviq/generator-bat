@@ -23,6 +23,7 @@
 ##        * The application's code documentation
 ##
 ##    * The build parts:
+##        * style
 ##        * documentation
 ##
 ##    * The build's debugging mode:
@@ -32,6 +33,7 @@
 ##    * The build tools. These almost map 1-to-1 on the npm-loaded grunt tasks:
 ##
 ##        * clean
+##        * compass         - for the style build part
 ##        * compress        - for the application and documentation build artifacts
 ##        * copy
 ##        * yuidoc          - for the documentation build part
@@ -48,7 +50,6 @@
 module.exports = ( grunt ) ->
 
     sourceFiles     = [ './src/bootstrap.coffee', './src/**/*.hbs' ]
-    sassFiles       = [ './src/sass/**/*.scss', './src/sass/**/*.sass' ]
 
     # Put any large files that shouldn't be parsed by browserify in this array
     # this makes the compile proces faster
@@ -109,6 +110,17 @@ module.exports = ( grunt ) ->
                     ##
                     tgt:                '<%= build.assembly.doc %>'
 
+                style:
+                    src:
+                        copy:           '<%= build.source %>style/'
+                        compass:        '<%= build.source %>sass/'
+                    tgtDir:             '<%= build.assembly.app %>style/'
+
+                    ##                  NOTE:   This file will be created because the `style.src.compass` dir contains a file 'app.sass'
+                    ##                          This will be true for any '*.sass' file, except when its filename contains a leading underscore ('_') character.
+                    ##
+                    tgt:                '<%= build.part.style.tgtDir %>app.css'
+
 
         ##  ------------------------------------------------
         ##  Configuration for each npm-loaded task:target
@@ -143,12 +155,57 @@ module.exports = ( grunt ) ->
                     src:                '<%= build.part.doc.tgt %>'
                 ]
 
+            style:
+                files: [
+                    src:                '<%= build.part.style.tgtDir %>'
+                ]
+
 
             uglify:
                 src: [ 'dist/app/bundle.js' ]
 
             index:
                 src: [ 'dist/app/index.html' ]
+
+
+        ##
+        ##  Compile your sass to bundled css.
+        ##
+        ##  https://github.com/gruntjs/grunt-contrib-compass#readme
+        ##
+        ##  http://compass-style.org/help/documentation/configuration-reference/
+        ##
+        ##  http://sass-lang.com/documentation/file.SASS_REFERENCE.html#options
+        ##  http://sass-lang.com/documentation/file.SASS_REFERENCE.html#output_style
+        ##
+
+        compass:
+
+            options:
+                ##  Source
+                sassDir:                '<%= build.part.style.src.compass %>'
+
+                ##  Destination
+                cssDir:                 '<%= build.part.style.tgtDir %>'
+
+                ##  Images will have been copied here first by means of the `copy:style` task.
+                ##
+                imagesDir:              '<%= build.part.style.tgtDir %>images/'
+
+                relativeAssets:         true
+
+                raw:                    'sass_options = { :property_syntax => :new }\n'
+
+            style_dist:
+                options:
+                    environment:        'production'
+                    outputStyle:        'compressed'
+
+            style_debug:
+                options:
+                    environment:        'development'
+                    outputStyle:        'nested'
+                    sourcemap:          true
 
 
         ##
@@ -215,7 +272,7 @@ module.exports = ( grunt ) ->
                                 '!routers/**'
                                 '!sass/**'
                                 '!vendor/**'
-                                '!style/images/icons/*.{png,gif,jpg}'
+                                '!style/**'
                                 '!config.rb'
                             ]
                         dest: 'dist/app'
@@ -229,6 +286,15 @@ module.exports = ( grunt ) ->
                         src:    [ 'index.html' ]
                         dest:   'dist/app'
                     ]
+
+            style:
+                files: [
+                    filter:             'isFile'
+                    expand:             true
+                    cwd:                '<%= build.part.style.src.copy %>'
+                    src:                '**/*'
+                    dest:               '<%= build.part.style.tgtDir %>'
+                ]
 
 
         # Bundle the code modules
@@ -299,38 +365,6 @@ module.exports = ( grunt ) ->
                     ]
 
 
-        # Setup the SASS compiling using compass
-        #
-        compass:
-
-            options:
-                ##  Source
-                sassDir:                'src/sass'
-
-                ##  Destination
-                cssDir:                 'dist/app/style'
-
-                ##  Images will have been copied here first by means of the `copy:dist` task.
-                ##
-                imagesDir:              'dist/app/style/images'
-
-                relativeAssets:         true
-
-                raw:                    'sass_options = { :property_syntax => :new }\n'
-
-            dist:
-                options:
-                    environment:        'production'
-                    outputStyle:        'compressed'
-
-
-            debug:
-                options:
-                    environment:        'development'
-                    outputStyle:        'nested'
-                    sourcemap:          true
-
-
         mochaTest:
             test:
                 options:
@@ -361,13 +395,16 @@ module.exports = ( grunt ) ->
             options:
                 livereload: true
 
-            sass:
-                files: sassFiles
-                tasks: [ 'compass:debug', 'copy:dist', 'string-replace:debug' ]
-
             index:
                 files: [ 'src/index.html' ]
                 tasks: [ 'clean:index', 'copy:index', 'string-replace:debug' ]
+
+            style:
+                files: [
+                                        '<%= build.part.style.src.copy %>**/*'
+                                        '<%= build.part.style.src.compass %>**/*'
+                ]
+                tasks:                  'style:debug'
 
 
         ##
@@ -421,9 +458,9 @@ module.exports = ( grunt ) ->
 
     grunt.loadNpmTasks( 'grunt-browserify' )
     grunt.loadNpmTasks( 'grunt-contrib-clean' )
+    grunt.loadNpmTasks( 'grunt-contrib-compass' )
     grunt.loadNpmTasks( 'grunt-contrib-compress' )
     grunt.loadNpmTasks( 'grunt-contrib-copy' )
-    grunt.loadNpmTasks( 'grunt-contrib-compass' )
     grunt.loadNpmTasks( 'grunt-contrib-uglify' )
     grunt.loadNpmTasks( 'grunt-contrib-watch' )
     grunt.loadNpmTasks( 'grunt-contrib-yuidoc-iq' )
@@ -476,6 +513,17 @@ module.exports = ( grunt ) ->
             )
     )
 
+    grunt.registerTask(
+        'style'
+        'Build the app\'s style'
+        ( debugging ) ->
+            grunt.task.run(
+                'clean:style'
+                'copy:style'
+                "compass:style_#{debugging}"
+            )
+    )
+
 
     ##  ================================================
     ##  Command line tasks; the usual suspects anyway:
@@ -490,7 +538,7 @@ module.exports = ( grunt ) ->
             'browserify:dist'
             'uglify:dist'
             'clean:uglify'
-            'compass:dist'
+            'style:dist'
             'string-replace:dist'
             'writeBuildFile'
 
@@ -508,7 +556,7 @@ module.exports = ( grunt ) ->
 
             'copy:dist'
             'browserify:debug'
-            'compass:debug'
+            'style:debug'
             'string-replace:debug'
             'writeBuildFile'
 
@@ -523,7 +571,7 @@ module.exports = ( grunt ) ->
 
             'copy:dist'
             'browserify:debug'
-            'compass:debug'
+            'style:debug'
             'string-replace:debug'
 
             'watch'
