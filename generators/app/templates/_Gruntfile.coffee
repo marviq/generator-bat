@@ -22,9 +22,10 @@
 ##        * The application
 ##        * The application's code documentation
 ##
-##    * The build parts:#% if ( i18n ) { %#
-##        * i18n#% } %#
-##        * style
+##    * The build parts:
+##        * app#% if ( i18n ) { %#
+##            * i18n#% } %#
+##            * style
 ##        * documentation
 ##
 ##    * The build's debugging mode:
@@ -33,6 +34,7 @@
 ##
 ##    * The build tools. These almost map 1-to-1 on the npm-loaded grunt tasks:
 ##
+##        * browserify      - for the app build part
 ##        * clean
 ##        * compass         - for the style build part
 ##        * compress        - for the application and documentation build artifacts
@@ -49,18 +51,6 @@
 ##
 
 module.exports = ( grunt ) ->
-
-    sourceFiles     = [ './src/app.coffee', './src/**/*.hbs' ]
-
-    # Put any large files that shouldn't be parsed by browserify in this array
-    # this makes the compile proces faster
-    #
-    noParseFiles    = []
-
-    # When opts.detectGlobals is true, scan all files for process, global, __filename, and __dirname,
-    # defining as necessary. With this option npm modules are more likely to work but bundling takes longer.
-    #
-    browserifyDetectGlobals = false
 
     grunt.initConfig(
 
@@ -101,6 +91,14 @@ module.exports = ( grunt ) ->
             ##
 
             part:
+                app:
+                    src:
+                        browserify:     '<%= build.source %>app.coffee'
+
+                    ##                  NOTE:   <%= npm.main %> should have <%= build.dist %> as its prefix:
+                    ##
+                    tgt:                '<%= npm.main %>'
+
                 doc:
                     ##                  NOTE:   Directories to include and to exclude cannot be expressed in a single expression.
                     ##
@@ -135,6 +133,79 @@ module.exports = ( grunt ) ->
         ##
 
         ##
+        ##  Compile and bundle your code.
+        ##
+        ##  https://github.com/jmreidy/grunt-browserify#readme
+        ##
+        ##  https://github.com/substack/node-browserify#readme
+        ##  https://github.com/substack/node-browserify#var-b--browserifyfiles-or-opts
+        ##
+        ##  https://github.com/substack/browserify-handbook#packagejson
+        ##      file:./package.json
+        ##        - browser : https://gist.github.com/defunctzombie/4339901
+        ##        - browserify-shim : https://github.com/thlorenz/browserify-shim#readme
+        ##        - browserify.transform : https://github.com/substack/browserify-handbook#browserifytransform-field
+        ##
+
+        browserify:
+
+            options:
+
+                ##  Transforms are ideally set in 'package.json' as 'browserify.transform'.
+                ##  Shadowed here as comments for easy reference.
+                ###
+                transform: [
+                                        'browserify-shim'
+                                        'coffeeify'
+                                        'hbsfy'
+                ]
+                ###
+
+                browserifyOptions:
+
+                    ##  Scan all files for process, global, __filename, and __dirname, defining as necessary.
+                    ##  With this option npm modules are more likely to work but bundling takes longer.
+                    ##
+                    ##  When you find yourself using 'browserify-shim', you're likely to want to set this to `true`.
+                    ##
+                    detectGlobals:      false
+
+                    extensions: [
+                                        '.coffee'
+                                        '.hbs'
+                    ]
+
+                    ##  Skip all require() and global parsing for each file in this array.
+                    ##  For giant libs like jquery or threejs that don't have any requires or node-style globals but
+                    ##  take forever to parse.
+                    ##
+                    noParse: [
+                                        'jquery'
+                    ]
+
+            ##  Non-debugging build
+            ##
+            app_dist:
+                files: [
+                    src:                '<%= build.part.app.src.browserify %>'
+                    dest:               '<%= build.part.app.tgt %>'
+                ]
+
+            ##  Debugging build
+            ##
+            app_debug:
+                options:
+                    watch:              true
+                    browserifyOptions:
+                        detectGlobals:  '<%= browserify.options.browserifyOptions.detectGlobals %>'
+                        extensions:     '<%= browserify.options.browserifyOptions.extensions %>'
+                        noParse:        '<%= browserify.options.browserifyOptions.noParse %>'
+                        debug:          true
+
+                files:                  '<%= browserify.app_dist.files %>'
+
+
+        ##
         ##  Remove your previously built build results.
         ##
         ##  https://github.com/gruntjs/grunt-contrib-clean#readme
@@ -154,6 +225,11 @@ module.exports = ( grunt ) ->
             ##
             ##  Per build part cleaning within the above destination directory:
             ##
+
+            app:
+                files: [
+                    src:                '<%= build.part.app.tgt %>'
+                ]
 
             doc:
                 files: [
@@ -276,27 +352,6 @@ module.exports = ( grunt ) ->
                     dest:               '<%= build.part.i18n.tgt %>'
                 ]#% } %#
 
-            dist:
-                files:
-                    [
-                        expand: true
-                        cwd: 'src'
-                        src:
-                            [
-                                '**/*'
-                                '!**/*.coffee'
-                                '!collections/**'
-                                '!models/**'
-                                '!views/**'
-                                '!routers/**'
-                                '!sass/**'
-                                '!vendor/**'
-                                '!style/**'
-                                '!config.rb'
-                            ]
-                        dest: 'dist/app'
-                    ]
-
             index:
                 files:
                     [
@@ -314,46 +369,6 @@ module.exports = ( grunt ) ->
                     src:                '**/*'
                     dest:               '<%= build.part.style.tgtDir %>'
                 ]
-
-
-        # Bundle the code modules
-        #
-        browserify:
-            dist:
-                files:
-                    'dist/app/bundle.js': sourceFiles
-
-                options:
-                    browserifyOptions:
-                        extensions:         [ '.coffee', '.hbs' ]
-                        noParse:            noParseFiles
-                        detectGlobals:      browserifyDetectGlobals
-            debug:
-                files:
-                    'dist/app/bundle.js': sourceFiles
-
-                options:
-                    watch:                  true
-
-                    browserifyOptions:
-                        extensions:         [ '.coffee', '.hbs' ]
-                        debug:              true
-                        noParse:            noParseFiles
-                        detectGlobals:      browserifyDetectGlobals
-
-            watch:
-                files:
-                    'dist/app/bundle.js': sourceFiles
-
-                options:
-                    watch:                  true
-
-                    browserifyOptions:
-                        extensions:         [ '.coffee', '.hbs' ]
-                        debug:              true
-                        noParse:            noParseFiles
-                        detectGlobals:      browserifyDetectGlobals
-
 
 
         # Optimize the JavaScript code
@@ -410,6 +425,10 @@ module.exports = ( grunt ) ->
         ##
 
         watch:
+
+            ##
+            ##  The browserify task does its own watching.
+            ##
 
             options:
                 livereload: true
@@ -517,6 +536,22 @@ module.exports = ( grunt ) ->
     ##  ================================================
 
     grunt.registerTask(
+        'app'
+        'Build the app.'
+        ( debugging ) ->
+            grunt.task.run(
+                'clean:app'
+
+                "browserify:app_#{debugging}"#% if ( i18n ) { %#
+                'i18n'#% } %#
+                "style:#{debugging}"
+
+                "string-replace:#{debugging}"
+                'writeBuildFile'
+            )
+    )
+
+    grunt.registerTask(
         'doc'
         'Build the documentation'
         () ->
@@ -568,14 +603,10 @@ module.exports = ( grunt ) ->
         [
             'clean:dist'
 
-            'copy:dist'
-            'browserify:dist'
+            'app:dist'
+
             'uglify:dist'
             'clean:uglify'
-            'style:dist'#% if ( i18n ) { %#
-            'i18n'#% } %#
-            'string-replace:dist'
-            'writeBuildFile'
 
             'compress:app_dist'
 
@@ -589,12 +620,7 @@ module.exports = ( grunt ) ->
         [
             'clean:dist'
 
-            'copy:dist'
-            'browserify:debug'
-            'style:debug'#% if ( i18n ) { %#
-            'i18n'#% } %#
-            'string-replace:debug'
-            'writeBuildFile'
+            'app:debug'
 
             'compress:app_debug'
         ]
@@ -605,11 +631,7 @@ module.exports = ( grunt ) ->
         [
             'clean:dist'
 
-            'copy:dist'
-            'browserify:debug'
-            'style:debug'#% if ( i18n ) { %#
-            'i18n'#% } %#
-            'string-replace:debug'
+            'app:debug'
 
             'watch'
         ]
