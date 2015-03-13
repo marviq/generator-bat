@@ -41,7 +41,7 @@
         "grunt-contrib-yuidoc-iq": "~0.1.4",
         "grunt-grunticon": "~1.4.0",
         "grunt-mocha-test": "~0.12.4",
-        "grunt-string-replace": "~1.0.0",
+        "grunt-template": "^0.2.3",
         "handlebars": "^2.0.0",
         "hbsfy": "~2.2.1",
         "yuidoc-marviq-theme": "~0.1.5"

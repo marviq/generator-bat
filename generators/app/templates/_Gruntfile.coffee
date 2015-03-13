@@ -27,6 +27,7 @@
 ##            * i18n#% } %#
 ##            * style
 ##            * brief
+##            * bootstrap
 ##        * documentation
 ##
 ##    * The build's debugging mode:
@@ -40,6 +41,7 @@
 ##        * compass         - for the style build part
 ##        * compress        - for the application and documentation build artifacts
 ##        * copy
+##        * template        - for the bootstrap build part
 ##        * yuidoc          - for the documentation build part
 ##
 ##      The above all have to do with the actual assembly of the build.
@@ -50,6 +52,8 @@
 ##
 ##  ====
 ##
+
+path    = require( 'path' )
 
 module.exports = ( grunt ) ->
 
@@ -102,6 +106,10 @@ module.exports = ( grunt ) ->
 
                 brief:
                     tgt:                '<%= build.assembly.app %>build.json'
+
+                bootstrap:
+                    src:                '<%= build.source %>index.template.html'
+                    tgt:                '<%= build.assembly.app %>index.html'
 
                 doc:
                     ##                  NOTE:   Directories to include and to exclude cannot be expressed in a single expression.
@@ -240,6 +248,11 @@ module.exports = ( grunt ) ->
                     src:                '<%= build.part.brief.tgt %>'
                 ]
 
+            bootstrap:
+                files: [
+                    src:                '<%= build.part.bootstrap.tgt %>'
+                ]
+
             doc:
                 files: [
                     src:                '<%= build.part.doc.tgt %>'
@@ -258,9 +271,6 @@ module.exports = ( grunt ) ->
 
             uglify:
                 src: [ 'dist/app/bundle.js' ]
-
-            index:
-                src: [ 'dist/app/index.html' ]
 
 
         ##
@@ -361,15 +371,6 @@ module.exports = ( grunt ) ->
                     dest:               '<%= build.part.i18n.tgt %>'
                 ]#% } %#
 
-            index:
-                files:
-                    [
-                        expand: true
-                        cwd:    'src'
-                        src:    [ 'index.html' ]
-                        dest:   'dist/app'
-                    ]
-
             style:
                 files: [
                     filter:             'isFile'
@@ -387,26 +388,6 @@ module.exports = ( grunt ) ->
                 files:
                     'dist/app/bundle.min.js': [ 'dist/app/bundle.js' ]
 
-        # Add the build number to the bundle loader for cache busting reasons
-        #
-        'string-replace':
-            dist:
-                files:
-                    'dist/app/index.html': 'app/index.html'
-                options:
-                    replacements: [
-                        pattern:        'bundle.min.js'
-                        replacement:    'bundle.min.js?build=' + ( grunt.option( 'bambooNumber' ) or +( new Date() ) )
-                    ]
-            debug:
-                files:
-                    'dist/app/index.html': 'app/index.html'
-                options:
-                    replacements: [
-                        pattern:        'bundle.min.js'
-                        replacement:    'bundle.js?build=' + ( grunt.option( 'bambooNumber' ) or +( new Date() ) )
-                    ]
-
 
         mochaTest:
             test:
@@ -415,6 +396,41 @@ module.exports = ( grunt ) ->
                     require:    'coffee-script'
                     timeout:    30000
                 src: [ 'test/**/*.js', 'test/**/*.coffee' ]
+
+
+        ##
+        ##  Substitute build targets and - for cache-busting reasons - a build-run identifier into your app's main
+        ##  entry point.
+        ##
+        ##  https://github.com/mathiasbynens/grunt-template#readme
+        ##
+
+        template:
+
+            bootstrap:
+                options:
+                    data: () ->
+
+                        file = grunt.config( 'build.part.brief.tgt' )
+
+                        ##  Don't let grunt handle the exception if this fails.
+                        ##
+                        try brief = grunt.file.readJSON( file )
+
+                        grunt.fail.fatal( "Unable to read the build brief (\"#{file}\"). Wasn't it created?" ) unless brief?.timestamp
+
+                        app:            path.relative( grunt.config( 'build.assembly.app' ), grunt.config( 'build.part.app.tgt' ))
+                        style:          path.relative( grunt.config( 'build.assembly.app' ), grunt.config( 'build.part.style.tgt' ))
+
+                        buildRun:       brief.buildNumber or brief.timestamp
+                        debugging:      brief.debugging
+
+
+                files: [
+
+                    src:                '<%= build.part.bootstrap.src %>'
+                    dest:               '<%= build.part.bootstrap.tgt %>'
+                ]
 
 
         ##
@@ -439,12 +455,26 @@ module.exports = ( grunt ) ->
             ##  The browserify task does its own watching.
             ##
 
-            options:
-                livereload: true
+            bootstrap:
+                options:
+                    spawn:              false
+                    livereload:         true
 
-            index:
-                files: [ 'src/index.html' ]
-                tasks: [ 'clean:index', 'copy:index', 'string-replace:debug' ]#% if ( i18n ) { %#
+                files: [
+                    ##                  Watch for changed assembly - targets -
+                    ##
+                                        '<%= build.part.app.tgt %>'#% if ( i18n ) { %#
+                                        '<%= build.part.i18n.tgt %>**/*'#% } %#
+                                        '<%= build.part.style.tgt %>'
+
+                    ##                  Watch for changed bootstrap - source -
+                    ##
+                                        '<%= build.part.bootstrap.src %>'
+                ]
+                tasks: [
+                                        'brief:debug'
+                                        'bootstrap:debug'
+                ]#% if ( i18n ) { %#
 
             i18n:
                 files: [
@@ -518,7 +548,7 @@ module.exports = ( grunt ) ->
     grunt.loadNpmTasks( 'grunt-contrib-watch' )
     grunt.loadNpmTasks( 'grunt-contrib-yuidoc-iq' )
     grunt.loadNpmTasks( 'grunt-mocha-test' )
-    grunt.loadNpmTasks( 'grunt-string-replace' )
+    grunt.loadNpmTasks( 'grunt-template' )
 
 
     ##  ================================================
@@ -574,8 +604,10 @@ module.exports = ( grunt ) ->
                 'i18n'#% } %#
                 "style:#{debugging}"
 
+                ##  brief before bootstrap
+
                 "brief:#{debugging}"
-                "string-replace:#{debugging}"
+                'bootstrap'
             )
     )
 
@@ -609,6 +641,15 @@ module.exports = ( grunt ) ->
                 'clean:doc'
                 'yuidoc:app'
             )
+    )
+
+    grunt.registerTask(
+        'bootstrap'
+        'Build the app\'s startup entry point.'
+        [
+            'clean:bootstrap'
+            'template:bootstrap'
+        ]
     )#% if ( i18n ) { %#
 
     grunt.registerTask(

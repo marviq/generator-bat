@@ -8,10 +8,10 @@ var yosay   = require( "yosay" );
 var tpl_tpl_settings =
         {
             evaluate:       /#%([\s\S]+?)%#/g
+        ,   escape:         /#-([\s\S]+?)-#/g
 
         //  Not (yet) used:
         //
-        ,   escape:         null
         ,   interpolate:    null
         }
 ;
@@ -172,7 +172,7 @@ module.exports = yeoman.generators.Base.extend(
         if( this.demo === true )
         {
             this.copy( "demo/router.coffee",                "src/router.coffee" );
-            this.template( "demo/index.html",               "src/index.html"   );
+            this.template( "demo/_index.template.html",     "src/index.template.html", null, tpl_tpl_settings );
 
             this.copy( "demo/views/buildscript.hbs",        "src/views/buildscript.hbs" );
             this.copy( "demo/views/buildscript.coffee",     "src/views/buildscript.coffee" );
@@ -218,7 +218,7 @@ module.exports = yeoman.generators.Base.extend(
             }
 
 
-            this.template( "src/index.html",                "src/index.html"   );
+            this.template( "src/_index.template.html",      "src/index.template.html", null, tpl_tpl_settings );
             this.template( "src/_router.coffee",            "src/router.coffee" );
 
             this.copy( "src/views/index.coffee",            "src/views/index.coffee" );
