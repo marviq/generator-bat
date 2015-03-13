@@ -438,6 +438,10 @@ module.exports = ( grunt ) ->
         uglify:
 
             app:
+                options:
+                    compress:
+                        drop_console:   true
+
                 files: [
                     src:                '<%= build.part.app.tgt %>'
                     dest:               '<%= build.part.app.tgt %>'
