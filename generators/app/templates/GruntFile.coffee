@@ -36,6 +36,12 @@
 ##        * copy
 ##        * yuidoc          - for the documentation build part
 ##
+##      The above all have to do with the actual assembly of the build.
+##      Apart from these, there are also:
+##
+##        * Development support tools:
+##            * watch
+##
 ##  ====
 ##
 
@@ -225,21 +231,6 @@ module.exports = ( grunt ) ->
                     ]
 
 
-        # Watch the files for changes and rebuild as needed
-        #
-        watch:
-            options:
-                livereload: true
-
-            sass:
-                files: sassFiles
-                tasks: [ 'compass:debug', 'copy:dist', 'string-replace:debug' ]
-
-            index:
-                files: [ 'src/index.html' ]
-                tasks: [ 'clean:index', 'copy:index', 'string-replace:debug' ]
-
-
         # Bundle the code modules
         #
         browserify:
@@ -334,6 +325,36 @@ module.exports = ( grunt ) ->
 
 
         ##
+        ##  https://github.com/gruntjs/grunt-contrib-watch#readme
+        ##
+        ##  Note that 'watch' isn't your garden-variety multi-task even though its config makes it deceivingly look
+        ##  like one.
+        ##
+        ##  Its intended mode of operation is as a (non-multi-) task, like: `grunt watch`.
+        ##  Doing so will make it watch **all** targets' files and fork their associated `tasks` on any detected change.
+        ##
+        ##  That doesn't mean that it isn't possible to, say, `grunt watch:coffee`, it is, but its a one or all choice;
+        ##  Making it work for multiple targets (except all) is not possible.
+        ##
+        ##  Also note that a value for `files` can only be a pattern string or an array of such values
+        ##  (yes that definition is recursive).
+        ##
+
+        watch:
+
+            options:
+                livereload: true
+
+            sass:
+                files: sassFiles
+                tasks: [ 'compass:debug', 'copy:dist', 'string-replace:debug' ]
+
+            index:
+                files: [ 'src/index.html' ]
+                tasks: [ 'clean:index', 'copy:index', 'string-replace:debug' ]
+
+
+        ##
         ##  Generate your code's documentation
         ##
         ##  https://github.com/gruntjs/grunt-contrib-yuidoc#readme
@@ -386,9 +407,9 @@ module.exports = ( grunt ) ->
     grunt.loadNpmTasks( 'grunt-contrib-clean' )
     grunt.loadNpmTasks( 'grunt-contrib-compress' )
     grunt.loadNpmTasks( 'grunt-contrib-copy' )
-    grunt.loadNpmTasks( 'grunt-contrib-watch' )
     grunt.loadNpmTasks( 'grunt-contrib-compass' )
     grunt.loadNpmTasks( 'grunt-contrib-uglify' )
+    grunt.loadNpmTasks( 'grunt-contrib-watch' )
     grunt.loadNpmTasks( 'grunt-contrib-yuidoc-iq' )
     grunt.loadNpmTasks( 'grunt-mocha-test' )
     grunt.loadNpmTasks( 'grunt-string-replace' )
@@ -488,6 +509,7 @@ module.exports = ( grunt ) ->
             'compass:debug'
             'copy:dist'
             'string-replace:debug'
+
             'watch'
         ]
     )
