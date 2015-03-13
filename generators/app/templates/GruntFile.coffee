@@ -33,6 +33,7 @@
 ##
 ##        * clean
 ##        * compress        - for the application and documentation build artifacts
+##        * copy
 ##        * yuidoc          - for the documentation build part
 ##
 ##  ====
@@ -181,6 +182,44 @@ module.exports = ( grunt ) ->
                 ]
 
 
+        ##
+        ##  Copy your build bits that needs no transformation.
+        ##
+        ##  https://github.com/gruntjs/grunt-contrib-copy#readme
+        ##
+
+        copy:
+            dist:
+                files:
+                    [
+                        expand: true
+                        cwd: 'src'
+                        src:
+                            [
+                                '**/*'
+                                '!**/*.coffee'
+                                '!collections/**'
+                                '!models/**'
+                                '!views/**'
+                                '!routers/**'
+                                '!sass/**'
+                                '!vendor/**'
+                                '!style/images/icons/*.{png,gif,jpg}'
+                                '!config.rb'
+                            ]
+                        dest: 'dist/app'
+                    ]
+
+            index:
+                files:
+                    [
+                        expand: true
+                        cwd:    'src'
+                        src:    [ 'index.html' ]
+                        dest:   'dist/app'
+                    ]
+
+
         # Watch the files for changes and rebuild as needed
         #
         watch:
@@ -263,39 +302,6 @@ module.exports = ( grunt ) ->
                         replacement:    'bundle.js?build=' + ( grunt.option( 'bambooNumber' ) or +( new Date() ) )
                     ]
 
-        # Prepare the dist folder
-        #
-        copy:
-            dist:
-                files:
-                    [
-                        expand: true
-                        cwd: 'src'
-                        src:
-                            [
-                                '**/*'
-                                '!**/*.coffee'
-                                '!collections/**'
-                                '!models/**'
-                                '!views/**'
-                                '!routers/**'
-                                '!sass/**'
-                                '!vendor/**'
-                                '!style/images/icons/*.{png,gif,jpg}'
-                                '!config.rb'
-                            ]
-                        dest: 'dist/app'
-                    ]
-
-            index:
-                files:
-                    [
-                        expand: true
-                        cwd:    'src'
-                        src:    [ 'index.html' ]
-                        dest:   'dist/app'
-                    ]
-
 
         # Setup the SASS compiling using compass
         #
@@ -374,8 +380,8 @@ module.exports = ( grunt ) ->
     grunt.loadNpmTasks( 'grunt-browserify' )
     grunt.loadNpmTasks( 'grunt-contrib-clean' )
     grunt.loadNpmTasks( 'grunt-contrib-compress' )
-    grunt.loadNpmTasks( 'grunt-contrib-watch' )
     grunt.loadNpmTasks( 'grunt-contrib-copy' )
+    grunt.loadNpmTasks( 'grunt-contrib-watch' )
     grunt.loadNpmTasks( 'grunt-contrib-compass' )
     grunt.loadNpmTasks( 'grunt-contrib-uglify' )
     grunt.loadNpmTasks( 'grunt-contrib-yuidoc-iq' )
