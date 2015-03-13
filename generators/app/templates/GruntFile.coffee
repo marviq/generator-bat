@@ -44,9 +44,6 @@ module.exports = ( grunt ) ->
                 files: [ 'src/index.html' ]
                 tasks: [ 'clean:index', 'copy:index', 'string-replace:debug' ]
 
-            demo:
-                files: [ 'src/style/index.html' ]
-
 
         # Bundle the code modules
         #
