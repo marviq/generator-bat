@@ -34,6 +34,10 @@
 ##        * debugging,      - alias debug
 ##        * non-debugging,  - alias dist - note the overloading of the 'dist' term.
 ##
+##    * The build packing:
+##        * as-is
+##        * minified        - alias uglified
+##
 ##    * The build tools. These almost map 1-to-1 on the npm-loaded grunt tasks:
 ##
 ##        * browserify      - for the app build part
@@ -42,6 +46,7 @@
 ##        * compress        - for the application and documentation build artifacts
 ##        * copy
 ##        * template        - for the bootstrap build part
+##        * uglify
 ##        * yuidoc          - for the documentation build part
 ##
 ##      The above all have to do with the actual assembly of the build.
@@ -377,14 +382,6 @@ module.exports = ( grunt ) ->
                 ]
 
 
-        # Optimize the JavaScript code
-        #
-        uglify:
-            dist:
-                files:
-                    'dist/app/bundle.js': [ 'dist/app/bundle.js' ]
-
-
         mochaTest:
             test:
                 options:
@@ -426,6 +423,24 @@ module.exports = ( grunt ) ->
 
                     src:                '<%= build.part.bootstrap.src %>'
                     dest:               '<%= build.part.bootstrap.tgt %>'
+                ]
+
+
+        ##
+        ##  Minify your compiled and bundled code.
+        ##
+        ##  https://github.com/gruntjs/grunt-contrib-uglify#readme
+        ##
+        ##  https://github.com/mishoo/UglifyJS2#readme
+        ##  http://lisperator.net/uglifyjs/
+        ##
+
+        uglify:
+
+            app:
+                files: [
+                    src:                '<%= build.part.app.tgt %>'
+                    dest:               '<%= build.part.app.tgt %>'
                 ]
 
 
@@ -680,7 +695,7 @@ module.exports = ( grunt ) ->
 
             'app:dist'
 
-            'uglify:dist'
+            'uglify:app'
 
             'compress:app_dist'
 
