@@ -134,10 +134,11 @@ module.exports = yeoman.generators.Base.extend(
     {
         // Setup the config files for git, editor etc.
         //
-        this.copy( "editorconfig",  ".editorconfig"     );
-        this.copy( "gitattributes", ".gitattributes"    );
-        this.copy( "gitignore",     ".gitignore"        );
-        this.copy( "jshintrc",      ".jshintrc"         );
+        this.copy( "editorconfig",      ".editorconfig" );
+        this.copy( "gitattributes",     ".gitattributes" );
+        this.copy( "gitignore",         ".gitignore" );
+        this.copy( "coffeelint.json",   "coffeelint.json" );
+        this.copy( "jshintrc",          ".jshintrc" );
 
         // Determine jQuery version
         //

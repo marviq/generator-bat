@@ -55,6 +55,7 @@
 ##      Apart from these, there are also:
 ##
 ##        * Verification and testing:
+##            * coffeelint
 ##            * mochaTest
 ##
 ##        * Development support tools:
@@ -109,6 +110,7 @@ module.exports = ( grunt ) ->
                 app:
                     src:
                         browserify:     '<%= build.source %>app.coffee'
+                        lint:           '<%= build.source %>**/*.coffee'
 
                     ##                  NOTE:   <%= npm.main %> should have <%= build.dist %> as its prefix:
                     ##
@@ -276,6 +278,36 @@ module.exports = ( grunt ) ->
             style:
                 files: [
                     src:                '<%= build.part.style.tgtDir %>'
+                ]
+
+
+        ##
+        ##  Delint your coffeescript - before transpilation to javascript.
+        ##
+        ##  https://github.com/vojtajina/grunt-coffeelint#readme
+        ##
+        ##  http://www.coffeelint.org/
+        ##  file:./coffeelint.json
+        ##
+
+        coffeelint:
+
+            options:
+                configFile:             'coffeelint.json'
+
+            app:
+                files: [
+                    src:                '<%= build.part.app.src.lint %>'
+                ]
+
+            gruntfile:
+                files: [
+                    src:                'Gruntfile.coffee'
+                ]
+
+            test:
+                files: [
+                    src:                '<%= build.test %>**/*.coffee %>'
                 ]
 
 
@@ -487,6 +519,12 @@ module.exports = ( grunt ) ->
             ##
             ##  The browserify task does its own watching.
             ##
+            ##  But for linting purposes we watch all coffee files here too.
+            ##
+
+            app:
+                files:                  '<%= build.part.app.src.lint %>'
+                tasks:                  'lint'
 
             bootstrap:
                 options:
@@ -573,6 +611,7 @@ module.exports = ( grunt ) ->
     ##  ================================================
 
     grunt.loadNpmTasks( 'grunt-browserify' )
+    grunt.loadNpmTasks( 'grunt-coffeelint' )
     grunt.loadNpmTasks( 'grunt-contrib-clean' )
     grunt.loadNpmTasks( 'grunt-contrib-compass' )
     grunt.loadNpmTasks( 'grunt-contrib-compress' )
@@ -631,6 +670,8 @@ module.exports = ( grunt ) ->
         'Build the app.'
         ( debugging ) ->
             grunt.task.run(
+                'lint'
+
                 'clean:app'
 
                 "browserify:app_#{debugging}"#% if ( i18n ) { %#
@@ -747,6 +788,13 @@ module.exports = ( grunt ) ->
             'app:debug'
 
             'watch'
+        ]
+    )
+
+    grunt.registerTask(
+        'lint'
+        [
+            'coffeelint:app'
         ]
     )
 
