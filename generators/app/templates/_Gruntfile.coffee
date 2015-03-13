@@ -26,6 +26,7 @@
 ##        * app#% if ( i18n ) { %#
 ##            * i18n#% } %#
 ##            * style
+##            * brief
 ##        * documentation
 ##
 ##    * The build's debugging mode:
@@ -98,6 +99,9 @@ module.exports = ( grunt ) ->
                     ##                  NOTE:   <%= npm.main %> should have <%= build.dist %> as its prefix:
                     ##
                     tgt:                '<%= npm.main %>'
+
+                brief:
+                    tgt:                '<%= build.assembly.app %>build.json'
 
                 doc:
                     ##                  NOTE:   Directories to include and to exclude cannot be expressed in a single expression.
@@ -229,6 +233,11 @@ module.exports = ( grunt ) ->
             app:
                 files: [
                     src:                '<%= build.part.app.tgt %>'
+                ]
+
+            brief:
+                files: [
+                    src:                '<%= build.part.brief.tgt %>'
                 ]
 
             doc:
@@ -516,18 +525,37 @@ module.exports = ( grunt ) ->
     ##  The build tools, internally defined tasks:
     ##  ================================================
 
-    grunt.registerTask( 'writeBuildFile', 'Create build description file', () ->
-        # Get the bamboo variables if they are present
-        #
-        pkg       = grunt.file.readJSON( 'package.json' )
-        buildInfo =
-            number:     grunt.option( 'bambooNumber' ) or +( new Date() )
-            key:        grunt.option( 'bambooKey'    ) or 'SES-LOCALBUILD'
-            name:       pkg.name
-            version:    pkg.version
-            created:    new Date()
+    grunt.registerTask(
+        'create_brief'
+        'Generate \'build.json\' file containing the build details'
+        ( debugging ) ->
 
-        grunt.file.write( 'dist/app/build.json', JSON.stringify( buildInfo, null, '  ' ) )
+            stamp       = new Date()
+            buildNumber = process.env.BUILD_NUMBER
+
+            unless buildNumber
+                localBuild  = 'build.localNumber'
+                localNumber = grunt.config( localBuild ) or 0
+                buildNumber = "+#{localNumber}"
+
+                grunt.config.set( localBuild, localNumber + 1 )
+
+            buildInfo   =
+                buildNumber:    buildNumber
+                buildId:        process.env.BUILD_ID or null
+                revision:       process.env.GIT_COMMIT or 'working dir'
+
+                grunted:        grunt.template.date( stamp, 'yyyy mmm dd HH:MM:ss' )
+                debugging:      ( debugging is 'debug' )
+
+                name:           grunt.config( 'npm.name' )
+                version:        grunt.config( 'npm.version' )
+
+                timestamp:      +stamp
+
+            grunt.file.write( grunt.config( 'build.part.brief.tgt' ), JSON.stringify( buildInfo, null, 4 ))
+
+            return
     )
 
 
@@ -546,8 +574,18 @@ module.exports = ( grunt ) ->
                 'i18n'#% } %#
                 "style:#{debugging}"
 
+                "brief:#{debugging}"
                 "string-replace:#{debugging}"
-                'writeBuildFile'
+            )
+    )
+
+    grunt.registerTask(
+        'brief'
+        'Build the build\'s brief.'
+        ( debugging ) ->
+            grunt.task.run(
+                'clean:brief'
+                "create_brief:#{debugging}"
             )
     )
 
