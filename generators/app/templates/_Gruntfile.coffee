@@ -269,10 +269,6 @@ module.exports = ( grunt ) ->
                 ]
 
 
-            uglify:
-                src: [ 'dist/app/bundle.js' ]
-
-
         ##
         ##  Compile your sass to bundled css.
         ##
@@ -386,7 +382,7 @@ module.exports = ( grunt ) ->
         uglify:
             dist:
                 files:
-                    'dist/app/bundle.min.js': [ 'dist/app/bundle.js' ]
+                    'dist/app/bundle.js': [ 'dist/app/bundle.js' ]
 
 
         mochaTest:
@@ -685,7 +681,6 @@ module.exports = ( grunt ) ->
             'app:dist'
 
             'uglify:dist'
-            'clean:uglify'
 
             'compress:app_dist'
 
