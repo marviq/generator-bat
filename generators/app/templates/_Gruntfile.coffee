@@ -56,6 +56,7 @@
 ##
 ##        * Verification and testing:
 ##            * coffeelint
+##            * coffee_jshint
 ##            * mochaTest
 ##
 ##        * Development support tools:
@@ -309,6 +310,56 @@ module.exports = ( grunt ) ->
                 files: [
                     src:                '<%= build.test %>**/*.coffee %>'
                 ]
+
+
+        ##
+        ##  Delint your coffeescript - after transpilation to javascript.
+        ##
+        ##  https://github.com/bmac/grunt-coffee-jshint#readme
+        ##
+        ##  https://github.com/Clever/coffee-jshint#readme
+        ##  http://www.jshint.com/docs/options/
+        ##  http://www.jshint.com/
+        ##
+
+        coffee_jshint:
+
+            options:
+
+                ##  NOTE:   Current grunt-coffee-jshint@0.2.1 uses coffee-jshint@0.0.14, which uses jshint@2.1.11, which does not yet support the 'browserify' option and others.
+                ##          The use of browserify and the UMD (Universal Module Definition) pattern implies the legimate use of the globals below.
+                ##
+                ##  I would have liked to specify these globals and other jshint options through a '.jshintrc' file instead but have been unsuccessful so far.
+                ##
+                ##  Look at the supplied 'file:./.jshintrc' for further inspiration.
+                ##
+                globals: [
+                                        'define'
+                                        'module'
+                                        'require'
+                ]
+
+                jshintOptions: [
+                    ##                  Enforcing options:
+                                        'eqeqeq'
+                                        'forin'
+                                        'noarg'
+                                        'nonew'
+                                        'undef'
+                                        'unused'
+
+                    ##                  Relaxing options:
+                                        'debug'
+                                        'loopfunc'
+
+                    ##                  Environment options:
+                                        'browser'
+                                        'devel'
+                ]
+
+            app:                        '<%= coffeelint.app %>'
+            gruntfile:                  '<%= coffeelint.gruntfile %>'
+            test:                       '<%= coffeelint.test %>'
 
 
         ##
@@ -612,6 +663,7 @@ module.exports = ( grunt ) ->
 
     grunt.loadNpmTasks( 'grunt-browserify' )
     grunt.loadNpmTasks( 'grunt-coffeelint' )
+    grunt.loadNpmTasks( 'grunt-coffee-jshint' )
     grunt.loadNpmTasks( 'grunt-contrib-clean' )
     grunt.loadNpmTasks( 'grunt-contrib-compass' )
     grunt.loadNpmTasks( 'grunt-contrib-compress' )
@@ -795,6 +847,7 @@ module.exports = ( grunt ) ->
         'lint'
         [
             'coffeelint:app'
+            'coffee_jshint:app'
         ]
     )
 
