@@ -38,6 +38,8 @@
 ##        * as-is
 ##        * minified        - alias uglified
 ##
+##    * The build's tests
+##
 ##    * The build tools. These almost map 1-to-1 on the npm-loaded grunt tasks:
 ##
 ##        * browserify      - for the app build part
@@ -51,6 +53,9 @@
 ##
 ##      The above all have to do with the actual assembly of the build.
 ##      Apart from these, there are also:
+##
+##        * Verification and testing:
+##            * mochaTest
 ##
 ##        * Development support tools:
 ##            * watch
@@ -382,13 +387,26 @@ module.exports = ( grunt ) ->
                 ]
 
 
+        ##
+        ##  Test your build.
+        ##
+        ##  https://github.com/pghalliday/grunt-mocha-test#readme
+        ##
+        ##  https://github.com/mochajs/mocha#readme
+        ##  http://mochajs.org/
+        ##
+
         mochaTest:
+
             test:
                 options:
-                    reporter:   'spec'
-                    require:    'coffee-script'
-                    timeout:    30000
-                src: [ 'test/**/*.js', 'test/**/*.coffee' ]
+                    reporter:           'spec'
+                    require:            'coffee-script/register'
+                    timeout:            30000
+
+                files: [
+                    src:                '<%= build.test %>**/*.{coffee,js}'
+                ]
 
 
         ##
@@ -700,6 +718,8 @@ module.exports = ( grunt ) ->
             'app:dist'
 
             'uglify:app'
+
+            'test'
 
             'compress:app_dist'
 
