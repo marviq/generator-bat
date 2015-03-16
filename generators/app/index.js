@@ -185,9 +185,9 @@ module.exports = yeoman.generators.Base.extend(
             this.copy( "demo/i18n/nl_NL.json",              "src/i18n/nl_NL.json" );
             this.copy( "demo/i18n/en_GB.json",              "src/i18n/en_GB.json" );
 
-            // Copy the bootstrap file
+            // Copy the app main entry point
             //
-            this.template( "demo/bootstrap.coffee",         "src/bootstrap.coffee" );
+            this.template( "demo/_app.coffee",              "src/app.coffee" );
 
             // Copy the test example files
             //
@@ -212,9 +212,9 @@ module.exports = yeoman.generators.Base.extend(
             this.copy( "src/views/index.hbs",               "src/views/index.hbs" );
             this.copy( "src/sass/views/_index.sass",        "src/sass/views/_index.sass" );
 
-            // Copy the bootstrap file
+            // Copy the app main entry point
             //
-            this.template( "src/_bootstrap.coffee",  "src/bootstrap.coffee" );
+            this.template( "src/_app.coffee",               "src/app.coffee" );
         }
     }
 

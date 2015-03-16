@@ -49,7 +49,7 @@
 
 module.exports = ( grunt ) ->
 
-    sourceFiles     = [ './src/bootstrap.coffee', './src/**/*.hbs' ]
+    sourceFiles     = [ './src/app.coffee', './src/**/*.hbs' ]
 
     # Put any large files that shouldn't be parsed by browserify in this array
     # this makes the compile proces faster
