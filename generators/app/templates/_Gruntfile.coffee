@@ -62,6 +62,20 @@
 ##        * Development support tools:
 ##            * watch
 ##
+##
+##  Note that the above factors are not entirely clear-cut:
+##
+##    * The build's packing and build debugging-type are somewhat intertwined:
+##
+##        * A debugging build implies as-is packing.
+##        * Minified packing implies a non-debugging build.
+##
+##    * The build's artifacts are an all-or-nothing deal, currently.
+##
+##    * The build parts can be processed seperately, but some depend on others:
+##          * The bootstrap build part needs a brief.
+##          * The app build part will also trigger builds of the #% if ( i18n ) { %#i18n, #% } %#style, brief, and bootstrap build parts.
+##
 ##  ====
 ##
 
