@@ -76,6 +76,42 @@
 ##          * The bootstrap build part needs a brief.
 ##          * The app build part will also trigger builds of the #% if ( i18n ) { %#i18n, #% } %#style, brief, and bootstrap build parts.
 ##
+##
+##  Mapping to grunt tasks and targets:
+##
+##  As briefly indicated, the build tools map 1-to-1 onto the npm-loaded grunt tasks.
+##  Where applicable, for these tools, build parts and debugging mode map to their task's targets.
+##
+##  For instance, the `browserify` grunt task is one of the tools needed to build the app part, either in
+##  debugging (app_debug), or non-debugging (app_dist) mode.
+##
+##      browserify:
+##          app_dist:
+##              <specific config>
+##
+##          app_debug:
+##              <specific config>
+##
+##
+##  Build parts may map to more than one tool. In fact, generally, part builds have three phases:
+##
+##      * clean phase           - maps to clean task, one target per build part
+##      * copy phase            - maps to copy task, one target per build part
+##      * construction phase    - maps to part specific tasks, one target per build part and possibly, debugging mode
+##
+##
+##  Some part builds have more phases than these; verification and testing phases for instance.
+##
+##  Grunt tasks per build part exist, controlling these phases.
+##
+##
+##  Finally, this is how the main grunt commandline tasks are mapped to all of the above:
+##
+##      * grunt [default]   - does a production, non-debugging, all-parts, minified build plus artifacts
+##      * grunt debug       - does a testing, debugging, all-parts except documentation, as-is build
+##      * grunt dev         - does a local, debugging, all-parts except documentation, as-is build and keeps a close
+##                            watch on filesystem changes, selectively re-triggering part builds as needed
+##
 ##  ====
 ##
 
