@@ -50,7 +50,7 @@ module.exports = yeoman.generators.Base.extend(
         ,   {
                 name:       "multiLanguage"
             ,   type:       "confirm"
-            ,   message:    "Do you need multilanguage support?"
+            ,   message:    "Do you need multi language support?"
             ,   default:    false
             }
         ,   {
@@ -75,8 +75,9 @@ module.exports = yeoman.generators.Base.extend(
             this.authorEmail        = props.authorEmail.trim();
             this.authorUrl          = props.authorUrl.trim();
             this.ie8                = props.ie8;
-            this.multiLanguage      = props.multiLanguage;
             this.demo               = props.demo;
+
+            this.i18n               = props.multiLanguage || props.demo;
 
             callback();
 
@@ -103,7 +104,7 @@ module.exports = yeoman.generators.Base.extend(
 
         // Create i18n folder
         //
-        if( this.multiLanguage === true )
+        if ( this.i18n === true )
         {
             this.mkdir( "src/i18n" );
         }
@@ -196,7 +197,7 @@ module.exports = yeoman.generators.Base.extend(
         }
         else {
 
-            if( this.multiLanguage === true )
+            if ( this.i18n === true )
             {
                 // Copy the i18n files
                 //

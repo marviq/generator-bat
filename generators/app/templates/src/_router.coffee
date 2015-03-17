@@ -107,7 +107,7 @@
 
                     @$mainContent.append( @pageView.render( params ).el )
 
-        #<% if( multiLanguage === true || demo === true ) { %>
+        #<% if ( i18n ) { %>
 
         localeSwitch: ( locale ) ->
             localeManager.setLocale( locale ).then(

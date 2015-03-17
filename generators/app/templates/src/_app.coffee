@@ -38,7 +38,7 @@ hostMapping = new HostMapping( settings )
 #     console.logLevel = 'DEBUG'
 
 
-#<% if( multiLanguage === true || demo === true ) { %>
+#<% if ( i18n ) { %>
 
 locale = require( 'madlib-locale' )
 

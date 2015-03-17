@@ -17,7 +17,7 @@
         "backbone": "~1.1.2",
         "jquery": "<%= jQueryVersion %>",
         "madlib-console": "~0.1.4",
-        "madlib-hostmapping": "~0.1.7"<% if( multiLanguage === true || demo === true ) { %>,
+        "madlib-hostmapping": "~0.1.7"<% if ( i18n ) { %>,
         "madlib-locale": "~0.0.1"<% } %>,
         "madlib-settings": "~0.1.7",
         "q": "~1.1.2"
