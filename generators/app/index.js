@@ -140,16 +140,6 @@ module.exports = yeoman.generators.Base.extend(
         this.copy( "coffeelint.json",   "coffeelint.json" );
         this.copy( "jshintrc",          ".jshintrc" );
 
-        // Determine jQuery version
-        //
-        if( this.ie8 === true )
-        {
-            this.jQueryVersion = "^1.11.1";
-        }
-        else {
-            this.jQueryVersion = "^2.1.1";
-        }
-
         // write package.json and readme file
         //
         this.template( "_package.json",     "package.json" );
@@ -235,6 +225,48 @@ module.exports = yeoman.generators.Base.extend(
 
 ,   install: function ()
     {
+        var deps =
+                [
+                    "backbone"
+                ,   ( "jquery" + ( this.ie8 ? "@<2" : "" ))
+                ,   "madlib-console"
+                ,   "madlib-hostmapping"
+                ,   "madlib-settings"
+                ,   "q"
+                ]
+        ,   devDeps =
+                [
+                    "browserify"
+                ,   "browserify-shim"
+                ,   "chai"
+                ,   "coffeeify"
+                ,   "grunt"
+                ,   "grunt-browserify"
+                ,   "grunt-coffee-jshint"
+                ,   "grunt-coffeelint"
+                ,   "grunt-contrib-clean"
+                ,   "grunt-contrib-compass"
+                ,   "grunt-contrib-compress"
+                ,   "grunt-contrib-copy"
+                ,   "grunt-contrib-uglify"
+                ,   "grunt-contrib-watch"
+                ,   "grunt-contrib-yuidoc-iq"
+                ,   "grunt-mocha-test"
+                ,   "grunt-template"
+                ,   "handlebars"
+                ,   "hbsfy"
+                ,   "yuidoc-marviq-theme"
+                ]
+        ;
+
+        if ( this.i18n )
+        {
+            deps.push( "madlib-locale" );
+        }
+
+        this.npmInstall( deps,      { save:     true } );
+        this.npmInstall( devDeps,   { saveDev:  true } );
+
         this.installDependencies(
             {
                 bower:          false
