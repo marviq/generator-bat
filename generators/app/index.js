@@ -35,12 +35,12 @@ module.exports = yeoman.generators.Base.extend(
         ,   {
                 name:       "authorName"
             ,   message:    "What is your name?"
-            ,   default:    this.user.git.username
+            ,   default:    this.user.git.name()
             }
         ,   {
                 name:       "authorEmail"
             ,   message:    "What is your email?"
-            ,   default:    this.user.git.email
+            ,   default:    this.user.git.email()
             }
         ,   {
                 name:       "authorUrl"

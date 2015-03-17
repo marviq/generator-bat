@@ -15,8 +15,8 @@
 )( ( Backbone, $, template ) ->
     ###*
     #   Default index view of BAT
-    #
-    #   @author         <%= user.git.username %>
+    #<% if ( authorName ) { %>
+    #   @author         <%= authorName %><% } %>
     #   @class          IndexView
     #   @extends        Backbone.View
     #   @constructor

@@ -17,12 +17,12 @@
     ###*
     #   <%= description %>
     #
-    #   @author <%= user.git.username %>
-    #   @class <%= className %>Collection
+    #   @author         <%= user.git.user() %>
+    #   @class          <%= className %>Collection
     #   @static
-    #   @extends Backbone.Collection
-    #   @moduletype collection
-    #   @version 0.1
+    #   @extends        Backbone.Collection
+    #   @moduletype     collection
+    #   @version        0.1
     ###
     class <%= className %>Collection extends Backbone.Collection
 

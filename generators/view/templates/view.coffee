@@ -16,7 +16,7 @@
     ###*
     #   <%= description %>
     #
-    #   @author         <%= user.git.username %>
+    #   @author         <%= user.git.user() %>
     #   @class          <%= className %>View
     #   @extends        Backbone.View
     #   @moduletype     view
