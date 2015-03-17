@@ -14,7 +14,7 @@
 
 )( ( Backbone, $, template ) ->
     ###*
-    #   View contains information about the build tasks in the GruntFile
+    #   View contains information about the build tasks in the Gruntfile
     #
     #   @author         Raymond de Wit
     #   @class          BuildscriptView

@@ -22,7 +22,8 @@
 ##        * The application
 ##        * The application's code documentation
 ##
-##    * The build parts:
+##    * The build parts:#% if ( i18n ) { %#
+##        * i18n#% } %#
 ##        * style
 ##        * documentation
 ##
@@ -108,7 +109,11 @@ module.exports = ( grunt ) ->
 
                     ##                  NOTE:   `tgt` - must - be a directory.
                     ##
-                    tgt:                '<%= build.assembly.doc %>'
+                    tgt:                '<%= build.assembly.doc %>'#% if ( i18n ) { %#
+
+                i18n:
+                    src:                '<%= build.source %>i18n/'
+                    tgt:                '<%= build.assembly.app %>i18n/'#% } %#
 
                 style:
                     src:
@@ -153,7 +158,12 @@ module.exports = ( grunt ) ->
             doc:
                 files: [
                     src:                '<%= build.part.doc.tgt %>'
-                ]
+                ]#% if ( i18n ) { %#
+
+            i18n:
+                files: [
+                    src:                '<%= build.part.i18n.tgt %>'
+                ]#% } %#
 
             style:
                 files: [
@@ -255,7 +265,16 @@ module.exports = ( grunt ) ->
 
             options:
                 mode:                   true
-                timestamp:              true
+                timestamp:              true#% if ( i18n ) { %#
+
+            i18n:
+                files: [
+                    filter:             'isFile'
+                    expand:             true
+                    cwd:                '<%= build.part.i18n.src %>'
+                    src:                '**/*'
+                    dest:               '<%= build.part.i18n.tgt %>'
+                ]#% } %#
 
             dist:
                 files:
@@ -397,7 +416,13 @@ module.exports = ( grunt ) ->
 
             index:
                 files: [ 'src/index.html' ]
-                tasks: [ 'clean:index', 'copy:index', 'string-replace:debug' ]
+                tasks: [ 'clean:index', 'copy:index', 'string-replace:debug' ]#% if ( i18n ) { %#
+
+            i18n:
+                files: [
+                                        '<%= build.part.i18n.src %>**/*'
+                ]
+                tasks:                  'i18n'#% } %#
 
             style:
                 files: [
@@ -511,7 +536,16 @@ module.exports = ( grunt ) ->
                 'clean:doc'
                 'yuidoc:app'
             )
-    )
+    )#% if ( i18n ) { %#
+
+    grunt.registerTask(
+        'i18n'
+        'Build the app\'s internationalization files'
+        [
+            'clean:i18n'
+            'copy:i18n'
+        ]
+    )#% } %#
 
     grunt.registerTask(
         'style'
@@ -538,7 +572,8 @@ module.exports = ( grunt ) ->
             'browserify:dist'
             'uglify:dist'
             'clean:uglify'
-            'style:dist'
+            'style:dist'#% if ( i18n ) { %#
+            'i18n'#% } %#
             'string-replace:dist'
             'writeBuildFile'
 
@@ -556,7 +591,8 @@ module.exports = ( grunt ) ->
 
             'copy:dist'
             'browserify:debug'
-            'style:debug'
+            'style:debug'#% if ( i18n ) { %#
+            'i18n'#% } %#
             'string-replace:debug'
             'writeBuildFile'
 
@@ -571,7 +607,8 @@ module.exports = ( grunt ) ->
 
             'copy:dist'
             'browserify:debug'
-            'style:debug'
+            'style:debug'#% if ( i18n ) { %#
+            'i18n'#% } %#
             'string-replace:debug'
 
             'watch'

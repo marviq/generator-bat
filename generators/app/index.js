@@ -3,6 +3,18 @@
 var yeoman  = require( "yeoman-generator" );
 var yosay   = require( "yosay" );
 
+//  Use different delimiters when our template itself is meant to be a template or template-like.
+//
+var tpl_tpl_settings =
+        {
+            evaluate:       /#%([\s\S]+?)%#/g
+
+        //  Not (yet) used:
+        //
+        ,   escape:         null
+        ,   interpolate:    null
+        }
+;
 
 // Get the current running directory name
 //
@@ -146,7 +158,7 @@ module.exports = yeoman.generators.Base.extend(
 
         // Setup build, watch files etc
         //
-        this.copy( "GruntFile.coffee",      "GruntFile.coffee"  );
+        this.template( "_Gruntfile.coffee", "Gruntfile.coffee", null, tpl_tpl_settings );
 
         // Setup the sass files
         //
