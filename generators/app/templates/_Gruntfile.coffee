@@ -534,7 +534,6 @@ module.exports = ( grunt ) ->
             test:
                 options:
                     reporter:           'spec'
-                    require:            'coffee-script/register'
                     timeout:            30000
 
                 files: [
