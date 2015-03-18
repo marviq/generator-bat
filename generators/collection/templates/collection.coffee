@@ -19,8 +19,8 @@
     #
     #   @author         <%= user.git.user() %>
     #   @class          <%= className %>Collection
-    #   @static
-    #   @extends        Backbone.Collection
+    #   @extends        Backbone.Collection<% if ( singleton ) { %>
+    #   @static<% } %>
     #   @moduletype     collection
     #   @version        0.1
     ###
