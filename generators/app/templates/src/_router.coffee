@@ -3,17 +3,28 @@
         module.exports = factory(
             require( 'backbone' )
             require( 'jquery' )
-            require( 'madlib-console' )
+            require( 'madlib-console' )<% if ( i18n ) { %>
+            require( 'madlib-locale' )<% } %>
+
             require( './views/index.coffee' )
         )
     else if typeof define is 'function' and define.amd
         define( [
             'backbone'
             'jquery'
-            'madlib-console'
+            'madlib-console'<% if ( i18n ) { %>
+            'madlib-locale'<% } %>
+
             './views/index.coffee'
         ], factory )
-)( ( Backbone, $, console, Views... ) ->
+)((
+    Backbone
+    $
+    console<% if ( i18n ) { %>
+    localeManager<% } %>
+
+    Views...
+) ->
 
     class AppRouter extends Backbone.Router
 
