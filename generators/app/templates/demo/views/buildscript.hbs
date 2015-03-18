@@ -2,13 +2,13 @@
     <div class="page-header">
         <h1>Building your application</h1>
     </div>
-    <p>BAT uses Grunt to build your application. The build file comes with two default build tasks:</p>
+    <p>BAT uses Grunt to build your application. Its <code>Gruntfile.coffee</code> provides three main build tasks:</p>
 
     <div class="page-header">
         <h3>Default</h3>
-        <code>grunt</code>
+        <code>grunt [default]</code>
     </div>
-    <p>This task will create an build ready for deployment to an (production) environment. It will run the following tasks:</p>
+    <p>This task does a production, non-debugging, all-parts, minified build, plus deployable artifacts. It will run the following tasks:</p>
     <ul>
         <li>
             <a href="https://github.com/gruntjs/grunt-contrib-clean#readme">Clean</a>:
@@ -65,7 +65,7 @@
         <h3>Debug</h3>
         <code>grunt debug</code>
     </div>
-    <p>This task will create an build ready for deployment to an (production) environment. It will run the following tasks:</p>
+    <p>This task does a testing, debugging, all-parts (except documentation), as-is build, plus deployable artifact. It will run the following tasks:</p>
     <ul>
         <li>
             <a href="https://github.com/gruntjs/grunt-contrib-clean#readme">Clean</a>:
@@ -105,4 +105,47 @@
         </li>
     </ul>
 
+    <div class="page-header">
+        <h3>Development</h3>
+        <code>grunt dev</code>
+    </div>
+    <p>This task does a local, debugging, all-parts (except documentation), as-is build, and keeps a close watch on filesystem changes. It will run the following tasks:</p>
+    <ul>
+        <li>
+            <a href="https://github.com/gruntjs/grunt-contrib-clean#readme">Clean</a>:
+            remove your previously built build results from the distribution artifact destination directory ('<code>dist/</code>')
+        </li>
+        <li>
+            <a href="https://github.com/vojtajina/grunt-coffeelint#readme">Coffeelint</a>:
+            delint your coffeescript - <i>before</i> transpilation to javascript
+        </li>
+        <li>
+            <a href="https://github.com/bmac/grunt-coffee-jshint#readme">Coffee_jshint</a>:
+            delint your coffeescript - <i>after</i> transpilation to javascript
+        </li>
+        <li>
+            <a href="https://github.com/jmreidy/grunt-browserify#readme">Browserify</a>:
+            compile and bundle your code in debugging mode; generates source maps
+        </li>
+        <li>
+            <a href="https://github.com/gruntjs/grunt-contrib-copy#readme">Copy</a>:
+            copy your build bits that needs no transformation; your style assets and i18n files
+        </li>
+        <li>
+            <a href="https://github.com/gruntjs/grunt-contrib-compass#readme">Compass</a>:
+            compile your sass to bundled css, 'nested' style; generate source maps
+        </li>
+        <li>
+            Create build brief:
+            generate '<code>build.json</code>' file containing the build details
+        </li>
+        <li>
+            <a href="https://github.com/mathiasbynens/grunt-template#readme">Template</a>:
+            substitute build targets and - for cache-busting reasons - a build-run identifier into your app's main entry point ('<code>index.html</code>')
+        </li>
+        <li>
+            <a href="https://github.com/gruntjs/grunt-contrib-watch#readme">Watch</a>:
+            Keeps a close watch on filesystem changes, selectively re-triggering tasks as needed.
+        </li>
+    </ul>
 </div>
