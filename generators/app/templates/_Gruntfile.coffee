@@ -645,7 +645,7 @@ module.exports = ( grunt ) ->
 
             app:
                 files:                  '<%= build.part.app.src.lint %>'
-                tasks:                  'lint'
+                tasks:                  'lint:app'
 
             bootstrap:
                 options:
@@ -792,7 +792,7 @@ module.exports = ( grunt ) ->
         'Build the app.'
         ( debugging ) ->
             grunt.task.run(
-                'lint'
+                'lint:app'
 
                 'clean:app'
 
@@ -858,6 +858,15 @@ module.exports = ( grunt ) ->
     )#% } %#
 
     grunt.registerTask(
+        'lint'
+        ( target = '' ) ->
+            grunt.task.run(
+                "coffeelint:#{target}"
+                "coffee_jshint:#{target}"
+            )
+    )
+
+    grunt.registerTask(
         'style'
         'Build the app\'s style'
         ( debugging ) ->
@@ -910,14 +919,6 @@ module.exports = ( grunt ) ->
             'app:debug'
 
             'watch'
-        ]
-    )
-
-    grunt.registerTask(
-        'lint'
-        [
-            'coffeelint:app'
-            'coffee_jshint:app'
         ]
     )
 
