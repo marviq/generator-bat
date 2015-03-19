@@ -376,7 +376,8 @@ module.exports = ( grunt ) ->
 
             options:
 
-                ##  NOTE:   Current grunt-coffee-jshint@0.2.1 uses coffee-jshint@0.0.14, which uses jshint@2.1.11, which does not yet support the 'browserify' option and others.
+                ##  NOTE:   Current grunt-coffee-jshint@0.2.1 uses coffee-jshint@0.0.14, which uses jshint@2.1.11, which does not yet support the 'browserify'
+                ##          option and others.
                 ##          The use of browserify and the UMD (Universal Module Definition) pattern implies the legimate use of the globals below.
                 ##
                 ##  I would have liked to specify these globals and other jshint options through a '.jshintrc' file instead but have been unsuccessful so far.
@@ -389,7 +390,11 @@ module.exports = ( grunt ) ->
                                         'require'
                 ]
 
-                jshintOptions: [
+                ##  Caveat: Using the extra variable `jshintOptions` to share a common set between the different targets below. Afaict this can't be done any
+                ##  other way. (Duplicating doesn't count).
+                ##
+                jshintOptions: ( jshintOptions = [
+
                     ##                  Enforcing options:
                                         'eqeqeq'
                                         'forin'
@@ -401,15 +406,31 @@ module.exports = ( grunt ) ->
                     ##                  Relaxing options:
                                         'debug'
                                         'loopfunc'
+                ])
 
-                    ##                  Environment options:
+            app:
+                options:
+                    jshintOptions:      jshintOptions.concat( [
+                        ##              Environment options:
                                         'browser'
                                         'devel'
-                ]
+                    ] )
 
-            app:                        '<%= coffeelint.app %>'
-            gruntfile:                  '<%= coffeelint.gruntfile %>'
-            test:                       '<%= coffeelint.test %>'
+                files:                  '<%= coffeelint.app.files %>'
+
+            gruntfile:
+                options:
+                    jshintOptions:      jshintOptions.concat( [
+                        ##              Environment options:
+                                        'node'
+                    ] )
+
+                files:                  '<%= coffeelint.gruntfile.files %>'
+
+            test:
+                options:                '<%= coffee_jshint.gruntfile.options %>'
+
+                files:                  '<%= coffeelint.test.files %>'
 
 
         ##
