@@ -73,20 +73,31 @@
             else
                 super( fragment, options )
 
-        startApp: () ->
+
+        ###*
+        #   Set up shop, instantiate things like navigation views and such, start the `Backbone.history` global router.
+        #
+        #   @method         startApp
+        #
+        #   @param          {Object}    [options]   Any options you may want to pass on to `Backbone.history.start( options )`.
+        #
+        ###
+
+        startApp: ( options ) ->
+
             console.log( '[ROUTER] Starting application...' )
 
-            # You probably want to do some things here
-            # setup views that aren't in the main container
-            # ( navigation for example ).
-            #
+            ##
+            ##  Additional setting up can be done here; instantiate views that aren't to be part of the main container, like navigation perhaps.
+            ##
 
+            ##  Start the `Backbone.history` global router which will begin monitoring for url changes, causing all matching route handlers to be
+            ##  dispatched.
+            ##
+            Backbone.history.start( options )
 
-            # Start routing the application using Backbone
-            # once this is called the application really starts
-            # and tries to load the first view based on the url/hash
-            #
-            Backbone.history.start()
+            return
+
 
         index: () ->
             @_openPage( 'index' )

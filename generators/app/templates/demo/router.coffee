@@ -99,14 +99,18 @@
             else
                 super( fragment, options )
 
+
         ###*
-        # Function called when bootstrap is ready to start
-        # the application. Calls Backbone.history.start() to
-        # start routing.
+        #   Set up shop, instantiate things like navigation views and such, start the `Backbone.history` global router.
         #
-        # @method startApp
+        #   @method         startApp
+        #
+        #   @param          {Object}    [options]   Any options you may want to pass on to `Backbone.history.start( options )`.
+        #
         ###
-        startApp: () ->
+
+        startApp: ( options ) ->
+
             console.log( '[ROUTER] Starting application...' )
 
             navigationView = new NavigationView()
@@ -116,12 +120,13 @@
                 navigationView.setActiveMenuItem( params )
             )
 
+            ##  Start the `Backbone.history` global router which will begin monitoring for url changes, causing all matching route handlers to be
+            ##  dispatched.
+            ##
+            Backbone.history.start( options )
 
-            # Start routing the application using Backbone
-            # once this is called the application really starts
-            # and tries to load the first view based on the url/hash
-            #
-            Backbone.history.start()
+            return
+
 
         ###*
         # Function called when opening a new page in the main
