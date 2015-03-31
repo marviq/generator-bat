@@ -68,9 +68,35 @@ Backbone        = require( 'backbone' )
 Backbone.$  = $
 
 
+## ============================================================================
+##
+##  [Handlebars]
+##
+##  https://github.com/wycats/handlebars.js#readme
+##
+
+Handlebars      = require( 'hbsfy/runtime' )
+
+##  Register Handlebars helpers:
+##
+do () ->
+
+    ### jshint forin:   false ###
+
+    Handlebars.registerHelper( name, helper ) for name, helper of {
+
+    ##
+    ##  This would be a good place to register any Handlebars helpers:
+    ##
+    ##  foo:    ( value )  -> "bar: #{ value }"
+    ##  etc:    ...
+    ##
+
+    }
+
+
 router      = require( './router.coffee' )
 console     = require( 'madlib-console' )
-Handlebars  = require( 'hbsfy/runtime' )
 
 # Include required bootstrap modules
 #
