@@ -20,6 +20,12 @@ Q.stopUnhandledRejectionTracking()
 Q.longStackSupport = false
 
 
+## ============================================================================
+##
+##  [Misc]
+##
+
+
 router      = require( './router.coffee' )
 Backbone    = require( 'backbone' )
 $           = require( 'jquery' )
