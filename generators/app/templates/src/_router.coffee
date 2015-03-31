@@ -26,6 +26,18 @@
     Views...
 ) ->
 
+    ###*
+    #   @module         App
+    ###
+
+    ###*
+    #   The app's main router.
+    #
+    #   @class          AppRouter
+    #   @extends        Backbone.Router
+    #   @static
+    ###
+
     class AppRouter extends Backbone.Router
 
         routes:
@@ -138,8 +150,8 @@
 
         #<% } %>
 
-    # Singleton
-    #
-    appRouter = new AppRouter()
-    return appRouter
+    ##  Export singleton
+    ##
+    return new AppRouter()
+
 )

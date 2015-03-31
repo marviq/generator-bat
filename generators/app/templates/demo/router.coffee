@@ -21,17 +21,31 @@
             './views/documentation.coffee'
             './views/buildscript.coffee'
         ], factory )
-)( ( Backbone, $, console, NavigationView, Views... ) ->
+)((
+    Backbone
+    $
+    console
+
+    NavigationView
+
+    Views...
+) ->
+
     ###*
-    #   The main app router
+    #   @module         App
+    ###
+
+    ###*
+    #   The app's main router.
     #
     #   @author         rdewit
     #   @class          AppRouter
-    #   @extends        Backbone.View
+    #   @extends        Backbone.Router
     #   @moduletype     router
-    #   @constructor
+    #   @static
     #   @version        0.1
     ###
+
     class AppRouter extends Backbone.Router
 
         ###*
@@ -167,8 +181,9 @@
         buildscript: () ->
             @_openPage( 'buildscript' )
 
-    # Singleton
-    #
-    appRouter = new AppRouter()
-    return appRouter
+
+    ##  Export singleton
+    ##
+    return new AppRouter()
+
 )
