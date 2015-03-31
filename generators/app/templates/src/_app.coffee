@@ -1,4 +1,25 @@
-Q           = require( 'q' )
+## ============================================================================
+##
+##  [Q]
+##
+##  https://github.com/kriskowal/q#readme
+##
+
+Q               = require( 'q' )
+
+##  Uncomment / remove for your developement convenience.
+##
+##  https://github.com/kriskowal/q/wiki/API-Reference#qstopunhandledrejectiontracking
+##
+Q.stopUnhandledRejectionTracking()
+
+##  Set this to true for your developement convenience.
+##
+##  https://github.com/kriskowal/q/wiki/API-Reference#qlongstacksupport
+##
+Q.longStackSupport = false
+
+
 router      = require( './router.coffee' )
 Backbone    = require( 'backbone' )
 $           = require( 'jquery' )
@@ -6,19 +27,6 @@ console     = require( 'madlib-console' )
 Handlebars  = require( 'hbsfy/runtime' )
 
 Backbone.$ = $
-
-# Disable Q's unhandled exception tracking (it will often give false positives)
-#
-Q.stopUnhandledRejectionTracking()
-
-# **DEVELOPMENT**
-# On the other hand, when a real promise rejection *does* go unnoticed... rub it in.
-#
-Q.onerror = ( error ) ->
-    message = '[Q] :: Unhandled promise rejection.'
-
-    console.log( message + ' Error: ', error, error.stack )
-    throw( error )
 
 # Include required bootstrap modules
 #
