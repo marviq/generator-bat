@@ -54,12 +54,23 @@ _               = require( 'underscore' )
 ##
 
 
+## ============================================================================
+##
+##  [Backbone]
+##
+##  http://backbonejs.org/
+##
+
+Backbone        = require( 'backbone' )
+
+##  Expose jQuery to Backbone.
+##
+Backbone.$  = $
+
+
 router      = require( './router.coffee' )
-Backbone    = require( 'backbone' )
 console     = require( 'madlib-console' )
 Handlebars  = require( 'hbsfy/runtime' )
-
-Backbone.$ = $
 
 # Include required bootstrap modules
 #
