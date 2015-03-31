@@ -26,9 +26,22 @@ Q.longStackSupport = false
 ##
 
 
+## ============================================================================
+##
+##  [jQuery]
+##
+##  http://api.jquery.com/
+##
+
+$               = require( 'jquery' )
+
+##
+##  This would be a good place to also `require()` any jQuery plugins, just so that they get an early chance to hook themselves into jQuery.
+##
+
+
 router      = require( './router.coffee' )
 Backbone    = require( 'backbone' )
-$           = require( 'jquery' )
 console     = require( 'madlib-console' )
 Handlebars  = require( 'hbsfy/runtime' )
 
