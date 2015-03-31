@@ -1,3 +1,15 @@
+###*<% if ( packageDescription ) { %>
+#
+#   <%= packageDescription %><% } %>
+#
+#   @module         App
+#
+###
+
+##
+##  Declare and load app pre-requisites, then start.
+##
+
 ## ============================================================================
 ##
 ##  [Q]
@@ -158,17 +170,29 @@ settings        = require( 'madlib-settings' )
 locale          = require( 'madlib-locale' )
 
 
-router      = require( './router.coffee' )
+## ============================================================================
+##
+##  [App]
+##
 
-# Initialize locale passing Handlebars runtime and default locale
-# it's loading the locale file async so wait starting the app until
-# that's done.
-#
-locale.initialize( Handlebars, 'en_GB' ).then(
+router          = require( './router.coffee' )
+
+##  Initialize locale passing Handlebars runtime and default locale.
+##  It's loading the locale file async so wait starting the app until that's done.
+##
+locale.initialize( Handlebars, 'en_GB' ).done(
+
     () ->
-        # Start your application here
-        #
-        router.startApp()
+
+        ##  Start the app when the DOM is ready.
+        ##
+        $( () ->
+
+            router.startApp()
+
+            return
+
+        )
 
         return
 
@@ -177,4 +201,4 @@ locale.initialize( Handlebars, 'en_GB' ).then(
 
         return
 
-).done()
+)
