@@ -60,30 +60,52 @@
             'documentation':        'documentation'
             'buildscript':             'buildscript'
 
-        ###*
-        # Will contain mapping of view name to view class
-        # is filled with data in initialize method
-        #
-        # @property views
-        ###
-        views: {}
 
         ###*
-        # Generates the views mapping based on the splat of views
+        #   Mapping of a each `require()`d View's `::viewName` property to its class.
         #
-        # @method initialize
+        #   Each view class `require()`d is expected to have a `::viewName` class property.
+        #   Most routes in `AppRouter::routes` will map to these properties' values.
+        #
+        #   @property       viewMap
+        #
+        #   @type           Object
+        #   @static
+        #   @final
         ###
+
+        viewMap: do () ->
+
+            viewMap = {}
+            viewMap[ View::viewName ] = View for View in Views
+
+            return viewMap
+
+
+        ###*
+        #   Setup the router's internals.
+        #
+        #   @method         initialize
+        #   @protected
+        #
+        ###
+
         initialize: () ->
 
-            # Get handle to the main content container
+            ###*
+            #   A handle on the router's main content container.
             #
+            #   @property       $mainContent
+            #
+            #   @type           jQuery
+            #   @protected
+            #   @final
+            ###
+
             @$mainContent = $( '#main-content' )
 
-            # Populate the views index, each view required in the router
-            # should expose a viewName property by convention to identify it
-            #
-            for view in Views
-                @views[ view.prototype.viewName ] = view
+            return
+
 
         ###*
         # Overridden
@@ -149,7 +171,7 @@
             else
                 # Check if the class for the new view is available
                 #
-                NewViewClass = @views[ pageName ]
+                NewViewClass = @viewMap[ pageName ]
                 if typeof NewViewClass is 'function'
                     console.log( "[ROUTER] Opening page '#{pageName}'", params )
 
@@ -170,7 +192,7 @@
 
                     @pageView.remove() if @pageView?
 
-                    @pageView = new @views[ '404' ](
+                    @pageView = new @viewMap[ '404' ](
                         router:         @
                     )
 
