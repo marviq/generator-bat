@@ -167,18 +167,30 @@
 
 
         ###*
-        # Overridden
+        #   Fork out to the default `Backbone.router`s `@navigate()`, except that a page reload is forced when navigating to the current fragment (normally a
+        #   no-op) and `options.trigger` has been given truthy value.
+        #
+        #   @method         navigate
+        #
+        #   @param          {Object}    [options]
+        #   @param          {Boolean}   [options.trigger]
+        #
         ###
+
         navigate: ( fragment, options ) ->
 
-            # Force a reload when navigating to current fragment with a forced trigger
-            #
-            if fragment is Backbone.history.fragment and options? and options.trigger is true
-                console.log( '[ROUTER] forcing current fragment reload' )
+            ##  Force a reload when navigating to current fragment with a forced trigger.
+            ##
+            if ( options?.trigger and fragment is Backbone.history.fragment )
+
+                console.log( '[ROUTER] forcing current fragment reload.' )
+
                 Backbone.history.loadUrl( Backbone.history.fragment )
 
             else
-                super( fragment, options )
+                super( arguments... )
+
+            return
 
 
         ###*
