@@ -97,16 +97,45 @@
 
 
         ###*
-        # Contains defined routers and their functions
+        #   Map url patterns to route handlers.
         #
-        # @property routers
+        #   A handler can either be:
+        #     - A function;
+        #     - The name of an existing method on the router;
+        #     - The value of one of the `require()`d view classes' `::viewName` property;
+        #
+        #   In the latter case, a function will be created as the router is instantiated.
+        #   That function will collect parameters from the url pattern in a key-value mapping and pass these on to `@openPage()` along with the targeted view
+        #   class.
+        #
+        #   @property       routes
+        #
+        #   @type           Object
+        #   @static
+        #   @final
         ###
+
         routes:
-            '':                     'index'
-            'index':                'index'
-            'i18n':                 'i18n'
-            'documentation':        'documentation'
-            'buildscript':             'buildscript'
+
+            ##  Routes that have methods:
+            ##  The value should be the name of a method on this router.
+            ##
+            '':                                     'home'
+
+            ##  Routes that have views:
+            ##  The value should be that of the corresponding view's `viewName' property.
+            ##
+            'index':                                'index'
+            'i18n':                                 'i18n'
+            'documentation':                        'documentation'
+            'buildscript':                          'buildscript'
+
+            ##  A catchall route; save this one for last.
+            ##
+            ##  Will divert unknown urls, navigating `@home()` instead.
+            ##  Alternatively, one could create a 404-not-found type of view class to handle these.
+            ##
+            '*catchall':                            'home'
 
 
         ###*
@@ -128,6 +157,21 @@
             viewMap[ View::viewName ] = View for View in Views
 
             return viewMap
+
+
+        ###*
+        #   The url to redirect to when going `@home()`.
+        #
+        #   @property       homeUrl
+        #
+        #   @default        '/index'
+        #   @type           String
+        #   @static
+        #   @final
+        ###
+
+        homeUrl:
+            '/index'
 
 
         ###*
@@ -162,6 +206,24 @@
             ###
 
             @pageView       = null
+
+            return
+
+
+        ###*
+        #   Convenience method to navigate straight to the app's home state.
+        #
+        #   @method         home
+        ###
+
+        home: () ->
+
+            @navigate(
+                @homeUrl
+
+                replace:    true
+                trigger:    true
+            )
 
             return
 
