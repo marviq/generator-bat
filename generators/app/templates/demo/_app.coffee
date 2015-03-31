@@ -40,6 +40,20 @@ $               = require( 'jquery' )
 ##
 
 
+## ============================================================================
+##
+##  [Underscore]
+##
+##  http://underscorejs.org/
+##
+
+_               = require( 'underscore' )
+
+##
+##  This would be a good place to load any underscore mixins.
+##
+
+
 router      = require( './router.coffee' )
 Backbone    = require( 'backbone' )
 console     = require( 'madlib-console' )
