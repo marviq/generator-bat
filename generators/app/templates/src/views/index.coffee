@@ -35,10 +35,14 @@
             #
             @$el.append( template() )
 
+            return
+
+
         render: () ->
 
             # By convention always return this so people can chain functions
             # for example grab the .el after rendering ;-)
             #
             return @
+
 )

@@ -33,6 +33,9 @@
         initialize: () ->
             # placeholder
 
+            return
+
+
         render: () ->
 
             @$el.html( template() )
@@ -41,4 +44,5 @@
             # for example grab the .el after rendering ;-)
             #
             return @
+
 )

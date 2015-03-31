@@ -60,6 +60,7 @@
             #
             return @
 
+
         ###*
         # Private function called when the lanaguage select changes
         #
@@ -75,4 +76,7 @@
                 ( error ) =>
                     console.log( error )
             ).done()
+
+            return
+
 )

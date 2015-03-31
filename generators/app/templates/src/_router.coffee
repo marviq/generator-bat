@@ -354,12 +354,13 @@
 
             @trigger( 'open', @pageView, params )
 
-            return
+            return<% if ( i18n ) { %>
 
-        #<% if ( i18n ) { %>
 
         localeSwitch: ( locale ) ->
+
             localeManager.setLocale( locale ).then(
+
                 () =>
                     # Unload the current view
                     #
@@ -370,11 +371,17 @@
                     #
                     window.history.back()
 
+                    return
+
                 () =>
                     console.log( '[ROUTER] Failed to switch locale, do nothing...' )
+
+                    return
+
             ).done()
 
-        #<% } %>
+            return<% } %>
+
 
     ##  Export singleton
     ##

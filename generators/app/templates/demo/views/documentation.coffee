@@ -42,6 +42,9 @@
             #
             @$el.append( template() )
 
+            return
+
+
         ###*
         # Function renders the view
         #
@@ -54,4 +57,5 @@
             # for example grab the .el after rendering ;-)
             #
             return @
+
 )

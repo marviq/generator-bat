@@ -34,4 +34,7 @@
             setTimeout( () ->
                 callback( true )
             ,   1000 )
+
+            return
+
 )

@@ -61,4 +61,7 @@
         setActiveMenuItem: ( url ) ->
             @$navBar.find( '.active' ).removeClass( 'active' )
             @$navBar.find( "a[href='##{url}']" ).closest( 'li' ).addClass( 'active' )
+
+            return
+
 )

@@ -51,6 +51,12 @@ locale.initialize( Handlebars, 'en_GB' ).then(
         # Start your application here
         #
         router.startApp()
+
+        return
+
     () ->
         console.error( 'Failed to retrieve default locale file.' )
+
+        return
+
 ).done()
