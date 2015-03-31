@@ -2,6 +2,7 @@
     if typeof exports is 'object'
         module.exports = factory(
             require( 'backbone' )
+            require( 'underscore' )
             require( 'jquery' )
             require( 'madlib-console' )
             require( './views/navigation.coffee' )
@@ -13,6 +14,7 @@
     else if typeof define is 'function' and define.amd
         define( [
             'backbone'
+            'underscore'
             'jquery'
             'madlib-console'
             './views/navigation.coffee'
@@ -23,6 +25,7 @@
         ], factory )
 )((
     Backbone
+    _
     $
     console
 
@@ -47,6 +50,51 @@
     ###
 
     class AppRouter extends Backbone.Router
+
+        constructor: ( options = {} ) ->
+
+            ##  Create function handlers for routes that haven't yet got one.
+            ##
+            ##  Created handlers will pass on to `@_openPage( ... )`:
+            ##    - The targeted view class of their route;
+            ##    - The url pattern's named arguments of their route;
+
+            paramPattern    = /[*:](\w+)/g
+            routes          = {}
+
+            _( options.routes ? @routes ).each( ( handler, urlPattern ) =>
+
+                if ( @[ handler ] ? _.isFunction( handler ) )
+
+                    ##  Keep existing method.
+                    ##
+                    routes[ urlPattern ] = handler
+
+                else if (( View = @viewMap[ handler ] ))
+
+                    ##  Collect url pattern's parameter names.
+                    ##
+                    paramNames = ( matched[1] while (( matched = paramPattern.exec( urlPattern ) )) )
+
+                    ##  Create handler function.
+                    ##
+                    routes[ urlPattern ] =
+                        if paramNames.length
+                            () -> @_openPage( View, _.object( paramNames, arguments ))
+                        else
+                            () -> @_openPage( View )
+                else
+                    throw new Error( "Cannot create handler for '#{handler}'." )
+
+                return
+            )
+
+            options.routes = routes
+
+            super( options )
+
+            return
+
 
         ###*
         # Contains defined routers and their functions
@@ -102,7 +150,18 @@
             #   @final
             ###
 
-            @$mainContent = $( '#main-content' )
+            @$mainContent   = $( '#main-content' )
+
+            ###*
+            #   A handle on the current View instance loaded into `@$mainContent` container.
+            #
+            #   @property       pageView
+            #
+            #   @type           Backbone.View
+            #   @protected
+            ###
+
+            @pageView       = null
 
             return
 
@@ -151,62 +210,66 @@
 
 
         ###*
-        # Function called when opening a new page in the main
-        # container of the application
+        #   Load the `@$mainContent` container with an instance of the requested view class.
+        #   Either by simply re-rendering (with possibly changed parameters) the current instance if it is of the same class, or by creating a new instance to
+        #   replace the current one if they differ.
         #
-        # @method _openPage
-        # @param pageName {string} name of the view to load
-        # @param params {object} params to pass to the new view
-        # @private
+        #   @method         _openPage
+        #   @protected
+        #
+        #   @param          {Class}         View        The targeted view class of the matched route.
+        #   @param          {Object}        params      A key-value mapping of the matched route's url pattern's parameters.
         ###
-        _openPage: ( pageName, params ) ->
 
-            # Check if the requested view is already loaded
-            # if so let it re-render itself
-            #
-            if @pageView? and @pageView.viewName is pageName
-                console.log( "[ROUTER] Updating page '#{pageName}'", params )
+        _openPage: ( View, params ) ->
+
+            divert  = undefined
+
+            ##
+            ##  Here be code to determine possible diversions from the targeted View if needed.
+            ##
+            ##  ... Set `divert` to another view class's `::viewName`.
+            ##
+            ##  ----
+
+            if ( divert? )
+
+                ##  Diverted-to views should be accessible by anyone. When that condition no longer holds, for *every* such view, consider turning _openPage()
+                ##  into a recursive function, so that the new view's accessibility requirements can be verified too.
+
+                View    = @viewMap[ divert ]
+                params  = undefined
+
+
+            if ( @pageView instanceof View )
+
+                ##  The requested View has already been loaded; just re-`render()` the current instance.
+
+                console.log( "[ROUTER] Updating page '#{@pageView.viewName}'.", params )
+
                 @pageView.render( params )
 
             else
-                # Check if the class for the new view is available
-                #
-                NewViewClass = @viewMap[ pageName ]
-                if typeof NewViewClass is 'function'
-                    console.log( "[ROUTER] Opening page '#{pageName}'", params )
 
-                    # Cleanup previously active view
-                    #
-                    @pageView.remove() if @pageView?
+                console.log( "[ROUTER] Opening page '#{View::viewName}'.", params )
 
-                    # Render and show the niew view
-                    #
-                    @pageView = new NewViewClass( $.extend(
+                ##  Cleanup previously active view if any.
+                ##
+                @pageView?.remove()
+
+                ##  Render and load the new view.
+                ##
+                @pageView = new View(
+                    _.extend(
                         router:     @
                     ,   params
-                    ) )
-                    @$mainContent.append( @pageView.render( params ).el )
-
-                else
-                    console.log( "[ROUTER] Can't find view for '#{pageName}'" )
-
-                    @pageView.remove() if @pageView?
-
-                    @pageView = new @viewMap[ '404' ](
-                        router:         @
                     )
+                )
 
-                    @$mainContent.append( @pageView.render( params ).el )
+                @$mainContent.append( @pageView.render( params ).$el )
 
 
-        index: () ->
-            @_openPage( 'index' )
-        documentation: () ->
-            @_openPage( 'documentation' )
-        i18n: () ->
-            @_openPage( 'i18n' )
-        buildscript: () ->
-            @_openPage( 'buildscript' )
+            return
 
 
     ##  Export singleton

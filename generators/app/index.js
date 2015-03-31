@@ -233,6 +233,7 @@ module.exports = yeoman.generators.Base.extend(
                 ,   "madlib-hostmapping"
                 ,   "madlib-settings"
                 ,   "q"
+                ,   "underscore"
                 ]
         ,   devDeps =
                 [
