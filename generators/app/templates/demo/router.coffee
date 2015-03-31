@@ -229,6 +229,19 @@
 
 
         ###*
+        #   Convenience method to navigate a step back into history.
+        #
+        #   @method         back
+        ###
+
+        back: () ->
+
+            Backbone.history.history.back()
+
+            return
+
+
+        ###*
         #   Fork out to the default `Backbone.router`s `@navigate()`, except that a page reload is forced when navigating to the current fragment (normally a
         #   no-op) and `options.trigger` has been given truthy value.
         #
