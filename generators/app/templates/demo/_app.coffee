@@ -95,30 +95,70 @@ do () ->
     }
 
 
+## ============================================================================
+##
+##  [madlib]
+##
+
+##  https://github.com/Qwerios/madlib-console#readme
+##
+console         = require( 'madlib-console' )
+
+##  https://github.com/Qwerios/madlib-settings#readme
+##
+settings        = require( 'madlib-settings' )
+
+##
+##  This would be a good place to declare any settings:
+##
+##  settings.set( 'someSetting', { ... } )
+##  settings.set( 'a.namespaced.setting', { ... } )
+##  settings.set( 'an.other.namespaced.setting', { ... } )
+##
+##  etc...
+##
+##
+##  Particularly, If you plan to use 'madlib-hostmapping' later, you might want to do something like:
+##
+##  HostMapping = require( 'madlib-locale' )
+##
+##  settings.set( 'hostMapping'
+##
+##      'some.site.some.domain':        'production'
+##      'some.site-acc.some.domain':    'acceptance'
+##      'some.site-tst.some.domain':    'testing'
+##      'localhost':                    'developement'
+##  )
+##
+##  settings.set( 'hostConfig'
+##
+##      production:
+##          api:                'https://api.some.domain/'
+##
+##      acceptance:
+##          api:                'https://api-acc.some.domain/'
+##
+##      testing:
+##          api:                'https://api-test.some.domain/'
+##
+##      developement:
+##          api:                'localhost/some-site-api/'
+##  )
+##
+##  For further information, see:
+##
+##  https://github.com/marviq/madlib-hostmapping#readme
+##
+
+
+##  Setup localeManager
+##
+##  https://github.com/marviq/madlib-locale#readme
+##
+locale          = require( 'madlib-locale' )
+
+
 router      = require( './router.coffee' )
-console     = require( 'madlib-console' )
-
-# Include required bootstrap modules
-#
-settings    = require( 'madlib-settings' )
-HostMapping = require( 'madlib-hostmapping' )
-
-# Initialise your settings and create hostMapping instance
-#
-hostMapping = new HostMapping( settings )
-
-# Set the debug log level to WARN for production
-#
-# hostMapping.determineTarget()
-# if hostMapping.getCurrentHostMapping() is 'production'
-#     console.logLevel = 'WARN'
-# else
-#     console.logLevel = 'DEBUG'
-
-
-# Setup localeManager
-#
-locale = require( 'madlib-locale' )
 
 # Initialize locale passing Handlebars runtime and default locale
 # it's loading the locale file async so wait starting the app until
