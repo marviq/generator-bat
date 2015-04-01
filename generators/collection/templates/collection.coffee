@@ -1,15 +1,15 @@
 ( ( factory ) ->
-    if typeof exports is "object"
+    if typeof exports is 'object'
         module.exports = factory(
-            require "q"
-            require "backbone"
-            require "./../models/<%= modelFileName %>.coffee"
+            require( 'q' )
+            require( 'backbone' )
+            require( './../models/<%= modelFileName %>.coffee' )
         )
-    else if typeof define is "function" and define.amd
+    else if typeof define is 'function' and define.amd
         define( [
-            "q"
-            "backbone"
-            "./../models/<%= modelFileName %>.coffee"
+            'q'
+            'backbone'
+            './../models/<%= modelFileName %>.coffee'
         ], factory )
 
 )( ( Q, Backbone, <%= modelClass %>Model ) ->

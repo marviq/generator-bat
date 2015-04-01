@@ -1,15 +1,15 @@
 ( ( factory ) ->
-    if typeof exports is "object"
+    if typeof exports is 'object'
         module.exports = factory(
-            require "backbone"
-            require "jquery"
-            require "./<%= fileName %>.hbs"
+            require( 'backbone' )
+            require( 'jquery' )
+            require( './<%= fileName %>.hbs' )
         )
-    else if typeof define is "function" and define.amd
+    else if typeof define is 'function' and define.amd
         define( [
-            "backbone"
-            "jquery"
-            "./<%= fileName %>.hbs"
+            'backbone'
+            'jquery'
+            './<%= fileName %>.hbs'
         ], factory )
 
 )( ( Backbone, $, template ) ->
@@ -28,8 +28,8 @@
 
         # We need to expose our name to the router
         #
-        viewName:   "<%= viewName %>"
-        className:  "<%= fileName %>-view"
+        viewName:   '<%= viewName %>'
+        className:  '<%= fileName %>-view'
 
         initialize: () ->
             # placeholder
