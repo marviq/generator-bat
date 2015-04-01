@@ -2,17 +2,19 @@
     if typeof exports is 'object'
         module.exports = factory(
             require( 'backbone' )
-            require( 'jquery' )
             require( './buildscript.hbs' )
         )
     else if typeof define is 'function' and define.amd
         define( [
             'backbone'
-            'jquery'
             './buildscript.hbs'
         ], factory )
 
-)( ( Backbone, $, template ) ->
+)((
+    Backbone
+    template
+) ->
+
     ###*
     #   View contains information about the build tasks in the Gruntfile
     #

@@ -2,17 +2,19 @@
     if typeof exports is 'object'
         module.exports = factory(
             require( 'backbone' )
-            require( 'jquery' )
             require( './index.hbs' )
         )
     else if typeof define is 'function' and define.amd
         define( [
             'backbone'
-            'jquery'
             './index.hbs'
         ], factory )
 
-)( ( Backbone, $, template ) ->
+)((
+    Backbone
+    template
+) ->
+
     ###*
     #   Index view
     #

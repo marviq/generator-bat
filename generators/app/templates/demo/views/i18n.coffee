@@ -2,19 +2,22 @@
     if typeof exports is 'object'
         module.exports = factory(
             require( 'backbone' )
-            require( 'jquery' )
             require( './i18n.hbs' )
             require( 'madlib-locale' )
         )
     else if typeof define is 'function' and define.amd
         define( [
             'backbone'
-            'jquery'
             './i18n.hbs'
             'madlib-locale'
         ], factory )
 
-)( ( Backbone, $, template, localeManager ) ->
+)((
+    Backbone
+    template
+    localeManager
+) ->
+
     ###*
     #   i18n view
     #
