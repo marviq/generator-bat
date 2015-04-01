@@ -18,16 +18,17 @@
     #   @author         <%= user.git.name() %>
     #   @class          <%= className %>Model
     #   @extends        Backbone.Model<% if ( singleton ) { %>
-    #   @static<% } %>
+    #   @static<% } else { %>
+    #   @constructor<% } %>
     #   @moduletype     model
     #   @version        0.1
     ###
-    class <%= className %>Model extends Backbone.Model
+
+    class <%= className %>Model extends Backbone.Model<% if ( singleton ) { %>
 
 
-<% if( singleton === true ) { %>
-    my<%= className %>Model = new <%= className %>Model()
-    return my<%= className %>Model
-<% } %>
+    ##  Export singleton
+    ##
+    return new <%= className %>Model()<% } %>
 
 )

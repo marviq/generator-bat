@@ -21,18 +21,18 @@
     #   @author         <%= user.git.name() %>
     #   @class          <%= className %>Collection
     #   @extends        Backbone.Collection<% if ( singleton ) { %>
-    #   @static<% } %>
+    #   @static<% } else { %>
+    #   @constructor<% } %>
     #   @moduletype     collection
     #   @version        0.1
     ###
     class <%= className %>Collection extends Backbone.Collection
 
-        model: <%= modelClass %>Model
+        model: <%= modelClass %>Model<% if ( singleton ) { %>
 
 
-<% if( singleton === true ) { %>
-    my<%= className %>Collection = new <%= className %>Collection()
-    return my<%= className %>Collection
-<% } %>
+    ##  Export singleton
+    ##
+    return new <%= className %>Collection()<% } %>
 
 )
