@@ -15,7 +15,7 @@
     ###*
     #   <%= description %>
     #
-    #   @author         <%= user.git.user() %>
+    #   @author         <%= user.git.name() %>
     #   @class          <%= className %>Model
     #   @extends        Backbone.Model<% if ( singleton ) { %>
     #   @static<% } %>
