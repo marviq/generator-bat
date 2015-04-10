@@ -26,7 +26,6 @@
     #   @static<% } else { %>
     #   @constructor<% } %>
     #   @moduletype     collection
-    #   @version        0.1
     ###
     class <%= className %>Collection extends Backbone.Collection
 

@@ -26,7 +26,6 @@
     #   @extends        Backbone.View
     #   @moduletype     view
     #   @constructor
-    #   @version        0.1
     ###
     class <%= className %>View extends Backbone.View
 

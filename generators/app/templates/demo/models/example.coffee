@@ -22,7 +22,6 @@
     #   @static
     #   @extends Backbone.Model
     #   @moduletype model
-    #   @version 0.1
     ###
     class ExampleModel extends Backbone.Model
 

@@ -48,7 +48,6 @@
     #   @extends        Backbone.Router
     #   @moduletype     router
     #   @static
-    #   @version        0.1
     ###
 
     class AppRouter extends Backbone.Router

@@ -25,7 +25,6 @@
     #   @extends        Backbone.View
     #   @module         view
     #   @constructor
-    #   @version        0.1
     ###
     class IndexView extends Backbone.View
 

@@ -23,7 +23,6 @@
     #   @static<% } else { %>
     #   @constructor<% } %>
     #   @moduletype     model
-    #   @version        0.1
     ###
 
     class <%= className %>Model extends Backbone.Model<% if ( singleton ) { %>

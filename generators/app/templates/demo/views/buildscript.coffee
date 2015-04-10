@@ -25,7 +25,6 @@
     #   @module         view
     #   @extends        Backbone.View
     #   @constructor
-    #   @version        0.1
     ###
     class BuildscriptView extends Backbone.View
 
