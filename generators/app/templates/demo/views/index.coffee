@@ -15,6 +15,8 @@
     template
 ) ->
 
+    'use strict'
+
     ###*
     #   Index view
     #

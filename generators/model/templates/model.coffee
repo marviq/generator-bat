@@ -12,6 +12,8 @@
     Backbone
 ) ->
 
+    'use strict'
+
     ###*
     #   <%= description %>
     #

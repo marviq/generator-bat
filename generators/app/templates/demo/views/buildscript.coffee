@@ -15,6 +15,8 @@
     template
 ) ->
 
+    'use strict'
+
     ###*
     #   View contains information about the build tasks in the Gruntfile
     #

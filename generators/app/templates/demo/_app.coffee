@@ -6,6 +6,8 @@
 #
 ###
 
+'use strict'
+
 ##
 ##  Declare and load app pre-requisites, then start.
 ##

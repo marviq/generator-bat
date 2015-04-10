@@ -15,6 +15,8 @@
     <%= modelClass %>Model
 ) ->
 
+    'use strict'
+
     ###*
     #   <%= description %>
     #

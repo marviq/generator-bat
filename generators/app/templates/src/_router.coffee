@@ -33,6 +33,8 @@
     #   @module         App
     ###
 
+    'use strict'
+
     ###*
     #   The app's main router.
     #

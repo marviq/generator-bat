@@ -15,6 +15,8 @@
     template
 ) ->
 
+    'use strict'
+
     ###*
     #   Default index view of BAT
     #<% if ( authorName ) { %>

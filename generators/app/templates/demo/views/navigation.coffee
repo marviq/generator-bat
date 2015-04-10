@@ -15,6 +15,8 @@
     template
 ) ->
 
+    'use strict'
+
     ###*
     #   Navigation view
     #

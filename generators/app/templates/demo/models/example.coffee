@@ -12,6 +12,8 @@
     Backbone
 ) ->
 
+    'use strict'
+
     ###*
     #   Example of a model
     #

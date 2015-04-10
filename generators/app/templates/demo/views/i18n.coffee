@@ -18,6 +18,8 @@
     localeManager
 ) ->
 
+    'use strict'
+
     ###*
     #   i18n view
     #
