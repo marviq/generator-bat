@@ -249,6 +249,18 @@
                 @$mainContent.append( @pageView.render( params ).$el )
 
 
+            ###*
+            #   Signal loading of the `@$mainContent` container with a view.
+            #
+            #   @event          open
+            #
+            #   @param          {Backbone.View} view        The view instance currently loaded.
+            #   @param          {Object}        params      A key-value mapping of the matched route's url pattern's parameters.
+            #
+            ###
+
+            @trigger( 'open', @pageView, params )
+
             return
 
         #<% if ( i18n ) { %>
