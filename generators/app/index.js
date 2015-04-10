@@ -68,7 +68,7 @@ module.exports = yeoman.generators.Base.extend(
         ,   {
                 name:       "ie8"
             ,   type:       "confirm"
-            ,   message:    "Do you need IE8 and lower support? (Affects the jQuery version)"
+            ,   message:    "Do you need IE8 and lower support? (affects the jQuery version and shims HTML5 and media query support)"
             ,   default:    false
             }
         ,   {
