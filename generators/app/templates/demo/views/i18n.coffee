@@ -18,17 +18,22 @@
     localeManager
 ) ->
 
+    ###*
+    #   @author         rdewit
+    #   @module         App
+    #   @submodule      Views
+    ###
+
     'use strict'
 
     ###*
     #   i18n view
     #
-    #   @author         rdewit
     #   @class          I18nView
     #   @extends        Backbone.View
-    #   @module         view
     #   @constructor
     ###
+
     class I18nView extends Backbone.View
 
         # We need to expose our name to the router

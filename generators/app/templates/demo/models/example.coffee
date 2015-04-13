@@ -12,16 +12,20 @@
     Backbone
 ) ->
 
+    ###*
+    #   @author         Raymond de Wit
+    #   @module         App
+    #   @submodule      Models
+    ###
+
     'use strict'
 
     ###*
     #   Example of a model
     #
-    #   @author         Raymond de Wit
     #   @class          ExampleModel
     #   @extends        Backbone.Model
     #   @constructor
-    #   @moduletype     model
     ###
 
     class ExampleModel extends Backbone.Model

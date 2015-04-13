@@ -251,12 +251,11 @@ module.exports = yeoman.generators.Base.extend(
                 ,   "grunt-contrib-copy"
                 ,   "grunt-contrib-uglify"
                 ,   "grunt-contrib-watch"
-                ,   "grunt-contrib-yuidoc-iq"
+                ,   "grunt-contrib-yuidoc"
                 ,   "grunt-mocha-test"
                 ,   "grunt-template"
                 ,   "handlebars"
                 ,   "hbsfy"
-                ,   "yuidoc-marviq-theme"
                 ]
         ;
 

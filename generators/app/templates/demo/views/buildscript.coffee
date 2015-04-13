@@ -15,17 +15,22 @@
     template
 ) ->
 
+    ###*
+    #   @author         Raymond de Wit
+    #   @module         App
+    #   @submodule      Views
+    ###
+
     'use strict'
 
     ###*
     #   View contains information about the build tasks in the Gruntfile
     #
-    #   @author         Raymond de Wit
     #   @class          BuildscriptView
-    #   @module         view
     #   @extends        Backbone.View
     #   @constructor
     ###
+
     class BuildscriptView extends Backbone.View
 
         # We need to expose our name to the router

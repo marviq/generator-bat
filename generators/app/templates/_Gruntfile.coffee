@@ -716,11 +716,8 @@ module.exports = ( grunt ) ->
                     ##
                     outdir:             '<%= build.part.doc.tgt %>'
 
-                    extension:          '.coffee,.js'
-                    syntaxtype:         'jsAndCoffee'
-
-                    themedir:           'node_modules/yuidoc-marviq-theme'
-                    helpers:            [ 'node_modules/yuidoc-marviq-theme/helpers/helpers.js' ]
+                    extension:          '.coffee'
+                    syntaxtype:         'coffee'
 
     )
 
@@ -740,7 +737,7 @@ module.exports = ( grunt ) ->
     grunt.loadNpmTasks( 'grunt-contrib-copy' )
     grunt.loadNpmTasks( 'grunt-contrib-uglify' )
     grunt.loadNpmTasks( 'grunt-contrib-watch' )
-    grunt.loadNpmTasks( 'grunt-contrib-yuidoc-iq' )
+    grunt.loadNpmTasks( 'grunt-contrib-yuidoc' )
     grunt.loadNpmTasks( 'grunt-mocha-test' )
     grunt.loadNpmTasks( 'grunt-template' )
 

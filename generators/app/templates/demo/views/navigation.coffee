@@ -15,17 +15,22 @@
     template
 ) ->
 
+    ###*
+    #   @author         Raymond de Wit
+    #   @module         App
+    #   @submodule      Views
+    ###
+
     'use strict'
 
     ###*
     #   Navigation view
     #
-    #   @author         rdewit
     #   @class          NavigationView
     #   @extends        Backbone.View
-    #   @module         view
     #   @constructor
     ###
+
     class NavigationView extends Backbone.View
 
         # We need to expose our name to the router

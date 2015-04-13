@@ -15,16 +15,22 @@
     template
 ) ->
 
+    ###*<% if ( authorName ) { %>
+    #   @author         <%= authorName %><% } %>
+    #   @module         App
+    #   @submodule      Views
+    ###
+
     'use strict'
 
     ###*
     #   Default index view of BAT
-    #<% if ( authorName ) { %>
-    #   @author         <%= authorName %><% } %>
+    #
     #   @class          IndexView
     #   @extends        Backbone.View
     #   @constructor
     ###
+
     class IndexView extends Backbone.View
 
         # We need to expose our name to the router

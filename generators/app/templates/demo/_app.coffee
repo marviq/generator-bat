@@ -14,6 +14,45 @@
 
 ## ============================================================================
 ##
+##  [Yuidoc]
+##
+##  This section merely serves the Yuidoc documentation generator. It declares the submodules wanted.
+##
+##  The `@submodule` tags below, are merely declarations. They are not meant to indicate that any documentation following it is part of any submodule.
+##  That is why the `@module App` declaration is repeated at the bottom; to indicate this intent to Yuidoc.
+##
+
+###*
+#   The app's backbone collections.
+#
+#   @submodule      Collections
+###
+
+###*
+#   The app's backbone models.
+#
+#   @submodule      Models
+###
+
+###*
+#   The app's backbone routers.
+#
+#   @submodule      Routers
+###
+
+###*
+#   The app's backbone views.
+#
+#   @submodule      Views
+###
+
+###*
+#   @module         App
+###
+
+
+## ============================================================================
+##
 ##  [Q]
 ##
 ##  https://github.com/kriskowal/q#readme

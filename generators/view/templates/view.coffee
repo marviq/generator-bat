@@ -15,18 +15,22 @@
     template
 ) ->
 
+    ###*
+    #   @author         <%= user.git.name() %>
+    #   @module         App
+    #   @submodule      Views
+    ###
+
     'use strict'
 
     ###*
     #   <%= description %>
     #
-    #   @author         <%= user.git.name() %>
-    #
     #   @class          <%= className %>View
     #   @extends        Backbone.View
-    #   @moduletype     view
     #   @constructor
     ###
+
     class <%= className %>View extends Backbone.View
 
         # We need to expose our name to the router

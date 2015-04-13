@@ -15,18 +15,24 @@
     <%= modelClass %>Model
 ) ->
 
+    ###*
+    #   @author         <%= user.git.name() %>
+    #   @module         App
+    #   @submodule      Collections
+    ###
+
     'use strict'
 
     ###*
     #   <%= description %>
     #
-    #   @author         <%= user.git.name() %>
+    #
     #   @class          <%= className %>Collection
     #   @extends        Backbone.Collection<% if ( singleton ) { %>
     #   @static<% } else { %>
     #   @constructor<% } %>
-    #   @moduletype     collection
     ###
+
     class <%= className %>Collection extends Backbone.Collection
 
         model: <%= modelClass %>Model<% if ( singleton ) { %>

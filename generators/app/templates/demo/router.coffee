@@ -35,7 +35,9 @@
 ) ->
 
     ###*
+    #   @author         Raymond de Wit
     #   @module         App
+    #   @submodule      Routers
     ###
 
     'use strict'
@@ -43,10 +45,8 @@
     ###*
     #   The app's main router.
     #
-    #   @author         rdewit
     #   @class          AppRouter
     #   @extends        Backbone.Router
-    #   @moduletype     router
     #   @static
     ###
 

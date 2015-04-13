@@ -30,7 +30,9 @@
 ) ->
 
     ###*
+    #   @author         Raymond de Wit
     #   @module         App
+    #   @submodule      Routers
     ###
 
     'use strict'

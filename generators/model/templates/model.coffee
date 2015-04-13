@@ -12,17 +12,21 @@
     Backbone
 ) ->
 
+    ###*
+    #   @author         <%= user.git.name() %>
+    #   @module         App
+    #   @submodule      Models
+    ###
+
     'use strict'
 
     ###*
     #   <%= description %>
     #
-    #   @author         <%= user.git.name() %>
     #   @class          <%= className %>Model
     #   @extends        Backbone.Model<% if ( singleton ) { %>
     #   @static<% } else { %>
     #   @constructor<% } %>
-    #   @moduletype     model
     ###
 
     class <%= className %>Model extends Backbone.Model<% if ( singleton ) { %>
