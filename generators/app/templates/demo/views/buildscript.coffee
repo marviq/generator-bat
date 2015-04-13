@@ -33,16 +33,10 @@
         viewName:   'buildscript'
         className:  'buildscript-view'
 
-        initialize: () ->
-            # Add the pre-compiled handlebars template to our element
-            # or do that in your render that's up to you...
-            #
-            @$el.append( template() )
-
-            return
-
 
         render: () ->
+
+            @$el.html( template() )
 
             # By convention always return this so people can chain functions
             # for example grab the .el after rendering ;-)

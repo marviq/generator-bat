@@ -41,9 +41,7 @@
         ###
         render: () ->
 
-            # Append the template
-            #
-            @$el.append( template() )
+            @$el.html( template() )
 
             # Set reference to the navbar
             #
