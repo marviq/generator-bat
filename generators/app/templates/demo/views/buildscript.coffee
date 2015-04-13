@@ -33,19 +33,49 @@
 
     class BuildscriptView extends Backbone.View
 
-        # We need to expose our name to the router
+        ###*
+        #   Expose this view's name to the router.
         #
-        viewName:   'buildscript'
-        className:  'buildscript-view'
+        #   @property       viewName
+        #
+        #   @default        'buildscript'
+        #   @type           String
+        #   @static
+        #   @final
+        ###
 
+        viewName:           'buildscript'
+
+
+        ###*
+        #   CSS class(es) to set on this view's root DOM element.
+        #
+        #   @property       className
+        #
+        #   @default        'buildscript-view'
+        #   @type           String
+        #   @static
+        #   @final
+        ###
+
+        className:          'buildscript-view'
+
+
+        ###*
+        #   @method         render
+        #
+        #   @chainable
+        #
+        ###
 
         render: () ->
 
+            ##  Expand the handlebars template into this view's container element.
+            ##
             @$el.html( template() )
 
-            # By convention always return this so people can chain functions
-            # for example grab the .el after rendering ;-)
-            #
+            ##  This method is chainable.
+            ##
             return @
 
 )

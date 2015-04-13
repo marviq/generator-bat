@@ -30,10 +30,28 @@
 
     class ExampleModel extends Backbone.Model
 
+        ###*
+        #   Defaults to initialize missing attributes with when instantiating a new `ExampleModel`.
+        #
+        #   @property       defaults
+        #
+        #   @type           Object
+        #   @protected
+        #   @static
+        #   @final
+        ###
+
         defaults:
             propertyOne:    'this should be a string'
             propertyTwo:    true
 
+
+        ###*
+        #   @method         exampleAsyncFunction
+        #
+        #   @param          {Function}      callback    A callback function to call after one second.
+        #
+        ###
 
         exampleAsyncFunction: ( callback ) ->
 

@@ -35,7 +35,16 @@
 
     class <%= className %>Collection extends Backbone.Collection
 
-        model: <%= modelClass %>Model<% if ( singleton ) { %>
+        ###*
+        #   @property       model
+        #
+        #   @default        <%= modelClass %>Model
+        #   @type           Class
+        #   @static
+        #   @final
+        ###
+
+        model:              <%= modelClass %>Model<% if ( singleton ) { %>
 
 
     ##  Export singleton

@@ -33,19 +33,72 @@
 
     class IndexView extends Backbone.View
 
-        # We need to expose our name to the router
+        ###*
+        #   Expose this view's name to the router.
         #
-        viewName:   'index'
-        className:  'index-view'
+        #   @property       viewName
+        #
+        #   @default        'index'
+        #   @type           String
+        #   @static
+        #   @final
+        ###
 
+        viewName:           'index'
+
+
+        ###*
+        #   CSS class(es) to set on this view's root DOM element.
+        #
+        #   @property       className
+        #
+        #   @default        'index-view'
+        #   @type           String
+        #   @static
+        #   @final
+        ###
+
+        className:          'index-view'
+
+
+        ###*
+        #   @method         initialize
+        #   @protected
+        #
+        #   @param          {Object}    options     The options object passed in from the constructor.
+        #
+        ###
+
+        initialize: ( options ) ->
+
+            ##
+            ##  This would be a good place to do any set up work.
+            ##  This method may be removed altogether if none needed.
+            ##
+            ##  If you are not going to use the `options` parameter, remove it or jshint will complain.
+            ##  Alternatively, leave in the jshint directive below:
+            ##
+
+            ### jshint  unused: false   ###
+
+            return
+
+
+        ###*
+        #   @method         render
+        #
+        #   @chainable
+        #
+        ###
 
         render: () ->
 
+            ##  Expand the handlebars template into this view's container element.
+            ##
             @$el.html( template() )
 
-            # By convention always return this so people can chain functions
-            # for example grab the .el after rendering ;-)
-            #
+            ##  This method is chainable.
+            ##
             return @
 
 )

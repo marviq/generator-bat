@@ -31,25 +31,49 @@
 
     class DocumentationView extends Backbone.View
 
-        # We need to expose our name to the router
+        ###*
+        #   Expose this view's name to the router.
         #
-        viewName:   'documentation'
-        className:  'documentation-view'
+        #   @property       viewName
+        #
+        #   @default        'documentation'
+        #   @type           String
+        #   @static
+        #   @final
+        ###
+
+        viewName:           'documentation'
 
 
         ###*
-        # Function renders the view
+        #   CSS class(es) to set on this view's root DOM element.
         #
-        # @method     render
-        # @return     viewInstance
+        #   @property       className
+        #
+        #   @default        'documentation-view'
+        #   @type           String
+        #   @static
+        #   @final
         ###
+
+        className:          'documentation-view'
+
+
+        ###*
+        #   @method         render
+        #
+        #   @chainable
+        #
+        ###
+
         render: () ->
 
+            ##  Expand the handlebars template into this view's container element.
+            ##
             @$el.html( template() )
 
-            # By convention always return this so people can chain functions
-            # for example grab the .el after rendering ;-)
-            #
+            ##  This method is chainable.
+            ##
             return @
 
 )

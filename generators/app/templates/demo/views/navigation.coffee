@@ -33,38 +33,53 @@
 
     class NavigationView extends Backbone.View
 
-        # We need to expose our name to the router
+        ###*
+        #   CSS class(es) to set on this view's root DOM element.
         #
-        viewName:   'navigation'
-        className:  'navigation-view'
+        #   @property       className
+        #
+        #   @default        'navigation-view'
+        #   @type           String
+        #   @static
+        #   @final
+        ###
+
+        className:          'navigation-view'
+
 
         ###*
-        #   Function renders the view
+        #   @method         render
         #
-        #   @method     render
-        #   @return     viewInstance
+        #   @chainable
+        #
         ###
+
         render: () ->
 
+            ##  Expand the handlebars template into this view's container element.
+            ##
             @$el.html( template() )
 
             # Set reference to the navbar
             #
             @$navBar = @$el.find( '.navbar-nav' )
 
-            # By convention always return this so people can chain functions
-            # for example grab the .el after rendering ;-)
-            #
+            ##  This method is chainable.
+            ##
             return @
 
 
         ###*
-        # Function to set the activeMenuItem based on the url passed
+        #   Set the activeMenuItem based on the url passed.
         #
-        # @method setActiveMenuItem
-        # @param url {string} Url excluding the hash belonging to the menuitem
+        #   @method         setActiveMenuItem
+        #
+        #   @param          {String}    url     Url excluding the hash belonging to the menuitem
+        #
         ###
+
         setActiveMenuItem: ( url ) ->
+
             @$navBar.find( '.active' ).removeClass( 'active' )
             @$navBar.find( "a[href='##{url}']" ).closest( 'li' ).addClass( 'active' )
 

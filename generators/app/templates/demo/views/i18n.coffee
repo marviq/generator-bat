@@ -36,47 +36,85 @@
 
     class I18nView extends Backbone.View
 
-        # We need to expose our name to the router
+        ###*
+        #   Expose this view's name to the router.
         #
-        viewName:   'i18n'
-        className:  'i18n-view'
+        #   @property       viewName
+        #
+        #   @default        'i18n'
+        #   @type           String
+        #   @static
+        #   @final
+        ###
+
+        viewName:           'i18n'
+
+
+        ###*
+        #   CSS class(es) to set on this view's root DOM element.
+        #
+        #   @property       className
+        #
+        #   @default        'i18n-view'
+        #   @type           String
+        #   @static
+        #   @final
+        ###
+
+        className:          'i18n-view'
+
+
+        ###*
+        #   Setup UI event handler definitions.
+        #
+        #   @property       events
+        #
+        #   @type           Object
+        #   @protected
+        #   @static
+        #   @final
+        ###
 
         events:
             'change select[name="language"]': '_changeLanguage'
 
+
         ###*
-        # Function renders the view
+        #   @method         render
         #
-        # @method     render
-        # @return     viewInstance
+        #   @chainable
+        #
         ###
+
         render: () ->
 
-            # Set the template to el
-            #
+            ##  Expand the handlebars template into this view's container element.
+            ##
             @$el.html( template(
                 date:       new Date()
                 money:      100000
                 number:     1090870987
             ))
 
-            # Set the current locale as selected option
-            #
+            ##  Set the current locale as selected option.
+            ##
             @$el.find( "select[name='language'] option[value='#{ localeManager.getLocaleName() }']" ).attr( 'selected', true )
 
-            # By convention always return this so people can chain functions
-            # for example grab the .el after rendering ;-)
-            #
+            ##  This method is chainable.
+            ##
             return @
 
 
         ###*
-        # Private function called when the lanaguage select changes
+        #   Handles changes to the selected language.
         #
-        # @method     render
-        # @private
+        #   @method         _changeLanguage
+        #   @protected
+        #
         ###
+
         _changeLanguage: () ->
+
             $select = @$el.find( 'select[name="language"]' )
 
             localeManager.setLocale( $select.val() ).then(
