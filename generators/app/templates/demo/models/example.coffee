@@ -17,12 +17,13 @@
     ###*
     #   Example of a model
     #
-    #   @author Raymond de Wit
-    #   @class ExampleModel
-    #   @static
-    #   @extends Backbone.Model
-    #   @moduletype model
+    #   @author         Raymond de Wit
+    #   @class          ExampleModel
+    #   @extends        Backbone.Model
+    #   @constructor
+    #   @moduletype     model
     ###
+
     class ExampleModel extends Backbone.Model
 
         defaults:
