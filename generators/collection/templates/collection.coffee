@@ -23,10 +23,9 @@
 
     'use strict'
 
-    ###*
+    ###*<% if ( description ) { %>
     #   <%= description %>
-    #
-    #
+    #<% } %>
     #   @class          <%= className %>Collection
     #   @extends        Backbone.Collection<% if ( singleton ) { %>
     #   @static<% } else { %>

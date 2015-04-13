@@ -23,9 +23,9 @@
 
     'use strict'
 
-    ###*
+    ###*<% if ( description ) { %>
     #   <%= description %>
-    #
+    #<% } %>
     #   @class          <%= className %>View
     #   @extends        Backbone.View
     #   @constructor
