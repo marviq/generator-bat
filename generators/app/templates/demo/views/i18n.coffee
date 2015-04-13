@@ -65,6 +65,20 @@
 
 
         ###*
+        #   The compiled handlebars template expander function.
+        #
+        #   @property       template
+        #
+        #   @type           Function
+        #   @protected
+        #   @static
+        #   @final
+        ###
+
+        template:           template
+
+
+        ###*
         #   Setup UI event handler definitions.
         #
         #   @property       events
@@ -90,11 +104,7 @@
 
             ##  Expand the handlebars template into this view's container element.
             ##
-            @$el.html( template(
-                date:       new Date()
-                money:      100000
-                number:     1090870987
-            ))
+            @$el.html( @template( @renderData() ) )
 
             ##  Set the current locale as selected option.
             ##
@@ -103,6 +113,23 @@
             ##  This method is chainable.
             ##
             return @
+
+
+        ###*
+        #   Collect and return all data needed to expand the handlebars `@template` with
+        #
+        #   @method         renderData
+        #   @protected
+        #
+        #   @return         {Object}
+        #
+        ###
+
+        renderData: () ->
+
+            date:       new Date()
+            money:      100000
+            number:     1090870987
 
 
         ###*
