@@ -1,5 +1,9 @@
 'use strict';
 
+//
+//  Yeoman bat:view sub-generator.
+//
+
 var yeoman  = require( 'yeoman-generator' )
 ,   yosay   = require( 'yosay' )
 ,   varname = require( 'varname' )

@@ -1,5 +1,9 @@
 'use strict';
 
+//
+//  Yeoman bat app generator.
+//
+
 var yeoman  = require( 'yeoman-generator' );
 var yosay   = require( 'yosay' );
 
