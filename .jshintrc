@@ -33,7 +33,7 @@
 ,   "nonbsp":           true
 ,   "nonew":            true
 ,   "plusplus":         false   //  Because++
-,   "quotmark":         true
+,   "quotmark":         "single"//  Because single quotes are easier, on the eye, to type *** Deprecation warning; about coding style, not correctnees.
 ,   "singleGroups":     false   //  Because you want to use the grouping operator for readability and clarity.
 ,   "undef":            true
 ,   "unused":           true

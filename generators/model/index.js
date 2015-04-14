@@ -1,9 +1,9 @@
-"use strict";
+'use strict';
 
-var yeoman  = require( "yeoman-generator" )
-,   yosay   = require( "yosay" )
-,   varname = require( "varname" )
-,   fs      = require( "fs" )
+var yeoman  = require( 'yeoman-generator' )
+,   yosay   = require( 'yosay' )
+,   varname = require( 'varname' )
+,   fs      = require( 'fs' )
 ;
 
 // Get the current running directory name
@@ -31,7 +31,7 @@ module.exports = yeoman.generators.Base.extend(
                 this.description = options.description;
             }
 
-            if( typeof( options.singleton) === "boolean" ) {
+            if( typeof( options.singleton) === 'boolean' ) {
                 this.singleton = options.singleton;
             }
         }
@@ -49,13 +49,13 @@ module.exports = yeoman.generators.Base.extend(
         ,   tries           = 0
         ;
 
-        if( fs.existsSync( "src" ) === false )
+        if( fs.existsSync( 'src' ) === false )
         {
             while( rootFound === false && tries < 10 )
             {
                 // Split old path
                 //
-                var previousLocation = rootLocation.split( "/" );
+                var previousLocation = rootLocation.split( '/' );
 
                 // Pop the last folder from the path
                 //
@@ -63,7 +63,7 @@ module.exports = yeoman.generators.Base.extend(
 
                 // Create the new path and open it
                 //
-                rootLocation = previousLocation.join( "/" );
+                rootLocation = previousLocation.join( '/' );
 
                 // Change the process location
                 //
@@ -72,7 +72,7 @@ module.exports = yeoman.generators.Base.extend(
                 // Check if we found the project root, up the counter
                 // we should stop looking some time.....
                 //
-                rootFound = fs.existsSync( "src" );
+                rootFound = fs.existsSync( 'src' );
                 tries++;
             }
 
@@ -80,7 +80,7 @@ module.exports = yeoman.generators.Base.extend(
             //
             if( rootFound === false )
             {
-                yeoman.log( "Failed to find root of the project, check that you are somewhere within your project." );
+                yeoman.log( 'Failed to find root of the project, check that you are somewhere within your project.' );
                 process.exit();
             }
         }
@@ -95,24 +95,24 @@ module.exports = yeoman.generators.Base.extend(
         // Have Yeoman greet the user.
         //
         if( !this.options.nested ) {
-            this.log( yosay( "So you want a BAT model?" ) );
+            this.log( yosay( 'So you want a BAT model?' ) );
 
             // Ask the user for the webapp details
             //
             var prompts = [
                 {
-                    name:       "modelName"
-                ,   message:    "What's the name of this model you so desire? ( use camelcasing! )"
+                    name:       'modelName'
+                ,   message:    'What\'s the name of this model you so desire? ( use camelcasing! )'
                 }
             ,   {
-                    name:       "description"
-                ,   message:    "What's the description for this model?"
-                ,   default:    "No description"
+                    name:       'description'
+                ,   message:    'What\'s the description for this model?'
+                ,   default:    'No description'
                 }
             ,   {
-                    type:       "confirm"
-                ,   name:       "singleton"
-                ,   message:    "Should this model be a singleton?"
+                    type:       'confirm'
+                ,   name:       'singleton'
+                ,   message:    'Should this model be a singleton?'
                 ,   default:    false
                 }
             ];
@@ -138,6 +138,6 @@ module.exports = yeoman.generators.Base.extend(
         //
         this.className      = this.modelName.charAt( 0 ).toUpperCase() + this.modelName.slice( 1 );
 
-        this.template( "model.coffee", "src/models/" + this.fileName + ".coffee" );
+        this.template( 'model.coffee', 'src/models/' + this.fileName + '.coffee' );
     }
 } );

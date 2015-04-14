@@ -1,9 +1,9 @@
-"use strict";
+'use strict';
 
-var yeoman  = require( "yeoman-generator" )
-,   yosay   = require( "yosay" )
-,   varname = require( "varname" )
-,   fs      = require( "fs" )
+var yeoman  = require( 'yeoman-generator' )
+,   yosay   = require( 'yosay' )
+,   varname = require( 'varname' )
+,   fs      = require( 'fs' )
 ;
 
 // Get the current running directory name
@@ -25,13 +25,13 @@ module.exports = yeoman.generators.Base.extend(
         ,   tries           = 0
         ;
 
-        if( fs.existsSync( "src" ) === false )
+        if( fs.existsSync( 'src' ) === false )
         {
             while( rootFound === false && tries < 10 )
             {
                 // Split old path
                 //
-                var previousLocation = rootLocation.split( "/" );
+                var previousLocation = rootLocation.split( '/' );
 
                 // Pop the last folder from the path
                 //
@@ -39,7 +39,7 @@ module.exports = yeoman.generators.Base.extend(
 
                 // Create the new path and open it
                 //
-                rootLocation = previousLocation.join( "/" );
+                rootLocation = previousLocation.join( '/' );
 
                 // Change the process location
                 //
@@ -48,7 +48,7 @@ module.exports = yeoman.generators.Base.extend(
                 // Check if we found the project root, up the counter
                 // we should stop looking some time.....
                 //
-                rootFound = fs.existsSync( "src" );
+                rootFound = fs.existsSync( 'src' );
                 tries++;
             }
 
@@ -56,7 +56,7 @@ module.exports = yeoman.generators.Base.extend(
             //
             if( rootFound === false )
             {
-                yeoman.log( "Failed to find root of the project, check that you are somewhere within your project." );
+                yeoman.log( 'Failed to find root of the project, check that you are somewhere within your project.' );
                 process.exit();
             }
         }
@@ -72,24 +72,24 @@ module.exports = yeoman.generators.Base.extend(
 
         // Have Yeoman greet the user.
         //
-        this.log( yosay( "So you want a BAT view?" ) );
+        this.log( yosay( 'So you want a BAT view?' ) );
 
         // Ask the user for the webapp details
         //
         var prompts = [
             {
-                name:       "viewName"
-            ,   message:    "What's the name of this view you so desire? ( use camelcasing! )"
+                name:       'viewName'
+            ,   message:    'What\'s the name of this view you so desire? ( use camelcasing! )'
             }
         ,   {
-                name:       "description"
-            ,   message:    "What's the description for this view?"
-            ,   default:    "No description given...."
+                name:       'description'
+            ,   message:    'What\'s the description for this view?'
+            ,   default:    'No description given....'
             }
         ,   {
-                type:       "confirm"
-            ,   name:       "sassFile"
-            ,   message:    "Would you like a SASS file for this view?"
+                type:       'confirm'
+            ,   name:       'sassFile'
+            ,   message:    'Would you like a SASS file for this view?'
             ,   default:    true
             }
         ];
@@ -126,8 +126,8 @@ module.exports = yeoman.generators.Base.extend(
     {
         // Create the views coffee file and handlebars template file
         //
-        this.template( "view.hbs",      "src/views/" + this.fileName + ".hbs"  );
-        this.template( "view.coffee",   "src/views/" + this.fileName + ".coffee" );
+        this.template( 'view.hbs',      'src/views/' + this.fileName + '.hbs'  );
+        this.template( 'view.coffee',   'src/views/' + this.fileName + '.coffee' );
 
         // Check if a sass file should be created for this view
         //
@@ -139,20 +139,20 @@ module.exports = yeoman.generators.Base.extend(
 
             // Create the sass file with the same name as the view
             //
-            this.template( "view.sass", "src/sass/views/_" + this.fileName + ".sass" );
+            this.template( 'view.sass', 'src/sass/views/_' + this.fileName + '.sass' );
 
             // Read in the _views.sass file so we can add the import statement
             // for the newly created sass file
             //
-            var views   = this.readFileAsString( "src/sass/_views.sass" )
-            ,   insert  = "@import \"views/_" + this.fileName + "\"";
+            var views   = this.readFileAsString( 'src/sass/_views.sass' )
+            ,   insert  = '@import "views/_' + this.fileName + '"';
 
             // Check if there isn't already in import for this file
             // just in case....
             //
             if( views.indexOf( insert ) === -1 )
             {
-                this.write( "src/sass/_views.sass", views + "\n" + insert );
+                this.write( 'src/sass/_views.sass', views + '\n' + insert );
             }
         }
     }
