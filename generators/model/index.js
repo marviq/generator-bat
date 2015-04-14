@@ -4,17 +4,17 @@
 //  Yeoman bat:model sub-generator.
 //
 
-var yeoman  = require( 'yeoman-generator' )
-,   yosay   = require( 'yosay' )
-,   varname = require( 'varname' )
-,   fs      = require( 'fs' )
+var generators  = require( 'yeoman-generator' )
+,   yosay       = require( 'yosay' )
+,   varname     = require( 'varname' )
+,   fs          = require( 'fs' )
 ;
 
-module.exports = yeoman.generators.Base.extend(
+module.exports  = generators.Base.extend(
     {
         constructor: function ( args, options )
         {
-            yeoman.generators.Base.apply( this, arguments );
+            generators.Base.apply( this, arguments );
 
             // Check if any options are passed. Collection generator might be
             // calling this generator for example
@@ -44,9 +44,9 @@ module.exports = yeoman.generators.Base.extend(
             //
             determineRoot: function ()
             {
-                var callback        = this.async()
-                ,   rootFound       = false
-                ,   tries           = 0
+                var done        = this.async()
+                ,   rootFound   = false
+                ,   tries       = 0
                 ;
 
                 // Get the current running directory name
@@ -92,7 +92,7 @@ module.exports = yeoman.generators.Base.extend(
                     }
                 }
 
-                callback();
+                done();
             }
         }
 
@@ -100,7 +100,7 @@ module.exports = yeoman.generators.Base.extend(
         {
             askSomeQuestions: function ()
             {
-                var callback = this.async();
+                var done = this.async();
 
                 // Have Yeoman greet the user.
                 //
@@ -130,19 +130,20 @@ module.exports = yeoman.generators.Base.extend(
 
                     this.prompt(
                         prompts
-                    ,   function ( props )
+                    ,   function ( answers )
                         {
-                            this.modelName      = props.modelName;
-                            this.description    = props.description;
-                            this.singleton      = props.singleton;
+                            this.modelName      = answers.modelName;
+                            this.description    = answers.description;
+                            this.singleton      = answers.singleton;
 
-                            callback();
+                            done();
+
                         }.bind( this )
                     );
 
                 } else {
 
-                    callback();
+                    done();
                 }
             }
         }
@@ -151,11 +152,11 @@ module.exports = yeoman.generators.Base.extend(
         {
             createModel: function ()
             {
-                this.fileName       = varname.dash( this.modelName );
+                this.fileName   = varname.dash( this.modelName );
 
                 // Class names start with a capital by convention
                 //
-                this.className      = this.modelName.charAt( 0 ).toUpperCase() + this.modelName.slice( 1 );
+                this.className  = this.modelName.charAt( 0 ).toUpperCase() + this.modelName.slice( 1 );
 
                 this.template( 'model.coffee', 'src/models/' + this.fileName + '.coffee' );
             }

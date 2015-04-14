@@ -4,13 +4,13 @@
 //  Yeoman bat:collection sub-generator.
 //
 
-var yeoman  = require( 'yeoman-generator' )
-,   yosay   = require( 'yosay' )
-,   varname = require( 'varname' )
-,   fs      = require( 'fs' )
+var generators  = require( 'yeoman-generator' )
+,   yosay       = require( 'yosay' )
+,   varname     = require( 'varname' )
+,   fs          = require( 'fs' )
 ;
 
-module.exports = yeoman.generators.Base.extend(
+module.exports  = generators.Base.extend(
     {
         initializing:
         {
@@ -19,9 +19,9 @@ module.exports = yeoman.generators.Base.extend(
             //
             determineRoot: function ()
             {
-                var callback        = this.async()
-                ,   rootFound       = false
-                ,   tries           = 0
+                var done        = this.async()
+                ,   rootFound   = false
+                ,   tries       = 0
                 ;
 
                 // Get the current running directory name
@@ -66,7 +66,7 @@ module.exports = yeoman.generators.Base.extend(
                     }
                 }
 
-                callback();
+                done();
             }
         }
 
@@ -74,7 +74,7 @@ module.exports = yeoman.generators.Base.extend(
         {
             askSomeQuestions: function ()
             {
-                var callback = this.async();
+                var done = this.async();
 
                 // Have Yeoman greet the user.
                 //
@@ -102,21 +102,21 @@ module.exports = yeoman.generators.Base.extend(
 
                 this.prompt(
                     prompts
-                ,   function ( props )
+                ,   function ( answers )
                     {
-                        this.collectionName = props.collectionName;
-                        this.description    = props.description;
-                        this.singleton      = props.singleton;
+                        this.collectionName = answers.collectionName;
+                        this.description    = answers.description;
+                        this.singleton      = answers.singleton;
 
-                        callback();
+                        done();
+
                     }.bind( this )
                 );
             }
 
-
         ,   askModelQuestions: function ()
             {
-                var callback = this.async();
+                var done = this.async();
 
                 // We are gonna do a 'smart' guess for the modelName to have a default value
                 // If the last characters of the collectionName is a 's' we are gonna assume it's
@@ -145,12 +145,13 @@ module.exports = yeoman.generators.Base.extend(
 
                 this.prompt(
                     prompts
-                ,   function ( props )
+                ,   function ( answers )
                     {
-                        this.modelName      = props.modelName;
-                        this.createModel    = props.createModel;
+                        this.modelName      = answers.modelName;
+                        this.createModel    = answers.createModel;
 
-                        callback();
+                        done();
+
                     }.bind( this )
                 );
             }

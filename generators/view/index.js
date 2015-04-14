@@ -4,13 +4,13 @@
 //  Yeoman bat:view sub-generator.
 //
 
-var yeoman  = require( 'yeoman-generator' )
-,   yosay   = require( 'yosay' )
-,   varname = require( 'varname' )
-,   fs      = require( 'fs' )
+var generators  = require( 'yeoman-generator' )
+,   yosay       = require( 'yosay' )
+,   varname     = require( 'varname' )
+,   fs          = require( 'fs' )
 ;
 
-module.exports = yeoman.generators.Base.extend(
+module.exports  = generators.Base.extend(
     {
         initializing:
         {
@@ -19,9 +19,9 @@ module.exports = yeoman.generators.Base.extend(
             //
             determineRoot: function ()
             {
-                var callback        = this.async()
-                ,   rootFound       = false
-                ,   tries           = 0
+                var done        = this.async()
+                ,   rootFound   = false
+                ,   tries       = 0
                 ;
 
                 // Get the current running directory name
@@ -66,7 +66,7 @@ module.exports = yeoman.generators.Base.extend(
                     }
                 }
 
-                callback();
+                done();
             }
         }
 
@@ -74,9 +74,7 @@ module.exports = yeoman.generators.Base.extend(
         {
             askSomeQuestions: function ()
             {
-                // This is async
-                //
-                var callback = this.async();
+                var done = this.async();
 
                 // Have Yeoman greet the user.
                 //
@@ -108,10 +106,10 @@ module.exports = yeoman.generators.Base.extend(
                 //
                 this.prompt(
                     prompts
-                ,   function ( props )
+                ,   function ( answers )
                     {
-                        this.viewName       = props.viewName;
-                        this.description    = props.description;
+                        this.viewName       = answers.viewName;
+                        this.description    = answers.description;
 
                         // Convert the filename to dashes instead of camel casing
                         //
@@ -119,15 +117,13 @@ module.exports = yeoman.generators.Base.extend(
 
                         // Classnames are uppercase by convention
                         //
-                        this.className      = props.viewName.charAt( 0 ).toUpperCase() + props.viewName.slice( 1 );
+                        this.className      = answers.viewName.charAt( 0 ).toUpperCase() + answers.viewName.slice( 1 );
 
                         // Whether the user wants a sass file or not
                         //
-                        this.sassFile       = props.sassFile;
+                        this.sassFile       = answers.sassFile;
 
-                        // Call the callback so yeoman knows this async function is done
-                        //
-                        callback();
+                        done();
 
                     }.bind( this )
                 );

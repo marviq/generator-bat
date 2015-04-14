@@ -4,8 +4,9 @@
 //  Yeoman bat app generator.
 //
 
-var yeoman  = require( 'yeoman-generator' );
-var yosay   = require( 'yosay' );
+var generators  = require( 'yeoman-generator' )
+,   yosay       = require( 'yosay' )
+;
 
 //  Use different delimiters when our template itself is meant to be a template or template-like.
 //
@@ -20,13 +21,13 @@ var tpl_tpl_settings =
         }
 ;
 
-module.exports = yeoman.generators.Base.extend(
+module.exports  = generators.Base.extend(
     {
         prompting:
         {
             askSomeQuestions: function ()
             {
-                var callback = this.async();
+                var done = this.async();
 
                 // Have Yeoman greet the user.
                 //
@@ -81,19 +82,19 @@ module.exports = yeoman.generators.Base.extend(
 
                 this.prompt(
                     prompts
-                ,   function ( props )
+                ,   function ( answers )
                     {
-                        this.packageName        = props.packageName;
-                        this.packageDescription = props.packageDescription;
-                        this.authorName         = props.authorName;
-                        this.authorEmail        = props.authorEmail.trim();
-                        this.authorUrl          = props.authorUrl.trim();
-                        this.ie8                = props.ie8;
-                        this.demo               = props.demo;
+                        this.packageName        = answers.packageName;
+                        this.packageDescription = answers.packageDescription;
+                        this.authorName         = answers.authorName;
+                        this.authorEmail        = answers.authorEmail.trim();
+                        this.authorUrl          = answers.authorUrl.trim();
+                        this.ie8                = answers.ie8;
+                        this.demo               = answers.demo;
 
-                        this.i18n               = props.multiLanguage || props.demo;
+                        this.i18n               = answers.multiLanguage || answers.demo;
 
-                        callback();
+                        done();
 
                     }.bind( this )
                 );
