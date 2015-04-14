@@ -69,7 +69,7 @@ module.exports = yeoman.generators.Base.extend(
 
         // Have Yeoman greet the user.
         //
-        this.log( yosay( "So you want an BAT collection?" ) );
+        this.log( yosay( "So you want a BAT collection?" ) );
 
         // Ask the user for the webapp details
         //

@@ -95,7 +95,7 @@ module.exports = yeoman.generators.Base.extend(
         // Have Yeoman greet the user.
         //
         if( !this.options.nested ) {
-            this.log( yosay( "So you want an BAT model?" ) );
+            this.log( yosay( "So you want a BAT model?" ) );
 
             // Ask the user for the webapp details
             //

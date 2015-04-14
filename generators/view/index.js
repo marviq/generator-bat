@@ -72,7 +72,7 @@ module.exports = yeoman.generators.Base.extend(
 
         // Have Yeoman greet the user.
         //
-        this.log( yosay( "So you want an BAT view?" ) );
+        this.log( yosay( "So you want a BAT view?" ) );
 
         // Ask the user for the webapp details
         //
@@ -89,7 +89,7 @@ module.exports = yeoman.generators.Base.extend(
         ,   {
                 type:       "confirm"
             ,   name:       "sassFile"
-            ,   message:    "Would you like an SASS file for this view?"
+            ,   message:    "Would you like a SASS file for this view?"
             ,   default:    true
             }
         ];
