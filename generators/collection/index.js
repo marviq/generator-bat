@@ -77,7 +77,6 @@ module.exports = yeoman.generators.Base.extend(
             {
                 name:       "collectionName"
             ,   message:    "What's the name of this collection you so desire? ( use camelcasing! )"
-            ,   default:    "myCollection"
             }
         ,   {
                 name:       "description"
