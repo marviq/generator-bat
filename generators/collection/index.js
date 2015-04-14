@@ -153,7 +153,7 @@ module.exports = yeoman.generators.Base.extend(
         this.template( "collection.coffee", "src/collections/" + this.fileName + ".coffee" );
 
         // Create the model if needed
-        if( this.crateModel === true )
+        if( this.createModel === true )
         {
             this.invoke( "bat:model", {
                 options: {
