@@ -16,12 +16,6 @@ var tpl_tpl_settings =
         }
 ;
 
-// Get the current running directory name
-//
-var fullPath   = process.cwd();
-var folderName = fullPath.split( '/' ).pop();
-
-
 module.exports = yeoman.generators.Base.extend(
 {
     askSomeQuestions: function ()
@@ -38,7 +32,7 @@ module.exports = yeoman.generators.Base.extend(
             {
                 name:       'packageName'
             ,   message:    'What is the name of this webapp?'
-            ,   default:    folderName
+            ,   default:    this.appname
             }
         ,   {
                 name:       'packageDescription'
