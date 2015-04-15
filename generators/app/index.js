@@ -296,6 +296,9 @@ module.exports  = generators.Base.extend(
             this.npmInstall( deps,      { save:     true } );
             this.npmInstall( devDeps,   { saveDev:  true } );
 
+            //  Merely cause the "I'm all done. Running 'npm install' for you to ..." message to be outputted.
+            //  Because of the `.npmInstal()`s above, setting 'skipInstall' to `true` here would do nothing to prevent those.
+            //
             this.installDependencies(
                 {
                     bower:          false
