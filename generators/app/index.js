@@ -23,7 +23,14 @@ var tpl_tpl_settings =
 
 module.exports  = generators.Base.extend(
     {
-        prompting:
+        initializing: function ()
+        {
+            //  Load the BAT generator's 'package.json'.
+            //
+            this.pkg = require( './../../package.json' );
+        }
+
+    ,   prompting:
         {
             askSomeQuestions: function ()
             {
@@ -99,6 +106,22 @@ module.exports  = generators.Base.extend(
                     }.bind( this )
                 );
             }
+        }
+
+    ,   configuring: function ()
+        {
+            //
+            //  Save a '.yo-rc.json' config file.
+            //  At the very least this marks your project root for sub-generators.
+            //
+            //  Note that answers to prompts that have `store: true` defined aren't stored here, but in '~/.yo-rc-global.json'.
+            //
+
+            this.config.set(
+                {
+                    'generator-version':    this.pkg.version
+                }
+            );
         }
 
     ,   writing:

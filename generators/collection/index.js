@@ -7,67 +7,14 @@
 var generators  = require( 'yeoman-generator' )
 ,   yosay       = require( 'yosay' )
 ,   varname     = require( 'varname' )
-,   fs          = require( 'fs' )
+,   _           = require( 'lodash' )
 ;
 
-module.exports  = generators.Base.extend(
+var CollectionGenerator = generators.Base.extend(
     {
-        initializing:
+        initializing: function ()
         {
-            // Function is used to determine if we are currently in the root off the project
-            // if not, try to find the root and change to that directory
-            //
-            determineRoot: function ()
-            {
-                var done        = this.async()
-                ,   rootFound   = false
-                ,   tries       = 0
-                ;
-
-                // Get the current running directory name
-                //
-                var fullPath        = process.cwd()
-                ,   rootLocation    = fullPath
-                ;
-
-                if ( fs.existsSync( 'src' ) === false )
-                {
-                    while ( rootFound === false && tries < 10 )
-                    {
-                        // Split old path
-                        //
-                        var previousLocation = rootLocation.split( '/' );
-
-                        // Pop the last folder from the path
-                        //
-                        previousLocation.pop();
-
-                        // Create the new path and open it
-                        //
-                        rootLocation = previousLocation.join( '/' );
-
-                        // Change the process location
-                        //
-                        process.chdir( rootLocation );
-
-                        // Check if we found the project root, up the counter
-                        // we should stop looking some time.....
-                        //
-                        rootFound = fs.existsSync( 'src' );
-                        tries++;
-                    }
-
-                    // If we couldn't find the root, let the user know and exit the proces...
-                    //
-                    if ( rootFound === false )
-                    {
-                        yeoman.log( 'Failed to find root of the project, check that you are somewhere within your project.' );
-                        process.exit();
-                    }
-                }
-
-                done();
-            }
+            this._assertBatApp();
         }
 
     ,   prompting:
@@ -189,3 +136,10 @@ module.exports  = generators.Base.extend(
         }
     }
 );
+
+_.merge(
+    CollectionGenerator.prototype
+,   require( './../../lib/sub-generator.js' )
+);
+
+module.exports = CollectionGenerator;

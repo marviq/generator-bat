@@ -3,10 +3,10 @@
     "name": "Raymond de Wit"
   },
   "dependencies": {
+    "chalk": "^1.0.0",
     "varname": "^1.0.2",
     "yeoman-generator": "^0.18.10",
     "yosay": "^1.0.3"
-
   },
   "description": "BAT ( Backbone Application Template ). A yeoman-generator created by Marviq.",
   "devDependencies": {
