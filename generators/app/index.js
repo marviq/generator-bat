@@ -4,9 +4,13 @@
 //  Yeoman bat app generator.
 //
 
-var generators  = require( 'yeoman-generator' )
-,   yosay       = require( 'yosay' )
+var generators      = require( 'yeoman-generator' )
+,   yosay           = require( 'yosay' )
+,   youtil          = require( './../../lib/youtil.js' )
+,   _               = require( 'lodash' )
 ;
+
+var clean           = require( 'underscore.string/clean' );
 
 //  Use different delimiters when our template itself is meant to be a template or template-like.
 //
@@ -34,38 +38,51 @@ module.exports  = generators.Base.extend(
         {
             askSomeQuestions: function ()
             {
+                /* jshint laxbreak: true */
+
                 var done = this.async();
 
                 // Have Yeoman greet the user.
                 //
-                this.log( yosay( 'Welcome to the BAT generator! (Backbone Application Template) \n Powered by Marviq' ) );
+                this.log( yosay(
+                    'Welcome to the BAT generator! (Backbone Application Template)\n'
+                +   'Powered by marviq'
+                ));
 
                 // Ask the user for the webapp details
                 //
                 var prompts = [
                     {
                         name:       'packageName'
-                    ,   message:    'What is the name of this webapp?'
+                    ,   message:    'What is the package name of this webapp?'
                     ,   default:    this.appname
+                    ,   validate:   youtil.isNpmName
                     }
                 ,   {
                         name:       'packageDescription'
                     ,   message:    'What is the purpose (description) of this webapp?'
+                    ,   validate:   youtil.isNonBlank
+                    ,   filter:     youtil.sentencify
                     }
                 ,   {
                         name:       'authorName'
                     ,   message:    'What is your name?'
                     ,   default:    this.user.git.name()
+                    ,   validate:   youtil.isNonBlank
+                    ,   filter:     clean
                     }
                 ,   {
                         name:       'authorEmail'
-                    ,   message:    'What is your email?'
+                    ,   message:    'What is your email address?'
                     ,   default:    this.user.git.email()
+                    ,   validate:   youtil.isNonBlank
+                    ,   filter:     _.trim
                     }
                 ,   {
                         name:       'authorUrl'
-                    ,   message:    'If any, by what url would you like to be known?'
+                    ,   message:    'If any, by what URL would you like to be known?'
                     ,   default:    ''
+                    ,   filter:     _.trim
                     }
                 ,   {
                         name:       'multiLanguage'
@@ -94,12 +111,10 @@ module.exports  = generators.Base.extend(
                         this.packageName        = answers.packageName;
                         this.packageDescription = answers.packageDescription;
                         this.authorName         = answers.authorName;
-                        this.authorEmail        = answers.authorEmail.trim();
-                        this.authorUrl          = answers.authorUrl.trim();
+                        this.authorEmail        = answers.authorEmail;
+                        this.authorUrl          = answers.authorUrl;
                         this.ie8                = answers.ie8;
                         this.demo               = answers.demo;
-
-                        this.i18n               = answers.multiLanguage || answers.demo;
 
                         done();
 
@@ -110,6 +125,8 @@ module.exports  = generators.Base.extend(
 
     ,   configuring: function ()
         {
+            this.i18n = this.multiLanguage || this.demo;
+
             //
             //  Save a '.yo-rc.json' config file.
             //  At the very least this marks your project root for sub-generators.

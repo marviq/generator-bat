@@ -4,11 +4,13 @@
 //  Yeoman bat:view sub-generator.
 //
 
-var generators  = require( 'yeoman-generator' )
-,   yosay       = require( 'yosay' )
-,   varname     = require( 'varname' )
-,   _           = require( 'lodash' )
+var generators      = require( 'yeoman-generator' )
+,   yosay           = require( 'yosay' )
+,   youtil          = require( './../../lib/youtil.js' )
+,   _               = require( 'lodash' )
 ;
+
+var decapitalize    = require( 'underscore.string/decapitalize' );
 
 var ViewGenerator = generators.Base.extend(
     {
@@ -32,13 +34,19 @@ var ViewGenerator = generators.Base.extend(
                 var prompts = [
                     {
                         name:       'viewName'
-                    ,   message:    'What\'s the name of this view you so desire? ( use camelcasing! )'
+                    ,   message:    'What is the name of this view you so desire?'
+                    ,   validate:   youtil.isIdentifier
+                    ,   filter: function ( value )
+                        {
+                            return decapitalize( _.trim( value ).replace( /view$/i, '' ));
+                        }
                     }
                 ,   {
                         name:       'description'
-                    ,   message:    'What\'s the description for this view?'
-                    ,   default:    'No description given....'
-                    }
+                    ,   message:    'What is the purpose (description) of this view?'
+                    ,   validate:   youtil.isNonBlank
+                    ,   filter:     youtil.sentencify
+                        }
                 ,   {
                         type:       'confirm'
                     ,   name:       'sassFile'
@@ -57,17 +65,6 @@ var ViewGenerator = generators.Base.extend(
                     {
                         this.viewName       = answers.viewName;
                         this.description    = answers.description;
-
-                        // Convert the filename to dashes instead of camel casing
-                        //
-                        this.fileName       = varname.dash( this.viewName );
-
-                        // Classnames are uppercase by convention
-                        //
-                        this.className      = answers.viewName.charAt( 0 ).toUpperCase() + answers.viewName.slice( 1 );
-
-                        // Whether the user wants a sass file or not
-                        //
                         this.sassFile       = answers.sassFile;
 
                         done();
@@ -77,14 +74,21 @@ var ViewGenerator = generators.Base.extend(
             }
         }
 
+    ,   configuring: function ()
+        {
+            var viewName        = this.viewName;
+
+            this.className      = _.capitalize( viewName ) + 'View';
+            this.cssClassName   = _.kebabCase( viewName ) + '-view';
+            this.fileBase       = _.kebabCase( _.deburr( viewName ));
+        }
+
     ,   writing:
         {
             createView: function ()
             {
-                // Create the views coffee file and handlebars template file
-                //
-                this.template( 'view.hbs',      'src/views/' + this.fileName + '.hbs'  );
-                this.template( 'view.coffee',   'src/views/' + this.fileName + '.coffee' );
+                this.template( 'view.hbs',      'src/views/' + this.fileBase + '.hbs'  );
+                this.template( 'view.coffee',   'src/views/' + this.fileBase + '.coffee' );
 
                 // Check if a sass file should be created for this view
                 //
@@ -96,13 +100,13 @@ var ViewGenerator = generators.Base.extend(
 
                     // Create the sass file with the same name as the view
                     //
-                    this.template( 'view.sass', 'src/sass/views/_' + this.fileName + '.sass' );
+                    this.template( 'view.sass', 'src/sass/views/_' + this.fileBase + '.sass' );
 
                     // Read in the _views.sass file so we can add the import statement
                     // for the newly created sass file
                     //
                     var views   = this.readFileAsString( 'src/sass/_views.sass' )
-                    ,   insert  = '@import "views/_' + this.fileName + '"';
+                    ,   insert  = '@import "views/_' + this.fileBase + '"';
 
                     // Check if there isn't already in import for this file
                     // just in case....

@@ -23,17 +23,17 @@
     ###*<% if ( description ) { %>
     #   <%= description %>
     #<% } %>
-    #   @class          <%= className %>Model
+    #   @class          <%= className %>
     #   @extends        Backbone.Model<% if ( singleton ) { %>
     #   @static<% } else { %>
     #   @constructor<% } %>
     ###
 
-    class <%= className %>Model extends Backbone.Model<% if ( singleton ) { %>
+    class <%= className %> extends Backbone.Model<% if ( singleton ) { %>
 
 
     ##  Export singleton
     ##
-    return new <%= className %>Model()<% } %>
+    return new <%= className %>()<% } %>
 
 )

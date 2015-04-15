@@ -1,4 +1,4 @@
-<%= _.slugify(packageName) %>
+<%= packageName %>
 ======================
 
 ## introduction
@@ -7,7 +7,7 @@
 
 ## installation
 ```bash
-$ npm install <%= _.slugify(packageName) %> --save
+$ npm install <%= packageName %> --save
 ```
 
 ## usage

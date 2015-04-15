@@ -4,11 +4,13 @@
 //  Yeoman bat:collection sub-generator.
 //
 
-var generators  = require( 'yeoman-generator' )
-,   yosay       = require( 'yosay' )
-,   varname     = require( 'varname' )
-,   _           = require( 'lodash' )
+var generators      = require( 'yeoman-generator' )
+,   yosay           = require( 'yosay' )
+,   youtil          = require( './../../lib/youtil.js' )
+,   _               = require( 'lodash' )
 ;
+
+var decapitalize    = require( 'underscore.string/decapitalize' );
 
 var CollectionGenerator = generators.Base.extend(
     {
@@ -32,12 +34,18 @@ var CollectionGenerator = generators.Base.extend(
                 var prompts = [
                     {
                         name:       'collectionName'
-                    ,   message:    'What\'s the name of this collection you so desire? ( use camelcasing! )'
+                    ,   message:    'What is the name of this collection you so desire?'
+                    ,   validate:   youtil.isIdentifier
+                    ,   filter: function ( value )
+                        {
+                            return decapitalize( _.trim( value ).replace( /collection$/i, '' ));
+                        }
                     }
                 ,   {
                         name:       'description'
-                    ,   message:    'What\'s the description for this collection?'
-                    ,   default:    'No description'
+                    ,   message:    'What is the purpose (description) of this collection?'
+                    ,   validate:   youtil.isNonBlank
+                    ,   filter:     youtil.sentencify
                     }
                 ,   {
                         type:       'confirm'
@@ -79,8 +87,13 @@ var CollectionGenerator = generators.Base.extend(
                 var prompts = [
                     {
                         name:       'modelName'
-                    ,   message:    'Whats the model name for this collection ( use camelcasing! )'
+                    ,   message:    'What is the model name for this collection?'
                     ,   default:    modelName
+                    ,   validate:   youtil.isIdentifier
+                    ,   filter: function ( value )
+                        {
+                            return decapitalize( _.trim( value ).replace( /model$/i, '' ));
+                        }
                     }
                 ,   {
                         type:       'confirm'
@@ -104,20 +117,27 @@ var CollectionGenerator = generators.Base.extend(
             }
         }
 
+    ,   configuring: function ()
+        {
+            var collectionName  = this.collectionName
+            ,   modelName       = this.modelName
+            ;
+
+            this.className      = _.capitalize( collectionName ) + 'Collection';
+            this.fileBase       = _.kebabCase( _.deburr( collectionName ));
+
+            this.modelClassName = _.capitalize( modelName ) + 'Model';
+            this.modelFileName  = _.kebabCase( _.deburr( modelName )) + '.coffee';
+        }
+
     ,   writing:
         {
             createCollection: function ()
             {
-                // Create the needed variables
-                this.modelClass     = this.modelName.charAt(0).toUpperCase() + this.modelName.slice(1);
-                this.className      = this.collectionName.charAt(0).toUpperCase() + this.collectionName.slice(1);
-                this.modelFileName  = varname.dash( this.modelName );
-                this.fileName       = varname.dash( this.collectionName );
+                //  Create the collection
+                this.template( 'collection.coffee', 'src/collections/' + this.fileBase + '.coffee' );
 
-                // Create the collection
-                this.template( 'collection.coffee', 'src/collections/' + this.fileName + '.coffee' );
-
-                // Create the model if needed
+                //  Create the model if needed
                 if ( this.createModel === true )
                 {
                     this.invoke(

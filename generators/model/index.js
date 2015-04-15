@@ -4,11 +4,13 @@
 //  Yeoman bat:model sub-generator.
 //
 
-var generators  = require( 'yeoman-generator' )
-,   yosay       = require( 'yosay' )
-,   varname     = require( 'varname' )
-,   _           = require( 'lodash' )
+var generators      = require( 'yeoman-generator' )
+,   yosay           = require( 'yosay' )
+,   youtil          = require( './../../lib/youtil.js' )
+,   _               = require( 'lodash' )
 ;
+
+var decapitalize    = require( 'underscore.string/decapitalize' );
 
 var ModelGenerator = generators.Base.extend(
     {
@@ -59,12 +61,18 @@ var ModelGenerator = generators.Base.extend(
                     var prompts = [
                         {
                             name:       'modelName'
-                        ,   message:    'What\'s the name of this model you so desire? ( use camelcasing! )'
+                        ,   message:    'What is the name of this model you so desire?'
+                        ,   validate:   youtil.isIdentifier
+                        ,   filter: function ( value )
+                            {
+                                return decapitalize( _.trim( value ).replace( /model$/i, '' ));
+                            }
                         }
                     ,   {
                             name:       'description'
-                        ,   message:    'What\'s the description for this model?'
-                        ,   default:    'No description'
+                        ,   message:    'What is the purpose (description) of this model?'
+                        ,   validate:   youtil.isNonBlank
+                        ,   filter:     youtil.sentencify
                         }
                     ,   {
                             type:       'confirm'
@@ -94,17 +102,19 @@ var ModelGenerator = generators.Base.extend(
             }
         }
 
+    ,   configuring: function ()
+        {
+            var modelName   = this.modelName;
+
+            this.className  = _.capitalize( modelName ) + 'Model';
+            this.fileBase   = _.kebabCase( _.deburr( modelName ));
+        }
+
     ,   writing:
         {
             createModel: function ()
             {
-                this.fileName   = varname.dash( this.modelName );
-
-                // Class names start with a capital by convention
-                //
-                this.className  = this.modelName.charAt( 0 ).toUpperCase() + this.modelName.slice( 1 );
-
-                this.template( 'model.coffee', 'src/models/' + this.fileName + '.coffee' );
+                this.template( 'model.coffee', 'src/models/' + this.fileBase + '.coffee' );
             }
         }
     }

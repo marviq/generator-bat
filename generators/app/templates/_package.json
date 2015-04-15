@@ -22,7 +22,7 @@
         }
     ],
     "main": "dist/app/bundle.js",
-    "name": "<%= _.slugify(packageName) %>",
+    "name": "<%= packageName %>",
     "private": true,
     "scripts": {
         "prepublish": "command -v grunt > /dev/null || { echo >&2 'It appears that \"grunt\" is not installed.  Consider running \"npm install grunt --save-dev\" first.'; exit ; } && grunt",
