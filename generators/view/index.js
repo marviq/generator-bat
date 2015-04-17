@@ -90,31 +90,37 @@ var ViewGenerator = generators.Base.extend(
                 this.template( 'view.hbs',      'src/views/' + this.fileBase + '.hbs'  );
                 this.template( 'view.coffee',   'src/views/' + this.fileBase + '.coffee' );
 
-                // Check if a sass file should be created for this view
+                if ( this.sassFile )
+                {
+                    this.template( 'view.sass', 'src/sass/views/_' + this.fileBase + '.sass' );
+                }
+            }
+        }
+
+    ,   install: {
+
+            updateViewsSass: function () {
+
+                if ( !( this.sassFile )) { return; }
+
                 //
-                if ( this.sassFile === true )
+                //  Add an `@import "views/_<fileBase>" statement to the '_views.sass' file.
+                //
+
+                var views       = this.readFileAsString( 'src/sass/_views.sass' )
+                ,   insert      = '@import "views/_' + this.fileBase + '"'
+                ;
+
+                // Check if there isn't already in import for this file
+                // just in case....
+                //
+                if ( views.indexOf( insert ) === -1 )
                 {
                     // Avoid the conflict warning and use force for the write
                     //
                     this.conflicter.force = true;
 
-                    // Create the sass file with the same name as the view
-                    //
-                    this.template( 'view.sass', 'src/sass/views/_' + this.fileBase + '.sass' );
-
-                    // Read in the _views.sass file so we can add the import statement
-                    // for the newly created sass file
-                    //
-                    var views   = this.readFileAsString( 'src/sass/_views.sass' )
-                    ,   insert  = '@import "views/_' + this.fileBase + '"';
-
-                    // Check if there isn't already in import for this file
-                    // just in case....
-                    //
-                    if ( views.indexOf( insert ) === -1 )
-                    {
-                        this.write( 'src/sass/_views.sass', views + '\n' + insert );
-                    }
+                    this.write( 'src/sass/_views.sass', views + '\n' + insert );
                 }
             }
         }
