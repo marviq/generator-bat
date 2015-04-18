@@ -130,7 +130,9 @@ var ViewGenerator = generators.Base.extend(
                 //
                 this.conflicter.force = true;
 
-                this.write( viewsPath, views + '\n' + statement );
+                var pad = (( views.length && views.slice( -1 ) !== '\n' ) ? '\n' : '' );
+
+                this.write( viewsPath, views + pad + statement + '\n' );
             }
         }
     }
