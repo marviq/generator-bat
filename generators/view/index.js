@@ -101,27 +101,36 @@ var ViewGenerator = generators.Base.extend(
 
             updateViewsSass: function () {
 
+                /* jshint laxbreak: true */
+
                 if ( !( this.sassFile )) { return; }
 
                 //
                 //  Add an `@import "views/_<fileBase>" statement to the '_views.sass' file.
                 //
 
-                var views       = this.readFileAsString( 'src/sass/_views.sass' )
-                ,   insert      = '@import "views/_' + this.fileBase + '"'
+                var viewsPath   = 'src/sass/_views.sass'
+                ,   views       = this.readFileAsString( viewsPath )
+                ,   statement   = '@import "views/_' + this.fileBase + '"'
                 ;
 
-                // Check if there isn't already in import for this file
-                // just in case....
+                //  Do nothing if an `@import` for this sass file seems to exist already.
                 //
-                if ( views.indexOf( insert ) === -1 )
+                if ( views.indexOf( statement ) !== -1 )
                 {
-                    // Avoid the conflict warning and use force for the write
-                    //
-                    this.conflicter.force = true;
+                    this.log(
+                        'It appears that "' + viewsPath + '" already contains an `@import` for "' + this.fileBase + '.sass".\n'
+                    +   'Leaving it untouched.'
+                    );
 
-                    this.write( 'src/sass/_views.sass', views + '\n' + insert );
+                    return;
                 }
+
+                // Avoid the conflict warning and use force for the write
+                //
+                this.conflicter.force = true;
+
+                this.write( viewsPath, views + '\n' + statement );
             }
         }
     }
