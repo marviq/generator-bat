@@ -7,6 +7,7 @@
 var generators      = require( 'yeoman-generator' )
 ,   yosay           = require( 'yosay' )
 ,   youtil          = require( './../../lib/youtil.js' )
+,   mkdirp          = require( 'mkdirp' )
 ,   _               = require( 'lodash' )
 ;
 
@@ -160,35 +161,50 @@ module.exports  = generators.Base.extend(
         {
             setupDirectoryStructure: function ()
             {
-                // Create base folders
-                //
-                this.mkdir( 'src'  );
-                this.mkdir( 'test' );
+                var layout =
+                    [
+                        //  App source:
 
-                // Create Backbone folders
-                //
-                this.mkdir( 'src/models'        );
-                this.mkdir( 'src/collections'   );
-                // this.mkdir( 'src/routers'       );
-                this.mkdir( 'src/views'         );
+                        'src'
 
-                // Create vendor library folder
-                //
-                this.mkdir( 'vendor'        );
+                        //  Backbone:
 
-                // Create i18n folder
+                    ,   'src/collections'
+                    ,   'src/models'
+                    ,   'src/views'
+
+                        //  Style and Compass:
+
+                    ,   'src/sass'
+
+                    ,   'src/style'
+                    ,   'src/style/images/'
+                    ,   'src/style/images/sprites/'
+
+                        //  Testing:
+
+                    ,   'test'
+
+                        //  Third-party, external libraries:
+
+                    ,   'vendor'
+                    ]
+                ;
+
+                //  Location for 'i' + 'nternationalisatio'.length + 'n' definitions:
                 //
-                if ( this.i18n === true )
+                //  https://github.com/marviq/madlib-locale#readme
+                //
+
+                if ( this.i18n )
                 {
-                    this.mkdir( 'src/i18n' );
+                    layout.push( 'src/i18n' );
                 }
 
-                // Create compass folders
-                //
-                this.mkdir( 'src/sass'          );
-                this.mkdir( 'src/style'         );
-                this.mkdir( 'src/style/images'  );
-                this.mkdir( 'src/style/images/sprites'  );
+                for ( var i=0, l=layout.length; i < l ; i++ )
+                {
+                    mkdirp.sync( this.destinationPath( layout[ i ] ));
+                }
             }
 
         ,   setupProjectFiles: function()
