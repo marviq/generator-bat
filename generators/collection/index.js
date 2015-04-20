@@ -137,10 +137,11 @@ var CollectionGenerator = generators.Base.extend(
                 //  Create the collection
                 this.template( 'collection.coffee', 'src/collections/' + this.fileBase + '.coffee' );
 
-                //  Create the model if needed
-                if ( this.createModel === true )
+                //  Create the model if needed.
+                //
+                if ( this.createModel )
                 {
-                    this.invoke(
+                    this.composeWith(
                         'bat:model'
                     ,   {
                             options: {
