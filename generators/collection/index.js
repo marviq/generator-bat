@@ -162,7 +162,7 @@ var CollectionGenerator = generators.Base.extend(
                         ,   options:
                             {
                                 nested:         true
-                            ,   description:    'Model for the ' + this.collectionName
+                            ,   description:    'Model for the ' + this.collectionName + ' collection.'
                             ,   singleton:      false
                             }
                         }
