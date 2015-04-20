@@ -211,22 +211,22 @@ module.exports  = generators.Base.extend(
             {
                 // Setup the config files for git, editor etc.
                 //
-                this.copy( 'editorconfig',      '.editorconfig' );
-                this.copy( 'gitattributes',     '.gitattributes' );
-                this.copy( 'gitignore',         '.gitignore' );
-                this.copy( 'coffeelint.json',   'coffeelint.json' );
-                this.copy( 'jshintrc',          '.jshintrc' );
+                this.copy( '@.editorconfig',    '.editorconfig' );
+                this.copy( '@.gitattributes',   '.gitattributes' );
+                this.copy( '@.gitignore',       '.gitignore' );
+                this.copy( '@coffeelint.json',  'coffeelint.json' );
+                this.copy( '@.jshintrc',        '.jshintrc' );
 
                 // write package.json and readme file
                 //
-                this.template( '_package.json',     'package.json' );
-                this.template( 'AUTHORS',           'AUTHORS' );
-                this.template( 'README.md',         'README.md'    );
-                this.copy( 'LICENSE',               'LICENSE'           );
+                this.template( '@package.json',     'package.json' );
+                this.template( '@AUTHORS',          'AUTHORS' );
+                this.template( '@README.md',        'README.md'    );
+                this.copy( '@LICENSE',              'LICENSE'           );
 
                 // Setup build, watch files etc
                 //
-                this.template( '_Gruntfile.coffee', 'Gruntfile.coffee', null, tpl_tpl_settings );
+                this.template( '@Gruntfile.coffee', 'Gruntfile.coffee', null, tpl_tpl_settings );
 
                 // Setup the sass files
                 //
@@ -240,7 +240,7 @@ module.exports  = generators.Base.extend(
                 if ( this.demo === true )
                 {
                     this.copy( 'demo/router.coffee',                'src/router.coffee' );
-                    this.template( 'demo/_index.template.html',     'src/index.template.html', null, tpl_tpl_settings );
+                    this.template( 'demo/index.template.html',      'src/index.template.html', null, tpl_tpl_settings );
 
                     this.copy( 'demo/views/buildscript.hbs',        'src/views/buildscript.hbs' );
                     this.copy( 'demo/views/buildscript.coffee',     'src/views/buildscript.coffee' );
@@ -268,7 +268,7 @@ module.exports  = generators.Base.extend(
 
                     // Copy the app main entry point
                     //
-                    this.template( 'demo/_app.coffee',              'src/app.coffee' );
+                    this.template( 'demo/app.coffee',               'src/app.coffee' );
 
                     // Copy the test example files
                     //
@@ -286,8 +286,8 @@ module.exports  = generators.Base.extend(
                     }
 
 
-                    this.template( 'src/_index.template.html',      'src/index.template.html', null, tpl_tpl_settings );
-                    this.template( 'src/_router.coffee',            'src/router.coffee' );
+                    this.template( 'src/index.template.html',       'src/index.template.html', null, tpl_tpl_settings );
+                    this.template( 'src/router.coffee',             'src/router.coffee' );
 
                     this.copy( 'src/views/index.coffee',            'src/views/index.coffee' );
                     this.copy( 'src/views/index.hbs',               'src/views/index.hbs' );
@@ -295,7 +295,7 @@ module.exports  = generators.Base.extend(
 
                     // Copy the app main entry point
                     //
-                    this.template( 'src/_app.coffee',               'src/app.coffee' );
+                    this.template( 'src/app.coffee',                'src/app.coffee' );
                 }
             }
         }
