@@ -14,7 +14,21 @@ var decapitalize    = require( 'underscore.string/decapitalize' );
 
 var CollectionGenerator = generators.Base.extend(
     {
-        initializing: function ()
+        constructor: function ()
+        {
+            generators.Base.apply( this, arguments );
+
+            this.argument(
+                'collectionName'
+            ,   {
+                    type:           String
+                ,   required:       false
+                ,   desc:           'The name of the collection to create.'
+                }
+            );
+        }
+
+    ,   initializing: function ()
         {
             this._assertBatApp();
         }
@@ -25,16 +39,15 @@ var CollectionGenerator = generators.Base.extend(
             {
                 var done = this.async();
 
-                // Have Yeoman greet the user.
+                //  Have Yeoman greet the user.
                 //
                 this.log( yosay( 'So you want a BAT collection?' ) );
 
-                // Ask the user for the webapp details
-                //
                 var prompts = [
                     {
                         name:       'collectionName'
                     ,   message:    'What is the name of this collection you so desire?'
+                    ,   default:    this.collectionName
                     ,   validate:   youtil.isIdentifier
                     ,   filter: function ( value )
                         {
@@ -144,9 +157,11 @@ var CollectionGenerator = generators.Base.extend(
                     this.composeWith(
                         'bat:model'
                     ,   {
-                            options: {
+                            arguments: [ this.modelName ]
+
+                        ,   options:
+                            {
                                 nested:         true
-                            ,   modelName:      this.modelName
                             ,   description:    'Model for the ' + this.collectionName
                             ,   singleton:      false
                             }

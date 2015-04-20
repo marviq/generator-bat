@@ -14,7 +14,21 @@ var decapitalize    = require( 'underscore.string/decapitalize' );
 
 var ViewGenerator = generators.Base.extend(
     {
-        initializing: function ()
+        constructor: function ()
+        {
+            generators.Base.apply( this, arguments );
+
+            this.argument(
+                'viewName'
+            ,   {
+                    type:           String
+                ,   required:       false
+                ,   desc:           'The name of the view to create.'
+                }
+            );
+        }
+
+    ,   initializing: function ()
         {
             this._assertBatApp();
         }
@@ -25,16 +39,15 @@ var ViewGenerator = generators.Base.extend(
             {
                 var done = this.async();
 
-                // Have Yeoman greet the user.
+                //  Have Yeoman greet the user.
                 //
                 this.log( yosay( 'So you want a BAT view?' ) );
 
-                // Ask the user for the webapp details
-                //
                 var prompts = [
                     {
                         name:       'viewName'
                     ,   message:    'What is the name of this view you so desire?'
+                    ,   default:    this.viewName
                     ,   validate:   youtil.isIdentifier
                     ,   filter: function ( value )
                         {

@@ -18,15 +18,19 @@ var ModelGenerator = generators.Base.extend(
         {
             generators.Base.apply( this, arguments );
 
+            this.argument(
+                'modelName'
+            ,   {
+                    type:           String
+                ,   required:       false
+                ,   desc:           'The name of the model to create.'
+                }
+            );
+
             // Check if any options are passed. Collection generator might be
             // calling this generator for example
             if ( options )
             {
-                if ( options.modelName )
-                {
-                    this.modelName = options.modelName;
-                }
-
                 if ( options.description )
                 {
                     this.description = options.description;
@@ -50,18 +54,17 @@ var ModelGenerator = generators.Base.extend(
             {
                 var done = this.async();
 
-                // Have Yeoman greet the user.
-                //
                 if ( !this.options.nested )
                 {
+                    //  Have Yeoman greet the user.
+                    //
                     this.log( yosay( 'So you want a BAT model?' ) );
 
-                    // Ask the user for the webapp details
-                    //
                     var prompts = [
                         {
                             name:       'modelName'
                         ,   message:    'What is the name of this model you so desire?'
+                        ,   default:    this.modelName
                         ,   validate:   youtil.isIdentifier
                         ,   filter: function ( value )
                             {

@@ -27,7 +27,22 @@ var tpl_tpl_settings =
 
 module.exports  = generators.Base.extend(
     {
-        initializing: function ()
+        constructor: function ()
+        {
+            generators.Base.apply( this, arguments );
+
+            this.argument(
+                'packageName'
+            ,   {
+                    type:           String
+                ,   required:       false
+                ,   desc:           'The package name of the webapp to create.'
+                ,   defaults:       this.appname
+                }
+            );
+        }
+
+    ,   initializing: function ()
         {
             //  Load the BAT generator's 'package.json'.
             //
@@ -42,20 +57,20 @@ module.exports  = generators.Base.extend(
 
                 var done = this.async();
 
-                // Have Yeoman greet the user.
+                //  Have Yeoman greet the user.
                 //
                 this.log( yosay(
                     'Welcome to the BAT generator! (Backbone Application Template)\n'
                 +   'Powered by marviq'
                 ));
 
-                // Ask the user for the webapp details
+                //  Ask the user for the webapp details.
                 //
                 var prompts = [
                     {
                         name:       'packageName'
                     ,   message:    'What is the package name of this webapp?'
-                    ,   default:    this.appname
+                    ,   default:    this.packageName
                     ,   validate:   youtil.isNpmName
                     }
                 ,   {
