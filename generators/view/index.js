@@ -130,9 +130,25 @@ var ViewGenerator = generators.Base.extend(
                 //
                 this.conflicter.force = true;
 
-                var pad = (( views.length && views.slice( -1 ) !== '\n' ) ? '\n' : '' );
+                //  Look for a place to insert, preferably at an alfanumerically ordered position.
+                //
+                var insertAt, match, matcher = /^@import.*/mg;
 
-                this.write( viewsPath, views + pad + statement + '\n' );
+                while ( (( match = matcher.exec( views ) )) )
+                {
+                    if ( statement < match[ 0 ] ) { insertAt = match.index; }
+                }
+
+                if ( insertAt == null )
+                {
+                    var pad = (( views.length && views.slice( -1 ) !== '\n' ) ? '\n' : '' );
+
+                    this.write( viewsPath, views + pad + statement + '\n' );
+                }
+                else
+                {
+                    this.write( viewsPath, views.slice( 0, insertAt ) + statement + '\n' + views.slice( insertAt ) );
+                }
             }
         }
     }
