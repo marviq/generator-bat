@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<%
+<!DOCTYPE html><%
+
     var buildRun = encodeURIComponent( buildRun )
     ,   styleUrl = style + '?build-run=' + buildRun
     ,   appUrl   = app   + '?build-run=' + buildRun
@@ -19,14 +19,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="<%- styleUrl %>" />
-<%
-    if ( debugging ) {
-%>
-    <script src="//localhost:35729/livereload.js"></script>
-<%
-    }
-%>
+    <link rel="stylesheet" type="text/css" href="<%- styleUrl %>" /><% if ( debugging ) { %>
+
+    <script src="//localhost:35729/livereload.js"></script><% } %>
 </head>
 <body>
     <div id="navigation">
