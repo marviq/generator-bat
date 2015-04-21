@@ -233,7 +233,7 @@ module.exports  = generators.Base.extend(
                 this.copy( 'src/sass/app.sass',             'src/sass/app.sass' );
                 this.copy( 'src/sass/_settings.sass',       'src/sass/_settings.sass' );
                 this.copy( 'src/sass/_views.sass',          'src/sass/_views.sass' );
-                this.copy( 'src/sass/check-green.png',      'src/style/images/sprites/check-green.png' );
+                this.copy( 'src/style/images/sprites/check-green.png',      'src/style/images/sprites/check-green.png' );
 
                 // If we want the demo copy the demo files
                 //
@@ -253,13 +253,13 @@ module.exports  = generators.Base.extend(
 
                     this.copy( 'demo/views/index.hbs',              'src/views/index.hbs' );
                     this.copy( 'demo/views/index.coffee',           'src/views/index.coffee' );
-                    this.copy( 'demo/sass/_index.sass',             'src/sass/views/_index.sass' );
+                    this.copy( 'demo/sass/views/_index.sass',       'src/sass/views/_index.sass' );
 
                     this.copy( 'demo/views/navigation.hbs',         'src/views/navigation.hbs' );
                     this.copy( 'demo/views/navigation.coffee',      'src/views/navigation.coffee' );
 
-                    this.copy( 'demo/marviq-logo-web.png',          'src/style/images/marviq-logo-web.png' );
-                    this.copy( 'demo/documentation.jpg',            'src/style/images/documenting.jpg' );
+                    this.copy( 'demo/style/images/marviq-logo-web.png', 'src/style/images/marviq-logo-web.png' );
+                    this.copy( 'demo/style/images/documentation.jpg', 'src/style/images/documenting.jpg' );
 
                     // Copy the i18n files
                     //
