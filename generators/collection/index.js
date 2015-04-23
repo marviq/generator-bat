@@ -66,42 +66,13 @@ var CollectionGenerator = generators.Base.extend(
                     ,   message:    'Should this collection be a singleton?'
                     ,   default:    false
                     }
-                ];
-
-                this.prompt(
-                    prompts
-                ,   function ( answers )
-                    {
-                        this.collectionName = answers.collectionName;
-                        this.description    = answers.description;
-                        this.singleton      = answers.singleton;
-
-                        done();
-
-                    }.bind( this )
-                );
-            }
-
-        ,   askModelQuestions: function ()
-            {
-                var done = this.async();
-
-                // We are gonna do a 'smart' guess for the modelName to have a default value
-                // If the last characters of the collectionName is a 's' we are gonna assume it's
-                // plural and remove the trailing as and use that a default modelName
-                //
-                var modelName = this.collectionName;
-
-                if ( this.collectionName.slice( -1 ) === 's' )
-                {
-                    modelName = this.collectionName.slice( 0, -1 );
-                }
-
-                var prompts = [
-                    {
+                ,   {
                         name:       'modelName'
                     ,   message:    'What is the model name for this collection?'
-                    ,   default:    modelName
+                    ,   default: function ( answers )
+                        {
+                            return answers.collectionName;
+                        }
                     ,   validate:   youtil.isIdentifier
                     ,   filter: function ( value )
                         {
@@ -120,6 +91,10 @@ var CollectionGenerator = generators.Base.extend(
                     prompts
                 ,   function ( answers )
                     {
+                        this.collectionName = answers.collectionName;
+                        this.description    = answers.description;
+                        this.singleton      = answers.singleton;
+
                         this.modelName      = answers.modelName;
                         this.createModel    = answers.createModel;
 
