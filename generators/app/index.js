@@ -120,7 +120,7 @@ module.exports  = generators.Base.extend(
                         name:       'demo'
                     ,   type:       'confirm'
                     ,   message:    'Do you want the demo app?'
-                    ,   default:    true
+                    ,   default:    false
                     }
                 ];
 
