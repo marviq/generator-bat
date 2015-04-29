@@ -135,9 +135,14 @@ var ModelGenerator = generators.Base.extend(
         {
             createModel: function ()
             {
-                var data = this.templateData;
+                var data        = this.templateData
+                ,   templates   =
+                    {
+                        'model.coffee':    [ 'src/models/' + data.fileBase + '.coffee' ]
+                    }
+                ;
 
-                this.template( 'model.coffee', 'src/models/' + data.fileBase + '.coffee', data );
+                this._templatesProcess( templates );
             }
         }
     }
@@ -145,6 +150,7 @@ var ModelGenerator = generators.Base.extend(
 
 _.merge(
     ModelGenerator.prototype
+,   require( './../../lib/generator.js' )
 ,   require( './../../lib/sub-generator.js' )
 );
 

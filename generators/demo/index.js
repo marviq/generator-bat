@@ -63,46 +63,53 @@ var DemoGenerator = generators.Base.extend(
         {
             createDemo: function ()
             {
-                var data = this.templateData;
+                var templates =
+                    [
+                        //  Project files
 
-                this.template( '@Gruntfile.coffee',                 'Gruntfile.coffee', data, tpl_tpl_settings );
+                        [ '@Gruntfile.coffee', tpl_tpl_settings ]
 
-                this.copy( 'src/router.coffee',                     'src/router.coffee' );
+                        //  The app main entry point:
 
-                this.template( 'src/index.template.html',           'src/index.template.html', data, tpl_tpl_settings );
+                    ,   [ 'src/app.coffee' ]
+                    ,   [ 'src/index.template.html', tpl_tpl_settings ]
 
-                this.copy( 'src/views/buildscript.hbs',             'src/views/buildscript.hbs' );
-                this.copy( 'src/views/buildscript.coffee',          'src/views/buildscript.coffee' );
+                        //  Backbone:
 
-                this.copy( 'src/views/documentation.hbs',           'src/views/documentation.hbs' );
-                this.copy( 'src/views/documentation.coffee',        'src/views/documentation.coffee' );
+                    ,   'src/router.coffee'
 
-                this.copy( 'src/views/i18n.hbs',                    'src/views/i18n.hbs' );
-                this.copy( 'src/views/i18n.coffee',                 'src/views/i18n.coffee' );
+                    ,   'src/views/buildscript.hbs'
+                    ,   'src/views/buildscript.coffee'
 
-                this.copy( 'src/views/index.hbs',                   'src/views/index.hbs' );
-                this.copy( 'src/views/index.coffee',                'src/views/index.coffee' );
-                this.copy( 'src/sass/views/_index.sass',            'src/sass/views/_index.sass' );
+                    ,   'src/views/documentation.hbs'
+                    ,   'src/views/documentation.coffee'
 
-                this.copy( 'src/views/navigation.hbs',              'src/views/navigation.hbs' );
-                this.copy( 'src/views/navigation.coffee',           'src/views/navigation.coffee' );
+                    ,   'src/views/i18n.hbs'
+                    ,   'src/views/i18n.coffee'
 
-                this.copy( 'src/style/images/marviq-logo-web.png',  'src/style/images/marviq-logo-web.png' );
-                this.copy( 'src/style/images/documentation.jpg',    'src/style/images/documenting.jpg' );
+                    ,   'src/sass/views/_index.sass'
+                    ,   'src/views/index.hbs'
+                    ,   'src/views/index.coffee'
 
-                // Copy the i18n files
-                //
-                this.copy( 'src/i18n/nl_NL.json',                   'src/i18n/nl_NL.json' );
-                this.copy( 'src/i18n/en_GB.json',                   'src/i18n/en_GB.json' );
+                    ,   'src/views/navigation.hbs'
+                    ,   'src/views/navigation.coffee'
 
-                // Copy the app main entry point
-                //
-                this.template( 'src/app.coffee',                    'src/app.coffee', data );
+                    ,   'src/style/images/marviq-logo-web.png'
+                    ,   'src/style/images/documentation.jpg'
 
-                // Copy the test example files
-                //
-                this.copy( 'src/models/example.coffee',             'src/models/example.coffee' );
-                this.copy( 'test/example.coffee',                   'test/example.coffee' );
+                        //  i18n:
+
+                    ,   'src/i18n/en_GB.json'
+                    ,   'src/i18n/nl_NL.json'
+
+                        //  Testing example:
+
+                    ,   'src/models/example.coffee'
+                    ,   'test/example.coffee'
+                    ]
+                ;
+
+                this._templatesProcess( templates );
             }
         }
     }
@@ -110,6 +117,7 @@ var DemoGenerator = generators.Base.extend(
 
 _.merge(
     DemoGenerator.prototype
+,   require( './../../lib/generator.js' )
 ,   require( './../../lib/sub-generator.js' )
 );
 

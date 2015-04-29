@@ -107,15 +107,20 @@ var ViewGenerator = generators.Base.extend(
         {
             createView: function ()
             {
-                var data = this.templateData;
-
-                this.template( 'view.hbs',      'src/views/' + data.fileBase + '.hbs', data );
-                this.template( 'view.coffee',   'src/views/' + data.fileBase + '.coffee', data );
+                var data        = this.templateData
+                ,   templates   =
+                    {
+                        'view.hbs':     [ 'src/views/' + data.fileBase + '.hbs' ]
+                    ,   'view.coffee':  [ 'src/views/' + data.fileBase + '.coffee' ]
+                    }
+                ;
 
                 if ( data.sassFile )
                 {
-                    this.template( 'view.sass', 'src/sass/views/_' + data.fileBase + '.sass', data );
+                    templates[ 'view.sass' ] = [ 'src/sass/views/_' + data.fileBase + '.sass' ];
                 }
+
+                this._templatesProcess( templates );
             }
         }
 
@@ -134,7 +139,8 @@ var ViewGenerator = generators.Base.extend(
                 //
 
                 var viewsPath   = 'src/sass/_views.sass'
-                ,   views       = this.readFileAsString( viewsPath )
+                ,   fs          = this.fs
+                ,   views       = fs.read( viewsPath )
                 ,   statement   = '@import "views/_' + data.fileBase + '"'
                 ;
 
@@ -167,11 +173,11 @@ var ViewGenerator = generators.Base.extend(
                 {
                     var pad = (( views.length && views.slice( -1 ) !== '\n' ) ? '\n' : '' );
 
-                    this.write( viewsPath, views + pad + statement + '\n' );
+                    fs.write( viewsPath, views + pad + statement + '\n' );
                 }
                 else
                 {
-                    this.write( viewsPath, views.slice( 0, insertAt ) + statement + '\n' + views.slice( insertAt ) );
+                    fs.write( viewsPath, views.slice( 0, insertAt ) + statement + '\n' + views.slice( insertAt ) );
                 }
             }
         }
@@ -180,6 +186,7 @@ var ViewGenerator = generators.Base.extend(
 
 _.merge(
     ViewGenerator.prototype
+,   require( './../../lib/generator.js' )
 ,   require( './../../lib/sub-generator.js' )
 );
 

@@ -129,12 +129,16 @@ var CollectionGenerator = generators.Base.extend(
         {
             createCollection: function ()
             {
-                var data = this.templateData;
+                var data        = this.templateData
+                ,   templates   =
+                    {
+                        'collection.coffee':    [ 'src/collections/' + data.fileBase + '.coffee' ]
+                    }
+                ;
 
-                //  Create the collection
-                this.template( 'collection.coffee', 'src/collections/' + data.fileBase + '.coffee', data );
+                this._templatesProcess( templates );
 
-                //  Create the model if needed.
+                //  Create the model too if needed.
                 //
                 if ( data.createModel )
                 {
@@ -159,6 +163,7 @@ var CollectionGenerator = generators.Base.extend(
 
 _.merge(
     CollectionGenerator.prototype
+,   require( './../../lib/generator.js' )
 ,   require( './../../lib/sub-generator.js' )
 );
 

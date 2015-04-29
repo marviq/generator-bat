@@ -26,7 +26,7 @@ var tpl_tpl_settings =
         }
 ;
 
-module.exports  = generators.Base.extend(
+var AppGenerator = generators.Base.extend(
     {
         constructor: function ()
         {
@@ -213,36 +213,32 @@ module.exports  = generators.Base.extend(
 
         ,   setupProjectFiles: function()
             {
-                var data = this.templateData;
+                var data        = this.templateData
+                ,   templates   =
+                    [
+                        //  Project
 
-                // Setup the config files for git, editor etc.
-                //
-                this.copy( '@.editorconfig',    '.editorconfig' );
-                this.copy( '@.gitattributes',   '.gitattributes' );
-                this.copy( '@.gitignore',       '.gitignore' );
-                this.copy( '@coffeelint.json',  'coffeelint.json' );
-                this.copy( '@.jshintrc',        '.jshintrc' );
+                        '@.editorconfig'
+                    ,   '@.gitattributes'
+                    ,   '@.gitignore'
+                    ,   '@.jshintrc'
+                    ,   [ '@AUTHORS' ]
+                    ,   [ '@Gruntfile.coffee', tpl_tpl_settings ]
+                    ,   '@LICENSE'
+                    ,   [ '@README.md' ]
+                    ,   '@coffeelint.json'
 
-                // write package.json and readme file
-                //
-                this.template( '@package.json',     'package.json', data );
-                this.template( '@AUTHORS',          'AUTHORS', data );
-                this.template( '@README.md',        'README.md', data );
-                this.copy( '@LICENSE',              'LICENSE' );
+                    ,   [ '@package.json' ]
 
-                // Setup build, watch files etc
-                //
-                this.template( '@Gruntfile.coffee', 'Gruntfile.coffee', data, tpl_tpl_settings );
+                        //  Style and Compass:
 
-                // Setup the sass files
-                //
-                this.copy( 'src/sass/app.sass',             'src/sass/app.sass' );
-                this.copy( 'src/sass/_settings.sass',       'src/sass/_settings.sass' );
-                this.copy( 'src/sass/_views.sass',          'src/sass/_views.sass' );
-                this.copy( 'src/style/images/sprites/check-green.png',      'src/style/images/sprites/check-green.png' );
+                    ,   'src/sass/app.sass'
+                    ,   'src/sass/_settings.sass'
+                    ,   'src/sass/_views.sass'
+                    ,   'src/style/images/sprites/check-green.png'
+                    ]
+                ;
 
-                // If we want the demo copy the demo files
-                //
                 if ( data.demo )
                 {
                     this.composeWith( 'bat:demo' );
@@ -253,26 +249,32 @@ module.exports  = generators.Base.extend(
                     //  Do not write these when a demo app is wanted right now; avoids conflicts.
                     //
 
-                    if ( data.i18n )
+                    templates.push(
+
+                        //  The app main entry point:
+
+                        [ 'src/app.coffee' ]
+                    ,   [ 'src/index.template.html', tpl_tpl_settings ]
+
+                        //  Backbone:
+
+                    ,   [ 'src/router.coffee' ]
+
+                    ,   'src/sass/views/_index.sass'
+                    ,   'src/views/index.coffee'
+                    ,   'src/views/index.hbs'
+                    );
+
+                    if ( this.i18n )
                     {
-                        // Copy the i18n files
-                        //
-                        this.copy( 'src/i18n/nl_NL.json',  'src/i18n/nl_NL.json' );
-                        this.copy( 'src/i18n/en_GB.json',  'src/i18n/en_GB.json' );
+                        templates.push(
+                            'src/i18n/en_GB.json'
+                        ,   'src/i18n/nl_NL.json'
+                        );
                     }
-
-
-                    this.template( 'src/index.template.html',       'src/index.template.html', data, tpl_tpl_settings );
-                    this.template( 'src/router.coffee',             'src/router.coffee', data );
-
-                    this.copy( 'src/views/index.coffee',            'src/views/index.coffee' );
-                    this.copy( 'src/views/index.hbs',               'src/views/index.hbs' );
-                    this.copy( 'src/sass/views/_index.sass',        'src/sass/views/_index.sass' );
-
-                    // Copy the app main entry point
-                    //
-                    this.template( 'src/app.coffee',                'src/app.coffee', data );
                 }
+
+                this._templatesProcess( templates );
             }
         }
 
@@ -335,3 +337,10 @@ module.exports  = generators.Base.extend(
         }
     }
 );
+
+_.extend(
+    AppGenerator.prototype
+,   require( './../../lib/generator.js' )
+);
+
+module.exports = AppGenerator;
