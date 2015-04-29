@@ -119,7 +119,7 @@ module.exports  = generators.Base.extend(
                 ,   {
                         name:       'demo'
                     ,   type:       'confirm'
-                    ,   message:    'Do you want the demo app?'
+                    ,   message:    'Would you like the demo app now? (If not, you can always get it later through `yo bat:demo`)'
                     ,   default:    false
                     }
                 ];
@@ -153,6 +153,9 @@ module.exports  = generators.Base.extend(
             this.config.set(
                 {
                     'generator-version':    this.pkg.version
+
+                ,   ie8:                    data.ie8
+                ,   i18n:                   data.i18n
                 }
             );
         }
@@ -242,44 +245,14 @@ module.exports  = generators.Base.extend(
                 //
                 if ( data.demo )
                 {
-                    this.copy( 'demo/router.coffee',                'src/router.coffee' );
-                    this.template( 'demo/index.template.html',      'src/index.template.html', data, tpl_tpl_settings );
-
-                    this.copy( 'demo/views/buildscript.hbs',        'src/views/buildscript.hbs' );
-                    this.copy( 'demo/views/buildscript.coffee',     'src/views/buildscript.coffee' );
-
-                    this.copy( 'demo/views/documentation.hbs',      'src/views/documentation.hbs' );
-                    this.copy( 'demo/views/documentation.coffee',   'src/views/documentation.coffee' );
-
-                    this.copy( 'demo/views/i18n.hbs',               'src/views/i18n.hbs' );
-                    this.copy( 'demo/views/i18n.coffee',            'src/views/i18n.coffee' );
-
-                    this.copy( 'demo/views/index.hbs',              'src/views/index.hbs' );
-                    this.copy( 'demo/views/index.coffee',           'src/views/index.coffee' );
-                    this.copy( 'demo/sass/views/_index.sass',       'src/sass/views/_index.sass' );
-
-                    this.copy( 'demo/views/navigation.hbs',         'src/views/navigation.hbs' );
-                    this.copy( 'demo/views/navigation.coffee',      'src/views/navigation.coffee' );
-
-                    this.copy( 'demo/style/images/marviq-logo-web.png', 'src/style/images/marviq-logo-web.png' );
-                    this.copy( 'demo/style/images/documentation.jpg', 'src/style/images/documenting.jpg' );
-
-                    // Copy the i18n files
-                    //
-                    this.copy( 'demo/i18n/nl_NL.json',              'src/i18n/nl_NL.json' );
-                    this.copy( 'demo/i18n/en_GB.json',              'src/i18n/en_GB.json' );
-
-                    // Copy the app main entry point
-                    //
-                    this.template( 'demo/app.coffee',               'src/app.coffee', data );
-
-                    // Copy the test example files
-                    //
-                    this.copy( 'demo/models/example.coffee', 'src/models/example.coffee' );
-                    this.copy( 'demo/test/example.coffee',  'test/example.coffee' );
+                    this.composeWith( 'bat:demo' );
                 }
                 else
                 {
+                    //
+                    //  Do not write these when a demo app is wanted right now; avoids conflicts.
+                    //
+
                     if ( data.i18n )
                     {
                         // Copy the i18n files
