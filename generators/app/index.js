@@ -48,6 +48,10 @@ module.exports  = generators.Base.extend(
             //  Load the BAT generator's 'package.json'.
             //
             this.pkg = require( './../../package.json' );
+
+            //  Container for template expansion data.
+            //
+            this.templateData = {};
         }
 
     ,   prompting:
@@ -124,13 +128,7 @@ module.exports  = generators.Base.extend(
                     prompts
                 ,   function ( answers )
                     {
-                        this.packageName        = answers.packageName;
-                        this.packageDescription = answers.packageDescription;
-                        this.authorName         = answers.authorName;
-                        this.authorEmail        = answers.authorEmail;
-                        this.authorUrl          = answers.authorUrl;
-                        this.ie8                = answers.ie8;
-                        this.demo               = answers.demo;
+                        _.extend( this.templateData, answers );
 
                         done();
 
@@ -141,7 +139,9 @@ module.exports  = generators.Base.extend(
 
     ,   configuring: function ()
         {
-            this.i18n = this.multiLanguage || this.demo;
+            var data    = this.templateData;
+
+            data.i18n   = data.multiLanguage || data.demo;
 
             //
             //  Save a '.yo-rc.json' config file.
@@ -161,7 +161,8 @@ module.exports  = generators.Base.extend(
         {
             setupDirectoryStructure: function ()
             {
-                var layout =
+                var data    = this.templateData
+                ,   layout  =
                     [
                         //  App source:
 
@@ -196,7 +197,7 @@ module.exports  = generators.Base.extend(
                 //  https://github.com/marviq/madlib-locale#readme
                 //
 
-                if ( this.i18n )
+                if ( data.i18n )
                 {
                     layout.push( 'src/i18n' );
                 }
@@ -209,6 +210,8 @@ module.exports  = generators.Base.extend(
 
         ,   setupProjectFiles: function()
             {
+                var data = this.templateData;
+
                 // Setup the config files for git, editor etc.
                 //
                 this.copy( '@.editorconfig',    '.editorconfig' );
@@ -219,14 +222,14 @@ module.exports  = generators.Base.extend(
 
                 // write package.json and readme file
                 //
-                this.template( '@package.json',     'package.json' );
-                this.template( '@AUTHORS',          'AUTHORS' );
-                this.template( '@README.md',        'README.md'    );
-                this.copy( '@LICENSE',              'LICENSE'           );
+                this.template( '@package.json',     'package.json', data );
+                this.template( '@AUTHORS',          'AUTHORS', data );
+                this.template( '@README.md',        'README.md', data );
+                this.copy( '@LICENSE',              'LICENSE' );
 
                 // Setup build, watch files etc
                 //
-                this.template( '@Gruntfile.coffee', 'Gruntfile.coffee', null, tpl_tpl_settings );
+                this.template( '@Gruntfile.coffee', 'Gruntfile.coffee', data, tpl_tpl_settings );
 
                 // Setup the sass files
                 //
@@ -237,10 +240,10 @@ module.exports  = generators.Base.extend(
 
                 // If we want the demo copy the demo files
                 //
-                if ( this.demo === true )
+                if ( data.demo )
                 {
                     this.copy( 'demo/router.coffee',                'src/router.coffee' );
-                    this.template( 'demo/index.template.html',      'src/index.template.html', null, tpl_tpl_settings );
+                    this.template( 'demo/index.template.html',      'src/index.template.html', data, tpl_tpl_settings );
 
                     this.copy( 'demo/views/buildscript.hbs',        'src/views/buildscript.hbs' );
                     this.copy( 'demo/views/buildscript.coffee',     'src/views/buildscript.coffee' );
@@ -268,7 +271,7 @@ module.exports  = generators.Base.extend(
 
                     // Copy the app main entry point
                     //
-                    this.template( 'demo/app.coffee',               'src/app.coffee' );
+                    this.template( 'demo/app.coffee',               'src/app.coffee', data );
 
                     // Copy the test example files
                     //
@@ -277,7 +280,7 @@ module.exports  = generators.Base.extend(
                 }
                 else
                 {
-                    if ( this.i18n === true )
+                    if ( data.i18n )
                     {
                         // Copy the i18n files
                         //
@@ -286,8 +289,8 @@ module.exports  = generators.Base.extend(
                     }
 
 
-                    this.template( 'src/index.template.html',       'src/index.template.html', null, tpl_tpl_settings );
-                    this.template( 'src/router.coffee',             'src/router.coffee' );
+                    this.template( 'src/index.template.html',       'src/index.template.html', data, tpl_tpl_settings );
+                    this.template( 'src/router.coffee',             'src/router.coffee', data );
 
                     this.copy( 'src/views/index.coffee',            'src/views/index.coffee' );
                     this.copy( 'src/views/index.hbs',               'src/views/index.hbs' );
@@ -295,17 +298,18 @@ module.exports  = generators.Base.extend(
 
                     // Copy the app main entry point
                     //
-                    this.template( 'src/app.coffee',                'src/app.coffee' );
+                    this.template( 'src/app.coffee',                'src/app.coffee', data );
                 }
             }
         }
 
     ,   install: function ()
         {
-            var deps =
+            var data = this.templateData
+            ,   deps =
                     [
                         'backbone'
-                    ,   ( 'jquery' + ( this.ie8 ? '@<2' : '' ))
+                    ,   ( 'jquery' + ( data.ie8 ? '@<2' : '' ))
                     ,   'madlib-console'
                     ,   'madlib-hostmapping'
                     ,   'madlib-settings'
@@ -336,7 +340,7 @@ module.exports  = generators.Base.extend(
                     ]
             ;
 
-            if ( this.i18n )
+            if ( data.i18n )
             {
                 deps.push( 'madlib-locale' );
             }

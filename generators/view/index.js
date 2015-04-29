@@ -31,6 +31,10 @@ var ViewGenerator = generators.Base.extend(
     ,   initializing: function ()
         {
             this._assertBatApp();
+
+            //  Container for template expansion data.
+            //
+            this.templateData = {};
         }
 
     ,   prompting:
@@ -68,17 +72,11 @@ var ViewGenerator = generators.Base.extend(
                     }
                 ];
 
-                // Ask the question and when done make answers available
-                // on the this scope. This way they are reachable in the template
-                // function for example
-                //
                 this.prompt(
                     prompts
                 ,   function ( answers )
                     {
-                        this.viewName       = answers.viewName;
-                        this.description    = answers.description;
-                        this.sassFile       = answers.sassFile;
+                        _.extend( this.templateData, answers );
 
                         done();
 
@@ -89,23 +87,34 @@ var ViewGenerator = generators.Base.extend(
 
     ,   configuring: function ()
         {
-            var viewName        = this.viewName;
+            var data        = this.templateData
+            ,   viewName    = data.viewName
+            ;
 
-            this.className      = _.capitalize( viewName ) + 'View';
-            this.cssClassName   = _.kebabCase( viewName ) + '-view';
-            this.fileBase       = _.kebabCase( _.deburr( viewName ));
+            _.extend(
+                data
+            ,   {
+                    className:      _.capitalize( viewName ) + 'View'
+                ,   cssClassName:   _.kebabCase( viewName ) + '-view'
+                ,   fileBase:       _.kebabCase( _.deburr( viewName ))
+
+                ,   userName:       this.user.git.name()
+                }
+            );
         }
 
     ,   writing:
         {
             createView: function ()
             {
-                this.template( 'view.hbs',      'src/views/' + this.fileBase + '.hbs'  );
-                this.template( 'view.coffee',   'src/views/' + this.fileBase + '.coffee' );
+                var data = this.templateData;
 
-                if ( this.sassFile )
+                this.template( 'view.hbs',      'src/views/' + data.fileBase + '.hbs', data );
+                this.template( 'view.coffee',   'src/views/' + data.fileBase + '.coffee', data );
+
+                if ( data.sassFile )
                 {
-                    this.template( 'view.sass', 'src/sass/views/_' + this.fileBase + '.sass' );
+                    this.template( 'view.sass', 'src/sass/views/_' + data.fileBase + '.sass', data );
                 }
             }
         }
@@ -114,9 +123,11 @@ var ViewGenerator = generators.Base.extend(
 
             updateViewsSass: function () {
 
+                var data = this.templateData;
+
                 /* jshint laxbreak: true */
 
-                if ( !( this.sassFile )) { return; }
+                if ( !( data.sassFile )) { return; }
 
                 //
                 //  Add an `@import "views/_<fileBase>" statement to the '_views.sass' file.
@@ -124,7 +135,7 @@ var ViewGenerator = generators.Base.extend(
 
                 var viewsPath   = 'src/sass/_views.sass'
                 ,   views       = this.readFileAsString( viewsPath )
-                ,   statement   = '@import "views/_' + this.fileBase + '"'
+                ,   statement   = '@import "views/_' + data.fileBase + '"'
                 ;
 
                 //  Do nothing if an `@import` for this sass file seems to exist already.
@@ -132,7 +143,7 @@ var ViewGenerator = generators.Base.extend(
                 if ( views.indexOf( statement ) !== -1 )
                 {
                     this.log(
-                        'It appears that "' + viewsPath + '" already contains an `@import` for "' + this.fileBase + '.sass".\n'
+                        'It appears that "' + viewsPath + '" already contains an `@import` for "' + data.fileBase + '.sass".\n'
                     +   'Leaving it untouched.'
                     );
 

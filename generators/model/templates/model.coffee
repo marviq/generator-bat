@@ -13,7 +13,7 @@
 ) ->
 
     ###*
-    #   @author         <%= user.git.name() %>
+    #   @author         <%= userName %>
     #   @module         App
     #   @submodule      Models
     ###

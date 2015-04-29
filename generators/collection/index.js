@@ -31,6 +31,10 @@ var CollectionGenerator = generators.Base.extend(
     ,   initializing: function ()
         {
             this._assertBatApp();
+
+            //  Container for template expansion data.
+            //
+            this.templateData = {};
         }
 
     ,   prompting:
@@ -91,12 +95,7 @@ var CollectionGenerator = generators.Base.extend(
                     prompts
                 ,   function ( answers )
                     {
-                        this.collectionName = answers.collectionName;
-                        this.description    = answers.description;
-                        this.singleton      = answers.singleton;
-
-                        this.modelName      = answers.modelName;
-                        this.createModel    = answers.createModel;
+                        _.extend( this.templateData, answers );
 
                         done();
 
@@ -107,37 +106,47 @@ var CollectionGenerator = generators.Base.extend(
 
     ,   configuring: function ()
         {
-            var collectionName  = this.collectionName
-            ,   modelName       = this.modelName
+            var data            = this.templateData
+            ,   collectionName  = data.collectionName
+            ,   modelName       = data.modelName
             ;
 
-            this.className      = _.capitalize( collectionName ) + 'Collection';
-            this.fileBase       = _.kebabCase( _.deburr( collectionName ));
+            _.extend(
+                data
+            ,   {
+                    className:      _.capitalize( collectionName ) + 'Collection'
+                ,   fileBase:       _.kebabCase( _.deburr( collectionName ))
 
-            this.modelClassName = _.capitalize( modelName ) + 'Model';
-            this.modelFileName  = _.kebabCase( _.deburr( modelName )) + '.coffee';
+                ,   modelClassName: _.capitalize( modelName ) + 'Model'
+                ,   modelFileName:  _.kebabCase( _.deburr( modelName )) + '.coffee'
+
+                ,   userName:       this.user.git.name()
+                }
+            );
         }
 
     ,   writing:
         {
             createCollection: function ()
             {
+                var data = this.templateData;
+
                 //  Create the collection
-                this.template( 'collection.coffee', 'src/collections/' + this.fileBase + '.coffee' );
+                this.template( 'collection.coffee', 'src/collections/' + data.fileBase + '.coffee', data );
 
                 //  Create the model if needed.
                 //
-                if ( this.createModel )
+                if ( data.createModel )
                 {
                     this.composeWith(
                         'bat:model'
                     ,   {
-                            arguments: [ this.modelName ]
+                            arguments: [ data.modelName ]
 
                         ,   options:
                             {
                                 nested:         true
-                            ,   description:    'Model for the ' + this.collectionName + ' collection.'
+                            ,   description:    'Model for the ' + data.collectionName + ' collection.'
                             ,   singleton:      false
                             }
                         }

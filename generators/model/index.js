@@ -14,7 +14,7 @@ var decapitalize    = require( 'underscore.string/decapitalize' );
 
 var ModelGenerator = generators.Base.extend(
     {
-        constructor: function ( args, options )
+        constructor: function ()
         {
             generators.Base.apply( this, arguments );
 
@@ -26,26 +26,37 @@ var ModelGenerator = generators.Base.extend(
                 ,   desc:           'The name of the model to create.'
                 }
             );
-
-            // Check if any options are passed. Collection generator might be
-            // calling this generator for example
-            if ( options )
-            {
-                if ( options.description )
-                {
-                    this.description = options.description;
-                }
-
-                if ( typeof( options.singleton) === 'boolean' )
-                {
-                    this.singleton = options.singleton;
-                }
-            }
         }
 
     ,   initializing: function ()
         {
             this._assertBatApp();
+
+            //  Container for template expansion data.
+            //
+            var data = this.templateData =
+                {
+                    modelName:      this.modelName
+                }
+            ;
+
+            //  Check if any options are passed. Collection generator might be
+            //  calling this generator for example
+
+            var options = this.options;
+
+            if ( options )
+            {
+                if ( options.description )
+                {
+                    data.description = options.description;
+                }
+
+                if ( typeof( options.singleton) === 'boolean' )
+                {
+                    data.singleton = options.singleton;
+                }
+            }
         }
 
     ,   prompting:
@@ -89,9 +100,7 @@ var ModelGenerator = generators.Base.extend(
                         prompts
                     ,   function ( answers )
                         {
-                            this.modelName      = answers.modelName;
-                            this.description    = answers.description;
-                            this.singleton      = answers.singleton;
+                            _.extend( this.templateData, answers );
 
                             done();
 
@@ -107,17 +116,28 @@ var ModelGenerator = generators.Base.extend(
 
     ,   configuring: function ()
         {
-            var modelName   = this.modelName;
+            var data        = this.templateData
+            ,   modelName   = data.modelName
+            ;
 
-            this.className  = _.capitalize( modelName ) + 'Model';
-            this.fileBase   = _.kebabCase( _.deburr( modelName ));
+            _.extend(
+                data
+            ,   {
+                    className:  _.capitalize( modelName ) + 'Model'
+                ,   fileBase:   _.kebabCase( _.deburr( modelName ))
+
+                ,   userName:   this.user.git.name()
+                }
+            );
         }
 
     ,   writing:
         {
             createModel: function ()
             {
-                this.template( 'model.coffee', 'src/models/' + this.fileBase + '.coffee' );
+                var data = this.templateData;
+
+                this.template( 'model.coffee', 'src/models/' + data.fileBase + '.coffee', data );
             }
         }
     }
