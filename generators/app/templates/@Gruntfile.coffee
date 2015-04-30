@@ -856,6 +856,7 @@ module.exports = ( grunt ) ->
 
     grunt.registerTask(
         'lint'
+        'Look for lint in the app\'s code'
         ( target = '' ) ->
             grunt.task.run(
                 "coffeelint:#{target}"
@@ -865,7 +866,7 @@ module.exports = ( grunt ) ->
 
     grunt.registerTask(
         'style'
-        'Build the app\'s style'
+        'Build the app\'s stylesheet and related assets'
         ( debugging ) ->
             grunt.task.run(
                 'clean:style'
