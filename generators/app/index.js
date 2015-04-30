@@ -9,6 +9,7 @@ var generators      = require( 'yeoman-generator' )
 ,   youtil          = require( './../../lib/youtil.js' )
 ,   mkdirp          = require( 'mkdirp' )
 ,   chalk           = require( 'chalk' )
+,   semver          = require( 'semver' )
 ,   _               = require( 'lodash' )
 ;
 
@@ -334,42 +335,141 @@ var AppGenerator = generators.Base.extend(
             this.npmInstall( devDeps,   { saveDev:  true } );
         }
 
-    ,   end: function ()
+    ,   end:
         {
-            /* jshint laxbreak: true */
+            intro: function ()
+            {
+                /* jshint laxbreak: true */
 
-            this.log(
-                '\n'
-            +   chalk.bold( 'I\m all done. You may invoke "' + chalk.yellow( 'grunt' ) + chalk.cyan( ' <arg>...' ) + '" now to build your project.\n' )
+                this.preReqIssues = 0;
 
-            +   '\n'
-            +   'Here\'s a quick reminder of common grunt idioms:\n'
+                this.log(
+                    '\n'
+                +   chalk.bold( 'I\m all done. You may invoke "' + chalk.yellow( 'grunt' ) + chalk.cyan( ' <arg>...' ) + '" now to build your project.' )
+                );
+            }
 
-            +   '\n'
-            +   chalk.bold( '  * ' + chalk.yellow( 'grunt ' + chalk.cyan( '[' ) + 'default' + chalk.cyan( ']' ) + '     ' ))
-            +   '- does a production, non-debugging, all-parts, minified build plus artifacts;\n'
+        ,   assesGrunt: function ()
+            {
+                var done    = this.async()
+                ,   error   = function ()
+                    {
+                        /* jshint laxbreak: true */
 
-            +   chalk.bold( '  * ' + chalk.yellow( 'grunt debug         ' ))
-            +   '- does a testing, debugging, all-parts except documentation, as-is build;\n'
+                        this.log(
+                            '\n'
+                        +   chalk.red( 'Hang on, it appears that "' + chalk.bold.yellow( 'grunt' ) + '" hasn\'t been installed yet!\n' )
+                        +   '\n'
+                        +   chalk.gray(
+                                'Consider running "'
+                            +   chalk.bold.yellow( chalk.cyan( '[' ) + 'sudo ' + chalk.cyan( ']' ) + 'npm install -g grunt-cli' )
+                            +   '" first.\n'
+                            )
+                        );
 
-            +   chalk.bold( '  * ' + chalk.yellow( 'grunt dev           ' ))
-            +   '- does a local, debugging, all-parts except documentation, as-is build; and keeps a close\n'
-            +   '                          watch on filesystem changes, selectively re-triggering part builds as needed;\n'
+                        this.preReqIssues++;
 
-            +   '\n'
-            +   chalk.bold( '  * ' + chalk.yellow( 'grunt doc           ' ))
-            +   '- will build just the code documentation;\n'
+                    }.bind( this )
+                ;
 
-            +   chalk.bold( '  * ' + chalk.yellow( 'grunt lint          ' ))
-            +   '- will just lint your code;\n'
+                this.spawnCommand( 'command', [ '-v', 'grunt' ], { stdio: 'ignore' } )
+                    .on( 'exit', function ( exit )
+                        {
+                            if ( exit ) { error(); }
+                            done();
+                        }
+                    )
+                ;
+            }
 
-            +   chalk.bold( '  * ' + chalk.yellow( 'grunt test          ' ))
-            +   '- will run your test suite;\n'
+        ,   assesCompass: function ()
+            {
+                var done    = this.async()
+                ,   minver  = '1.0.0'
+                ,   version = ''
+                ,   compass = chalk.bold.yellow( 'compass' )
+                ,   error   = function ( nexist )
+                    {
+                        /* jshint laxbreak: true */
 
-            +   '\n'
-            +   chalk.bold( '  * ' + chalk.yellow( 'grunt --help        ' ))
-            +   '- will show you all of the above and the kitchen sink;\n'
-            );
+                        var first = !( this.preReqIssues );
+
+                        this.log(
+                            '\n'
+                        +   chalk.red(
+                                ( first ? 'Hang on,' : 'Oh, and' )
+                            +   (   nexist
+                                ?   ' it appears that "' + compass + '" hasn\'t been installed ' + ( first ? 'yet' : 'either' ) + '!\n'
+                                :   ' your "' + compass + '" version appears outdated' + ( first ? '' : ' as well' ) + '! '
+                                +   'I found only ' + chalk.underline( version ) + ' and you\'ll need ' + chalk.underline( minver + ' or newer' ) + '.\n'
+                                )
+                            )
+                        +   '\n'
+                        +   chalk.gray(
+                                'Consider running "'
+                            +   chalk.bold.yellow( chalk.cyan( '[' ) + 'sudo ' + chalk.cyan( ']' ) + 'gem install compass' ) + '" '
+                            +   ( first ? 'first' : 'too' ) + '.\n'
+                            +   '\n'
+                            +   'Or see: ' + chalk.blue( 'http://thesassway.com/beginner/getting-started-with-sass-and-compass#install-sass-and-compass\n' )
+                            )
+                        );
+
+                        this.preReqIssues++;
+
+                    }.bind( this )
+                ;
+
+                this.spawnCommand( 'command', [ 'compass', '-q', '-v' ], { stdio: [ 'ignore', 'pipe', 'ignore' ] } )
+                    .on( 'exit', function ( exit )
+                        {
+                            version = version.trim();
+
+                            if ( exit || !( semver.satisfies( version, '>=' + minver )) ) { error( exit ); }
+                            done();
+                        }
+                    )
+                    .stdout.on( 'data', function ( chunk )
+                        {
+                            version += chunk;
+                        }
+                    )
+                ;
+            }
+
+        ,   epilogue: function ()
+            {
+                /* jshint laxbreak: true */
+
+                this.log(
+                    '\n'
+                +   ( this.preReqIssues ? 'In any case, h' : 'H' ) + 'ere\'s a quick reminder of common grunt idioms:\n'
+
+                +   '\n'
+                +   chalk.bold( '  * ' + chalk.yellow( 'grunt ' + chalk.cyan( '[' ) + 'default' + chalk.cyan( ']' ) + '     ' ))
+                +   '- does a production, non-debugging, all-parts, minified build plus artifacts;\n'
+
+                +   chalk.bold( '  * ' + chalk.yellow( 'grunt debug         ' ))
+                +   '- does a testing, debugging, all-parts except documentation, as-is build;\n'
+
+                +   chalk.bold( '  * ' + chalk.yellow( 'grunt dev           ' ))
+                +   '- does a local, debugging, all-parts except documentation, as-is build; and keeps a close\n'
+                +   '                          watch on filesystem changes, selectively re-triggering part builds as needed;\n'
+
+                +   '\n'
+                +   chalk.bold( '  * ' + chalk.yellow( 'grunt doc           ' ))
+                +   '- will build just the code documentation;\n'
+
+                +   chalk.bold( '  * ' + chalk.yellow( 'grunt lint          ' ))
+                +   '- will just lint your code;\n'
+
+                +   chalk.bold( '  * ' + chalk.yellow( 'grunt test          ' ))
+                +   '- will run your test suite;\n'
+
+                +   '\n'
+                +   chalk.bold( '  * ' + chalk.yellow( 'grunt --help        ' ))
+                +   '- will show you all of the above and the kitchen sink;\n'
+                );
+            }
         }
     }
 );
