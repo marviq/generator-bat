@@ -8,6 +8,7 @@ var generators      = require( 'yeoman-generator' )
 ,   yosay           = require( 'yosay' )
 ,   youtil          = require( './../../lib/youtil.js' )
 ,   mkdirp          = require( 'mkdirp' )
+,   chalk           = require( 'chalk' )
 ,   _               = require( 'lodash' )
 ;
 
@@ -280,6 +281,8 @@ var AppGenerator = generators.Base.extend(
 
     ,   install: function ()
         {
+            /* jshint laxbreak: true */
+
             var data = this.templateData
             ,   deps =
                     [
@@ -320,20 +323,15 @@ var AppGenerator = generators.Base.extend(
                 deps.push( 'madlib-locale' );
             }
 
+            this.log( chalk.bold(
+                '\n'
+            +   'Running a number of "'
+            +   chalk.yellow( 'npm install ' + chalk.cyan( '<package>' ) + ' --save' + chalk.cyan( '[' ) + '-dev' + chalk.cyan( ']' ))
+            +   '"s for you to install required dependencies.'
+            ));
+
             this.npmInstall( deps,      { save:     true } );
             this.npmInstall( devDeps,   { saveDev:  true } );
-
-            //  Merely cause the "I'm all done. Running 'npm install' for you to ..." message to be outputted.
-            //  Because of the `.npmInstal()`s above, setting 'skipInstall' to `true` here would do nothing to prevent those.
-            //
-            this.installDependencies(
-                {
-                    bower:          false
-                ,   npm:            true
-                ,   skipInstall:    false
-                ,   skipMessage:    false
-                }
-            );
         }
     }
 );
