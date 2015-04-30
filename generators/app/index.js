@@ -333,6 +333,44 @@ var AppGenerator = generators.Base.extend(
             this.npmInstall( deps,      { save:     true } );
             this.npmInstall( devDeps,   { saveDev:  true } );
         }
+
+    ,   end: function ()
+        {
+            /* jshint laxbreak: true */
+
+            this.log(
+                '\n'
+            +   chalk.bold( 'I\m all done. You may invoke "' + chalk.yellow( 'grunt' ) + chalk.cyan( ' <arg>...' ) + '" now to build your project.\n' )
+
+            +   '\n'
+            +   'Here\'s a quick reminder of common grunt idioms:\n'
+
+            +   '\n'
+            +   chalk.bold( '  * ' + chalk.yellow( 'grunt ' + chalk.cyan( '[' ) + 'default' + chalk.cyan( ']' ) + '     ' ))
+            +   '- does a production, non-debugging, all-parts, minified build plus artifacts;\n'
+
+            +   chalk.bold( '  * ' + chalk.yellow( 'grunt debug         ' ))
+            +   '- does a testing, debugging, all-parts except documentation, as-is build;\n'
+
+            +   chalk.bold( '  * ' + chalk.yellow( 'grunt dev           ' ))
+            +   '- does a local, debugging, all-parts except documentation, as-is build; and keeps a close\n'
+            +   '                          watch on filesystem changes, selectively re-triggering part builds as needed;\n'
+
+            +   '\n'
+            +   chalk.bold( '  * ' + chalk.yellow( 'grunt doc           ' ))
+            +   '- will build just the code documentation;\n'
+
+            +   chalk.bold( '  * ' + chalk.yellow( 'grunt lint          ' ))
+            +   '- will just lint your code;\n'
+
+            +   chalk.bold( '  * ' + chalk.yellow( 'grunt test          ' ))
+            +   '- will run your test suite;\n'
+
+            +   '\n'
+            +   chalk.bold( '  * ' + chalk.yellow( 'grunt --help        ' ))
+            +   '- will show you all of the above and the kitchen sink;\n'
+            );
+        }
     }
 );
 
