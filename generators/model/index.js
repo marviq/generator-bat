@@ -26,6 +26,37 @@ var ModelGenerator = generators.Base.extend(
                 ,   desc:           'The name of the model to create.'
                 }
             );
+
+            //  Also add 'modelName' as a - hidden - option, defaulting to the positional argument's value.
+            //  This way `_promptsPruneByOptions()` can filter away prompting for the model name too.
+            //
+            this.option(
+                'modelName'
+            ,   {
+                    type:           String
+                ,   desc:           'The name of the model to create.'
+                ,   defaults:       this.modelName
+                ,   hide:           true
+                }
+            );
+
+            //  Normal options.
+            //
+            this.option(
+                'description'
+            ,   {
+                    type:           String
+                ,   desc:           'The purpose (description) of the model to create.'
+                }
+            );
+
+            this.option(
+                'singleton'
+            ,   {
+                    type:           Boolean
+                ,   desc:           'Specify wether this model should be a singleton (instance).'
+                }
+            );
         }
 
     ,   initializing: function ()
@@ -34,67 +65,54 @@ var ModelGenerator = generators.Base.extend(
 
             //  Container for template expansion data.
             //
-            var data = this.templateData =
+            this.templateData =
                 {
                     modelName:      this.modelName
                 }
             ;
-
-            //  Check if any options are passed. Collection generator might be
-            //  calling this generator for example
-
-            var options = this.options;
-
-            if ( options )
-            {
-                if ( options.description )
-                {
-                    data.description = options.description;
-                }
-
-                if ( typeof( options.singleton) === 'boolean' )
-                {
-                    data.singleton = options.singleton;
-                }
-            }
         }
 
     ,   prompting:
         {
             askSomeQuestions: function ()
             {
-                var done = this.async();
+                var prompts = this._promptsPruneByOptions(
+                        [
+                            {
+                                name:       'modelName'
+                            ,   message:    'What is the name of this model you so desire?'
+                            ,   default:    this.options.modelName
+                            ,   validate:   youtil.isIdentifier
+                            ,   filter: function ( value )
+                                {
+                                    return decapitalize( _.trim( value ).replace( /model$/i, '' ));
+                                }
+                            }
+                        ,   {
+                                name:       'description'
+                            ,   message:    'What is the purpose (description) of this model?'
+                            ,   default:    this.options.description
+                            ,   validate:   youtil.isNonBlank
+                            ,   filter:     youtil.sentencify
+                            }
+                        ,   {
+                                type:       'confirm'
+                            ,   name:       'singleton'
+                            ,   message:    'Should this model be a singleton?'
+                            ,   default:    false
+                            ,   validate:   _.isBoolean
+                            }
+                        ]
+                    )
+                ;
 
-                if ( !this.options.nested )
+                if ( prompts.length )
                 {
+                    var done = this.async();
+
                     //  Have Yeoman greet the user.
                     //
                     this.log( yosay( 'So you want a BAT model?' ) );
-
-                    var prompts = [
-                        {
-                            name:       'modelName'
-                        ,   message:    'What is the name of this model you so desire?'
-                        ,   default:    this.modelName
-                        ,   validate:   youtil.isIdentifier
-                        ,   filter: function ( value )
-                            {
-                                return decapitalize( _.trim( value ).replace( /model$/i, '' ));
-                            }
-                        }
-                    ,   {
-                            name:       'description'
-                        ,   message:    'What is the purpose (description) of this model?'
-                        ,   validate:   youtil.isNonBlank
-                        ,   filter:     youtil.sentencify
-                        }
-                    ,   {
-                            type:       'confirm'
-                        ,   name:       'singleton'
-                        ,   message:    'Should this model be a singleton?'
-                        ,   default:    false
-                        }
-                    ];
 
                     this.prompt(
                         prompts
@@ -106,10 +124,6 @@ var ModelGenerator = generators.Base.extend(
 
                         }.bind( this )
                     );
-
-                } else {
-
-                    done();
                 }
             }
         }
