@@ -263,7 +263,7 @@ var AppGenerator = generators.Base.extend(
                     ,   [ 'src/router.coffee' ]
 
                     ,   'src/sass/views/_index.sass'
-                    ,   'src/views/index.coffee'
+                    ,   [ 'src/views/index.coffee' ]
                     ,   'src/views/index.hbs'
                     );
 
