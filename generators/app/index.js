@@ -45,6 +45,9 @@ var AppGenerator = generators.Base.extend(
             );
         }
 
+    ,   description:
+            chalk.bold( 'This is the ' + chalk.cyan( 'project and barebones app' ) + ' generator for the Backbone Application Template, powered by ' + chalk.blue( 'marv' ) + chalk.red( 'iq' ) + '.' )
+
     ,   initializing: function ()
         {
             //  Load the BAT generator's 'package.json'.

@@ -7,6 +7,7 @@
 var generators      = require( 'yeoman-generator' )
 ,   yosay           = require( 'yosay' )
 ,   youtil          = require( './../../lib/youtil.js' )
+,   chalk           = require( 'chalk' )
 ,   _               = require( 'lodash' )
 ;
 
@@ -58,6 +59,12 @@ var ModelGenerator = generators.Base.extend(
                 }
             );
         }
+
+    ,   description:
+            chalk.bold(
+                'This is the ' + chalk.cyan( 'backbone model' ) + ' generator for the Backbone Application Template'
+            +   ', powered by ' + chalk.blue( 'marv' ) + chalk.red( 'iq' ) + '.'
+            )
 
     ,   initializing: function ()
         {

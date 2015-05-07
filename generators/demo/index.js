@@ -5,6 +5,7 @@
 //
 
 var generators      = require( 'yeoman-generator' )
+,   chalk           = require( 'chalk' )
 ,   _               = require( 'lodash' )
 ;
 
@@ -38,6 +39,12 @@ var DemoGenerator = generators.Base.extend(
                 }
             ;
         }
+
+    ,   description:
+            chalk.bold(
+                'This is the ' + chalk.cyan( 'demo app' ) + ' generator for the Backbone Application Template'
+            +   ', powered by ' + chalk.blue( 'marv' ) + chalk.red( 'iq' ) + '.'
+            )
 
     ,   configuring: function()
         {
