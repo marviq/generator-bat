@@ -4,9 +4,9 @@
   },
   "dependencies": {
     "chalk": "^1.0.0",
-    "semver": "^4.3.3",
+    "semver": "^4.3.4",
     "underscore.string": "^3.0.3",
-    "yeoman-generator": "^0.18.10",
+    "yeoman-generator": "^0.19.2",
     "yosay": "^1.0.3"
   },
   "description": "BAT ( Backbone Application Template ). A yeoman-generator created by Marviq.",
