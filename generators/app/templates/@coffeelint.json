@@ -4,6 +4,7 @@
   },
   "braces_spacing": {
     "level": "ignore",
+    "empty_object_spaces": 0,
     "spaces": 1
   },
   "camel_case_classes": {
