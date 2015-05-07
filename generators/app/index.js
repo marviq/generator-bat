@@ -110,6 +110,16 @@ var AppGenerator = generators.Base.extend(
                     ,   filter:     _.trim
                     }
                 ,   {
+                        name:       'copyrightOwner'
+                    ,   message:    'What is the full name of the copyright owner?'
+                    ,   default: function ( answers )
+                        {
+                            return answers.authorName;
+                        }
+                    ,   filter:     _.trim
+                    ,   store:      true
+                    }
+                ,   {
                         name:       'multiLanguage'
                     ,   type:       'confirm'
                     ,   message:    'Do you need multi language support?'
@@ -144,9 +154,10 @@ var AppGenerator = generators.Base.extend(
 
     ,   configuring: function ()
         {
-            var data    = this.templateData;
+            var data            = this.templateData;
 
-            data.i18n   = data.multiLanguage || data.demo;
+            data.i18n           = data.multiLanguage || data.demo;
+            data.copyrightYear  = new Date().getFullYear();
 
             //
             //  Save a '.yo-rc.json' config file.
@@ -229,7 +240,7 @@ var AppGenerator = generators.Base.extend(
                     ,   '@.jshintrc'
                     ,   [ '@AUTHORS' ]
                     ,   [ '@Gruntfile.coffee', tpl_tpl_settings ]
-                    ,   '@LICENSE'
+                    ,   [ '@LICENSE' ]
                     ,   [ '@README.md' ]
                     ,   '@coffeelint.json'
 

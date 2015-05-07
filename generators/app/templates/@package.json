@@ -16,11 +16,7 @@
     "dependencies": {},
     "description": "<%= packageDescription %>",
     "devDependencies": {},
-    "licenses": [
-        {
-            "type": "BSD"
-        }
-    ],
+    "license": "BSD-3-Clause",
     "main": "dist/app/bundle.js",
     "name": "<%= packageName %>",
     "private": true,
