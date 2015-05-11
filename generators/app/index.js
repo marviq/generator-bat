@@ -311,8 +311,7 @@ var AppGenerator = generators.Base.extend(
                     ]
             ,   devDeps =
                     [
-                        'browserify'
-                    ,   'browserify-shim'
+                        'browserify-shim'
                     ,   'chai'
                     ,   'coffeeify'
                     ,   'grunt'
