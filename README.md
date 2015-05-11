@@ -95,3 +95,6 @@ grunt test
 ```
 
 You might want to consider adding it to your dev task, depending on your workflow.
+
+## ChangeLog
+Refer to the [releases on GitHub](https://github.com/marviq/generator-bat/releases) for a detailed log of changes.
