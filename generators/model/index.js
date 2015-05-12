@@ -55,7 +55,7 @@ var ModelGenerator = generators.Base.extend(
                 'singleton'
             ,   {
                     type:           Boolean
-                ,   desc:           'Specify wether this model should be a singleton (instance).'
+                ,   desc:           'Specify whether this model should be a singleton (instance).'
                 }
             );
         }
