@@ -47,7 +47,7 @@ var ModelGenerator = generators.Base.extend(
                 'description'
             ,   {
                     type:           String
-                ,   desc:           'The purpose (description) of the model to create.'
+                ,   desc:           'The purpose of the model to create.'
                 }
             );
 
@@ -79,6 +79,8 @@ var ModelGenerator = generators.Base.extend(
         {
             askSomeQuestions: function ()
             {
+                //  Ask only those question that have not yet been provided with answers via the command line.
+                //
                 var prompts = this._promptsPruneByOptions(
                         [
                             {
@@ -142,10 +144,10 @@ var ModelGenerator = generators.Base.extend(
             _.extend(
                 data
             ,   {
-                    className:  _.capitalize( modelName ) + 'Model'
-                ,   fileBase:   _.kebabCase( _.deburr( modelName ))
+                    className:      _.capitalize( modelName ) + 'Model'
+                ,   fileBase:       _.kebabCase( _.deburr( modelName ))
 
-                ,   userName:   this.user.git.name()
+                ,   userName:       this.user.git.name()
                 }
             );
         }

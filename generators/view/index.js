@@ -27,6 +27,37 @@ var ViewGenerator = generators.Base.extend(
                 ,   desc:           'The name of the view to create.'
                 }
             );
+
+            //  Also add 'viewName' as a - hidden - option, defaulting to the positional argument's value.
+            //  This way `_promptsPruneByOptions()` can filter away prompting for the view name too.
+            //
+            this.option(
+                'viewName'
+            ,   {
+                    type:           String
+                ,   desc:           'The name of the view to create.'
+                ,   defaults:       this.viewName
+                ,   hide:           true
+                }
+            );
+
+            //  Normal options.
+            //
+            this.option(
+                'description'
+            ,   {
+                    type:           String
+                ,   desc:           'The purpose of the view to create.'
+                }
+            );
+
+            this.option(
+                'sass'
+            ,   {
+                    type:           Boolean
+                ,   desc:           'Specify whether this view should have a SASS file of its own.'
+                }
+            );
         }
 
     ,   description:
@@ -48,49 +79,58 @@ var ViewGenerator = generators.Base.extend(
         {
             askSomeQuestions: function ()
             {
-                var done = this.async();
-
-                //  Have Yeoman greet the user.
+                //  Ask only those question that have not yet been provided with answers via the command line.
                 //
-                this.log( yosay( 'So you want a BAT view?' ) );
+                var prompts = this._promptsPruneByOptions(
+                        [
+                            {
+                                type:       'input'
+                            ,   name:       'viewName'
+                            ,   message:    'What is the name of this view you so desire?'
+                            ,   default:    youtil.definedToString( this.options.viewName )
+                            ,   validate:   youtil.isIdentifier
+                            ,   filter: function ( value )
+                                {
+                                    return decapitalize( _.trim( value ).replace( /view$/i, '' ));
+                                }
+                            }
+                        ,   {
+                                type:       'input'
+                            ,   name:       'description'
+                            ,   message:    'What is the purpose (description) of this view?'
+                            ,   validate:   youtil.isNonBlank
+                            ,   filter:     youtil.sentencify
+                            }
+                        ,   {
+                                type:       'confirm'
+                            ,   name:       'sass'
+                            ,   message:    'Would you like a SASS file for this view?'
+                            ,   default:    true
+                            ,   validate:   _.isBoolean
+                            }
+                        ]
+                    )
+                ;
 
-                var prompts = [
-                    {
-                        type:       'input'
-                    ,   name:       'viewName'
-                    ,   message:    'What is the name of this view you so desire?'
-                    ,   default:    youtil.definedToString( this.viewName )
-                    ,   validate:   youtil.isIdentifier
-                    ,   filter: function ( value )
+                if ( prompts.length )
+                {
+                    var done = this.async();
+
+                    //  Have Yeoman greet the user.
+                    //
+                    this.log( yosay( 'So you want a BAT view?' ) );
+
+                    this.prompt(
+                        prompts
+                    ,   function ( answers )
                         {
-                            return decapitalize( _.trim( value ).replace( /view$/i, '' ));
-                        }
-                    }
-                ,   {
-                        type:       'input'
-                    ,   name:       'description'
-                    ,   message:    'What is the purpose (description) of this view?'
-                    ,   validate:   youtil.isNonBlank
-                    ,   filter:     youtil.sentencify
-                        }
-                ,   {
-                        type:       'confirm'
-                    ,   name:       'sass'
-                    ,   message:    'Would you like a SASS file for this view?'
-                    ,   default:    true
-                    }
-                ];
+                            _.extend( this.templateData, answers );
 
-                this.prompt(
-                    prompts
-                ,   function ( answers )
-                    {
-                        _.extend( this.templateData, answers );
+                            done();
 
-                        done();
-
-                    }.bind( this )
-                );
+                        }.bind( this )
+                    );
+                }
             }
         }
 

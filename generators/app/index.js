@@ -40,7 +40,85 @@ var AppGenerator = generators.Base.extend(
                     type:           String
                 ,   required:       false
                 ,   desc:           'The package name of the webapp to create.'
-                ,   defaults:       this.appname
+                }
+            );
+
+            //  Also add 'packageName' as a - hidden - option, defaulting to the positional argument's value.
+            //  This way `_promptsPruneByOptions()` can filter away prompting for the package name too.
+            //
+            this.option(
+                'packageName'
+            ,   {
+                    type:           String
+                ,   desc:           'The package name of the webapp to create.'
+                ,   defaults:       this.packageName
+                ,   hide:           true
+                }
+            );
+
+            //  Normal options.
+            //
+            this.option(
+                'description'
+            ,   {
+                    type:           String
+                ,   desc:           'The purpose of the webapp to create.'
+                }
+            );
+
+            this.option(
+                'authorName'
+            ,   {
+                    type:           String
+                ,   desc:           'The name of the main author creating the webapp.'
+                }
+            );
+
+            this.option(
+                'authorEmail'
+            ,   {
+                    type:           String
+                ,   desc:           'The email address of the main author creating the webapp.'
+                }
+            );
+
+            this.option(
+                'authorUrl'
+            ,   {
+                    type:           String
+                ,   desc:           'A website url identifying the main author creating the webapp.'
+                }
+            );
+
+            this.option(
+                'copyrightOwner'
+            ,   {
+                    type:           String
+                ,   desc:           'The full name of the webapp\'s copyright owner.'
+                }
+            );
+
+            this.option(
+                'i18n'
+            ,   {
+                    type:           Boolean
+                ,   desc:           'Specify whether internationalisation support is needed.'
+                }
+            );
+
+            this.option(
+                'ie8'
+            ,   {
+                    type:           Boolean
+                ,   desc:           'Specify whether internet explorer version 8 support is needed.'
+                }
+            );
+
+            this.option(
+                'demo'
+            ,   {
+                    type:           Boolean
+                ,   desc:           'Specify whether the demonstration app should also be included.'
                 }
             );
         }
@@ -65,106 +143,114 @@ var AppGenerator = generators.Base.extend(
             {
                 /* jshint laxbreak: true */
 
-                var done = this.async();
-
-                //  Have Yeoman greet the user.
+                //  Ask only those question that have not yet been provided with answers via the command line.
                 //
-                this.log( yosay(
-                    'Welcome to the BAT generator! (Backbone Application Template)\n'
-                +   'Powered by marviq'
-                ));
+                var prompts = this._promptsPruneByOptions(
+                        [
+                            {
+                                type:       'input'
+                            ,   name:       'packageName'
+                            ,   message:    'What is the package name of this webapp?'
+                            ,   default:    youtil.definedToString( this.options.packageName ) || youtil.definedToString( this.appname )
+                            ,   validate:   youtil.isNpmName
+                            }
+                        ,   {
+                                type:       'input'
+                            ,   name:       'description'
+                            ,   message:    'What is the purpose (description) of this webapp?'
+                            ,   default:    youtil.definedToString( this.options.description )
+                            ,   validate:   youtil.isNonBlank
+                            ,   filter:     youtil.sentencify
+                            }
+                        ,   {
+                                type:       'input'
+                            ,   name:       'authorName'
+                            ,   message:    'What is your name?'
+                            ,   default:    ( youtil.definedToString( this.options.auhorName ) || youtil.definedToString( this.user.git.name() ))
+                            ,   validate:   youtil.isNonBlank
+                            ,   filter:     clean
+                            }
+                        ,   {
+                                type:       'input'
+                            ,   name:       'authorEmail'
+                            ,   message:    'What is your email address?'
+                            ,   default:    ( youtil.definedToString( this.options.auhorEmail ) || youtil.definedToString( this.user.git.email() ))
+                            ,   validate:   youtil.isNonBlank
+                            ,   filter:     _.trim
+                            }
+                        ,   {
+                                type:       'input'
+                            ,   name:       'authorUrl'
+                            ,   message:    'If any, by what website URL would you like to be known?'
+                            ,   default:    ( youtil.definedToString( this.options.auhorUrl ) || '' )
+                            ,   filter:     _.trim
+                            }
+                        ,   {
+                                type:       'input'
+                            ,   name:       'copyrightOwner'
+                            ,   message:    'What is the full name of the copyright owner?'
+                            ,   default: function ( answers )
+                                {
+                                    return answers.authorName;
+                                }
+                            ,   validate:   youtil.isNonBlank
+                            ,   filter:     _.trim
+                            ,   store:      true
+                            }
+                        ,   {
+                                type:       'confirm'
+                            ,   name:       'i18n'
+                            ,   message:    'Do you need internationalisation support?'
+                            ,   default:    false
+                            }
+                        ,   {
+                                type:       'confirm'
+                            ,   name:       'ie8'
+                            ,   message:    'Do you need IE8 and lower support? (affects the jQuery version and shims HTML5 and media query support)'
+                            ,   default:    false
+                            }
+                        ,   {
+                                type:       'confirm'
+                            ,   name:       'demo'
+                            ,   message:    'Would you like the demo app now? (If not, you can always get it later through `yo bat:demo`)'
+                            ,   default:    false
+                            }
+                        ]
+                    )
+                ;
 
-                //  Ask the user for the webapp details.
-                //
-                var prompts = [
-                    {
-                        type:       'input'
-                    ,   name:       'packageName'
-                    ,   message:    'What is the package name of this webapp?'
-                    ,   default:    youtil.definedToString( this.packageName )
-                    ,   validate:   youtil.isNpmName
-                    }
-                ,   {
-                        type:       'input'
-                    ,   name:       'packageDescription'
-                    ,   message:    'What is the purpose (description) of this webapp?'
-                    ,   validate:   youtil.isNonBlank
-                    ,   filter:     youtil.sentencify
-                    }
-                ,   {
-                        type:       'input'
-                    ,   name:       'authorName'
-                    ,   message:    'What is your name?'
-                    ,   default:    youtil.definedToString( this.user.git.name() )
-                    ,   validate:   youtil.isNonBlank
-                    ,   filter:     clean
-                    }
-                ,   {
-                        type:       'input'
-                    ,   name:       'authorEmail'
-                    ,   message:    'What is your email address?'
-                    ,   default:    youtil.definedToString( this.user.git.email() )
-                    ,   validate:   youtil.isNonBlank
-                    ,   filter:     _.trim
-                    }
-                ,   {
-                        type:       'input'
-                    ,   name:       'authorUrl'
-                    ,   message:    'If any, by what URL would you like to be known?'
-                    ,   default:    ''
-                    ,   filter:     _.trim
-                    }
-                ,   {
-                        type:       'input'
-                    ,   name:       'copyrightOwner'
-                    ,   message:    'What is the full name of the copyright owner?'
-                    ,   default: function ( answers )
+                if ( prompts.length )
+                {
+                    var done = this.async();
+
+                    //  Have Yeoman greet the user.
+                    //
+                    this.log( yosay(
+                        'Welcome to the BAT generator! (Backbone Application Template)\n'
+                    +   'Powered by marviq'
+                    ));
+
+                    this.prompt(
+                        prompts
+                    ,   function ( answers )
                         {
-                            return answers.authorName;
-                        }
-                    ,   validate:   youtil.isNonBlank
-                    ,   filter:     _.trim
-                    ,   store:      true
-                    }
-                ,   {
-                        type:       'confirm'
-                    ,   name:       'i18n'
-                    ,   message:    'Do you need internationalisation support?'
-                    ,   default:    false
-                    }
-                ,   {
-                        type:       'confirm'
-                    ,   name:       'ie8'
-                    ,   message:    'Do you need IE8 and lower support? (affects the jQuery version and shims HTML5 and media query support)'
-                    ,   default:    false
-                    }
-                ,   {
-                        type:       'confirm'
-                    ,   name:       'demo'
-                    ,   message:    'Would you like the demo app now? (If not, you can always get it later through `yo bat:demo`)'
-                    ,   default:    false
-                    }
-                ];
+                            _.extend( this.templateData, answers );
 
-                this.prompt(
-                    prompts
-                ,   function ( answers )
-                    {
-                        _.extend( this.templateData, answers );
+                            done();
 
-                        done();
-
-                    }.bind( this )
-                );
+                        }.bind( this )
+                    );
+                }
             }
         }
 
     ,   configuring: function ()
         {
-            var data            = this.templateData;
+            var data                = this.templateData;
 
-            data.i18n           = data.i18n || data.demo;
-            data.copyrightYear  = new Date().getFullYear();
+            data.i18n               = data.i18n || data.demo;
+            data.copyrightYear      = new Date().getFullYear();
+            data.packageDescription = data.description;
 
             //
             //  Save a '.yo-rc.json' config file.
