@@ -62,8 +62,9 @@ var ModelGenerator = generators.Base.extend(
 
     ,   description:
             chalk.bold(
-                'This is the ' + chalk.cyan( 'backbone model' ) + ' generator for the Backbone Application Template'
-            +   ', powered by ' + chalk.blue( 'marv' ) + chalk.red( 'iq' ) + '.'
+                'This is the ' + chalk.cyan( 'backbone model' )
+            +   ' generator for BAT, the Backbone Application Template'
+            +   ' created by ' + chalk.blue( 'marv' ) + chalk.red( 'iq' ) + '.'
             )
 
     ,   initializing: function ()

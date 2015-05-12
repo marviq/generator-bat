@@ -1,5 +1,6 @@
-## generator-bat ( Backbone Application Template )
-Ever got tired of having to bootstrap your new projects over and over again? This Yeoman generator will generate it for you!
+# BAT, the Backbone Application Template; a Yeoman generator collection created by marviq
+
+Ever got tired of having to scaffold your new projects over and over again? Yeoman and BAT will do it for you!
 
 ## Why would you want to use BAT?
 When using the BAT generator you can immediatly start developing your application instead of worrying about setting everything up.

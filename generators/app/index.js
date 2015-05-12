@@ -124,7 +124,11 @@ var AppGenerator = generators.Base.extend(
         }
 
     ,   description:
-            chalk.bold( 'This is the ' + chalk.cyan( 'project and barebones app' ) + ' generator for the Backbone Application Template, powered by ' + chalk.blue( 'marv' ) + chalk.red( 'iq' ) + '.' )
+            chalk.bold(
+                'This is the ' + chalk.cyan( 'project and barebones app' )
+            +   ' generator for BAT, the Backbone Application Template'
+            +   ' created by ' + chalk.blue( 'marv' ) + chalk.red( 'iq' ) + '.'
+            )
 
     ,   initializing: function ()
         {
@@ -225,10 +229,7 @@ var AppGenerator = generators.Base.extend(
 
                     //  Have Yeoman greet the user.
                     //
-                    this.log( yosay(
-                        'Welcome to the BAT generator! (Backbone Application Template)\n'
-                    +   'Powered by marviq'
-                    ));
+                    this.log( yosay( 'Welcome to BAT, the Backbone Application Template' ));
 
                     this.prompt(
                         prompts

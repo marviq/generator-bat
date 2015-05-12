@@ -42,8 +42,9 @@ var DemoGenerator = generators.Base.extend(
 
     ,   description:
             chalk.bold(
-                'This is the ' + chalk.cyan( 'demo app' ) + ' generator for the Backbone Application Template'
-            +   ', powered by ' + chalk.blue( 'marv' ) + chalk.red( 'iq' ) + '.'
+                'This is the ' + chalk.cyan( 'demo app' )
+            +   ' generator for BAT, the Backbone Application Template'
+            +   ' created by ' + chalk.blue( 'marv' ) + chalk.red( 'iq' ) + '.'
             )
 
     ,   configuring: function()
