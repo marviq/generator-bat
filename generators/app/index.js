@@ -122,6 +122,7 @@ var AppGenerator = generators.Base.extend(
                         {
                             return answers.authorName;
                         }
+                    ,   validate:   youtil.isNonBlank
                     ,   filter:     _.trim
                     ,   store:      true
                     }
