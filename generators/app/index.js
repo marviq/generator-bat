@@ -39,7 +39,7 @@ var AppGenerator = generators.Base.extend(
             ,   {
                     type:           String
                 ,   required:       false
-                ,   desc:           'The package name of the webapp to create.'
+                ,   desc:           'The name of the webapp to create.'
                 }
             );
 
@@ -50,7 +50,7 @@ var AppGenerator = generators.Base.extend(
                 'packageName'
             ,   {
                     type:           String
-                ,   desc:           'The package name of the webapp to create.'
+                ,   desc:           'The name of the webapp to create.'
                 ,   defaults:       this.packageName
                 ,   hide:           true
                 }
@@ -150,7 +150,7 @@ var AppGenerator = generators.Base.extend(
                             {
                                 type:       'input'
                             ,   name:       'packageName'
-                            ,   message:    'What is the package name of this webapp?'
+                            ,   message:    'What is the name of this webapp you so desire?'
                             ,   default:    youtil.definedToString( this.options.packageName ) || youtil.definedToString( this.appname )
                             ,   validate:   youtil.isNpmName
                             }
