@@ -59,7 +59,7 @@ var CollectionGenerator = generators.Base.extend(
                         type:       'input'
                     ,   name:       'collectionName'
                     ,   message:    'What is the name of this collection you so desire?'
-                    ,   default:    this.collectionName
+                    ,   default:    youtil.definedToString( this.collectionName )
                     ,   validate:   youtil.isIdentifier
                     ,   filter: function ( value )
                         {

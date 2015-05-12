@@ -85,7 +85,7 @@ var ModelGenerator = generators.Base.extend(
                                 type:       'input'
                             ,   name:       'modelName'
                             ,   message:    'What is the name of this model you so desire?'
-                            ,   default:    this.options.modelName
+                            ,   default:    youtil.definedToString( this.options.modelName )
                             ,   validate:   youtil.isIdentifier
                             ,   filter: function ( value )
                                 {
@@ -96,7 +96,7 @@ var ModelGenerator = generators.Base.extend(
                                 type:       'input'
                             ,   name:       'description'
                             ,   message:    'What is the purpose (description) of this model?'
-                            ,   default:    this.options.description
+                            ,   default:    youtil.definedToString( this.options.description )
                             ,   validate:   youtil.isNonBlank
                             ,   filter:     youtil.sentencify
                             }

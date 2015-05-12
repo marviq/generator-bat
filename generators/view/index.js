@@ -59,7 +59,7 @@ var ViewGenerator = generators.Base.extend(
                         type:       'input'
                     ,   name:       'viewName'
                     ,   message:    'What is the name of this view you so desire?'
-                    ,   default:    this.viewName
+                    ,   default:    youtil.definedToString( this.viewName )
                     ,   validate:   youtil.isIdentifier
                     ,   filter: function ( value )
                         {

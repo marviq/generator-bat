@@ -81,7 +81,7 @@ var AppGenerator = generators.Base.extend(
                         type:       'input'
                     ,   name:       'packageName'
                     ,   message:    'What is the package name of this webapp?'
-                    ,   default:    this.packageName
+                    ,   default:    youtil.definedToString( this.packageName )
                     ,   validate:   youtil.isNpmName
                     }
                 ,   {
@@ -95,7 +95,7 @@ var AppGenerator = generators.Base.extend(
                         type:       'input'
                     ,   name:       'authorName'
                     ,   message:    'What is your name?'
-                    ,   default:    this.user.git.name()
+                    ,   default:    youtil.definedToString( this.user.git.name() )
                     ,   validate:   youtil.isNonBlank
                     ,   filter:     clean
                     }
@@ -103,7 +103,7 @@ var AppGenerator = generators.Base.extend(
                         type:       'input'
                     ,   name:       'authorEmail'
                     ,   message:    'What is your email address?'
-                    ,   default:    this.user.git.email()
+                    ,   default:    youtil.definedToString( this.user.git.email() )
                     ,   validate:   youtil.isNonBlank
                     ,   filter:     _.trim
                     }
