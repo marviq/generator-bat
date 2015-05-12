@@ -72,11 +72,7 @@ var ModelGenerator = generators.Base.extend(
 
             //  Container for template expansion data.
             //
-            this.templateData =
-                {
-                    modelName:      this.modelName
-                }
-            ;
+            this.templateData = {};
         }
 
     ,   prompting:
