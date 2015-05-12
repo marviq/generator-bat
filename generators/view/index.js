@@ -75,7 +75,7 @@ var ViewGenerator = generators.Base.extend(
                         }
                 ,   {
                         type:       'confirm'
-                    ,   name:       'sassFile'
+                    ,   name:       'sass'
                     ,   message:    'Would you like a SASS file for this view?'
                     ,   default:    true
                     }
@@ -124,7 +124,7 @@ var ViewGenerator = generators.Base.extend(
                     }
                 ;
 
-                if ( data.sassFile )
+                if ( data.sass )
                 {
                     templates[ 'view.sass' ] = [ 'src/sass/views/_' + data.fileBase + '.sass' ];
                 }
@@ -141,7 +141,7 @@ var ViewGenerator = generators.Base.extend(
 
                 /* jshint laxbreak: true */
 
-                if ( !( data.sassFile )) { return; }
+                if ( !( data.sass )) { return; }
 
                 //
                 //  Add an `@import "views/_<fileBase>" statement to the '_views.sass' file.
