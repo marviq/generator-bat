@@ -128,8 +128,8 @@ var AppGenerator = generators.Base.extend(
                     }
                 ,   {
                         type:       'confirm'
-                    ,   name:       'multiLanguage'
-                    ,   message:    'Do you need multi language support?'
+                    ,   name:       'i18n'
+                    ,   message:    'Do you need internationalisation support?'
                     ,   default:    false
                     }
                 ,   {
@@ -163,7 +163,7 @@ var AppGenerator = generators.Base.extend(
         {
             var data            = this.templateData;
 
-            data.i18n           = data.multiLanguage || data.demo;
+            data.i18n           = data.i18n || data.demo;
             data.copyrightYear  = new Date().getFullYear();
 
             //
