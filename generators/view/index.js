@@ -56,7 +56,8 @@ var ViewGenerator = generators.Base.extend(
 
                 var prompts = [
                     {
-                        name:       'viewName'
+                        type:       'input'
+                    ,   name:       'viewName'
                     ,   message:    'What is the name of this view you so desire?'
                     ,   default:    this.viewName
                     ,   validate:   youtil.isIdentifier
@@ -66,7 +67,8 @@ var ViewGenerator = generators.Base.extend(
                         }
                     }
                 ,   {
-                        name:       'description'
+                        type:       'input'
+                    ,   name:       'description'
                     ,   message:    'What is the purpose (description) of this view?'
                     ,   validate:   youtil.isNonBlank
                     ,   filter:     youtil.sentencify

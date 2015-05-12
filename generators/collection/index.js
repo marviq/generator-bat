@@ -56,7 +56,8 @@ var CollectionGenerator = generators.Base.extend(
 
                 var prompts = [
                     {
-                        name:       'collectionName'
+                        type:       'input'
+                    ,   name:       'collectionName'
                     ,   message:    'What is the name of this collection you so desire?'
                     ,   default:    this.collectionName
                     ,   validate:   youtil.isIdentifier
@@ -66,7 +67,8 @@ var CollectionGenerator = generators.Base.extend(
                         }
                     }
                 ,   {
-                        name:       'description'
+                        type:       'input'
+                    ,   name:       'description'
                     ,   message:    'What is the purpose (description) of this collection?'
                     ,   validate:   youtil.isNonBlank
                     ,   filter:     youtil.sentencify
@@ -78,7 +80,8 @@ var CollectionGenerator = generators.Base.extend(
                     ,   default:    false
                     }
                 ,   {
-                        name:       'modelName'
+                        type:       'input'
+                    ,   name:       'modelName'
                     ,   message:    'What is the model name for this collection?'
                     ,   default: function ( answers )
                         {

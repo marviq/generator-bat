@@ -82,7 +82,8 @@ var ModelGenerator = generators.Base.extend(
                 var prompts = this._promptsPruneByOptions(
                         [
                             {
-                                name:       'modelName'
+                                type:       'input'
+                            ,   name:       'modelName'
                             ,   message:    'What is the name of this model you so desire?'
                             ,   default:    this.options.modelName
                             ,   validate:   youtil.isIdentifier
@@ -92,7 +93,8 @@ var ModelGenerator = generators.Base.extend(
                                 }
                             }
                         ,   {
-                                name:       'description'
+                                type:       'input'
+                            ,   name:       'description'
                             ,   message:    'What is the purpose (description) of this model?'
                             ,   default:    this.options.description
                             ,   validate:   youtil.isNonBlank

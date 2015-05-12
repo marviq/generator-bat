@@ -78,39 +78,45 @@ var AppGenerator = generators.Base.extend(
                 //
                 var prompts = [
                     {
-                        name:       'packageName'
+                        type:       'input'
+                    ,   name:       'packageName'
                     ,   message:    'What is the package name of this webapp?'
                     ,   default:    this.packageName
                     ,   validate:   youtil.isNpmName
                     }
                 ,   {
-                        name:       'packageDescription'
+                        type:       'input'
+                    ,   name:       'packageDescription'
                     ,   message:    'What is the purpose (description) of this webapp?'
                     ,   validate:   youtil.isNonBlank
                     ,   filter:     youtil.sentencify
                     }
                 ,   {
-                        name:       'authorName'
+                        type:       'input'
+                    ,   name:       'authorName'
                     ,   message:    'What is your name?'
                     ,   default:    this.user.git.name()
                     ,   validate:   youtil.isNonBlank
                     ,   filter:     clean
                     }
                 ,   {
-                        name:       'authorEmail'
+                        type:       'input'
+                    ,   name:       'authorEmail'
                     ,   message:    'What is your email address?'
                     ,   default:    this.user.git.email()
                     ,   validate:   youtil.isNonBlank
                     ,   filter:     _.trim
                     }
                 ,   {
-                        name:       'authorUrl'
+                        type:       'input'
+                    ,   name:       'authorUrl'
                     ,   message:    'If any, by what URL would you like to be known?'
                     ,   default:    ''
                     ,   filter:     _.trim
                     }
                 ,   {
-                        name:       'copyrightOwner'
+                        type:       'input'
+                    ,   name:       'copyrightOwner'
                     ,   message:    'What is the full name of the copyright owner?'
                     ,   default: function ( answers )
                         {
@@ -120,20 +126,20 @@ var AppGenerator = generators.Base.extend(
                     ,   store:      true
                     }
                 ,   {
-                        name:       'multiLanguage'
-                    ,   type:       'confirm'
+                        type:       'confirm'
+                    ,   name:       'multiLanguage'
                     ,   message:    'Do you need multi language support?'
                     ,   default:    false
                     }
                 ,   {
-                        name:       'ie8'
-                    ,   type:       'confirm'
+                        type:       'confirm'
+                    ,   name:       'ie8'
                     ,   message:    'Do you need IE8 and lower support? (affects the jQuery version and shims HTML5 and media query support)'
                     ,   default:    false
                     }
                 ,   {
-                        name:       'demo'
-                    ,   type:       'confirm'
+                        type:       'confirm'
+                    ,   name:       'demo'
                     ,   message:    'Would you like the demo app now? (If not, you can always get it later through `yo bat:demo`)'
                     ,   default:    false
                     }
