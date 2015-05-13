@@ -169,7 +169,7 @@ var AppGenerator = generators.Base.extend(
                         ,   {
                                 type:       'input'
                             ,   name:       'authorName'
-                            ,   message:    'What is your name?'
+                            ,   message:    'What is the main author\'s name?'
                             ,   default:    ( youtil.definedToString( this.options.auhorName ) || youtil.definedToString( this.user.git.name() ))
                             ,   validate:   youtil.isNonBlank
                             ,   filter:     clean
@@ -177,7 +177,7 @@ var AppGenerator = generators.Base.extend(
                         ,   {
                                 type:       'input'
                             ,   name:       'authorEmail'
-                            ,   message:    'What is your email address?'
+                            ,   message:    'What is the main author\'s email address?'
                             ,   default:    ( youtil.definedToString( this.options.auhorEmail ) || youtil.definedToString( this.user.git.email() ))
                             ,   validate:   youtil.isNonBlank
                             ,   filter:     _.trim
@@ -185,14 +185,14 @@ var AppGenerator = generators.Base.extend(
                         ,   {
                                 type:       'input'
                             ,   name:       'authorUrl'
-                            ,   message:    'If any, by what website URL would you like to be known?'
+                            ,   message:    'If any, what is the main author\'s website url?'
                             ,   default:    ( youtil.definedToString( this.options.auhorUrl ) || '' )
                             ,   filter:     _.trim
                             }
                         ,   {
                                 type:       'input'
                             ,   name:       'copyrightOwner'
-                            ,   message:    'What is the full name of the copyright owner?'
+                            ,   message:    'What is the full name of the copyright owner of this webapp?'
                             ,   default: function ( answers )
                                 {
                                     return answers.authorName;
