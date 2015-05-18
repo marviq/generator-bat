@@ -1,6 +1,6 @@
 # <%= packageName %>
 
-<%= packageDescription %>j
+<%= packageDescription %>
 
 
 ## Development
