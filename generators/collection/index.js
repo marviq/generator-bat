@@ -132,7 +132,12 @@ var CollectionGenerator = generators.Base.extend(
                             ,   message:    'What is the model name for this collection?'
                             ,   default: function ( answers )
                                 {
-                                    return ( youtil.definedToString( this.options.modelName ) || answers.collectionName );
+                                    return (
+                                        youtil.definedToString( this.options.modelName )
+                                    ||  answers.collectionName
+                                    ||  youtil.definedToString( this.options.collectionName )
+                                    );
+
                                 }.bind( this )
                             ,   validate:   youtil.isIdentifier
                             ,   filter: function ( value )
