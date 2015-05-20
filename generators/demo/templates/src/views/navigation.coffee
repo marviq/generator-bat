@@ -102,7 +102,7 @@
         #
         #   @method         setActiveMenuItem
         #
-        #   @param          {String}    url     Url excluding the hash belonging to the menuitem
+        #   @param          {String}            url                     Url excluding the hash belonging to the menuitem
         #
         ###
 

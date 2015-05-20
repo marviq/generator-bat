@@ -248,8 +248,8 @@
         #
         #   @method         navigate
         #
-        #   @param          {Object}    [options]
-        #   @param          {Boolean}   [options.trigger]
+        #   @param          {Object}            [options]
+        #   @param          {Boolean}           [options.trigger]
         #
         ###
 
@@ -274,7 +274,7 @@
         #
         #   @method         startApp
         #
-        #   @param          {Object}    [options]   Any options you may want to pass on to `Backbone.history.start( options )`.
+        #   @param          {Object}            [options]               Any options you may want to pass on to `Backbone.history.start( options )`.
         #
         ###
 
@@ -305,8 +305,8 @@
         #   @method         _openPage
         #   @protected
         #
-        #   @param          {Class}         View        The targeted view class of the matched route.
-        #   @param          {Object}        params      A key-value mapping of the matched route's url pattern's parameters.
+        #   @param          {Class}             View                    The targeted view class of the matched route.
+        #   @param          {Object}            params                  A key-value mapping of the matched route's url pattern's parameters.
         ###
 
         _openPage: ( View, params ) ->
@@ -362,8 +362,8 @@
             #
             #   @event          open
             #
-            #   @param          {Backbone.View} view        The view instance currently loaded.
-            #   @param          {Object}        params      A key-value mapping of the matched route's url pattern's parameters.
+            #   @param          {Backbone.View}     view                    The view instance currently loaded.
+            #   @param          {Object}            params                  A key-value mapping of the matched route's url pattern's parameters.
             #
             ###
 

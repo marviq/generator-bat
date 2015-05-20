@@ -49,7 +49,7 @@
         ###*
         #   @method         exampleAsyncFunction
         #
-        #   @param          {Function}      callback    A callback function to call after one second.
+        #   @param          {Function}          callback                A callback function to call after one second.
         #
         ###
 
