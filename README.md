@@ -1,5 +1,7 @@
 # BAT, the Backbone Application Template
 
+[![David dependency drift detection](https://david-dm.org/marviq/generator-bat.svg)](https://david-dm.org/marviq/generator-bat)
+
 A Yeoman generator collection created by marviq.
 
 Ever got tired of having to scaffold your new webapp projects over and over again? Moan no more; Yeoman and BAT will do it for you!
