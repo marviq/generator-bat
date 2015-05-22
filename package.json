@@ -2,6 +2,7 @@
   "author": {
     "name": "Raymond de Wit"
   },
+  "bugs": "https://github.com/marviq/generator-bat/issues",
   "dependencies": {
     "chalk": "^1.0.0",
     "semver": "^4.3.4",
