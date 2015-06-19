@@ -60,7 +60,7 @@
 
 Q               = require( 'q' )
 
-##  Uncomment / remove for your developement convenience.
+##  Comment out or remove this for your developement convenience.
 ##
 ##  https://github.com/kriskowal/q/wiki/API-Reference#qstopunhandledrejectiontracking
 ##
