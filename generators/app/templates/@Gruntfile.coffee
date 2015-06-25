@@ -242,9 +242,10 @@ module.exports = ( grunt ) ->
                     ##  Scan all files for process, global, __filename, and __dirname, defining as necessary.
                     ##  With this option npm modules are more likely to work but bundling takes longer.
                     ##
-                    ##  When you find yourself using 'browserify-shim', you're likely to want to set this to `true`.
+                    ##  When you find yourself using 'browserify-shim', you're likely to want to leave this set this to `true`.
+                    ##  If not, have a try at setting this to `false` for extra build speed.
                     ##
-                    detectGlobals:      false
+                    detectGlobals:      true
 
                     extensions: [
                                         '.coffee'
