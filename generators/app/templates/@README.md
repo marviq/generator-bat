@@ -53,7 +53,7 @@ command           | description
 
 ## Install 
 
-_\[Ultimately, you may also want to include instructions on how to install and use a production release of <%= packageName %>. This text is just a placeholder.\]_
+_\[Ultimately, you may also want to include instructions on how to install and use a production release of *<%= packageName %>*. This text is just a placeholder.\]_
 
 
 ## License
