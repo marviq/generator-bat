@@ -4,12 +4,12 @@
   },
   "bugs": "https://github.com/marviq/generator-bat/issues",
   "dependencies": {
-    "chalk": "^1.0.0",
+    "chalk": "^1.1.0",
     "mkdirp": "^0.5.1",
-    "semver": "^4.3.4",
-    "underscore.string": "^3.0.3",
+    "semver": "^4.3.6",
+    "underscore.string": "^3.1.1",
     "yeoman-generator": "^0.19.2",
-    "yosay": "^1.0.3"
+    "yosay": "^1.0.4"
   },
   "description": "BAT, the Backbone Application Template; a Yeoman generator collection created by marviq",
   "devDependencies": {
