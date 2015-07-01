@@ -5,6 +5,7 @@
   "bugs": "https://github.com/marviq/generator-bat/issues",
   "dependencies": {
     "chalk": "^1.0.0",
+    "mkdirp": "^0.5.1",
     "semver": "^4.3.4",
     "underscore.string": "^3.0.3",
     "yeoman-generator": "^0.19.2",
