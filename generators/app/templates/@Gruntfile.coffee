@@ -460,9 +460,10 @@ module.exports = ( grunt ) ->
                 ##  Destination
                 cssDir:                 '<%= build.part.style.tgtDir %>'
 
-                ##  Images will have been copied here first by means of the `copy:style` task.
+                ##  Images and fonts will have been copied here first by means of the `copy:style` task.
                 ##
                 imagesDir:              '<%= build.part.style.tgtDir %>images/'
+                fontsDir:               '<%= build.part.style.tgtDir %>fonts/'
 
                 relativeAssets:         true
 
