@@ -449,6 +449,11 @@ module.exports = ( grunt ) ->
         compass:
 
             options:
+
+                ##  This is not a "rails" app `project_type`
+                ##
+                app:                    'standalone'
+
                 ##  Source
                 sassDir:                '<%= build.part.style.src.compass %>'
 
