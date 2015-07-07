@@ -465,6 +465,8 @@ module.exports = ( grunt ) ->
                 imagesDir:              '<%= build.part.style.tgtDir %>images/'
                 fontsDir:               '<%= build.part.style.tgtDir %>fonts/'
 
+                ##  Compass's asset helper functions should produce urls relative to the stylesheet.
+                ##
                 relativeAssets:         true
 
                 raw:                    'sass_options = { :property_syntax => :new }\n'
