@@ -1,7 +1,7 @@
 {
 
 //
-//   This is a config file for jshint v2.6.3
+//   This is a config file for jshint v2.8.0
 //   http://www.jshint.com/docs/options/
 //
 //   Every option documented is listed here, just to be explicit about *our* defaults.
@@ -39,6 +39,7 @@
 ,   "strict":           true
 ,   "undef":            true
 ,   "unused":           true
+,   "varstmt":          false   //  Because `esnext` is also `false`
 
 //
 //  Below you'll find jshint's "relaxing" options: You'll want to leave most of them unset.
@@ -93,9 +94,11 @@
 ,   "jasmine":          false
 ,   "jquery":           true
 ,   "mocha":            false
+,   "module":           false
 ,   "mootools":         false
 ,   "node":             false
 ,   "nonstandard":      false
+,   "phantom":          false
 ,   "prototypejs":      false
 ,   "qunit":            false
 ,   "rhino":            false
