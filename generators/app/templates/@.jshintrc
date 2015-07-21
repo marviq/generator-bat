@@ -20,6 +20,7 @@
 ,   "eqeqeq":           true
 ,   "es3":              false   //  Because you dont want to cater for legacy browsers unless you *have* to.
 //, "es5":              true	//  Commented out because this is option is `true` by default, and jshint will nag you about that when we set it.
+,   "esnext":           false   //  Because ES6 in the browser isn't here yet.
 ,   "forin":            true
 ,   "freeze":           true
 ,   "futurehostile":    true
@@ -35,9 +36,9 @@
 ,   "plusplus":         false   //  Because++
 ,   "quotmark":         "single"//  Because single quotes are easier, on the eye, to type *** Deprecation warning; about coding style, not correctnees.
 ,   "singleGroups":     false   //  Because you want to use the grouping operator for readability and clarity.
+,   "strict":           true
 ,   "undef":            true
 ,   "unused":           true
-,   "strict":           true
 
 //
 //  Below you'll find jshint's "relaxing" options: You'll want to leave most of them unset.
@@ -48,7 +49,6 @@
 ,   "debug":            true    //  Because you want to use `debugger` statements, just not in production code.
 ,   "elision":          false
 ,   "eqnull":           true    //  Because `== null` makes sense.
-,   "esnext":           false
 ,   "evil":             false
 ,   "expr":             false
 ,   "funcscope":        false
