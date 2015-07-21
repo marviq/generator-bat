@@ -378,9 +378,7 @@ module.exports = ( grunt ) ->
 
             options:
 
-                ##  NOTE:   Current grunt-coffee-jshint@0.2.1 uses coffee-jshint@0.0.14, which uses jshint@2.1.11, which does not yet support the 'browserify'
-                ##          option and others.
-                ##          The use of browserify and the UMD (Universal Module Definition) pattern implies the legimate use of the globals below.
+                ##  NOTE:   The use of browserify and the UMD (Universal Module Definition) pattern implies the legimate use of the globals below.
                 ##
                 ##  I would have liked to specify these globals and other jshint options through a '.jshintrc' file instead but have been unsuccessful so far.
                 ##
@@ -388,8 +386,6 @@ module.exports = ( grunt ) ->
                 ##
                 globals: [
                                         'define'
-                                        'module'
-                                        'require'
                 ]
 
                 ##  Caveat: Using the extra variable `jshintOptions` to share a common set between the different targets below. Afaict this can't be done any
@@ -414,6 +410,7 @@ module.exports = ( grunt ) ->
                 options:
                     jshintOptions:      jshintOptions.concat( [
                         ##              Environment options:
+                                        'browserify'
                                         'browser'
                                         'devel'
                     ] )
