@@ -109,6 +109,7 @@
 //  Determine these other globals
 //
 
-,   "globals":          {}
-
+,   "globals": {
+        "define":       false   //  Added "define" because of AMD / RequireJS. Supposedly read-only, hence `false`.
+    }
 }
