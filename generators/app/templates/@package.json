@@ -1,28 +1,28 @@
 {
-    "author": {<% if ( authorEmail ) { %>
-        "email": "<%= authorEmail %>",<% } %>
-        "name": "<%= authorName %>"<% if ( authorUrl ) { %>,
-        "url": "<%= authorUrl %>"<% } %>
-    },
-    "browser": {},
-    "browserify": {
-        "transform": [
-            "coffeeify",
-            "browserify-shim",
-            "hbsfy"
-        ]
-    },
-    "browserify-shim": {},
-    "dependencies": {},
-    "description": "<%= packageDescription %>",
-    "devDependencies": {},
-    "license": "BSD-3-Clause",
-    "main": "dist/app/bundle.js",
-    "name": "<%= packageName %>",
-    "private": true,
-    "scripts": {
-        "prepublish": "command -v grunt > /dev/null || { echo >&2 'It appears that \"grunt\" is not installed.  Consider running \"[sudo ]npm install -g grunt-cli\" first.'; exit ; } && grunt",
-        "test": "command -v grunt > /dev/null || { echo >&2 'It appears that \"grunt\" is not installed.  Consider running \"[sudo ]npm install -g grunt-cli\" first.'; exit ; } && grunt test"
-    },
-    "version": "0.1.0"
+  "author": {<% if ( authorEmail ) { %>
+    "email": "<%= authorEmail %>",<% } %>
+    "name": "<%= authorName %>"<% if ( authorUrl ) { %>,
+    "url": "<%= authorUrl %>"<% } %>
+  },
+  "browser": {},
+  "browserify": {
+    "transform": [
+      "coffeeify",
+      "browserify-shim",
+      "hbsfy"
+    ]
+  },
+  "browserify-shim": {},
+  "dependencies": {},
+  "description": "<%= packageDescription %>",
+  "devDependencies": {},
+  "license": "BSD-3-Clause",
+  "main": "dist/app/bundle.js",
+  "name": "<%= packageName %>",
+  "private": true,
+  "scripts": {
+    "prepublish": "command -v grunt > /dev/null || { echo >&2 'It appears that \"grunt\" is not installed.  Consider running \"[sudo ]npm install -g grunt-cli\" first.'; exit ; } && grunt",
+    "test": "command -v grunt > /dev/null || { echo >&2 'It appears that \"grunt\" is not installed.  Consider running \"[sudo ]npm install -g grunt-cli\" first.'; exit ; } && grunt test"
+  },
+  "version": "0.1.0"
 }
