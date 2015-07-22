@@ -153,10 +153,6 @@ do () ->
 ##  [madlib]
 ##
 
-##  https://github.com/Qwerios/madlib-console#readme
-##
-console         = require( 'madlib-console' )
-
 ##  https://github.com/Qwerios/madlib-settings#readme
 ##
 settings        = require( 'madlib-settings' )

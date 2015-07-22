@@ -3,8 +3,7 @@
         module.exports = factory(
             require( 'backbone' )
             require( 'underscore' )
-            require( 'jquery' )
-            require( 'madlib-console' )<% if ( i18n ) { %>
+            require( 'jquery' )<% if ( i18n ) { %>
             require( 'madlib-locale' )<% } %>
 
             require( './views/index.coffee' )
@@ -13,8 +12,7 @@
         define( [
             'backbone'
             'underscore'
-            'jquery'
-            'madlib-console'<% if ( i18n ) { %>
+            'jquery'<% if ( i18n ) { %>
             'madlib-locale'<% } %>
 
             './views/index.coffee'
@@ -22,8 +20,7 @@
 )((
     Backbone
     _
-    $
-    console<% if ( i18n ) { %>
+    $<% if ( i18n ) { %>
     localeManager<% } %>
 
     Views...

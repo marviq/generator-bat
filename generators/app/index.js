@@ -397,7 +397,6 @@ var AppGenerator = generators.Base.extend(
                     [
                         'backbone'
                     ,   ( 'jquery' + ( data.ie8 ? '@<2' : '' ))
-                    ,   'madlib-console'
                     ,   'madlib-hostmapping'
                     ,   'madlib-settings'
                     ,   'q'

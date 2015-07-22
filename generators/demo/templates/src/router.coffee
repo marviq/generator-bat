@@ -4,7 +4,6 @@
             require( 'backbone' )
             require( 'underscore' )
             require( 'jquery' )
-            require( 'madlib-console' )
             require( './views/navigation.coffee' )
             require( './views/index.coffee' )
             require( './views/i18n.coffee' )
@@ -16,7 +15,6 @@
             'backbone'
             'underscore'
             'jquery'
-            'madlib-console'
             './views/navigation.coffee'
             './views/index.coffee'
             './views/i18n.coffee'
@@ -27,7 +25,6 @@
     Backbone
     _
     $
-    console
 
     NavigationView
 
