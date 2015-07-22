@@ -28,7 +28,7 @@ var DemoGenerator = generators.Base.extend(
         {
             this._assertBatApp();
 
-            var npm = require( this.destinationPath( 'package.json' ));
+            var npm = this.fs.readJSON( this.destinationPath( 'package.json' ));
 
             //  Container for template expansion data.
             //

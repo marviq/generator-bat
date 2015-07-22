@@ -349,11 +349,7 @@ var AppGenerator = generators.Base.extend(
                     ]
                 ;
 
-                if ( data.demo )
-                {
-                    this.composeWith( 'bat:demo' );
-                }
-                else
+                if ( !( data.demo ))
                 {
                     //
                     //  Do not write these when a demo app is wanted right now; avoids conflicts.
@@ -385,6 +381,14 @@ var AppGenerator = generators.Base.extend(
                 }
 
                 this._templatesProcess( templates );
+            }
+
+        ,   setupDemo: function ()
+            {
+                if ( this.templateData.demo )
+                {
+                    this.composeWith( 'bat:demo' );
+                }
             }
         }
 
