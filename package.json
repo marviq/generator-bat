@@ -14,7 +14,7 @@
   "description": "BAT, the Backbone Application Template; a Yeoman generator collection created by marviq",
   "devDependencies": {
     "coffeelint": "^1.9.6",
-    "jshint": "^2.7.0"
+    "jshint": "^2.8.0"
   },
   "files": [
     "AUTHORS",
