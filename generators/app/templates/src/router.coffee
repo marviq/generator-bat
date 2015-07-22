@@ -377,7 +377,7 @@
 
                     return
 
-                () =>
+                () ->
                     console.log( '[ROUTER] Failed to switch locale, do nothing...' )
 
                     return

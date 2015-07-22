@@ -147,7 +147,7 @@
             localeManager.setLocale( $select.val() ).then(
                 () =>
                     @render()
-                ( error ) =>
+                ( error ) ->
                     console.log( error )
             ).done()
 
