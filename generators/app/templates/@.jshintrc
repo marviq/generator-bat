@@ -56,7 +56,7 @@
 ,   "globalstrict":     false
 ,   "iterator":         false
 ,   "lastsemic":        false
-,   "laxbreak":         false   //  *** Deprecation warning; about coding style, not correctnees.
+,   "laxbreak":         true    //  Because, sometimes, you just need a break. *** Deprecation warning; about coding style, not correctnees.
 ,   "laxcomma":         true    //  Because you *like* comma-first style. *** Deprecation warning; about coding style, not correctnees.
 ,   "loopfunc":         false
 ,   "moz":              false
