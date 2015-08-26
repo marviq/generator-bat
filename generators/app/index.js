@@ -371,7 +371,7 @@ var AppGenerator = generators.Base.extend(
                     ,   'src/views/index.hbs'
                     );
 
-                    if ( this.i18n )
+                    if ( data.i18n )
                     {
                         templates.push(
                             'src/i18n/en_GB.json'
