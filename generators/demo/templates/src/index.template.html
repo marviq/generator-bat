@@ -1,9 +1,7 @@
 <!DOCTYPE html><%
 
-    var buildRun = encodeURIComponent( buildRun )
-    ,   styleUrl = style + '?build-run=' + buildRun
-    ,   appUrl   = app   + '?build-run=' + buildRun
-    ;
+    var buildRun = 'build-run=' + encodeURIComponent( buildRun );
+
 %>
 <html lang="en">
 <head><%
@@ -36,7 +34,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="<%- styleUrl %>" />#% if ( ie8 ) { %#<%
+    <link rel="stylesheet" type="text/css" href="<%- style %>?<%- buildRun %>" />#% if ( ie8 ) { %#<%
 
     //
     //  HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries.
@@ -59,6 +57,6 @@
     <div id="main-content">
         <!-- main views will be loaded here -->
     </div>
-    <script src="<%- appUrl %>"></script>
+    <script src="<%- app %>?<%- buildRun %>"></script>
 </body>
 </html>

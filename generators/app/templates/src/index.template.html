@@ -1,9 +1,7 @@
 <!DOCTYPE html><%
 
-    var buildRun = encodeURIComponent( buildRun )
-    ,   styleUrl = style + '?build-run=' + buildRun
-    ,   appUrl   = app   + '?build-run=' + buildRun
-    ;
+    var buildRun = 'build-run=' + encodeURIComponent( buildRun );
+
 %>
 <html lang="en">
 <head><%
@@ -30,7 +28,7 @@
     <title>#- packageName -#</title>
     <meta name="description" content="#- packageDescription -#">
 
-    <link rel="stylesheet" type="text/css" href="<%- styleUrl %>" />#% if ( ie8 ) { %#<%
+    <link rel="stylesheet" type="text/css" href="<%- style %>?<%- buildRun %>" />#% if ( ie8 ) { %#<%
 
     //
     //  HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries.
@@ -48,6 +46,6 @@
 </head>
 <body>
     <div id="main-content"></div>
-    <script src="<%- appUrl %>"></script>
+    <script src="<%- app %>?<%- buildRun %>"></script>
 </body>
 </html>
