@@ -220,19 +220,23 @@ var AppGenerator = generators.Base.extend(
 
                 if ( prompts.length )
                 {
-                    var done = this.async();
+                    return new Promise(
+                        function ( done ) {
 
-                    //  Have Yeoman greet the user.
-                    //
-                    this.log( yosay( 'Welcome to BAT, the Backbone Application Template' ));
+                            //  Have Yeoman greet the user.
+                            //
+                            this.log( yosay( 'Welcome to BAT, the Backbone Application Template' ));
 
-                    this.prompt(
-                        prompts
-                    ,   function ( answers )
-                        {
-                            _.extend( this.templateData, answers );
+                            this.prompt(
+                                prompts
+                            ,   function ( answers )
+                                {
+                                    _.extend( this.templateData, answers );
 
-                            done();
+                                    done();
+
+                                }.bind( this )
+                            );
 
                         }.bind( this )
                     );
@@ -456,89 +460,97 @@ var AppGenerator = generators.Base.extend(
 
         ,   assessGrunt: function ()
             {
-                var done    = this.async()
-                ,   error   = function ()
-                    {
-                        /* jshint laxbreak: true */
+                return new Promise(
+                    function ( done ) {
+                        var error   = function ()
+                            {
+                                /* jshint laxbreak: true */
 
-                        this.log(
-                            '\n'
-                        +   chalk.red( 'Hang on, it appears that "' + chalk.bold.yellow( 'grunt' ) + '" hasn\'t been installed yet!\n' )
-                        +   '\n'
-                        +   chalk.gray(
-                                'Consider running "'
-                            +   chalk.bold.yellow( chalk.cyan( '[' ) + 'sudo ' + chalk.cyan( ']' ) + 'npm install -g grunt-cli' )
-                            +   '" first.\n'
+                                this.log(
+                                    '\n'
+                                +   chalk.red( 'Hang on, it appears that "' + chalk.bold.yellow( 'grunt' ) + '" hasn\'t been installed yet!\n' )
+                                +   '\n'
+                                +   chalk.gray(
+                                        'Consider running "'
+                                    +   chalk.bold.yellow( chalk.cyan( '[' ) + 'sudo ' + chalk.cyan( ']' ) + 'npm install -g grunt-cli' )
+                                    +   '" first.\n'
+                                    )
+                                );
+
+                                this.preReqIssues++;
+
+                            }.bind( this )
+                        ;
+
+                        this.spawnCommand( 'command', [ '-v', 'grunt' ], { stdio: 'ignore' } )
+                            .on( 'exit', function ( exit )
+                                {
+                                    if ( exit ) { error(); }
+                                    done();
+                                }
                             )
-                        );
-
-                        this.preReqIssues++;
+                        ;
 
                     }.bind( this )
-                ;
-
-                this.spawnCommand( 'command', [ '-v', 'grunt' ], { stdio: 'ignore' } )
-                    .on( 'exit', function ( exit )
-                        {
-                            if ( exit ) { error(); }
-                            done();
-                        }
-                    )
-                ;
+                );
             }
 
         ,   assessCompass: function ()
             {
-                var done    = this.async()
-                ,   minver  = '1.0.0'
-                ,   version = ''
-                ,   compass = chalk.bold.yellow( 'compass' )
-                ,   error   = function ( nexist )
-                    {
-                        /* jshint laxbreak: true */
+                return new Promise(
+                    function ( done ) {
+                        var minver  = '1.0.0'
+                        ,   version = ''
+                        ,   compass = chalk.bold.yellow( 'compass' )
+                        ,   error   = function ( nexist )
+                            {
+                                /* jshint laxbreak: true */
 
-                        var first = !( this.preReqIssues );
+                                var first = !( this.preReqIssues );
 
-                        this.log(
-                            '\n'
-                        +   chalk.red(
-                                ( first ? 'Hang on,' : 'Oh, and' )
-                            +   (   nexist
-                                ?   ' it appears that "' + compass + '" hasn\'t been installed ' + ( first ? 'yet' : 'either' ) + '!\n'
-                                :   ' your "' + compass + '" version appears outdated' + ( first ? '' : ' as well' ) + '! '
-                                +   'I found only ' + chalk.underline( version ) + ' and you\'ll need ' + chalk.underline( minver + ' or newer' ) + '.\n'
-                                )
+                                this.log(
+                                    '\n'
+                                +   chalk.red(
+                                        ( first ? 'Hang on,' : 'Oh, and' )
+                                    +   (   nexist
+                                        ?   ' it appears that "' + compass + '" hasn\'t been installed ' + ( first ? 'yet' : 'either' ) + '!\n'
+                                        :   ' your "' + compass + '" version appears outdated' + ( first ? '' : ' as well' ) + '! '
+                                        +   'I found only ' + chalk.underline( version ) + ' and you\'ll need ' + chalk.underline( minver + ' or newer' ) + '.\n'
+                                        )
+                                    )
+                                +   '\n'
+                                +   chalk.gray(
+                                        'Consider running "'
+                                    +   chalk.bold.yellow( chalk.cyan( '[' ) + 'sudo ' + chalk.cyan( ']' ) + 'gem install compass' ) + '" '
+                                    +   ( first ? 'first' : 'too' ) + '.\n'
+                                    +   '\n'
+                                    +   'Or see: ' + chalk.blue( 'http://thesassway.com/beginner/getting-started-with-sass-and-compass#install-sass-and-compass\n' )
+                                    )
+                                );
+
+                                this.preReqIssues++;
+
+                            }.bind( this )
+                        ;
+
+                        this.spawnCommand( 'command', [ 'compass', '-q', '-v' ], { stdio: [ 'ignore', 'pipe', 'ignore' ] } )
+                            .on( 'exit', function ( exit )
+                                {
+                                    version = version.trim();
+
+                                    if ( exit || !( semver.satisfies( version, '>=' + minver )) ) { error( exit ); }
+                                    done();
+                                }
                             )
-                        +   '\n'
-                        +   chalk.gray(
-                                'Consider running "'
-                            +   chalk.bold.yellow( chalk.cyan( '[' ) + 'sudo ' + chalk.cyan( ']' ) + 'gem install compass' ) + '" '
-                            +   ( first ? 'first' : 'too' ) + '.\n'
-                            +   '\n'
-                            +   'Or see: ' + chalk.blue( 'http://thesassway.com/beginner/getting-started-with-sass-and-compass#install-sass-and-compass\n' )
+                            .stdout.on( 'data', function ( chunk )
+                                {
+                                    version += chunk;
+                                }
                             )
-                        );
-
-                        this.preReqIssues++;
+                        ;
 
                     }.bind( this )
-                ;
-
-                this.spawnCommand( 'command', [ 'compass', '-q', '-v' ], { stdio: [ 'ignore', 'pipe', 'ignore' ] } )
-                    .on( 'exit', function ( exit )
-                        {
-                            version = version.trim();
-
-                            if ( exit || !( semver.satisfies( version, '>=' + minver )) ) { error( exit ); }
-                            done();
-                        }
-                    )
-                    .stdout.on( 'data', function ( chunk )
-                        {
-                            version += chunk;
-                        }
-                    )
-                ;
+                );
             }
 
         ,   epilogue: function ()
