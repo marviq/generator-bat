@@ -36,7 +36,7 @@ var CollectionGenerator = generators.Base.extend(
             ,   {
                     type:           String
                 ,   desc:           'The name of the collection to create.'
-                ,   defaults:       this.collectionName
+                ,   default:        this.collectionName
                 ,   hide:           true
                 }
             );

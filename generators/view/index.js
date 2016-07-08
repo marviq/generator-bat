@@ -36,7 +36,7 @@ var ViewGenerator = generators.Base.extend(
             ,   {
                     type:           String
                 ,   desc:           'The name of the view to create.'
-                ,   defaults:       this.viewName
+                ,   default:        this.viewName
                 ,   hide:           true
                 }
             );

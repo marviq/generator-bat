@@ -36,7 +36,7 @@ var ModelGenerator = generators.Base.extend(
             ,   {
                     type:           String
                 ,   desc:           'The name of the model to create.'
-                ,   defaults:       this.modelName
+                ,   default:        this.modelName
                 ,   hide:           true
                 }
             );

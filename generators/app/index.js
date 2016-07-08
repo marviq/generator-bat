@@ -46,7 +46,7 @@ var AppGenerator = generators.Base.extend(
             ,   {
                     type:           String
                 ,   desc:           'The name of the webapp to create.'
-                ,   defaults:       this.packageName
+                ,   default:        this.packageName
                 ,   hide:           true
                 }
             );
