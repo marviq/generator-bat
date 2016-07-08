@@ -158,25 +158,14 @@ var CollectionGenerator = generators.Base.extend(
 
                 if ( prompts.length )
                 {
-                    return new Promise(
-                        function ( done ) {
+                    //  Have Yeoman greet the user.
+                    //
+                    this.log( yosay( 'So you want a BAT collection?' ) );
 
-                            //  Have Yeoman greet the user.
-                            //
-                            this.log( yosay( 'So you want a BAT collection?' ) );
-
-                            this.prompt(
-                                prompts
-                            ,   function ( answers )
-                                {
-                                    _.extend( this.templateData, answers );
-
-                                    done();
-
-                                }.bind( this )
-                            );
-
-                        }.bind( this )
+                    return (
+                        this
+                            .prompt( prompts )
+                            .then( function ( answers ) { _.extend( this.templateData, answers ); }.bind( this ) )
                     );
                 }
             }
