@@ -454,7 +454,7 @@ var AppGenerator = generators.Base.extend(
                 );
             }
 
-        ,   assesGrunt: function ()
+        ,   assessGrunt: function ()
             {
                 var done    = this.async()
                 ,   error   = function ()
@@ -487,7 +487,7 @@ var AppGenerator = generators.Base.extend(
                 ;
             }
 
-        ,   assesCompass: function ()
+        ,   assessCompass: function ()
             {
                 var done    = this.async()
                 ,   minver  = '1.0.0'
