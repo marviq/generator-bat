@@ -23,8 +23,8 @@
 ##        * The application's code documentation
 ##
 ##    * The build parts:
-##        * app#% if ( i18n ) { %#
-##            * i18n#% } %#
+##        * app<@ if ( i18n ) { @>
+##            * i18n<@ } @>
 ##            * style
 ##            * brief
 ##            * bootstrap
@@ -74,7 +74,7 @@
 ##
 ##    * The build parts can be processed seperately, but some depend on others:
 ##          * The bootstrap build part needs a brief.
-##          * The app build part will also trigger builds of the #% if ( i18n ) { %#i18n, #% } %#style, brief, and bootstrap build parts.
+##          * The app build part will also trigger builds of the <@ if ( i18n ) { @>i18n, <@ } @>style, brief, and bootstrap build parts.
 ##
 ##
 ##  Mapping to grunt tasks and targets:
@@ -183,11 +183,11 @@ module.exports = ( grunt ) ->
 
                     ##                  NOTE:   `tgt` - must - be a directory.
                     ##
-                    tgt:                '<%= build.assembly.doc %>'#% if ( i18n ) { %#
+                    tgt:                '<%= build.assembly.doc %>'<@ if ( i18n ) { @>
 
                 i18n:
                     src:                '<%= build.source %>i18n/'
-                    tgt:                '<%= build.assembly.app %>i18n/'#% } %#
+                    tgt:                '<%= build.assembly.app %>i18n/'<@ } @>
 
                 style:
                     src:
@@ -321,12 +321,12 @@ module.exports = ( grunt ) ->
             doc:
                 files: [
                     src:                '<%= build.part.doc.tgt %>'
-                ]#% if ( i18n ) { %#
+                ]<@ if ( i18n ) { @>
 
             i18n:
                 files: [
                     src:                '<%= build.part.i18n.tgt %>'
-                ]#% } %#
+                ]<@ } @>
 
             style:
                 files: [
@@ -527,7 +527,7 @@ module.exports = ( grunt ) ->
 
             options:
                 mode:                   true
-                timestamp:              true#% if ( i18n ) { %#
+                timestamp:              true<@ if ( i18n ) { @>
 
             i18n:
                 files: [
@@ -536,7 +536,7 @@ module.exports = ( grunt ) ->
                     cwd:                '<%= build.part.i18n.src %>'
                     src:                '**/*'
                     dest:               '<%= build.part.i18n.tgt %>'
-                ]#% } %#
+                ]<@ } @>
 
             style:
                 files: [
@@ -662,8 +662,8 @@ module.exports = ( grunt ) ->
                 files: [
                     ##                  Watch for changed assembly - targets -
                     ##
-                                        '<%= build.part.app.tgt %>'#% if ( i18n ) { %#
-                                        '<%= build.part.i18n.tgt %>**/*'#% } %#
+                                        '<%= build.part.app.tgt %>'<@ if ( i18n ) { @>
+                                        '<%= build.part.i18n.tgt %>**/*'<@ } @>
                                         '<%= build.part.style.tgt %>'
 
                     ##                  Watch for changed bootstrap - source -
@@ -673,13 +673,13 @@ module.exports = ( grunt ) ->
                 tasks: [
                                         'brief:debug'
                                         'bootstrap:debug'
-                ]#% if ( i18n ) { %#
+                ]<@ if ( i18n ) { @>
 
             i18n:
                 files: [
                                         '<%= build.part.i18n.src %>**/*'
                 ]
-                tasks:                  'i18n'#% } %#
+                tasks:                  'i18n'<@ } @>
 
             style:
                 files: [
@@ -800,8 +800,8 @@ module.exports = ( grunt ) ->
 
                 'clean:app'
 
-                "browserify:app_#{debugging}"#% if ( i18n ) { %#
-                'i18n'#% } %#
+                "browserify:app_#{debugging}"<@ if ( i18n ) { @>
+                'i18n'<@ } @>
                 "style:#{debugging}"
 
                 ##  brief before bootstrap
@@ -850,7 +850,7 @@ module.exports = ( grunt ) ->
             'clean:bootstrap'
             'template:bootstrap'
         ]
-    )#% if ( i18n ) { %#
+    )<@ if ( i18n ) { @>
 
     grunt.registerTask(
         'i18n'
@@ -859,7 +859,7 @@ module.exports = ( grunt ) ->
             'clean:i18n'
             'copy:i18n'
         ]
-    )#% } %#
+    )<@ } @>
 
     grunt.registerTask(
         'lint'

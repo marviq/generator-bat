@@ -2,12 +2,12 @@
     if typeof exports is 'object'
         module.exports = factory(
             require( 'backbone' )
-            require( './<%= fileBase %>.hbs' )
+            require( './<%- fileBase %>.hbs' )
         )
     else if typeof define is 'function' and define.amd
         define( [
             'backbone'
-            './<%= fileBase %>.hbs'
+            './<%- fileBase %>.hbs'
         ], factory )
 
 )((
@@ -16,7 +16,7 @@
 ) ->
 
     ###*
-    #   @author         <%= userName %>
+    #   @author         <%- userName %>
     #   @module         App
     #   @submodule      Views
     ###
@@ -24,27 +24,27 @@
     'use strict'
 
     ###*<% if ( description ) { %>
-    #   <%= description %>
+    #   <%- description %>
     #<% } %>
-    #   @class          <%= className %>
+    #   @class          <%- className %>
     #   @extends        Backbone.View
     #   @constructor
     ###
 
-    class <%= className %> extends Backbone.View
+    class <%- className %> extends Backbone.View
 
         ###*
         #   Expose this view's name to the router.
         #
         #   @property       viewName
         #
-        #   @default        '<%= viewName %>'
+        #   @default        '<%- viewName %>'
         #   @type           String
         #   @static
         #   @final
         ###
 
-        viewName:           '<%= viewName %>'
+        viewName:           '<%- viewName %>'
 
 
         ###*
@@ -52,13 +52,13 @@
         #
         #   @property       className
         #
-        #   @default        '<%= cssClassName %>'
+        #   @default        '<%- cssClassName %>'
         #   @type           String
         #   @static
         #   @final
         ###
 
-        className:          '<%= cssClassName %>'
+        className:          '<%- cssClassName %>'
 
 
         ###*

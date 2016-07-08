@@ -9,16 +9,11 @@ var generators      = require( 'yeoman-generator' )
 ,   _               = require( 'lodash' )
 ;
 
-//  Use different delimiters when our template itself is meant to be a template or template-like.
+//  Use a different delimiter when our template itself is meant to be a template or template-like.
 //
 var tpl_tpl_settings =
         {
-            evaluate:       /#%([\s\S]+?)%#/g
-        ,   escape:         /#-([\s\S]+?)-#/g
-
-        //  Not (yet) used:
-        //
-        ,   interpolate:    null
+            delimiter:      '@'
         }
 ;
 

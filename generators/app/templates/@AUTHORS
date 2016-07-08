@@ -6,4 +6,4 @@
 ##    | each line as a `Name <email> (url)` format, where `email` and `url` are
 ##    | optional. Lines which start with a # or are blank, will be ignored.
 
-<%= authorName %><% if ( authorEmail ) { %> <<%= authorEmail %>><% } %><% if ( authorUrl ) { %> (<%= authorUrl %>)<% } %>
+<%- authorName %><% if ( authorEmail ) { %> <<%- authorEmail %>><% } %><% if ( authorUrl ) { %> (<%- authorUrl %>)<% } %>

@@ -13,7 +13,7 @@
 ) ->
 
     ###*
-    #   @author         <%= userName %>
+    #   @author         <%- userName %>
     #   @module         App
     #   @submodule      Models
     ###
@@ -21,19 +21,19 @@
     'use strict'
 
     ###*<% if ( description ) { %>
-    #   <%= description %>
+    #   <%- description %>
     #<% } %>
-    #   @class          <%= className %>
+    #   @class          <%- className %>
     #   @extends        Backbone.Model<% if ( singleton ) { %>
     #   @static<% } else { %>
     #   @constructor<% } %>
     ###
 
-    class <%= className %> extends Backbone.Model<% if ( singleton ) { %>
+    class <%- className %> extends Backbone.Model<% if ( singleton ) { %>
 
 
     ##  Export singleton
     ##
-    return new <%= className %>()<% } %>
+    return new <%- className %>()<% } %>
 
 )

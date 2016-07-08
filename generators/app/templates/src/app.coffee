@@ -1,6 +1,6 @@
 ###*<% if ( packageDescription ) { %>
 #
-#   <%= packageDescription %><% } %>
+#   <%- packageDescription %><% } %>
 #
 #   @module         App
 #

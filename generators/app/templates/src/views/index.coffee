@@ -16,7 +16,7 @@
 ) ->
 
     ###*<% if ( authorName ) { %>
-    #   @author         <%= authorName %><% } %>
+    #   @author         <%- authorName %><% } %>
     #   @module         App
     #   @submodule      Views
     ###
