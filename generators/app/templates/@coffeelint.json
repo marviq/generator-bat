@@ -21,8 +21,8 @@
     }
   },
   "cyclomatic_complexity": {
-    "level": "ignore",
-    "value": 10
+    "level": "warn",
+    "value": 11
   },
   "duplicate_key": {
     "level": "error"
@@ -81,8 +81,14 @@
   "no_interpolation_in_single_quotes": {
     "level": "error"
   },
+  "no_nested_string_interpolation": {
+      "level": "warn"
+  },
   "no_plusplus": {
     "level": "ignore"
+  },
+  "no_private_functions_fat_arrows": {
+    "level": "error"
   },
   "no_stand_alone_at": {
     "level": "ignore"
@@ -108,7 +114,7 @@
     "level": "error"
   },
   "no_unnecessary_fat_arrows": {
-    "level": "ignore"
+    "level": "error"
   },
   "non_empty_constructor_needs_parens": {
     "level": "error"
@@ -120,7 +126,7 @@
   "space_operators": {
     "level": "error"
   },
-  "space_after_comma": {
+  "spacing_after_comma": {
     "level": "error"
   },
   "transform_messes_up_line_numbers": {
