@@ -118,7 +118,7 @@ var DemoGenerator = generators.Base.extend(
     }
 );
 
-_.merge(
+_.extend(
     DemoGenerator.prototype
 ,   require( './../../lib/generator.js' )
 ,   require( './../../lib/sub-generator.js' )

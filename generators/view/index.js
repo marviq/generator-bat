@@ -227,7 +227,7 @@ var ViewGenerator = generators.Base.extend(
     }
 );
 
-_.merge(
+_.extend(
     ViewGenerator.prototype
 ,   require( './../../lib/generator.js' )
 ,   require( './../../lib/sub-generator.js' )

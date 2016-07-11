@@ -163,7 +163,7 @@ var ModelGenerator = generators.Base.extend(
     }
 );
 
-_.merge(
+_.extend(
     ModelGenerator.prototype
 ,   require( './../../lib/generator.js' )
 ,   require( './../../lib/sub-generator.js' )

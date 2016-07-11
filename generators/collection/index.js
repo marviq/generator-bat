@@ -227,7 +227,7 @@ var CollectionGenerator = generators.Base.extend(
     }
 );
 
-_.merge(
+_.extend(
     CollectionGenerator.prototype
 ,   require( './../../lib/generator.js' )
 ,   require( './../../lib/sub-generator.js' )
