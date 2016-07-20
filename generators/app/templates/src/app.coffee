@@ -29,6 +29,12 @@
 ###
 
 ###*
+#   The app's backbone mixins.
+#
+#   @submodule      Mixins
+###
+
+###*
 #   The app's backbone models.
 #
 #   @submodule      Models

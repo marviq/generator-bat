@@ -272,6 +272,7 @@ var AppGenerator = generators.Base.extend(
                         //  Backbone:
 
                     ,   'src/collections'
+                    ,   'src/mixins'
                     ,   'src/models'
                     ,   'src/views'
 
@@ -390,6 +391,7 @@ var AppGenerator = generators.Base.extend(
             ,   deps =
                     [
                         'backbone'
+                    ,   'backbone.cocktail'
                     ,   ( 'jquery' + ( data.ie8 ? '@<2' : '' ))
                     ,   'madlib-hostmapping'
                     ,   'madlib-settings'
