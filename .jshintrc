@@ -1,7 +1,7 @@
 {
 
 //
-//   This is a config file for jshint v2.8.0
+//   This is a config file for jshint v2.9.2
 //   http://www.jshint.com/docs/options/
 //
 //   Every option documented is listed here, just to be explicit about *our* defaults.
@@ -14,32 +14,56 @@
 //
 
     "bitwise":          false   //  Because you want to use the bitwise operators.
-,   "camelcase":        false   //  Because camelCasingSucks *** Deprecation warning; about coding style, not correctness.
+,   "camelcase":        false   //  Because camelCasingSucks.  *** Deprecation warning; about coding style, not correctness.
 ,   "curly":            true
 ,   "enforceall":       false   //  *** Deprecation warning; too magic.
 ,   "eqeqeq":           true
-,   "es3":              false   //  Because you dont want to cater for legacy browsers unless you *have* to.
-//, "es5":              true	//  Commented out because this is option is `true` by default, and jshint will nag you about that when we set it.
-,   "esnext":           false   //  Because ES6 in the browser isn't here yet.
+
+//  "es3"                       //  *** Depreciation warning; replaced with `esversion`.
+//  "es5"                       //  *** Depreciation warning; replaced with `esversion`.
+//  "esnext"                    //  *** Depreciation warning; replaced with `esversion`.
+
+,   "esversion":        6
 ,   "forin":            true
 ,   "freeze":           true
+
+//  "funcscope"                 //  Is more appropriately listed with the "relaxing" options.
+
 ,   "futurehostile":    true
+
+//  "globals"                   //  Should be used only inline.
+
 ,   "immed":            true    //  *** Deprecation warning; about coding style, not correctness.
 ,   "indent":           4       //  *** Deprecation warning; about coding style, not correctnees.
+
+//  "iterator"                  //  Is more appropriately listed with the "relaxing" options.
+
 ,   "latedef":          "nofunc"//  Because you want to declare functions after they are used.
+
+//  "max..."                    //  `max*` options have their own section, see below.
+
 ,   "newcap":           true    //  *** Deprecation warning; about coding style, not correctnees.
 ,   "noarg":            true
 ,   "nocomma":          true
-,   "noempty":          false   //  Because you do use empty blocks. *** Deprecation warning; about coding style, not correctnees.
+,   "noempty":          false   //  Because you do use empty blocks.  *** Deprecation warning; about coding style, not correctnees.
 ,   "nonbsp":           true
 ,   "nonew":            true
-,   "plusplus":         false   //  Because++
-,   "quotmark":         "single"//  Because single quotes are easier, on the eye, to type *** Deprecation warning; about coding style, not correctnees.
+
+//  "notypeof"                  //  Is more appropriately listed with the "relaxing" options.
+
+,   "plusplus":         false   //  Because++.  The documentation list this with the "relaxing" options, but is more appropriately put here.
+
+//  "predef"                    //  They have their own section, see below.
+
+,   "quotmark":         "single"//  Because single quotes are easier; on the eye; to type.  *** Deprecation warning; about coding style, not correctnees.
+
+//  "shadow"                    //  Is more appropriately listed with the "relaxing" options.
+
 ,   "singleGroups":     false   //  Because you want to use the grouping operator for readability and clarity.
 ,   "strict":           true
 ,   "undef":            true
 ,   "unused":           true
-,   "varstmt":          false   //  Because `esnext` is also `false`
+,   "varstmt":          false   //  Because we have lots of those.
 
 //
 //  Below you'll find jshint's "relaxing" options: You'll want to leave most of them unset.
@@ -50,22 +74,35 @@
 ,   "debug":            true    //  Because you want to use `debugger` statements, just not in production code.
 ,   "elision":          false
 ,   "eqnull":           true    //  Because `== null` makes sense.
+
+//  "esnext"                    //  *** Depreciation warning; replaced with `esversion`.
+
 ,   "evil":             false
 ,   "expr":             false
-,   "funcscope":        false
-,   "globalstrict":     false
-,   "iterator":         false
+
+,   "funcscope":        false   //  The documentation lists this with the "enforcing" options, but is more appropriately put here.
+
+,   "globalstrict":     false   //  *** Depreciation warning; See `strict`.
+
+,   "iterator":         false   //  The documentation lists this with the "enforcing" options, but is more appropriately put here.
+
 ,   "lastsemic":        false
-,   "laxbreak":         true    //  Because, sometimes, you just need a break. *** Deprecation warning; about coding style, not correctnees.
-,   "laxcomma":         true    //  Because you *like* comma-first style. *** Deprecation warning; about coding style, not correctnees.
+,   "laxbreak":         true    //  Because, sometimes, you just need a break.  *** Deprecation warning; about coding style, not correctnees.
+,   "laxcomma":         true    //  Because you *like* comma-first style.  *** Deprecation warning; about coding style, not correctnees.
 ,   "loopfunc":         false
 ,   "moz":              false
 ,   "multistr":         false   //  *** Deprecation warning; about coding style, not correctnees.
 ,   "noyield":          false
-,   "notypeof":         false
+
+,   "notypeof":         false   //  The documentation lists this with the "enforcing" options, but is more appropriately put here.
+
+//  "plusplus"                  //  Is more appropriately listed with the "enforcing" options.
+
 ,   "proto":            false
 ,   "scripturl":        false
-,   "shadow":           "outer"
+
+,   "shadow":           "outer" //  The documentation lists this with the "enforcing" options, but is more appropriately put here.
+
 ,   "sub":              false   //  *** Deprecation warning; about coding style, not correctnees.
 ,   "supernew":         false
 ,   "validthis":        false
@@ -109,10 +146,11 @@
 ,   "yui":              false
 
 //
-//  Determine these other globals
+//  Pre-define these other globals
 //
 
-,   "globals": {
-        "define":       false   //  Added "define" because of AMD / RequireJS. Supposedly read-only, hence `false`.
-    }
+,   "predef": [
+                        "define"    //  Added "define" because of AMD / RequireJS.
+    ]
+
 }
