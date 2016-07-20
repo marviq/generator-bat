@@ -2,7 +2,9 @@
   "author": {
     "name": "Raymond de Wit"
   },
-  "bugs": "https://github.com/marviq/generator-bat/issues",
+  "bugs": {
+    "url": "https://github.com/marviq/generator-bat/issues"
+  },
   "dependencies": {
     "chalk": "^1.1.3",
     "lodash": "^4.14.1",
@@ -23,7 +25,7 @@
     "README.md",
     "generators"
   ],
-  "homepage": "https://www.marviq.com",
+  "homepage": "https://github.com/marviq/generator-bat#readme",
   "keywords": [
     "yeoman-generator",
     "yeoman",
@@ -45,9 +47,13 @@
   ],
   "license": "BSD-3-Clause",
   "name": "generator-bat",
+  "private": false,
   "repository": {
     "type": "git",
-    "url": "git://github.com/marviq/generator-bat.git"
+    "url": "git+https://github.com/marviq/generator-bat.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "version": "0.1.27"
 }
