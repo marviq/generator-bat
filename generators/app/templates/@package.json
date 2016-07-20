@@ -4,6 +4,7 @@
     "name": "<%- authorName %>"<% if ( authorUrl ) { %>,
     "url": "<%- authorUrl %>"<% } %>
   },
+  "bugs": {},
   "browser": {},
   "browserify": {
     "transform": [
@@ -16,10 +17,19 @@
   "dependencies": {},
   "description": "<%- packageDescription %>",
   "devDependencies": {},
+  "files": [
+    "AUTHORS",
+    "LICENSE",
+    "README.md",
+    "dist"
+  ],
+  "homepage": "",
+  "keywords": [],
   "license": "BSD-3-Clause",
   "main": "dist/app/bundle.js",
   "name": "<%- packageName %>",
   "private": true,
+  "repository": {},
   "scripts": {
     "prepublish": "command -v grunt > /dev/null || { echo >&2 'It appears that \"grunt\" is not installed.  Consider running \"[sudo ]npm install -g grunt-cli\" first.'; exit ; } && grunt",
     "release": "standard-version",
