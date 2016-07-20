@@ -17,6 +17,7 @@
 
             './views/index.coffee'
         ], factory )
+    return
 )((
     Backbone
     _

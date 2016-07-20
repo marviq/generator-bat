@@ -9,7 +9,7 @@
             'backbone'
             './<%- fileBase %>.hbs'
         ], factory )
-
+    return
 )((
     Backbone
     template

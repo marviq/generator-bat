@@ -7,7 +7,7 @@
         define( [
             'backbone'
         ], factory )
-
+    return
 )((
     Backbone
 ) ->

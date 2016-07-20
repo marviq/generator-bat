@@ -21,6 +21,7 @@
             './views/documentation.coffee'
             './views/buildscript.coffee'
         ], factory )
+    return
 )((
     Backbone
     _

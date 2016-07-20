@@ -11,7 +11,7 @@
             './i18n.hbs'
             'madlib-locale'
         ], factory )
-
+    return
 )((
     Backbone
     template

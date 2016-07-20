@@ -9,7 +9,7 @@
             'backbone'
             './buildscript.hbs'
         ], factory )
-
+    return
 )((
     Backbone
     template

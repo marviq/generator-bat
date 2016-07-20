@@ -9,7 +9,7 @@
             'backbone'
             './index.hbs'
         ], factory )
-
+    return
 )((
     Backbone
     template

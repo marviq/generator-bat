@@ -9,7 +9,7 @@
             'backbone'
             './../models/<%- modelFileName %>'
         ], factory )
-
+    return
 )((
     Backbone
     <%- modelClassName %>
