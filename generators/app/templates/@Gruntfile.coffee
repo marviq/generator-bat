@@ -214,13 +214,17 @@ module.exports = ( grunt ) ->
         ##  https://github.com/jmreidy/grunt-browserify#readme
         ##
         ##  https://github.com/substack/node-browserify#readme
-        ##  https://github.com/substack/node-browserify#var-b--browserifyfiles-or-opts
+        ##  https://github.com/substack/node-browserify#browserifyfiles--opts
         ##
         ##  https://github.com/substack/browserify-handbook#packagejson
         ##      file:./package.json
         ##        - browser : https://gist.github.com/defunctzombie/4339901
         ##        - browserify-shim : https://github.com/thlorenz/browserify-shim#readme
         ##        - browserify.transform : https://github.com/substack/browserify-handbook#browserifytransform-field
+        ##
+        ##  https://github.com/jnordberg/coffeeify#readme
+        ##
+        ##  https://github.com/epeli/node-hbsfy#readme
         ##
 
         browserify:
@@ -242,7 +246,7 @@ module.exports = ( grunt ) ->
                     ##  Scan all files for process, global, __filename, and __dirname, defining as necessary.
                     ##  With this option npm modules are more likely to work but bundling takes longer.
                     ##
-                    ##  When you find yourself using 'browserify-shim', you're likely to want to leave this set this to `true`.
+                    ##  When you find yourself using 'browserify-shim', you're likely to want to leave this set to `true`.
                     ##  If not, have a try at setting this to `false` for extra build speed.
                     ##
                     detectGlobals:      true
@@ -598,7 +602,6 @@ module.exports = ( grunt ) ->
 
 
                 files: [
-
                     src:                '<%= build.part.bootstrap.src %>'
                     dest:               '<%= build.part.bootstrap.tgt %>'
                 ]
