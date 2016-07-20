@@ -73,6 +73,7 @@ The main app generator will provide you with the following out of the box:
     - `README.md`
     - `.editorconfig`
     - `.gitattributes`
+    - `.gitmessage`
     - `.jshintrc`
     - `.coffeelint.json`
 - [Grunt](http://gruntjs.com), or rather, a complete and annotated `Gruntfile.coffee`, set up for [Browserify](https://github.com/jmreidy/grunt-browserify#readme), [Compass](https://github.com/gruntjs/grunt-contrib-compass#readme), code [linting](https://github.com/vojtajina/grunt-coffeelint#readme), [-testing](https://github.com/pghalliday/grunt-mocha-test#readme), [-minification](https://github.com/gruntjs/grunt-contrib-uglify#readme) and [-documentation generation](https://github.com/gruntjs/grunt-contrib-yuidoc#readme);

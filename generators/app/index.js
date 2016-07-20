@@ -319,8 +319,10 @@ var AppGenerator = generators.Base.extend(
                         '@.editorconfig'
                     ,   '@.gitattributes'
                     ,   '@.gitignore'
+                    ,   '@.gitmessage'
                     ,   '@.jshintrc'
                     ,   [ '@AUTHORS' ]
+                    ,   '@CHANGELOG.md'
                     ,   [ '@Gruntfile.coffee', tpl_tpl_settings ]
                     ,   [ '@LICENSE' ]
                     ,   [ '@README.md' ]
@@ -414,6 +416,7 @@ var AppGenerator = generators.Base.extend(
                     ,   'grunt-template'
                     ,   'handlebars'
                     ,   'hbsfy'
+                    ,   'standard-version'
                     ]
             ;
 
@@ -443,7 +446,16 @@ var AppGenerator = generators.Base.extend(
 
                 this.log(
                     '\n'
-                +   chalk.bold( 'I\m all done. You may invoke "' + chalk.yellow( 'grunt' ) + chalk.cyan( ' <arg>...' ) + '" now to build your project.' )
+                +   chalk.bold( 'I\m all done.\n' )
+
+                +   '\n'
+                +   chalk.bold(
+                        'Please do not forget to checkout the ' + chalk.cyan( '[placeholder]' ) + ' sections in the "' + chalk.yellow( 'README.md' )
+                    +   '" for some further things you may want to set up.\n'
+                    )
+
+                +   '\n'
+                +   chalk.bold( 'But for now, you may invoke "' + chalk.yellow( 'grunt' ) + chalk.cyan( ' <arg>...' ) + '" to build your project.' )
                 );
             }
 
