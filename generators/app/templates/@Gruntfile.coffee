@@ -364,7 +364,7 @@ module.exports = ( grunt ) ->
 
             test:
                 files: [
-                    src:                '<%= build.test %>**/*.coffee %>'
+                    src:                '<%= build.test %>**/*.coffee'
                 ]
 
 
