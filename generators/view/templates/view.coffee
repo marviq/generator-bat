@@ -117,7 +117,7 @@
 
 
         ###*
-        #   Collect and return all data needed to expand the handlebars `@template` with
+        #   Collect and return all data needed to expand the handlebars `@template` with.
         #
         #   @method         renderData
         #   @protected

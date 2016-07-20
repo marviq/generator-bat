@@ -364,13 +364,13 @@
             localeManager.setLocale( locale ).then(
 
                 () =>
-                    # Unload the current view
-                    #
+                    ##  Unload the current view.
+                    ##
                     @pageView.remove()
                     @pageView = undefined
 
-                    # And then reload it with the new locale active
-                    #
+                    ##  And then reload it with the new locale active.
+                    ##
                     window.history.back()
 
                     return
@@ -385,7 +385,7 @@
             return<% } %>
 
 
-    ##  Export singleton
+    ##  Export singleton.
     ##
     return new AppRouter()
 

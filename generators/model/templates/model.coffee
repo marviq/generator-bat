@@ -32,7 +32,7 @@
     class <%- className %> extends Backbone.Model<% if ( singleton ) { %>
 
 
-    ##  Export singleton
+    ##  Export singleton.
     ##
     return new <%- className %>()<% } %>
 

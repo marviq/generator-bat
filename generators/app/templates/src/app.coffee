@@ -118,7 +118,7 @@ Backbone        = require( 'backbone' )
 
 ##  Expose jQuery to Backbone.
 ##
-Backbone.$  = $
+Backbone.$      = $
 
 
 ## ============================================================================

@@ -46,7 +46,7 @@
         model:              <%- modelClassName %><% if ( singleton ) { %>
 
 
-    ##  Export singleton
+    ##  Export singleton.
     ##
     return new <%- className %>()<% } %>
 
