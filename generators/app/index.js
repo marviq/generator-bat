@@ -13,7 +13,10 @@ var generators      = require( 'yeoman-generator' )
 ,   _               = require( 'lodash' )
 ;
 
-var clean           = require( 'underscore.string/clean' );
+var clean           = require( 'underscore.string/clean' )
+,   dasherize       = require( 'underscore.string/dasherize' )
+,   trim            = require( 'underscore.string/trim' )
+;
 
 //  Use a different delimiter when our template itself is meant to be a template or template-like.
 //
@@ -150,7 +153,11 @@ var AppGenerator = generators.Base.extend(
                                 type:       'input'
                             ,   name:       'packageName'
                             ,   message:    'What is the name of this webapp you so desire?'
-                            ,   default:    youtil.definedToString( this.options.packageName ) || youtil.definedToString( this.appname )
+                            ,   default:
+                                    (
+                                        youtil.definedToString( this.options.packageName )
+                                    ||  trim( dasherize( youtil.definedToString( this.appname )), '-' )
+                                    )
                             ,   validate:   youtil.isNpmName
                             }
                         ,   {
