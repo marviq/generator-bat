@@ -159,6 +159,15 @@ do () ->
 ##  [madlib]
 ##
 
+###*
+#   The app's globally sharable configuration settings.
+#
+#   These are exposed through the `madlib-settings` singleton object. Simply `require(...)` it wherever you have a need for them.
+#
+#   @class      Settings
+#   @static
+###
+
 ##  https://github.com/Qwerios/madlib-settings#readme
 ##
 settings        = require( 'madlib-settings' )
