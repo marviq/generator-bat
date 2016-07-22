@@ -227,40 +227,32 @@ locale          = require( 'madlib-locale' )<% } %>
 ##  [App]
 ##
 
-router          = require( './router.coffee' )<% if ( i18n ) { %>
+router          = require( './router.coffee' )
 
-##  Initialize locale passing Handlebars runtime and default locale.
-##  It's loading the locale file async so wait starting the app until that's done.
-##
-locale.initialize( Handlebars, 'en_GB' ).done(
-
-    () ->
-
-        ##  Start the app when the DOM is ready.
+initialized = Q.all(
+    [
+        ##  Wait until the DOM is ready.
         ##
-        $( () ->
+        new Q.Promise( ( resolve ) -> $( resolve ); return; )<% if ( i18n ) { %>
 
-            router.startApp()
+        ##  Initialize locale passing Handlebars runtime and default locale.
+        ##  Wait until it's been loaded.
+        ##
+        locale.initialize( Handlebars, 'en_GB' )<% } %>
+    ]
+)
 
-            return
+initialized.done(
 
-        )
+    () ->
+
+        router.startApp()
 
         return
 
     () ->
-        console.error( 'Failed to retrieve default locale file.' )
+        console.error( 'Failed to initialize' )
 
         return
 
-)<% } else { %>
-
-##  Start the app when the DOM is ready.
-##
-$( () ->
-
-    router.startApp()
-
-    return
-
-)<% } %>
+)
