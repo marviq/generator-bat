@@ -372,8 +372,8 @@ var AppGenerator = generators.Base.extend(
                     if ( data.i18n )
                     {
                         templates.push(
-                            'src/i18n/en_GB.json'
-                        ,   'src/i18n/nl_NL.json'
+                            'src/i18n/en-GB.json'
+                        ,   'src/i18n/nl-NL.json'
                         );
                     }
                 }

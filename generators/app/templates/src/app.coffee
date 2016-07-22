@@ -238,7 +238,7 @@ initialized = Q.all(
         ##  Initialize locale passing Handlebars runtime and default locale.
         ##  Wait until it's been loaded.
         ##
-        locale.initialize( Handlebars, 'en_GB' )<% } %>
+        locale.initialize( Handlebars, 'en-GB' )<% } %>
     ]
 )
 
