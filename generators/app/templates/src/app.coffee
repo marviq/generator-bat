@@ -211,7 +211,7 @@ settings        = require( 'madlib-settings' )
 ##
 ##  For further information, see:
 ##
-##  https://github.com/marviq/madlib-hostmapping#readme
+##  https://github.com/Qwerios/madlib-hostmapping#readme
 ##
 <% if ( i18n ) { %>
 
