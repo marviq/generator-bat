@@ -600,6 +600,7 @@ module.exports = ( grunt ) ->
                         buildRun:       brief.buildNumber or brief.timestamp
                         debugging:      brief.debugging
 
+                        npm:            grunt.config( 'npm' )
 
                 files: [
                     src:                '<%= build.part.bootstrap.src %>'
