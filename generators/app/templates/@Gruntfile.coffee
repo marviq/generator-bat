@@ -115,8 +115,8 @@
 ##
 ##  Finally, this is how the main grunt commandline tasks are mapped to all of the above:
 ##
-##      * grunt [default]   - does a for-production, non-debugging, all-parts, minified build plus artifacts;
-##      * grunt debug       - does a for-testing, debugging, all-parts except documentation, as-is build;
+##      * grunt [default]   - does a for-production, non-debugging, all-parts, tested, minified build plus artifacts;
+##      * grunt debug       - does a for-testing, debugging, all-parts except documentation, tested, as-is build;
 ##      * grunt dev         - does a for-local, debugging, all-parts except documentation, as-is build;
 ##                            (Note that this variant doesn't exit. Instead, it'll keep a close watch on
 ##                            filesystem changes, selectively re-triggering part builds as needed)
@@ -932,6 +932,8 @@ module.exports = ( grunt ) ->
             'clean:dist'
 
             'app:debug'
+
+            'test'
 
             'compress:app_debug'
         ]

@@ -169,8 +169,8 @@ Grunt can do more than just that; here's a recap of common grunt idioms:
 
 command           | description
 :--               |:--
-`grunt [default]` | does a for-production, non-debugging, all-parts, minified build plus artifacts;
-`grunt debug`     | does a for-testing, debugging, all-parts except documentation, as-is build;
+`grunt [default]` | does a for-production, non-debugging, all-parts, tested, minified build plus artifacts;
+`grunt debug`     | does a for-testing, debugging, all-parts except documentation, tested, as-is build;
 `grunt dev`       | does a for-local, debugging, all-parts except documentation, as-is build; <br>_(**Note that this variant doesn't exit**. Instead it'll keep a close watch on filesystem changes, selectively re-triggering part builds as needed)_
 `grunt doc`       | will build just the code documentation;
 `grunt lint`      | will just lint your code;
@@ -182,13 +182,13 @@ command           | description
 
 BAT comes with support for unit testing using [Mocha](http://mochajs.org/) and [Chai](http://chaijs.com/). The demo webapp has a basic (and admittedly, pretty unconnected) example of this.
 
-You may already have guessed how to run your test suite; it's:
+You may already have guessed how to independently run your test suite; it's:
 
 ```shell
 grunt test
 ```
 
-The default grunt task also includes the `test` task. You may or may not want to add it to your `dev` task too, depending on your workflow.
+The default and `debug` grunt tasks also include the `test` task. You may or may not want to add it to your `dev` task too, depending on your workflow.
 
 
 ## ChangeLog

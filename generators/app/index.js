@@ -630,10 +630,10 @@ var AppGenerator = generators.Base.extend(
 
                 +   '\n'
                 +   chalk.bold( '  * ' + chalk.yellow( 'grunt ' + chalk.cyan( '[' ) + 'default' + chalk.cyan( ']' ) + '     ' ))
-                +   '- does a for-production, non-debugging, all-parts, minified build plus artifacts;\n'
+                +   '- does a for-production, non-debugging, all-parts, tested, minified build plus artifacts;\n'
 
                 +   chalk.bold( '  * ' + chalk.yellow( 'grunt debug         ' ))
-                +   '- does a for-testing, debugging, all-parts except documentation, as-is build;\n'
+                +   '- does a for-testing, debugging, all-parts except documentation, tested, as-is build;\n'
 
                 +   chalk.bold( '  * ' + chalk.yellow( 'grunt dev           ' ))
                 +   '- does a for-local, debugging, all-parts except documentation, as-is build;\n'
