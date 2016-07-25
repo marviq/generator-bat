@@ -1,12 +1,34 @@
 .<%- packageName %>
 
-    @import _settings
+    //
+    //  App variables definitions.
+    //  Fonts definitions.
+    //  Compass's mixins and variables definitions.
+    //  Defaults for framework variables.
+    //
+
+    @import "_settings"
 
     //
+    //  Frameworks.
+    //
+
+    //  For instance:
+    //
+    //  @import "bootstrap/_bootstrap"
+
+    //
+    //  CSS overrides.
+    //
+
+    @import "_overrides"
+
+    //
+    //  App views' CSS.
     //  Every view should have it's own style file in the `views` folder and be `@import`-ed in '_views.sass'.
     //
 
-    @import _views
+    @import "_views"
 
 //
 //  Only really global styling should be here.
