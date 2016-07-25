@@ -230,7 +230,23 @@ settings        = require( 'madlib-settings' )
 ##
 appBaseUrl = ( document.currentScript ? Array::slice.call( document.scripts, -1 )[0] ).src.match( /^.*\// )[0]
 
-settings.init( 'appBaseUrl', appBaseUrl )<% if ( i18n ) { %>
+settings.init( 'appBaseUrl', appBaseUrl )
+
+
+###*
+#   The app's root element.
+#
+#   Often the `document` and this app will share the same root element, but not necessarily so.
+#
+#   @property       $appRoot
+#
+#   @type           jQuery
+#   @final
+###
+
+$appRoot = $( '.<%- packageName %>' )
+
+settings.init( '$appRoot', $appRoot )<% if ( i18n ) { %>
 
 
 ##  Setup localeManager

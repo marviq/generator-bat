@@ -2,27 +2,33 @@
     if typeof exports is 'object'
         module.exports = factory(
             require( 'backbone' )
-            require( 'underscore' )
+
             require( 'jquery' )<% if ( i18n ) { %>
             require( 'madlib-locale' )<% } %>
+            require( 'madlib-settings' )
+            require( 'underscore' )
 
             require( './views/index.coffee' )
         )
     else if typeof define is 'function' and define.amd
         define( [
             'backbone'
-            'underscore'
+
             'jquery'<% if ( i18n ) { %>
             'madlib-locale'<% } %>
+            'madlib-settings'
+            'underscore'
 
             './views/index.coffee'
         ], factory )
     return
 )((
     Backbone
-    _
+
     $<% if ( i18n ) { %>
     localeManager<% } %>
+    settings
+    _
 
     Views...
 ) ->
@@ -185,7 +191,7 @@
             #   @final
             ###
 
-            @$mainContent   = $( '#main-content' )
+            @$mainContent   = settings.get( '$appRoot' ).find( '#main-content' )
 
             ###*
             #   A handle on the current View instance loaded into `@$mainContent` container.
