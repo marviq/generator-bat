@@ -337,6 +337,7 @@ var AppGenerator = generators.Base.extend(
 
                     ,   'src/style'
                     ,   'src/style/images/'
+                    ,   'src/style/images/debug/'
                     ,   'src/style/images/sprites/'
 
                         //  Testing:
@@ -396,6 +397,8 @@ var AppGenerator = generators.Base.extend(
                     ,   'src/sass/_settings.sass'
                     ,   'src/sass/_views.sass'
                     ,   [ 'src/sass/app.sass' ]
+                    ,   'src/sass/debug.sass'
+                    ,   'src/style/images/debug/internals.jpg'
                     ,   'src/style/images/sprites/check-green.png'
                     ]
                 ;

@@ -596,6 +596,7 @@ module.exports = ( grunt ) ->
 
                         app:            path.relative( grunt.config( 'build.assembly.app' ), grunt.config( 'build.part.app.tgt' ))
                         style:          path.relative( grunt.config( 'build.assembly.app' ), grunt.config( 'build.part.style.tgt' ))
+                        styleBase:      path.relative( grunt.config( 'build.assembly.app' ), grunt.config( 'build.part.style.tgtDir' ))
 
                         buildRun:       brief.buildNumber or brief.timestamp
                         debugging:      brief.debugging
@@ -668,7 +669,7 @@ module.exports = ( grunt ) ->
                     ##
                                         '<%= build.part.app.tgt %>'<@ if ( i18n ) { @>
                                         '<%= build.part.i18n.tgt %>**/*'<@ } @>
-                                        '<%= build.part.style.tgt %>'
+                                        '<%= build.part.style.tgtDir %>**/*.css'
 
                     ##                  Watch for changed bootstrap - source -
                     ##
