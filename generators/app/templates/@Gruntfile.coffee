@@ -22,6 +22,12 @@
 ##        * The application
 ##        * The application's code documentation
 ##
+##    * The build's target environment:
+##        * local
+##        * testing
+##        * acceptance
+##        * production
+##
 ##    * The build parts:
 ##        * app<@ if ( i18n ) { @>
 ##            * i18n<@ } @>
@@ -70,6 +76,8 @@
 ##        * A debugging build implies as-is packing.
 ##        * Minified packing implies a non-debugging build.
 ##
+##    * A for-acceptance targetted build is identical to a for-production build.
+##
 ##    * The build's artifacts are an all-or-nothing deal, currently.
 ##
 ##    * The build parts can be processed seperately, but some depend on others:
@@ -107,9 +115,9 @@
 ##
 ##  Finally, this is how the main grunt commandline tasks are mapped to all of the above:
 ##
-##      * grunt [default]   - does a production, non-debugging, all-parts, minified build plus artifacts;
-##      * grunt debug       - does a testing, debugging, all-parts except documentation, as-is build;
-##      * grunt dev         - does a local, debugging, all-parts except documentation, as-is build;
+##      * grunt [default]   - does a for-production, non-debugging, all-parts, minified build plus artifacts;
+##      * grunt debug       - does a for-testing, debugging, all-parts except documentation, as-is build;
+##      * grunt dev         - does a for-local, debugging, all-parts except documentation, as-is build;
 ##                            (Note that this variant doesn't exit. Instead, it'll keep a close watch on
 ##                            filesystem changes, selectively re-triggering part builds as needed)
 ##

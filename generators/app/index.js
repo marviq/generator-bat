@@ -630,13 +630,13 @@ var AppGenerator = generators.Base.extend(
 
                 +   '\n'
                 +   chalk.bold( '  * ' + chalk.yellow( 'grunt ' + chalk.cyan( '[' ) + 'default' + chalk.cyan( ']' ) + '     ' ))
-                +   '- does a production, non-debugging, all-parts, minified build plus artifacts;\n'
+                +   '- does a for-production, non-debugging, all-parts, minified build plus artifacts;\n'
 
                 +   chalk.bold( '  * ' + chalk.yellow( 'grunt debug         ' ))
-                +   '- does a testing, debugging, all-parts except documentation, as-is build;\n'
+                +   '- does a for-testing, debugging, all-parts except documentation, as-is build;\n'
 
                 +   chalk.bold( '  * ' + chalk.yellow( 'grunt dev           ' ))
-                +   '- does a local, debugging, all-parts except documentation, as-is build;\n'
+                +   '- does a for-local, debugging, all-parts except documentation, as-is build;\n'
                 +   '                          (' + chalk.bold( 'Note that this variant doesn\'t exit.' ) + ' Instead, it\'ll keep a close watch on\n'
                 +   '                          filesystem changes, selectively re-triggering part builds as needed)\n'
 
