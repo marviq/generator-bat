@@ -10,6 +10,7 @@ var generators      = require( 'yeoman-generator' )
 ,   mkdirp          = require( 'mkdirp' )
 ,   chalk           = require( 'chalk' )
 ,   semver          = require( 'semver' )
+,   tags            = require( 'language-tags' )
 ,   _               = require( 'lodash' )
 ;
 
@@ -101,6 +102,15 @@ var AppGenerator = generators.Base.extend(
             ,   {
                     type:           Boolean
                 ,   desc:           'Specify whether internationalisation support is needed.'
+                }
+            );
+
+            this.option(
+                'i18nLocaleDefault'
+            ,   {
+                    type:           Boolean
+                ,   desc:           'Specify the default locale.'
+                ,   alias:          'locale'
                 }
             );
 
@@ -210,6 +220,21 @@ var AppGenerator = generators.Base.extend(
                             ,   default:    false
                             }
                         ,   {
+                                type:       'input'
+                            ,   name:       'i18nLocaleDefault'
+                            ,   message:    'What should the default locale be? (Please use a valid [BCP 47 language tag](https://tools.ietf.org/html/bcp47#section-2))'
+                            ,   default:    ( youtil.definedToString( this.options.i18nLocaleDefault ) || 'en-US' )
+                            ,   validate:   tags.check
+                            ,   filter: function ( value )
+                                {
+                                    return tags( value ).format();
+                                }
+                            ,   when: function( answers )
+                                {
+                                    return answers.i18n || this.templateData.i18n;
+                                }.bind( this )
+                            }
+                        ,   {
                                 type:       'confirm'
                             ,   name:       'ie8'
                             ,   message:    'Do you need IE8 and lower support? (affects the jQuery version and shims HTML5 and media query support)'
@@ -242,11 +267,24 @@ var AppGenerator = generators.Base.extend(
 
     ,   configuring: function ()
         {
-            var data                = this.templateData;
+            var data                        = this.templateData
+            ,   localeDefaultOrig           = data.i18nLocaleDefault
+            ;
 
-            data.i18n               = data.i18n || data.demo;
-            data.copyrightYear      = new Date().getFullYear();
-            data.packageDescription = data.description;
+            if ( data.demo )
+            {
+                data.i18n                   = true;
+                data.i18nLocaleDefault      = 'en-GB';
+            }
+
+            if ( data.i18n )
+            {
+                data.i18nLocaleDefaultLanguage  = tags( data.i18nLocaleDefault ).language().descriptions()[0];
+                data.i18nLocaleDefaultRegion    = tags( data.i18nLocaleDefault ).region().format();
+            }
+
+            data.copyrightYear              = new Date().getFullYear();
+            data.packageDescription         = data.description;
 
             //
             //  Save a '.yo-rc.json' config file.
@@ -263,6 +301,13 @@ var AppGenerator = generators.Base.extend(
                 ,   i18n:                   data.i18n
                 }
             );
+
+            if ( data.i18n )
+            {
+                //  Save the intended default locale if any.
+                //
+                this.config.set( 'i18nLocaleDefault',   localeDefaultOrig || data.i18nLocaleDefault );
+            }
         }
 
     ,   writing:
@@ -371,9 +416,10 @@ var AppGenerator = generators.Base.extend(
 
                     if ( data.i18n )
                     {
-                        templates.push(
-                            'src/i18n/en-GB.json'
-                        ,   'src/i18n/nl-NL.json'
+                        //  Need a name mapping for this one
+                        //
+                        this._templatesProcess(
+                            { 'src/i18n/bcp47-language-tag.json': [ 'src/i18n/' + data.i18nLocaleDefault + '.json' ] }
                         );
                     }
                 }
