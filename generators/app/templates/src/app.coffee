@@ -213,7 +213,25 @@ settings        = require( 'madlib-settings' )
 ##
 ##  https://github.com/Qwerios/madlib-hostmapping#readme
 ##
-<% if ( i18n ) { %>
+
+
+###*
+#   The app's base url, so that resources can know what their origin is.
+#
+#   Often the `document` and this app will share the same base url, but not necessarily so.
+#
+#   @property       appBaseUrl
+#
+#   @type           String
+#   @final
+###
+
+##  Leverage `document.currentScript` or a fallback (for IE <=11).
+##
+appBaseUrl = ( document.currentScript ? Array::slice.call( document.scripts, -1 )[0] ).src.match( /^.*\// )[0]
+
+settings.init( 'appBaseUrl', appBaseUrl )<% if ( i18n ) { %>
+
 
 ##  Setup localeManager
 ##
@@ -235,10 +253,10 @@ initialized = Q.all(
         ##
         new Q.Promise( ( resolve ) -> $( resolve ); return; )<% if ( i18n ) { %>
 
-        ##  Initialize locale passing Handlebars runtime and default locale.
+        ##  Initialize locale passing Handlebars runtime, default locale and base url for locale files.
         ##  Wait until it's been loaded.
         ##
-        locale.initialize( Handlebars, 'en-GB' )<% } %>
+        locale.initialize( Handlebars, 'en-GB', "#{ appBaseUrl }i18n" )<% } %>
     ]
 )
 
