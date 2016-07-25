@@ -162,6 +162,11 @@ module.exports = ( grunt ) ->
                 app:
                     src:
                         browserify:     '<%= build.source %>app.coffee'
+
+                        ##  To have certain code included only in debug builds, prefix the filename with `debug.`
+                        ##
+                        debug:          '<%= build.source %>**/debug.*.coffee'
+
                         lint:           '<%= build.source %>**/*.coffee'
 
                     ##                  NOTE:   <%= npm.main %> should have <%= build.dist %> as its prefix:
@@ -283,7 +288,10 @@ module.exports = ( grunt ) ->
                         noParse:        '<%= browserify.options.browserifyOptions.noParse %>'
                         debug:          true
 
-                files:                  '<%= browserify.app_dist.files %>'
+                files: [
+                    src:                [ '<%= build.part.app.src.browserify %>', '<%= build.part.app.src.debug %>' ]
+                    dest:               '<%= build.part.app.tgt %>'
+                ]
 
 
         ##
