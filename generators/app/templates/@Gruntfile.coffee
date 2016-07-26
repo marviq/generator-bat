@@ -14,6 +14,9 @@
 ##            * dist/app/   - collects the app's build results
 ##            * dist/doc/   - collects the app's code documentation
 ##
+##        * Source directory for per target-environment settings
+##            * settings/
+##
 ##        * Tests directory:
 ##            * test/
 ##
@@ -22,7 +25,7 @@
 ##        * The application
 ##        * The application's code documentation
 ##
-##    * The build's target environment:
+##    * The build's target-environment:
 ##        * local
 ##        * testing
 ##        * acceptance
@@ -32,6 +35,7 @@
 ##        * app<@ if ( i18n ) { @>
 ##            * i18n<@ } @>
 ##            * style
+##            * target-environment settings
 ##            * brief
 ##            * bootstrap
 ##        * documentation
@@ -76,13 +80,14 @@
 ##        * A debugging build implies as-is packing.
 ##        * Minified packing implies a non-debugging build.
 ##
-##    * A for-acceptance targetted build is identical to a for-production build.
+##    * The build environment directly determines the default target-environment settings's build part's source.
 ##
 ##    * The build's artifacts are an all-or-nothing deal, currently.
 ##
 ##    * The build parts can be processed seperately, but some depend on others:
 ##          * The bootstrap build part needs a brief.
-##          * The app build part will also trigger builds of the <@ if ( i18n ) { @>i18n, <@ } @>style, brief, and bootstrap build parts.
+##          * The app build part will also trigger builds of the <@ if ( i18n ) { @>i18n, <@ } @>style, target-environment settings, brief, and bootstrap
+##            build parts.
 ##
 ##
 ##  Mapping to grunt tasks and targets:
@@ -121,6 +126,12 @@
 ##                            (Note that this variant doesn't exit. Instead, it'll keep a close watch on
 ##                            filesystem changes, selectively re-triggering part builds as needed)
 ##
+##
+##  The `--target` command line option sets the build target environment.
+##  So, for an for-acceptance, non-debugging, all-parts, tested, minified build, do:
+##
+##      * grunt --target acceptance
+##
 ##  ====
 ##
 
@@ -158,9 +169,16 @@ module.exports = ( grunt ) ->
                 app:                    '<%= build.dist %>app/'
                 doc:                    '<%= build.dist %>doc/'
 
+            settings:                   'settings/'
             test:                       'test/'
 
             artifactBase:               '<%= build.dist %><%= npm.name %>-<%= npm.version %>'
+
+            ##
+            ##  This is the default build environment but may be overridden by the 'environment' task
+            ##
+
+            environment:                'production'
 
             ##
             ##  Parts:
@@ -201,6 +219,10 @@ module.exports = ( grunt ) ->
                 i18n:
                     src:                '<%= build.source %>i18n/'
                     tgt:                '<%= build.assembly.app %>i18n/'<@ } @>
+
+                settings:
+                    src:                '<%= build.settings %><%= build.environment %>.json'
+                    tgt:                '<%= build.assembly.app %>settings.json'
 
                 style:
                     src:
@@ -347,6 +369,11 @@ module.exports = ( grunt ) ->
                 files: [
                     src:                '<%= build.part.i18n.tgt %>'
                 ]<@ } @>
+
+            settings:
+                files: [
+                    src:                '<%= build.part.settings.tgt %>'
+                ]
 
             style:
                 files: [
@@ -558,6 +585,13 @@ module.exports = ( grunt ) ->
                     dest:               '<%= build.part.i18n.tgt %>'
                 ]<@ } @>
 
+            settings:
+                files: [
+                    filter:             'isFile'
+                    src:                '<%= build.part.settings.src %>'
+                    dest:               '<%= build.part.settings.tgt %>'
+                ]
+
             style:
                 files: [
                     filter:             'isFile'
@@ -609,6 +643,8 @@ module.exports = ( grunt ) ->
                         try brief = grunt.file.readJSON( file )
 
                         grunt.fail.fatal( "Unable to read the build brief (\"#{file}\"). Wasn't it created?" ) unless brief?.timestamp
+
+                        environment:    brief.environment
 
                         app:            path.relative( grunt.config( 'build.assembly.app' ), grunt.config( 'build.part.app.tgt' ))
                         style:          path.relative( grunt.config( 'build.assembly.app' ), grunt.config( 'build.part.style.tgt' ))
@@ -685,6 +721,7 @@ module.exports = ( grunt ) ->
                     ##
                                         '<%= build.part.app.tgt %>'<@ if ( i18n ) { @>
                                         '<%= build.part.i18n.tgt %>**/*'<@ } @>
+                                        '<%= build.part.settings.tgt %>'
                                         '<%= build.part.style.tgtDir %>**/*.css'
 
                     ##                  Watch for changed bootstrap - source -
@@ -701,6 +738,13 @@ module.exports = ( grunt ) ->
                                         '<%= build.part.i18n.src %>**/*'
                 ]
                 tasks:                  'i18n'<@ } @>
+
+            settings:
+                files:                  '<%= build.part.settings.src %>'
+                tasks: [
+                                        'environment:<%= build.environment %>'
+                                        'settings'
+                ]
 
             style:
                 files: [
@@ -795,6 +839,7 @@ module.exports = ( grunt ) ->
                 revision:       process.env.GIT_COMMIT or 'working dir'
 
                 grunted:        grunt.template.date( stamp, 'yyyy mmm dd HH:MM:ss' )
+                environment:    grunt.config( 'build.environment' )
                 debugging:      ( debugging is 'debug' )
 
                 name:           grunt.config( 'npm.name' )
@@ -803,6 +848,20 @@ module.exports = ( grunt ) ->
                 timestamp:      +stamp
 
             grunt.file.write( grunt.config( 'build.part.brief.tgt' ), JSON.stringify( buildInfo, null, 4 ))
+
+            return
+    )
+
+    grunt.registerTask(
+        'environment'
+        'Set the target environment'
+        ( environment ) ->
+
+            if ( ( override = grunt.option( 'target' ) ? process.env.GRUNT_TARGET )? and override isnt environment )
+                grunt.log.ok( "Overriding target environment to #{override}" )
+                environment = override
+
+            grunt.config.set( 'build.environment', environment ) if environment?
 
             return
     )
@@ -823,6 +882,7 @@ module.exports = ( grunt ) ->
 
                 "browserify:app_#{debugging}"<@ if ( i18n ) { @>
                 'i18n'<@ } @>
+                'settings'
                 "style:#{debugging}"
 
                 ##  brief before bootstrap
@@ -893,6 +953,15 @@ module.exports = ( grunt ) ->
     )
 
     grunt.registerTask(
+        'settings'
+        'Build the build\'s target environment\'s settings.'
+        [
+            'clean:settings'
+            'copy:settings'
+        ]
+    )
+
+    grunt.registerTask(
         'style'
         'Build the app\'s stylesheet and related assets'
         ( debugging ) ->
@@ -913,6 +982,8 @@ module.exports = ( grunt ) ->
         [
             'clean:dist'
 
+            'environment:production'
+
             'app:dist'
 
             'uglify:app'
@@ -931,6 +1002,8 @@ module.exports = ( grunt ) ->
         [
             'clean:dist'
 
+            'environment:testing'
+
             'app:debug'
 
             'test'
@@ -943,6 +1016,8 @@ module.exports = ( grunt ) ->
         'dev'
         [
             'clean:dist'
+
+            'environment:local'
 
             'app:debug'
 

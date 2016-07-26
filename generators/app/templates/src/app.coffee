@@ -190,38 +190,6 @@ settings        = require( 'madlib-settings' )
 ##
 ##  etc...
 ##
-##
-##  Particularly, If you plan to use 'madlib-hostmapping' later, you might want to do something like:
-##
-##  HostMapping = require( 'madlib-locale' )
-##
-##  settings.set( 'hostMapping'
-##
-##      'some.site.some.domain':        'production'
-##      'some.site-acc.some.domain':    'acceptance'
-##      'some.site-tst.some.domain':    'testing'
-##      'localhost':                    'developement'
-##  )
-##
-##  settings.set( 'hostConfig'
-##
-##      production:
-##          api:                'https://api.some.domain/'
-##
-##      acceptance:
-##          api:                'https://api-acc.some.domain/'
-##
-##      testing:
-##          api:                'https://api-test.some.domain/'
-##
-##      developement:
-##          api:                'localhost/some-site-api/'
-##  )
-##
-##  For further information, see:
-##
-##  https://github.com/Qwerios/madlib-hostmapping#readme
-##
 
 
 ###*
@@ -301,6 +269,10 @@ services        = require( './collections/api-services.coffee' )
 ##  [App]
 ##
 
+##  The target environment's settings to be loaded (async) through its "service" and incorporated into the madlib-settings object.
+##
+settingsEnv     = require( './models/settings-environment.coffee' )
+
 router          = require( './router.coffee' )
 
 initialized     = Q.all(
@@ -312,7 +284,15 @@ initialized     = Q.all(
         ##  Initialize `localeManager`, passing in the Handlebars runtime, the default locale, and base url for locale files.
         ##  Wait until it's been loaded.
         ##
+        ##  At this point we cannot know for sure that this locale really is available.
+        ##  Once the `settingsEnv` has been initialized we -will- know this, but we're not going to wait for that; instead, just assume it'll be there.
+        ##
         localeManager.initialize( Handlebars, locale, "#{ appBaseUrl }i18n" )<% } %>
+
+        ##  Wait until the target-environment settings have been loaded.<% if ( i18n ) { %>
+        ##  This should list the available locales.<% } %>
+        ##
+        settingsEnv.initialized
     ]
 )
 

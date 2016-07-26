@@ -70,6 +70,27 @@
         new ApiServicesCollection(
 
             [
+                ###*
+                #   Absolute url path for retrieving the app's {{#crossLink "SettingsEnvironment"}}target-environment settings{{/crossLink}}.
+                #
+                #   These settings include:
+                #
+                #     * `apiBaseUrl`
+                #     * `environment`<% if ( i18n ) { %>
+                #     * `locales`<% } %>
+                #
+                #   Once retrieved these can be referenced through the {{#crossLink "Settings/environment:property"}}the `environment` setting{{/crossLink}}.
+                #
+                #   @property       services.settingsEnvironment
+                #   @type           String
+                #   @default        '<app-base-url>/settings.json'
+                #   @final
+                ###
+
+                id:     'settingsEnvironment'
+                url:    "#{appBaseUrl}settings.json"
+
+            ,
 
                 ##
                 ##  NOTE:

@@ -42,7 +42,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]--><@ } @><% if ( debugging ) { %>
 
-    <link rel="stylesheet" type="text/css" href="<%- styleBase %>/debug.css?<%- buildRun %>" />
+    <link rel="stylesheet" type="text/css" href="<%- styleBase %>/debug.css?<%- buildRun %>" /><% if ( environment === 'local' ) { %>
     <script>
         //
         //  Load `livereload` relative to document protocol and host, but on a different port.
@@ -62,7 +62,7 @@
 
         document.head.appendChild( livereload );
 
-    </script><% } %>
+    </script><% }} %>
 </head>
 <body>
     <div id="main-content"></div>
