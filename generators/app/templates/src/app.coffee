@@ -288,12 +288,22 @@ settings.init( 'locale', locale )<% } %>
 
 ## ============================================================================
 ##
+##  [API]
+##
+
+##  `require()` the API services here to ensure their endpoints have been defined on the madlib-settings object before they are used anywhere else.
+##
+services        = require( './collections/api-services.coffee' )
+
+
+## ============================================================================
+##
 ##  [App]
 ##
 
 router          = require( './router.coffee' )
 
-initialized = Q.all(
+initialized     = Q.all(
     [
         ##  Wait until the DOM is ready.
         ##

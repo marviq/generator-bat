@@ -387,6 +387,11 @@ var AppGenerator = generators.Base.extend(
 
                     ,   [ '@package.json' ]
 
+                        //  App source:
+
+                    ,   [ 'src/collections/api-services.coffee' ]
+                    ,   'src/models/api-service.coffee'
+
                         //  Style and Compass:
 
                     ,   'src/sass/settings/_compass.sass'

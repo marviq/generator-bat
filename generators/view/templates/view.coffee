@@ -23,6 +23,7 @@
 
     'use strict'
 
+
     ###*<% if ( description ) { %>
     #   <%- description %>
     #<% } %>
