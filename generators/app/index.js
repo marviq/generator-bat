@@ -395,6 +395,7 @@ var AppGenerator = generators.Base.extend(
 
                     ,   [ 'src/collections/api-services.coffee' ]
                     ,   'src/models/api-service.coffee'
+                    ,   'src/models/build-brief.coffee'
                     ,   [ 'src/models/settings-environment.coffee' ]
 
                         //  Style and Compass:
@@ -477,6 +478,7 @@ var AppGenerator = generators.Base.extend(
                     ,   'backbone.cocktail'
                     ,   ( 'jquery' + ( data.ie8 ? '@<2' : '' ))
                     ,   'madlib-settings'
+                    ,   'moment'
                     ,   'q'
                     ,   'underscore'
                     ]
