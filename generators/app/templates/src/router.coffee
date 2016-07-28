@@ -458,14 +458,11 @@
             localeManager.setLocale( locale ).then(
 
                 () =>
-                    ##  Unload the current view.
-                    ##
-                    @pageView.remove()
-                    @pageView = undefined
 
-                    ##  And then reload it with the new locale active.
-                    ##
-                    window.history.back()
+                    settings.get( '$appRoot' ).attr( 'lang', locale )
+                    settings.set( 'locale', locale )
+
+                    @refresh()
 
                     return
 
