@@ -216,7 +216,7 @@ var CollectionGenerator = generators.Base.extend(
 
                         ,   options:
                             {
-                                description:    'Model for the ' + data.collectionName + ' collection.'
+                                description:    'Model for the `{{#crossLink "' + data.className + '"}}{{/crossLink}}`.'
                             ,   singleton:      false
                             }
                         }
