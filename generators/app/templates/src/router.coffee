@@ -110,7 +110,6 @@
         #   class.
         #
         #   @property       routes
-        #
         #   @type           Object
         #   @static
         #   @final
@@ -143,7 +142,6 @@
         #   Most routes in `AppRouter::routes` will map to these properties' values.
         #
         #   @property       viewMap
-        #
         #   @type           Object
         #   @static
         #   @final
@@ -161,11 +159,11 @@
         #   The url to redirect to when going `@home()`.
         #
         #   @property       homeUrl
-        #
-        #   @default        '/'
         #   @type           String
         #   @static
         #   @final
+        #
+        #   @default        '/'
         ###
 
         homeUrl:
@@ -185,7 +183,6 @@
             #   A handle on the router's main content container.
             #
             #   @property       $mainContent
-            #
             #   @type           jQuery
             #   @protected
             #   @final
@@ -197,7 +194,6 @@
             #   A handle on the current View instance loaded into `@$mainContent` container.
             #
             #   @property       pageView
-            #
             #   @type           Backbone.View
             #   @protected
             ###

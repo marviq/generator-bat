@@ -35,7 +35,6 @@
         #   List of [valid attribute names](#attrs).
         #
         #   @property       schema
-        #
         #   @type           Array[String]
         #   @static
         #   @final
@@ -45,7 +44,6 @@
         #   The `ApiServiceModel`'s unique identifier.
         #
         #   @attribute      id
-        #
         #   @type           String
         ###
 
@@ -53,7 +51,6 @@
         #   A url base path for accessing this API service.
         #
         #   @attribute      url
-        #
         #   @type           String
         ###
 

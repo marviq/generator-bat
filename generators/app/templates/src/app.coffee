@@ -198,7 +198,6 @@ settings        = require( 'madlib-settings' )
 #   Often the `document` and this app will share the same base url, but not necessarily so.
 #
 #   @property       appBaseUrl
-#
 #   @type           String
 #   @final
 ###
@@ -216,7 +215,6 @@ settings.init( 'appBaseUrl', appBaseUrl )
 #   Often the `document` and this app will share the same root element, but not necessarily so.
 #
 #   @property       $appRoot
-#
 #   @type           jQuery
 #   @final
 ###
@@ -239,7 +237,6 @@ localeManager   = require( 'madlib-locale' )
 #   https://tools.ietf.org/html/bcp47#section-2
 #
 #   @property       locale
-#
 #   @type           String
 #   @default        '<%= i18nLocaleDefault %>'
 ###

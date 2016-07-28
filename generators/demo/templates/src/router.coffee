@@ -108,7 +108,6 @@
         #   class.
         #
         #   @property       routes
-        #
         #   @type           Object
         #   @static
         #   @final
@@ -144,7 +143,6 @@
         #   Most routes in `AppRouter::routes` will map to these properties' values.
         #
         #   @property       viewMap
-        #
         #   @type           Object
         #   @static
         #   @final
@@ -162,11 +160,11 @@
         #   The url to redirect to when going `@home()`.
         #
         #   @property       homeUrl
-        #
-        #   @default        '/index'
         #   @type           String
         #   @static
         #   @final
+        #
+        #   @default        '/index'
         ###
 
         homeUrl:
@@ -178,7 +176,6 @@
         #
         #   @method         initialize
         #   @protected
-        #
         ###
 
         initialize: () ->
@@ -187,7 +184,6 @@
             #   A handle on the router's main content container.
             #
             #   @property       $mainContent
-            #
             #   @type           jQuery
             #   @protected
             #   @final
@@ -199,7 +195,6 @@
             #   A handle on the current View instance loaded into `@$mainContent` container.
             #
             #   @property       pageView
-            #
             #   @type           Backbone.View
             #   @protected
             ###
@@ -248,7 +243,6 @@
         #
         #   @param          {Object}            [options]
         #   @param          {Boolean}           [options.trigger]
-        #
         ###
 
         navigate: ( fragment, options ) ->
@@ -273,7 +267,6 @@
         #   @method         startApp
         #
         #   @param          {Object}            [options]               Any options you may want to pass on to `Backbone.history.start( options )`.
-        #
         ###
 
         startApp: ( options ) ->
@@ -362,7 +355,6 @@
             #
             #   @param          {Backbone.View}     view                    The view instance currently loaded.
             #   @param          {Object}            params                  A key-value mapping of the matched route's url pattern's parameters.
-            #
             ###
 
             @trigger( 'open', @pageView, params )

@@ -38,11 +38,11 @@
         #   Expose this view's name to the router.
         #
         #   @property       viewName
-        #
-        #   @default        '<%- viewName %>'
         #   @type           String
         #   @static
         #   @final
+        #
+        #   @default        '<%- viewName %>'
         ###
 
         viewName:           '<%- viewName %>'
@@ -52,11 +52,11 @@
         #   CSS class(es) to set on this view's root DOM element.
         #
         #   @property       className
-        #
-        #   @default        '<%- cssClassName %>'
         #   @type           String
         #   @static
         #   @final
+        #
+        #   @default        '<%- cssClassName %>'
         ###
 
         className:          '<%- cssClassName %>'
@@ -66,7 +66,6 @@
         #   The compiled handlebars template expander function.
         #
         #   @property       template
-        #
         #   @type           Function
         #   @protected
         #   @static
@@ -81,7 +80,6 @@
         #   @protected
         #
         #   @param          {Object}            options                 The options object passed in from the constructor.
-        #
         ###
 
         initialize: ( options ) ->
@@ -103,7 +101,6 @@
         #   @method         render
         #
         #   @chainable
-        #
         ###
 
         render: () ->
@@ -124,7 +121,6 @@
         #   @protected
         #
         #   @return         {Object}
-        #
         ###
 
         renderData: () ->

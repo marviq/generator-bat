@@ -44,11 +44,12 @@
         #   The collection's `{{#crossLink "ApiServiceModel"}}{{/crossLink}}`.
         #
         #   @property       model
-        #
-        #   @default        ApiServiceModel
         #   @type           Backbone.Model
+        #   @protected
         #   @static
         #   @final
+        #
+        #   @default        ApiServiceModel
         ###
 
         model:              ApiServiceModel
@@ -83,8 +84,9 @@
                 #
                 #   @property       services.settingsEnvironment
                 #   @type           String
-                #   @default        '<app-base-url>/settings.json'
                 #   @final
+                #
+                #   @default        '<app-base-url>/settings.json'
                 ###
 
                 id:     'settingsEnvironment'

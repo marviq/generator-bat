@@ -37,11 +37,11 @@
         #   Expose this view's name to the router.
         #
         #   @property       viewName
-        #
-        #   @default        'index'
         #   @type           String
         #   @static
         #   @final
+        #
+        #   @default        'index'
         ###
 
         viewName:           'index'
@@ -51,11 +51,11 @@
         #   CSS class(es) to set on this view's root DOM element.
         #
         #   @property       className
-        #
-        #   @default        'index-view'
         #   @type           String
         #   @static
         #   @final
+        #
+        #   @default        'index-view'
         ###
 
         className:          'index-view'
@@ -65,7 +65,6 @@
         #   The compiled handlebars template expander function.
         #
         #   @property       template
-        #
         #   @type           Function
         #   @protected
         #   @static
@@ -80,7 +79,6 @@
         #   @protected
         #
         #   @param          {Object}            options                 The options object passed in from the constructor.
-        #
         ###
 
         initialize: ( options ) ->
@@ -102,7 +100,6 @@
         #   @method         render
         #
         #   @chainable
-        #
         ###
 
         render: () ->
@@ -123,7 +120,6 @@
         #   @protected
         #
         #   @return         {Object}
-        #
         ###
 
         renderData: () ->

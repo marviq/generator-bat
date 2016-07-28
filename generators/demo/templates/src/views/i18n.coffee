@@ -40,11 +40,11 @@
         #   Expose this view's name to the router.
         #
         #   @property       viewName
-        #
-        #   @default        'i18n'
         #   @type           String
         #   @static
         #   @final
+        #
+        #   @default        'i18n'
         ###
 
         viewName:           'i18n'
@@ -54,11 +54,11 @@
         #   CSS class(es) to set on this view's root DOM element.
         #
         #   @property       className
-        #
-        #   @default        'i18n-view'
         #   @type           String
         #   @static
         #   @final
+        #
+        #   @default        'i18n-view'
         ###
 
         className:          'i18n-view'
@@ -68,7 +68,6 @@
         #   The compiled handlebars template expander function.
         #
         #   @property       template
-        #
         #   @type           Function
         #   @protected
         #   @static
@@ -82,7 +81,6 @@
         #   Setup UI event handler definitions.
         #
         #   @property       events
-        #
         #   @type           Object
         #   @protected
         #   @static
@@ -97,7 +95,6 @@
         #   @method         render
         #
         #   @chainable
-        #
         ###
 
         render: () ->
@@ -122,7 +119,6 @@
         #   @protected
         #
         #   @return         {Object}
-        #
         ###
 
         renderData: () ->
@@ -137,7 +133,6 @@
         #
         #   @method         _changeLanguage
         #   @protected
-        #
         ###
 
         _changeLanguage: () ->

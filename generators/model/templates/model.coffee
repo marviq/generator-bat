@@ -36,7 +36,6 @@
         #   List of [valid attribute names](#attrs).
         #
         #   @property       schema
-        #
         #   @type           Array[String]
         #   @static
         #   @final
@@ -46,7 +45,6 @@
         #   The `<%- className %>`'s unique identifier.
         #
         #   @attribute      id
-        #
         #   @type           String
         ###
 
