@@ -347,6 +347,13 @@ var AppGenerator = generators.Base.extend(
                         //  Testing:
 
                     ,   'test'
+                    ,   'test/unit'
+                    ,   'test/unit/asset'
+                    ,   'test/unit/spec'
+                    ,   'test/unit/spec/collections'
+                    ,   'test/unit/spec/mixins'
+                    ,   'test/unit/spec/models'
+                    ,   'test/unit/spec/views'
 
                         //  Third-party, external libraries:
 
@@ -420,6 +427,11 @@ var AppGenerator = generators.Base.extend(
                     ,   [ 'settings/testing.json' ]
                     ,   [ 'settings/local.json' ]
 
+                        //  Testing:
+
+                    ,   [ 'test/unit/init.coffee' ]
+                    ,   'test/unit/spec/trivial.spec.coffee'
+
                     ]
                 ;
 
@@ -486,7 +498,6 @@ var AppGenerator = generators.Base.extend(
                     [
                         'browserify'
                     ,   'browserify-shim'
-                    ,   'chai'
                     ,   'coffeeify'
                     ,   'coffee-script'
                     ,   'grunt'
@@ -500,12 +511,18 @@ var AppGenerator = generators.Base.extend(
                     ,   'grunt-contrib-uglify'
                     ,   'grunt-contrib-watch'
                     ,   'grunt-contrib-yuidoc'
-                    ,   'grunt-mocha-test'
+                    ,   'grunt-karma'
                     ,   'grunt-template'
                     ,   'handlebars'
                     ,   'hbsfy'
-                    ,   'mocha'
+                    ,   'jasmine-core'
+                    ,   'karma'
+                    ,   'karma-browserify'
+                    ,   'karma-jasmine'
+                    ,   'karma-phantomjs-launcher'
+                    ,   'phantomjs-prebuilt'
                     ,   'standard-version'
+                    ,   'watchify'
                     ]
             ;
 
@@ -672,6 +689,9 @@ var AppGenerator = generators.Base.extend(
 
                 +   chalk.bold( '  * ' + chalk.yellow( 'grunt test          ' ))
                 +   '- will run your test suite;\n'
+
+                +   chalk.bold( '  * ' + chalk.yellow( 'grunt test:dev      ' ))
+                +   '- will run your test suite and will keep monitoring it for changes, triggering re-runs;\n'
 
                 +   '\n'
                 +   chalk.bold( '  * ' + chalk.yellow( 'grunt --help        ' ))

@@ -61,7 +61,29 @@ command           | description
 `grunt doc`       | will build just the code documentation;
 `grunt lint`      | will just lint your code;
 `grunt test`      | will run your test suite;
+`grunt test:dev`  | will run your test suite and will keep monitoring it for changes, triggering re-runs;
 `grunt --help`    | will show you all of the above and the kitchen sink;
+
+
+### Test
+
+Unit testing is an integrated build step in both `default` and `debug` build runs, but can also be run independently as:
+
+```shell
+grunt test
+```
+
+And as watched, continuous test runs as:
+
+```shell
+grunt test:dev
+```
+
+The latter invocation, while it is kept running, also offers the opportunity to launch a test suite run in any browser, simply by directing it to this url:
+
+[`http://localhost:9876/debug.html`](http://localhost:9876/debug.html)
+
+*Do not forget to open your dev tools and browser console there!*
 
 
 ### Commit
