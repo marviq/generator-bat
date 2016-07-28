@@ -20,6 +20,7 @@
 
     'use strict'
 
+
     ###*<% if ( description ) { %>
     #   <%- description %>
     #<% } %>
@@ -29,7 +30,30 @@
     #   @constructor<% } %>
     ###
 
-    class <%- className %> extends Backbone.Model<% if ( singleton ) { %>
+    class <%- className %> extends Backbone.Model
+
+        ###*
+        #   List of [valid attribute names](#attrs).
+        #
+        #   @property       schema
+        #
+        #   @type           Array[String]
+        #   @static
+        #   @final
+        ###
+
+        ###*
+        #   The `<%- className %>`'s unique identifier.
+        #
+        #   @attribute      id
+        #
+        #   @type           String
+        ###
+
+        schema: [
+
+            'id'
+        ]<% if ( singleton ) { %>
 
 
     ##  Export singleton.
