@@ -484,9 +484,11 @@ var AppGenerator = generators.Base.extend(
                     ]
             ,   devDeps =
                     [
-                        'browserify-shim'
+                        'browserify'
+                    ,   'browserify-shim'
                     ,   'chai'
                     ,   'coffeeify'
+                    ,   'coffee-script'
                     ,   'grunt'
                     ,   'grunt-browserify'
                     ,   'grunt-coffee-jshint'
@@ -502,6 +504,7 @@ var AppGenerator = generators.Base.extend(
                     ,   'grunt-template'
                     ,   'handlebars'
                     ,   'hbsfy'
+                    ,   'mocha'
                     ,   'standard-version'
                     ]
             ;
