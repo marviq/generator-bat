@@ -135,8 +135,9 @@
 ##  ====
 ##
 
-path    = require( 'path' )
-_       = require( 'underscore' )
+child_process   = require( 'child_process' )
+path            = require( 'path' )
+_               = require( 'underscore' )
 
 module.exports = ( grunt ) ->
 
@@ -147,11 +148,13 @@ module.exports = ( grunt ) ->
         ##  ------------------------------------------------
 
         ##
-        ##  Contents of npm's 'package.json' file as '<%= npm.* %>'
+        ##  Contents of npm's 'package.json' file as '<%= npm.pkg.* %>'
+        ##  Installed dependencies of npm's 'package.json' file as '<%= npm.installed.* %>'
         ##
 
         npm:
-            grunt.file.readJSON(        'package.json' )
+            pkg:                        grunt.file.readJSON( 'package.json' )
+            installed:                  JSON.parse( child_process.execSync( 'npm ls --json --prod --depth 0 --silent' )).dependencies
 
 
         ##
@@ -173,7 +176,7 @@ module.exports = ( grunt ) ->
             settings:                   'settings/'
             test:                       'test/'
 
-            artifactBase:               '<%= build.dist %><%= npm.name %>-<%= npm.version %>'
+            artifactBase:               '<%= build.dist %><%= npm.pkg.name %>-<%= npm.pkg.version %>'
 
             ##
             ##  This is the default build environment but may be overridden by the 'environment' task
@@ -196,9 +199,9 @@ module.exports = ( grunt ) ->
 
                         lint:           '<%= build.source %>**/*.coffee'
 
-                    ##                  NOTE:   <%= npm.main %> should have <%= build.dist %> as its prefix:
+                    ##                  NOTE:   <%= npm.pkg.main %> should have <%= build.dist %> as its prefix:
                     ##
-                    tgt:                '<%= npm.main %>'
+                    tgt:                '<%= npm.pkg.main %>'
 
                 brief:
                     tgt:                '<%= build.assembly.app %>build.json'
@@ -334,7 +337,16 @@ module.exports = ( grunt ) ->
                     noParse: [
                                         'jquery'
                     ]
-                )
+                )<@ if ( jqueryCdn ) { @>
+
+                ##  Do not include `jquery` in the output bundle. It is an `npm install`ed dependency, and `require()`d, chiefly, by `Backbone`.
+                ##  Instead, a `<script>` tag in the main entry point will load `jquery` from a CDN.
+                ##  A 'browserify-shim' will take care of exposing that jquery to the app. (see 'package.json')
+                ##  The app will take care of exposing it to Backbone.
+                ##
+                exclude: [
+                                        'jquery'
+                ]<@ } @>
 
             ##  Non-debugging build
             ##
@@ -790,7 +802,11 @@ module.exports = ( grunt ) ->
                     ,
                         browserifyOptions
                     ,
-                        debug:          true
+                        debug:          true<@ if ( jqueryCdn ) { @>
+
+                        ##  This is the `karma-browserify` equivalent of `browserify.options.exclude`.
+                        ##
+                        configure:      ( bundle ) -> bundle.on( 'prebundle', () -> bundle.external( 'jquery' ); return ); return<@ } @>
                     )
 
 
@@ -802,7 +818,25 @@ module.exports = ( grunt ) ->
                     ##
                     ##  https://karma-runner.github.io/1.0/config/files.html
                     ##
-                    files: [
+                    files: [<@ if ( jqueryCdn ) { @>
+                        ##  External dependencies to be loaded as `<script/>`s.
+                        ##
+                        ##    * jQuery
+                        ##
+                        ##      jQuery is in this list because the `browserify-shim` config in `package.json` specifies that `require('jquery')` will return
+                        ##      the global jQuery object:
+                        ##
+                        ##      It does this because `jQuery` will be excluded from a browserify build as specified at:
+                        ##
+                        ##          `browserify.options.exclude`
+                        ##
+                        ##      We have mimicked that behaviour through `karma.options.browserify.configure`.
+                        ##
+                        ##      Loading `jquery` from a cdn will also work, but doing it like this will minimize impact on testing during continuous
+                        ##      integration ('https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js').
+                        ##
+                        '../node_modules/jquery/dist/jquery.js'
+                    ,<@ } @>
                         ##  Setup / initialization before all tests.
                         ##
                         'unit/init.coffee'
@@ -977,10 +1011,10 @@ module.exports = ( grunt ) ->
         yuidoc:
 
             app:
-                name:                   '<%= npm.name %>'
-                description:            '<%= npm.description %>'
-                url:                    '<%= npm.homepage %>'
-                version:                '<%= npm.version %>'
+                name:                   '<%= npm.pkg.name %>'
+                description:            '<%= npm.pkg.description %>'
+                url:                    '<%= npm.pkg.homepage %>'
+                version:                '<%= npm.pkg.version %>'
 
                 options:
                     ##                  NOTE:   Globbing patterns in `paths` cannot match - any - symbolically linked directories; yuidoc will not find them.
@@ -1053,8 +1087,8 @@ module.exports = ( grunt ) ->
                 environment:    grunt.config( 'build.environment' )
                 debugging:      ( debugging is 'debug' )
 
-                name:           grunt.config( 'npm.name' )
-                version:        grunt.config( 'npm.version' )
+                name:           grunt.config( 'npm.pkg.name' )
+                version:        grunt.config( 'npm.pkg.version' )
 
                 timestamp:      +stamp
 

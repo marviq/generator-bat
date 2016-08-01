@@ -13,7 +13,11 @@
       "browserify-shim"
     ]
   },
-  "browserify-shim": {},
+  "browserify-shim": {<% if ( jqueryCdn ) { %>
+    "jquery": {
+      "exports": "global:jQuery"
+    }
+  <% } %>},
   "dependencies": {},
   "description": "<%- packageDescription %>",
   "devDependencies": {},

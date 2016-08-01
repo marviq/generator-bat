@@ -129,11 +129,12 @@ _               = require( 'underscore' )
 ##  http://backbonejs.org/
 ##
 
-Backbone        = require( 'backbone' )
+Backbone        = require( 'backbone' )<% if ( jqueryCdn ) { %>
 
 ##  Expose jQuery to Backbone.
+##  Needed because Backbone's jquery dependency will not be bundled with the build distribution artifact.
 ##
-Backbone.$      = $
+Backbone.$      = $<% } %>
 
 
 ## ============================================================================
