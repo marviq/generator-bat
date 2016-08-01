@@ -854,7 +854,9 @@ module.exports = ( grunt ) ->
                         served:         true
                     ]
 
-                    proxies:            {}
+                    proxies:
+                        '/settings.json':
+                            '/base/unit/asset/settings.json'
 
 
             unit_dev:

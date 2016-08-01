@@ -436,6 +436,7 @@ var AppGenerator = generators.Base.extend(
                         //  Testing:
 
                     ,   [ 'test/unit/init.coffee' ]
+                    ,   'test/unit/spec/models/settings-environment.spec.coffee'
                     ,   'test/unit/spec/trivial.spec.coffee'
 
                     ]
@@ -474,6 +475,13 @@ var AppGenerator = generators.Base.extend(
                 }
 
                 this._templatesProcess( templates );
+
+                //
+                //  Symlink assets for Testing:
+                //
+
+                this._symLink( 'settings/testing.json', 'test/unit/asset/settings.json' );
+
             }
 
         ,   setupDemo: function ()
