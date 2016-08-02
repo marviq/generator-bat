@@ -155,7 +155,7 @@ yo bat:demo
 **Note:** that the latter _will_ result in a few clashes with some of the files produced from the earlier `yo bat` run. These are however, caveat codor, harmless.
 
 
-## Grunt tasks
+### Grunt tasks
 
 After you're all set up, you'll want to build your project; this is where [Grunt](http://gruntjs.com) comes in:
 
@@ -179,7 +179,7 @@ command           | description
 `grunt --help`    | will show you all of the above and the kitchen sink;
 
 
-## Unit tests
+### Unit tests
 
 BAT comes with support for unit testing using [Karma](http://karma-runner.github.io/1.0/), [Jasmine](http://jasmine.github.io/2.4/introduction.html) and [PhantomJS](http://phantomjs.org/).
 
