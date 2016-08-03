@@ -558,7 +558,14 @@ var AppGenerator = generators.Base.extend(
 
     ,   end:
         {
-            intro: function ()
+            //  Get rid of any extraneous packages; perhaps left over from previous generator attemtps.
+            //
+            prune: function ()
+            {
+                this.spawnCommand( 'npm', [ 'prune' ] );
+            }
+
+        ,   intro: function ()
             {
                 /* jshint laxbreak: true */
 
