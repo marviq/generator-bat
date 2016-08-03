@@ -684,6 +684,11 @@ var AppGenerator = generators.Base.extend(
 
                 +   '\n'
                 +   chalk.bold( '  * ' + chalk.yellow( 'grunt ' + chalk.cyan( '[' ) + 'default' + chalk.cyan( ']' ) + '     ' ))
+                +   '- is a shortcut for ' + chalk.bold.yellow( 'grunt dist' ) + ' unless the ' + chalk.bold.yellow( 'GRUNT_TASKS' ) + ' environment '
+                +   'variable specifies a space separated list of alternative tasks to run instead;\n'
+
+                +   '\n'
+                +   chalk.bold( '  * ' + chalk.yellow( 'grunt dist          ' ))
                 +   '- does a for-production, non-debugging, all-parts, tested, minified build plus artifacts;\n'
 
                 +   chalk.bold( '  * ' + chalk.yellow( 'grunt debug         ' ))

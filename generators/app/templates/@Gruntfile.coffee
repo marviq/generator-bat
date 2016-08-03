@@ -120,7 +120,10 @@
 ##
 ##  Finally, this is how the main grunt commandline tasks are mapped to all of the above:
 ##
-##      * grunt [default]   - does a for-production, non-debugging, all-parts, tested, minified build plus artifacts;
+##      * grunt [default]   - shortcut for `grunt dist` unless the `GRUNT_TASKS` environment variable specifies a space separated list of alternative tasks to run
+##                            instead;
+##
+##      * grunt dist        - does a for-production, non-debugging, all-parts, tested, minified build plus artifacts;
 ##      * grunt debug       - does a for-testing, debugging, all-parts except documentation, tested, as-is build;
 ##      * grunt dev         - does a for-local, debugging, all-parts except documentation, as-is build;
 ##                            (Note that this variant doesn't exit. Instead, it'll keep a close watch on
@@ -1238,6 +1241,15 @@ module.exports = ( grunt ) ->
 
     grunt.registerTask(
         'default'
+        'Shortcut for `grunt dist` unless the `GRUNT_TASKS` environment variable specifies a space separated list of alternative tasks to run instead.'
+        () ->
+            tasks = process.env.GRUNT_TASKS?.split( /\s/ )
+
+            grunt.task.run( if tasks?.length then tasks else 'dist' )
+    )
+
+    grunt.registerTask(
+        'dist'
         [
             'clean:dist'
 

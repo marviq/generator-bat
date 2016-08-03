@@ -169,7 +169,8 @@ Grunt can do more than just that; here's a recap of common grunt idioms:
 
 command           | description
 :--               |:--
-`grunt [default]` | does a for-production, non-debugging, all-parts, tested, minified build plus artifacts;
+`grunt [default]` | shortcut for `grunt dist` unless the `GRUNT_TASKS` environment variable specifies a space separated list of alternative tasks to run instead;
+`grunt dist`      | does a for-production, non-debugging, all-parts, tested, minified build plus artifacts;
 `grunt debug`     | does a for-testing, debugging, all-parts except documentation, tested, as-is build;
 `grunt dev`       | does a for-local, debugging, all-parts except documentation, as-is build; <br>_(**Note that this variant doesn't exit**. Instead it'll keep a close watch on filesystem changes, selectively re-triggering part builds as needed)_
 `grunt doc`       | will build just the code documentation;
@@ -183,7 +184,7 @@ command           | description
 
 BAT comes with support for unit testing using [Karma](http://karma-runner.github.io/1.0/), [Jasmine](http://jasmine.github.io/2.4/introduction.html) and [PhantomJS](http://phantomjs.org/).
 
-Unit testing is an integrated build step in both `default` and `debug` build runs, but can also be run independently as:
+Unit testing is an integrated build step in both `dist` and `debug` build runs, but can also be run independently as:
 
 ```shell
 grunt test
