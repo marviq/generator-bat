@@ -135,6 +135,8 @@
 ##  ====
 ##
 
+'use strict'
+
 child_process   = require( 'child_process' )
 path            = require( 'path' )
 _               = require( 'underscore' )
@@ -883,11 +885,13 @@ module.exports = ( grunt ) ->
                 options:
                     data: () ->
 
-                        file = grunt.config( 'build.part.brief.tgt' )
+                        file    = grunt.config( 'build.part.brief.tgt' )
 
                         ##  Don't let grunt handle the exception if this fails.
                         ##
-                        try brief = grunt.file.readJSON( file )
+                        brief   = do () ->
+                            ### jshint  unused: false   ###
+                            try grunt.file.readJSON( file ) catch dummy
 
                         grunt.fail.fatal( "Unable to read the build brief (\"#{file}\"). Wasn't it created?" ) unless brief?.timestamp
 
