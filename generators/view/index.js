@@ -137,11 +137,13 @@ var ViewGenerator = generators.Base.extend(
             _.extend(
                 data
             ,   {
-                    className:      _.capitalize( viewName ) + 'View'
-                ,   cssClassName:   _.kebabCase( viewName ) + '-view'
-                ,   fileBase:       _.kebabCase( _.deburr( viewName ))
+                    className:          _.capitalize( viewName ) + 'View'
+                ,   cssClassName:       _.kebabCase( viewName ) + '-view'
+                ,   fileBase:           _.kebabCase( _.deburr( viewName ))
 
-                ,   userName:       this.user.git.name()
+                ,   userName:           this.user.git.name()
+
+                ,   backbone:           ( this.config.get( 'backbone' ) || { className: 'Backbone', modulePath: 'backbone' } )
                 }
             );
         }

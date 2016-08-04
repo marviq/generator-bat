@@ -138,10 +138,12 @@ var ModelGenerator = generators.Base.extend(
             _.extend(
                 data
             ,   {
-                    className:      _.capitalize( modelName ) + 'Model'
-                ,   fileBase:       _.kebabCase( _.deburr( modelName ))
+                    className:          _.capitalize( modelName ) + 'Model'
+                ,   fileBase:           _.kebabCase( _.deburr( modelName ))
 
-                ,   userName:       this.user.git.name()
+                ,   userName:           this.user.git.name()
+
+                ,   backbone:           ( this.config.get( 'backbone' ) || { className: 'Backbone', modulePath: 'backbone' } )
                 }
             );
         }

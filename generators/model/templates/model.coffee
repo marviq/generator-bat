@@ -1,15 +1,15 @@
 ( ( factory ) ->
     if typeof exports is 'object'
         module.exports = factory(
-            require( 'backbone' )
+            require( '<%- backbone.modulePath %>' )
         )
     else if typeof define is 'function' and define.amd
         define( [
-            'backbone'
+            '<%- backbone.modulePath %>'
         ], factory )
     return
 )((
-    Backbone
+    <%- backbone.className %>
 ) ->
 
     ###*
@@ -25,12 +25,12 @@
     #   <%- description %>
     #<% } %>
     #   @class          <%- className %>
-    #   @extends        Backbone.Model<% if ( singleton ) { %>
+    #   @extends        <%- backbone.className %>.Model<% if ( singleton ) { %>
     #   @static<% } else { %>
     #   @constructor<% } %>
     ###
 
-    class <%- className %> extends Backbone.Model
+    class <%- className %> extends <%- backbone.className %>.Model
 
         ###*
         #   List of [valid attribute names](#attrs).

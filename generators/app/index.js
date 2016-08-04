@@ -291,6 +291,7 @@ var AppGenerator = generators.Base.extend(
 
             data.copyrightYear              = new Date().getFullYear();
             data.packageDescription         = data.description;
+            data.backbone                   = ( this.config.get( 'backbone' ) || { className: 'Backbone', modulePath: 'backbone' } );
 
             //
             //  Save a '.yo-rc.json' config file.
@@ -305,6 +306,8 @@ var AppGenerator = generators.Base.extend(
 
                 ,   ie8:                    data.ie8
                 ,   i18n:                   data.i18n
+
+                ,   backbone:               data.backbone
                 }
             );
 

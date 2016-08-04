@@ -2,23 +2,23 @@
     if typeof exports is 'object'
         module.exports = factory(
             require( 'backbone' )
-            require( './../models/api-service.coffee' )
-
             require( 'madlib-settings' )
+
+            require( './../models/api-service.coffee' )
         )
     else if typeof define is 'function' and define.amd
         define( [
             'backbone'
-            './../models/api-service.coffee'
-
             'madlib-settings'
+
+            './../models/api-service.coffee'
         ], factory )
     return
 )((
     Backbone
-    ApiServiceModel
-
     settings
+
+    ApiServiceModel
 ) ->
 
     ###*

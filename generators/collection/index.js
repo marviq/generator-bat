@@ -181,13 +181,15 @@ var CollectionGenerator = generators.Base.extend(
             _.extend(
                 data
             ,   {
-                    className:      _.capitalize( collectionName ) + 'Collection'
-                ,   fileBase:       _.kebabCase( _.deburr( collectionName ))
+                    className:          _.capitalize( collectionName ) + 'Collection'
+                ,   fileBase:           _.kebabCase( _.deburr( collectionName ))
 
-                ,   modelClassName: _.capitalize( modelName ) + 'Model'
-                ,   modelFileName:  _.kebabCase( _.deburr( modelName )) + '.coffee'
+                ,   modelClassName:     _.capitalize( modelName ) + 'Model'
+                ,   modelFileName:      _.kebabCase( _.deburr( modelName )) + '.coffee'
 
-                ,   userName:       this.user.git.name()
+                ,   userName:           this.user.git.name()
+
+                ,   backbone:           ( this.config.get( 'backbone' ) || { className: 'Backbone', modulePath: 'backbone' } )
                 }
             );
         }
