@@ -172,7 +172,7 @@ command           | description
 `grunt [default]` | shortcut for `grunt dist` unless the `GRUNT_TASKS` environment variable specifies a space separated list of alternative tasks to run instead;
 `grunt dist`      | does a for-production, non-debugging, all-parts, tested, minified build plus artifacts;
 `grunt debug`     | does a for-testing, debugging, all-parts except documentation, tested, as-is build;
-`grunt dev`       | does a for-local, debugging, all-parts except documentation, as-is build; <br>_(**Note that this variant doesn't exit**. Instead it'll keep a close watch on filesystem changes, selectively re-triggering part builds as needed)_
+`grunt dev`       | does a for-local, debugging, all-parts except documentation, as-is build; <br> _**(Note that this variant doesn't exit**. Instead it'll keep a close watch on filesystem changes, selectively re-triggering part builds as needed)_
 `grunt doc`       | will build just the code documentation;
 `grunt lint`      | will just lint your code;
 `grunt test`      | will run your test suite;
@@ -228,6 +228,7 @@ $ npm install
 ```
 
 This will:
+
   * Setup [a helpful reminder](.gitmessage) of how to make [a good commit message](#commit-message-format-discipline).  If you adhere to this, then a detailed,
     meaningful [CHANGELOG](CHANGELOG.md) can be constructed automatically.
   * Setup the git flow [branching model](#branching-model) and checkout the `develop` branch.
@@ -257,40 +258,45 @@ $ git config commit.template ./.gitmessage
 
 ### Release
 
-* Determine what your next [semver](https://docs.npmjs.com/getting-started/semantic-versioning#semver-for-publishers) `<version>` should be:
-  ```bash
-  $ version="<version>"
-  ```
+  * Determine what your next [semver](https://docs.npmjs.com/getting-started/semantic-versioning#semver-for-publishers) `<version>` should be:
 
-* Create and checkout a `release/v<version>` branch off of `develop`:
-  ```bash
-  $ git flow release start "v${version}"
-  ```
+    ```bash
+    $ version="<version>"
+    ```
 
-* Bump the package's `.version`, update the [CHANGELOG](./CHANGELOG.md), commit these, and tag the commit as `v<version>`:
-  ```bash
-  $ npm run release
-  ```
+  * Create and checkout a `release/v<version>` branch off of `develop`:
 
-* If all is well this new `version` **should** be identical to your intended `<version>`:
-  ```bash
-  $ jq ".version == \"${version}\"" package.json
-  ```
+    ```bash
+    $ git flow release start "v${version}"
+    ```
 
-  *If this is not the case*, then either your assumptions about what changed are wrong, or (at least) one of your commits did not adhere to the
-  [Commit Message Format Discipline](#commit-message-format-discipline); **Abort the release, and sort it out first.**
+  * Bump the package's `.version`, update the [CHANGELOG](./CHANGELOG.md), commit these, and tag the commit as `v<version>`:
 
-* Merge `release/v<version>` back into both `develop` and `master`, checkout `develop` and delete `release/v<version>`:
-  ```bash
-  $ git flow release finish -n "v${version}"
-  ```
+    ```bash
+    $ npm run release
+    ```
 
-  Note that contrary to vanilla `git flow`, the merge commit into `master` will *not* have been tagged (that's what the
-  [`-n`](https://github.com/nvie/gitflow/wiki/Command-Line-Arguments#git-flow-release-finish--fsumpkn-version) was for). This is done because `npm run release`
-  has already tagged its own commit.
+  * If all is well this new `version` **should** be identical to your intended `<version>`:
 
-  I believe that in practice, this won't make a difference for the use of `git flow`; and ensuring it's done the other way round instead would render the use
-  of `conventional-changelog` impossible.
+    ```bash
+    $ jq ".version == \"${version}\"" package.json
+    ```
+
+    *If this is not the case*, then either your assumptions about what changed are wrong, or (at least) one of your commits did not adhere to the
+    [Commit Message Format Discipline](#commit-message-format-discipline); **Abort the release, and sort it out first.**
+
+  * Merge `release/v<version>` back into both `develop` and `master`, checkout `develop` and delete `release/v<version>`:
+
+    ```bash
+    $ git flow release finish -n "v${version}"
+    ```
+
+    Note that contrary to vanilla `git flow`, the merge commit into `master` will *not* have been tagged (that's what the
+    [`-n`](https://github.com/nvie/gitflow/wiki/Command-Line-Arguments#git-flow-release-finish--fsumpkn-version) was for). This is done because
+    `npm run release` has already tagged its own commit.
+
+    I believe that in practice, this won't make a difference for the use of `git flow`; and ensuring it's done the other way round instead would render the use
+    of `conventional-changelog` impossible.
 
 
 ### Publish
