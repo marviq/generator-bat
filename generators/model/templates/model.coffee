@@ -51,7 +51,19 @@
         schema: [
 
             'id'
-        ]<% if ( singleton ) { %>
+        ]
+
+
+        ###*
+        #   Default attribute values.
+        #
+        #   @property       defaults
+        #   @type           Object
+        #   @static
+        #   @final
+        ###
+
+        defaults:           {}<% if ( singleton ) { %>
 
 
     ##  Export singleton.
