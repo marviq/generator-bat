@@ -329,6 +329,7 @@ var AppGenerator = generators.Base.extend(
                         //  App source:
 
                         'src'
+                    ,   'src/apis'
 
                         //  Backbone:
 
@@ -409,6 +410,8 @@ var AppGenerator = generators.Base.extend(
 
                         //  App source:
 
+                    ,   'src/apis/default.coffee'
+                    ,   [ 'src/apis/env.coffee' ]
                     ,   [ 'src/collections/api-services.coffee' ]
                     ,   'src/models/api-service.coffee'
                     ,   'src/models/build-brief.coffee'

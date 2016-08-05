@@ -2,21 +2,18 @@
     if typeof exports is 'object'
         module.exports = factory(
             require( 'backbone' )
-            require( 'madlib-settings' )
 
             require( './../models/api-service.coffee' )
         )
     else if typeof define is 'function' and define.amd
         define( [
             'backbone'
-            'madlib-settings'
 
             './../models/api-service.coffee'
         ], factory )
     return
 )((
     Backbone
-    settings
 
     ApiServiceModel
 ) ->
@@ -31,11 +28,11 @@
 
 
     ###*
-    #   A collection of services available on the API.
+    #   A collection of services available on an API.
     #
     #   @class          ApiServicesCollection
     #   @extends        Backbone.Collection
-    #   @static
+    #   @constructor
     ###
 
     class ApiServicesCollection extends Backbone.Collection
@@ -55,99 +52,33 @@
         model:              ApiServiceModel
 
 
+        ###*
+        #   The API's base url.
+        #
+        #   This property will be initialized from the `options.url` constructor argument.
+        #
+        #   @property       url
+        #   @type           String
+        ###
 
-    ###*
-    #   The app's globally sharable configuration settings.
-    #
-    #   These are exposed through the `madlib-settings` singleton object. Simply `require(...)` it wherever you have a need for them.
-    #
-    #   @class          Settings
-    #   @static
-    ###
-
-    appBaseUrl  = settings.get( 'appBaseUrl' )
-
-    apiServices =
-        new ApiServicesCollection(
-
-            [
-                ###*
-                #   Absolute url path for retrieving the app's current build's {{#crossLink 'BuildBrief'}}briefing data{{/crossLink}}.
-                #
-                #   This data includes:
-                #
-                #     * `buildNumber`
-                #     * `buildId`
-                #     * `revision`
-                #     * `grunted`
-                #     * `environment`
-                #     * `debugging`
-                #     * `name`
-                #     * `version`
-                #     * `timestamp`
-                #
-                #   @property       services.buildBrief
-                #   @type           String
-                #   @final
-                #
-                #   @default        '<app-base-url>/build.json'
-                ###
-
-                id:     'buildBrief'
-                url:    "#{appBaseUrl}build.json"
-
-            ,
-                ###*
-                #   Absolute url path for retrieving the app's {{#crossLink 'SettingsEnvironment'}}target-environment settings{{/crossLink}}.
-                #
-                #   These settings include:
-                #
-                #     * `apiBaseUrl`
-                #     * `environment`<% if ( i18n ) { %>
-                #     * `locales`<% } %>
-                #
-                #   Once retrieved these can be referenced through the {{#crossLink 'Settings/environment:property'}}the `environment` setting{{/crossLink}}.
-                #
-                #   @property       services.settingsEnvironment
-                #   @type           String
-                #   @final
-                #
-                #   @default        '<app-base-url>/settings.json'
-                ###
-
-                id:     'settingsEnvironment'
-                url:    "#{appBaseUrl}settings.json"
-
-            ,
-
-                ##
-                ##  NOTE:
-                ##
-                ##  Before using any of the services below, the target-environment settings need to have been retrieved first in order to have an API base url
-                ##  to base these values off of.
-                ##
-
-            ]
-        )
+        url:                undefined
 
 
-    ###*
-    #   The services available on the API.
-    #
-    #   @property       services
-    #   @type           Object
-    ###
+        ###*
+        #   Initialize the `@url` property from `options`.
+        #
+        #   @method         initialize
+        #   @protected
+        #
+        #   @param          {Array}             [models]                An initial array of models for the collection.
+        #   @param          {Object}            [options]
+        #   @param          {String}            [options.url]           The base url for the API.
+        ###
 
-    settings.init( 'services', apiServices.reduce( ( ( memo, service ) -> memo[ service.id ] = service.get( 'url' ); return memo ), {} ) )
+        initialize: ( models, options ) ->
 
+            @url = options?.url
 
-    ###*
-    #   @class          ApiServicesCollection
-    ###
-
-
-    ##  Export singleton.
-    ##
-    return apiServices
+            return
 
 )

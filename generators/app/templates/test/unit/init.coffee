@@ -53,16 +53,6 @@ settings        = require( 'madlib-settings' )
 #   @final
 ###
 
-appBaseUrl = '/'
+appBaseUrl = ''
 
 settings.init( 'appBaseUrl', appBaseUrl )
-
-
-## ============================================================================
-##
-##  [API]
-##
-
-##  `require()` the API services here to ensure their endpoints have been defined on the madlib-settings object before they are used anywhere else.
-##
-services        = require( './../../src/collections/api-services.coffee' )

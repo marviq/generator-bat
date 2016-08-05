@@ -4,18 +4,24 @@
             require( 'backbone' )
             require( 'madlib-settings' )
             require( 'q' )
+
+            require( './../apis/env.coffee' )
         )
     else if typeof define is 'function' and define.amd
         define( [
             'backbone'
             'madlib-settings'
             'q'
+
+            './../apis/env.coffee'
         ], factory )
     return
 )((
     Backbone
     settings
     Q
+
+    api
 ) ->
 
     ###*
@@ -99,15 +105,17 @@
 
 
         ###*
+        #   Service API endpoint; defined in the {{#crossLink 'EnvApi/settingsEnvironment:attribute'}}EnvApi{{/crossLink}}.
+        #
         #   @property       url
-        #   @type           String
+        #   @type           ApiServiceModel
         #   @static
         #   @final
         #
-        #   @default        '<app-base-url>/settings.json'
+        #   @default        '<EnvApi.url>/settings.json'
         ###
 
-        url:                settings.get( 'services.settingsEnvironment' )
+        url:                api.get( 'settingsEnvironment' )
 
 
         ###*

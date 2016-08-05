@@ -22,6 +22,12 @@
 ##
 
 ###*
+#   The app's APIs.
+#
+#   @submodule      Apis
+###
+
+###*
 #   The app's backbone collections.
 #
 #   @submodule      Collections
@@ -205,7 +211,7 @@ settings        = require( 'madlib-settings' )
 
 ##  Leverage `document.currentScript` or a fallback (for IE <=11).
 ##
-appBaseUrl = ( document.currentScript ? Array::slice.call( document.scripts, -1 )[0] ).src.match( /^.*\// )[0]
+appBaseUrl = ( document.currentScript ? Array::slice.call( document.scripts, -1 )[0] ).src.match( /^(.*)\// )[1]
 
 settings.init( 'appBaseUrl', appBaseUrl )
 
@@ -254,24 +260,12 @@ settings.init( 'locale', locale )<% } %>
 
 ## ============================================================================
 ##
-##  [API]
-##
-
-##  `require()` the API services here to ensure their endpoints have been defined on the madlib-settings object before they are used anywhere else.
-##
-services        = require( './collections/api-services.coffee' )
-
-
-## ============================================================================
-##
 ##  [App]
 ##
 
 ##  The target environment's settings to be loaded (async) through its "service" and incorporated into the madlib-settings object.
 ##
 settingsEnv     = require( './models/settings-environment.coffee' )
-
-router          = require( './router.coffee' )
 
 initialized     = Q.all(
     [
@@ -285,7 +279,7 @@ initialized     = Q.all(
         ##  At this point we cannot know for sure that this locale really is available.
         ##  Once the `settingsEnv` has been initialized we -will- know this, but we're not going to wait for that; instead, just assume it'll be there.
         ##
-        localeManager.initialize( Handlebars, locale, "#{ appBaseUrl }i18n" )<% } %>
+        localeManager.initialize( Handlebars, locale, "#{ appBaseUrl }/i18n" )<% } %>
 
         ##  Wait until the target-environment settings have been loaded.<% if ( i18n ) { %>
         ##  This should list the available locales.<% } %>
@@ -297,6 +291,10 @@ initialized     = Q.all(
 initialized.done(
 
     () ->
+
+        ##  Load router only now, so the environment settings are known to have been loaded, and so the `DefaultApi` is ready to be used.
+        ##
+        router  = require( './router.coffee' )
 
         router.startApp()
 
