@@ -174,7 +174,7 @@ do () ->
 #
 #   These are exposed through the `madlib-settings` singleton object. Simply `require(...)` it wherever you have a need for them.
 #
-#   @class      Settings
+#   @class          Settings
 #   @static
 ###
 

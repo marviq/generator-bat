@@ -41,7 +41,7 @@
     class ApiServicesCollection extends Backbone.Collection
 
         ###*
-        #   The collection's `{{#crossLink "ApiServiceModel"}}{{/crossLink}}`.
+        #   The collection's `{{#crossLink 'ApiServiceModel'}}{{/crossLink}}`.
         #
         #   @property       model
         #   @type           Backbone.Model
@@ -72,7 +72,7 @@
 
             [
                 ###*
-                #   Absolute url path for retrieving the app's current build's {{#crossLink "BuildBrief"}}briefing data{{/crossLink}}.
+                #   Absolute url path for retrieving the app's current build's {{#crossLink 'BuildBrief'}}briefing data{{/crossLink}}.
                 #
                 #   This data includes:
                 #
@@ -98,7 +98,7 @@
 
             ,
                 ###*
-                #   Absolute url path for retrieving the app's {{#crossLink "SettingsEnvironment"}}target-environment settings{{/crossLink}}.
+                #   Absolute url path for retrieving the app's {{#crossLink 'SettingsEnvironment'}}target-environment settings{{/crossLink}}.
                 #
                 #   These settings include:
                 #
@@ -106,7 +106,7 @@
                 #     * `environment`<% if ( i18n ) { %>
                 #     * `locales`<% } %>
                 #
-                #   Once retrieved these can be referenced through the {{#crossLink "Settings/environment:property"}}the `environment` setting{{/crossLink}}.
+                #   Once retrieved these can be referenced through the {{#crossLink 'Settings/environment:property'}}the `environment` setting{{/crossLink}}.
                 #
                 #   @property       services.settingsEnvironment
                 #   @type           String

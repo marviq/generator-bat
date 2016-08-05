@@ -22,7 +22,7 @@
 
 
     ###*
-    #   Model for the `{{#crossLink "ApiServicesCollection"}}{{/crossLink}}`.
+    #   Model for the `{{#crossLink 'ApiServicesCollection'}}{{/crossLink}}`.
     #
     #   @class          ApiServiceModel
     #   @extends        Backbone.Model

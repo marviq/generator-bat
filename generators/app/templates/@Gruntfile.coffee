@@ -120,8 +120,8 @@
 ##
 ##  Finally, this is how the main grunt commandline tasks are mapped to all of the above:
 ##
-##      * grunt [default]   - shortcut for `grunt dist` unless the `GRUNT_TASKS` environment variable specifies a space separated list of alternative tasks to run
-##                            instead;
+##      * grunt [default]   - shortcut for `grunt dist` unless the `GRUNT_TASKS` environment variable specifies a space separated list of alternative tasks to
+##                            run instead;
 ##
 ##      * grunt dist        - does a for-production, non-debugging, all-parts, tested, minified build plus artifacts;
 ##      * grunt debug       - does a for-testing, debugging, all-parts except documentation, tested, as-is build;

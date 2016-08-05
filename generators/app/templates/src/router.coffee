@@ -2,7 +2,6 @@
     if typeof exports is 'object'
         module.exports = factory(
             require( 'backbone' )
-
             require( 'jquery' )<% if ( i18n ) { %>
             require( 'madlib-locale' )<% } %>
             require( 'madlib-settings' )
@@ -13,7 +12,6 @@
     else if typeof define is 'function' and define.amd
         define( [
             'backbone'
-
             'jquery'<% if ( i18n ) { %>
             'madlib-locale'<% } %>
             'madlib-settings'
@@ -24,7 +22,6 @@
     return
 )((
     Backbone
-
     $<% if ( i18n ) { %>
     localeManager<% } %>
     settings
