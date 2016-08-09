@@ -23,6 +23,7 @@
   },
   "files": [
     "AUTHORS",
+    "CHANGELOG.md",
     "LICENSE",
     "README.md",
     "generators"
