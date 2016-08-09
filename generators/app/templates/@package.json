@@ -23,6 +23,7 @@
   "devDependencies": {},
   "files": [
     "AUTHORS",
+    "CHANGELOG.md",
     "LICENSE",
     "README.md",
     "dist"
