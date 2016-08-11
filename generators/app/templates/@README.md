@@ -148,7 +148,13 @@ very least it should include:\]_
 
 ### Publish
 
-_\[Ultimately, you may also want to include instructions on how to publish and deploy a production release of *<%- packageName %>*. This text is just a
+_\[Ultimately, you may also want to include instructions on how to publish a production release of *<%- packageName %>*. This text is just a
+placeholder.\]_
+
+
+### Deploy
+
+_\[Ultimately, you may also want to include instructions on how to deploy a production release of *<%- packageName %>*. This text is just a
 placeholder.\]_
 
 
