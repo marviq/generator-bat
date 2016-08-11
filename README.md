@@ -223,16 +223,19 @@ Clone this repository somewhere, switch to it, then:
 
 ```bash
 $ git config commit.template ./.gitmessage
+$ git checkout master
+$ git checkout develop
 $ git flow init -d
 $ npm install
 ```
 
 This will:
 
-  * Setup [a helpful reminder](.gitmessage) of how to make [a good commit message](#commit-message-format-discipline).  If you adhere to this, then a detailed,
-    meaningful [CHANGELOG](CHANGELOG.md) can be constructed automatically.
-  * Setup the git flow [branching model](#branching-model) and checkout the `develop` branch.
-  * Install all required dependencies.
+  * Set up [a helpful reminder](.gitmessage) of how to make [a good commit message](#commit-message-format-discipline).  If you adhere to this, then a
+    detailed, meaningful [CHANGELOG](CHANGELOG.md) can be constructed automatically;
+  * Ensure you have local `master` and `develop` branches tracking their respective remote counterparts;
+  * Set up the git flow [branching model](#branching-model) with default branch names;
+  * Install all required dependencies;
 
 
 ### Commit
