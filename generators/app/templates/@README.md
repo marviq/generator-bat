@@ -29,17 +29,19 @@ Clone this repository somewhere, switch to it, then:
 
 ```bash
 $ git config commit.template ./.gitmessage
-# ... initialize your branching model tools here, if need be ... ex: git flow init -d
+# ... Set up any local tracking branches in addition to the default one. Depends on the branching model used, if any;
+# ... Initialize your branching model tools, if need be ... ex: `git flow init -d`;
 $ npm install
 ```
 
 This will:
 
-  * Setup [a helpful reminder](.gitmessage) of how to make [a good commit message](#commit-message-format-discipline).  If you adhere to this, then a detailed,
-    meaningful [CHANGELOG](CHANGELOG.md) can be constructed automatically.
-  * Setup the git flow [branching model](#branching-model) and checkout the `develop` branch.
-  * Install all required dependencies.
-  * The latter command will also invoke `grunt` (no args) for you, creating a production build in `./dist` (plus artifacts).
+  * Set up [a helpful reminder](.gitmessage) of how to make [a good commit message](#commit-message-format-discipline).  If you adhere to this, then a
+    detailed, meaningful [CHANGELOG](CHANGELOG.md) can be constructed automatically;
+  * _\[... Ensure you have local ... and ... branches tracking their respective remote counterparts;\]_
+  * _\[... Set up the ... [branching model](#branching-model);\]_
+  * Install all required dependencies;
+  * The latter command will also invoke `grunt` (no args) for you, creating a production build in `./dist` (plus artifacts);
 
 
 ### Build
@@ -98,7 +100,9 @@ The latter invocation, while it is kept running, also offers the opportunity to 
 
 #### Branching Model
 
-_\[Here, you might want to say something about the branching model you intend to use. Examples are [git flow](https://github.com/nvie/gitflow#readme), [GitHub flow](https://help.github.com/articles/what-is-a-good-git-workflow/) and [GitLab flow](http://docs.gitlab.com/ee/workflow/gitlab_flow.html). Should you want to change this, then do not forget to adjust the [**setup** section](#setup) accordingly.)
+_\[Here, you might want to say something about the branching model you intend to use. Examples are [git flow](https://github.com/nvie/gitflow#readme),
+[GitHub flow](https://help.github.com/articles/what-is-a-good-git-workflow/) and [GitLab flow](http://docs.gitlab.com/ee/workflow/gitlab_flow.html). Should you
+want to change this, then do not forget to adjust the [**setup** section](#setup) accordingly.\]_
 
 
 #### Commit Message Format Discipline
@@ -117,7 +121,8 @@ $ git config commit.template ./.gitmessage
 
 ### Release
 
-_\[Here, you might want to say something about your release- and versioning strategy. Likely, this is related to what you chose for a branching model. At the very least it should include:]_
+_\[Here, you might want to say something about your release- and versioning strategy. Likely, this is related to what you chose for a branching model. At the 
+very least it should include:\]_
 
   * Determine what your next [semver](https://docs.npmjs.com/getting-started/semantic-versioning#semver-for-publishers) `<version>` should be:
 
