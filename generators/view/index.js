@@ -189,10 +189,27 @@ var ViewGenerator = generators.Base.extend(
                 ,   statement   = '@import "views/_' + data.fileBase + '"'
                 ;
 
+                //  Look for a place to insert, preferably at an alfanumerically ordered position.
                 //  Do nothing if an `@import` for this sass file seems to exist already.
                 //
-                if ( views.indexOf( statement ) !== -1 )
+                var insertAt, indent, match, matcher = /^([ \t]*)(@import.*)/mg;
+
+                while ( (( match = matcher.exec( views ) )) )
                 {
+                    if ( statement > match[ 2 ] )
+                    {
+                        //  Use indent of the (possibly) preceding line.
+                        //
+                        indent      = match[ 1 ];
+                        continue;
+                    }
+
+                    if ( statement < match[ 2 ] )
+                    {
+                        insertAt    = match.index;
+                        break;
+                    }
+
                     this.log(
                         'It appears that "' + viewsPath + '" already contains an `@import` for "' + data.fileBase + '.sass".\n'
                     +   'Leaving it untouched.'
@@ -201,28 +218,26 @@ var ViewGenerator = generators.Base.extend(
                     return;
                 }
 
-                // Avoid the conflict warning and use force for the write
+                //  Avoid the conflict warning and use force for the write
                 //
                 this.conflicter.force = true;
 
-                //  Look for a place to insert, preferably at an alfanumerically ordered position.
-                //
-                var insertAt, match, matcher = /^@import.*/mg;
-
-                while ( (( match = matcher.exec( views ) )) )
+                if ( indent == null )
                 {
-                    if ( statement < match[ 0 ] ) { insertAt = match.index; }
+                    //  First @import; use indent of the following line, if any.
+                    //
+                    indent = match ? match[ 1 ] : '';
                 }
 
                 if ( insertAt == null )
                 {
-                    var pad = (( views.length && views.slice( -1 ) !== '\n' ) ? '\n' : '' );
-
-                    fs.write( viewsPath, views + pad + statement + '\n' );
+                    //  Append at end of file; Take care of possibly missing trailing newline.
+                    //
+                    fs.write( viewsPath, views + (( views.length && views.slice( -1 ) !== '\n' ) ? '\n' : '' ) + indent + statement + '\n' );
                 }
                 else
                 {
-                    fs.write( viewsPath, views.slice( 0, insertAt ) + statement + '\n' + views.slice( insertAt ) );
+                    fs.write( viewsPath, views.slice( 0, insertAt ) + indent + statement + '\n' + views.slice( insertAt ) );
                 }
             }
         }
