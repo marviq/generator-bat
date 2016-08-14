@@ -1,15 +1,21 @@
 ( ( factory ) ->
     if typeof exports is 'object'
         module.exports = factory(
-            require( '<%- backbone.modulePath %>' )
+            require( '<%- backbone.modulePath %>' )<% if ( api ) { %>
+
+            require( './../apis/<%- api.path %>' )<% } %>
         )
     else if typeof define is 'function' and define.amd
         define( [
-            '<%- backbone.modulePath %>'
+            '<%- backbone.modulePath %>'<% if ( api ) { %>
+
+            './../apis/<%- api.path %>'<% } %>
         ], factory )
     return
 )((
-    <%- backbone.className %>
+    <%- backbone.className %><% if ( api ) { %>
+
+    api<% } %>
 ) ->
 
     ###*
@@ -63,7 +69,23 @@
         #   @final
         ###
 
-        defaults:           {}<% if ( singleton ) { %>
+        defaults:           {}<% if ( api ) { %>
+
+
+        ###*
+        #   Service API endpoint; defined in the {{#crossLink '<%- api.className %>/<%- modelName %>:attribute'}}<%- api.className %>{{/crossLink}}.
+        #<% if ( singleton ) { %>
+        #   @property       url<% } else { %>
+        #   @property       urlRoot<% } %>
+        #   @type           ApiServiceModel
+        #   @static
+        #   @final
+        #
+        #   @default        '<<%- api.className %>.url>/<%- service %>'
+        ###
+<% if ( singleton ) { %>
+        url:                api.get( '<%- modelName %>' )<% } else { %>
+        urlRoot:            api.get( '<%- modelName %>' )<% } %><% } %><% if ( singleton ) { %>
 
 
     ##  Export singleton.
