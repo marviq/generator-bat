@@ -135,7 +135,7 @@ var CollectionGenerator = generators.Base.extend(
                                     return (
                                         youtil.definedToString( this.options.modelName )
                                     ||  answers.collectionName
-                                    ||  youtil.definedToString( this.options.collectionName )
+                                    ||  this.templateData.collectionName
                                     );
 
                                 }.bind( this )
