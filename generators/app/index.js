@@ -207,8 +207,12 @@ var AppGenerator = generators.Base.extend(
                             ,   message:    'What is the full name of the copyright owner of this webapp?'
                             ,   default: function ( answers )
                                 {
-                                    return answers.authorName;
-                                }
+                                    return (
+                                        youtil.definedToString( this.options.copyrightOwner )
+                                    ||  answers.authorName
+                                    ||  this.templateData.authorName
+                                    );
+                                }.bind( this )
                             ,   validate:   youtil.isNonBlank
                             ,   filter:     _.trim
                             ,   store:      true
