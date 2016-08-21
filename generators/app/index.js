@@ -33,12 +33,14 @@ var AppGenerator = generators.Base.extend(
         {
             generators.Base.apply( this, arguments );
 
+            this.description    = this._description( 'project and barebones app' );
+
             this.argument(
                 'packageName'
             ,   {
                     type:           String
                 ,   required:       false
-                ,   desc:           'The name of the webapp to create.'
+                ,   desc:           'The name of the app to create.'
                 }
             );
 
@@ -49,7 +51,7 @@ var AppGenerator = generators.Base.extend(
                 'packageName'
             ,   {
                     type:           String
-                ,   desc:           'The name of the webapp to create.'
+                ,   desc:           'The name of the app to create.'
                 ,   default:        this.packageName
                 ,   hide:           true
                 }
@@ -61,7 +63,7 @@ var AppGenerator = generators.Base.extend(
                 'description'
             ,   {
                     type:           String
-                ,   desc:           'The purpose of the webapp to create.'
+                ,   desc:           'The purpose of this app.'
                 }
             );
 
@@ -69,7 +71,7 @@ var AppGenerator = generators.Base.extend(
                 'authorName'
             ,   {
                     type:           String
-                ,   desc:           'The name of the main author creating the webapp.'
+                ,   desc:           'The name of the main author creating this app.'
                 }
             );
 
@@ -77,7 +79,7 @@ var AppGenerator = generators.Base.extend(
                 'authorEmail'
             ,   {
                     type:           String
-                ,   desc:           'The email address of the main author creating the webapp.'
+                ,   desc:           'The email address of this author.'
                 }
             );
 
@@ -85,7 +87,7 @@ var AppGenerator = generators.Base.extend(
                 'authorUrl'
             ,   {
                     type:           String
-                ,   desc:           'A website url identifying the main author creating the webapp.'
+                ,   desc:           'An optional website URL identifying this author.'
                 }
             );
 
@@ -93,7 +95,7 @@ var AppGenerator = generators.Base.extend(
                 'copyrightOwner'
             ,   {
                     type:           String
-                ,   desc:           'The full name of the webapp\'s copyright owner.'
+                ,   desc:           'The full name of the copyright owner of this app.'
                 }
             );
 
@@ -101,7 +103,7 @@ var AppGenerator = generators.Base.extend(
                 'i18n'
             ,   {
                     type:           Boolean
-                ,   desc:           'Specify whether internationalisation support is needed.'
+                ,   desc:           'Whether this app should support internationalisation'
                 }
             );
 
@@ -109,7 +111,7 @@ var AppGenerator = generators.Base.extend(
                 'i18nLocaleDefault'
             ,   {
                     type:           Boolean
-                ,   desc:           'Specify the default locale.'
+                ,   desc:           'The default locale for this app.'
                 ,   alias:          'locale'
                 }
             );
@@ -118,7 +120,7 @@ var AppGenerator = generators.Base.extend(
                 'ie8'
             ,   {
                     type:           Boolean
-                ,   desc:           'Specify whether internet explorer version 8 support is needed.'
+                ,   desc:           'Whether this app should still support IE8.'
                 }
             );
 
@@ -126,17 +128,10 @@ var AppGenerator = generators.Base.extend(
                 'demo'
             ,   {
                     type:           Boolean
-                ,   desc:           'Specify whether the demonstration app should also be included.'
+                ,   desc:           'Whether the demonstration app should also be included.'
                 }
             );
         }
-
-    ,   description:
-            chalk.bold(
-                'This is the ' + chalk.cyan( 'project and barebones app' )
-            +   ' generator for BAT, the Backbone Application Template'
-            +   ' created by ' + chalk.blue( 'marv' ) + chalk.red( 'iq' ) + '.'
-            )
 
     ,   initializing: function ()
         {
@@ -162,7 +157,7 @@ var AppGenerator = generators.Base.extend(
                             {
                                 type:       'input'
                             ,   name:       'packageName'
-                            ,   message:    'What is the name of this webapp you so desire?'
+                            ,   message:    'What is the name of this app you so desire?'
                             ,   default:
                                     (
                                         youtil.definedToString( this.options.packageName )
@@ -173,7 +168,7 @@ var AppGenerator = generators.Base.extend(
                         ,   {
                                 type:       'input'
                             ,   name:       'description'
-                            ,   message:    'What is the purpose (description) of this webapp?'
+                            ,   message:    'What is the purpose (description) of this app?'
                             ,   default:    youtil.definedToString( this.options.description )
                             ,   validate:   youtil.isNonBlank
                             ,   filter:     youtil.sentencify
@@ -181,7 +176,7 @@ var AppGenerator = generators.Base.extend(
                         ,   {
                                 type:       'input'
                             ,   name:       'authorName'
-                            ,   message:    'What is the main author\'s name?'
+                            ,   message:    'What is the name of the main author creating this app?'
                             ,   default:    ( youtil.definedToString( this.options.auhorName ) || youtil.definedToString( this.user.git.name() ))
                             ,   validate:   youtil.isNonBlank
                             ,   filter:     clean
@@ -189,7 +184,7 @@ var AppGenerator = generators.Base.extend(
                         ,   {
                                 type:       'input'
                             ,   name:       'authorEmail'
-                            ,   message:    'What is the main author\'s email address?'
+                            ,   message:    'What is the email address of this author?'
                             ,   default:    ( youtil.definedToString( this.options.auhorEmail ) || youtil.definedToString( this.user.git.email() ))
                             ,   validate:   youtil.isNonBlank
                             ,   filter:     _.trim
@@ -197,14 +192,14 @@ var AppGenerator = generators.Base.extend(
                         ,   {
                                 type:       'input'
                             ,   name:       'authorUrl'
-                            ,   message:    'If any, what is the main author\'s website url?'
+                            ,   message:    'If any, what is the website URL identifying this author?'
                             ,   default:    ( youtil.definedToString( this.options.auhorUrl ) || '' )
                             ,   filter:     _.trim
                             }
                         ,   {
                                 type:       'input'
                             ,   name:       'copyrightOwner'
-                            ,   message:    'What is the full name of the copyright owner of this webapp?'
+                            ,   message:    'What is the full name of the copyright owner of this app?'
                             ,   default: function ( answers )
                                 {
                                     return (
@@ -220,13 +215,23 @@ var AppGenerator = generators.Base.extend(
                         ,   {
                                 type:       'confirm'
                             ,   name:       'i18n'
-                            ,   message:    'Do you need internationalisation support?'
+                            ,   message:    'Should this app support internationalisation?'
                             ,   default:    false
                             }
                         ,   {
                                 type:       'input'
                             ,   name:       'i18nLocaleDefault'
-                            ,   message:    'What should the default locale be? (Please use a valid [BCP 47 language tag](https://tools.ietf.org/html/bcp47#section-2))'
+                            ,   message:    (   'What is the default locale for this app?'
+                                            +   chalk.gray(
+                                                    ' - please use a valid '
+                                                +   chalk.cyan( '[' )
+                                                +   'BCP 47 language tag'
+                                                +   chalk.cyan( '](' )
+                                                +   chalk.blue( 'https://tools.ietf.org/html/bcp47#section-2' )
+                                                +   chalk.cyan( ')' )
+                                                +   '.'
+                                                )
+                                            )
                             ,   default:    ( youtil.definedToString( this.options.i18nLocaleDefault ) || 'en-US' )
                             ,   validate:   tags.check
                             ,   filter: function ( value )
@@ -241,19 +246,31 @@ var AppGenerator = generators.Base.extend(
                         ,   {
                                 type:       'confirm'
                             ,   name:       'jqueryCdn'
-                            ,   message:    'Would you like your app to load jQuery from a CDN (googleapis.com) instead of bundling it?'
+                            ,   message:    (
+                                                'Should this app load jQuery from a CDN '
+                                            +   chalk.gray( '(googleapis.com)' )
+                                            +   ' instead of bundling it?'
+                                            )
                             ,   default:    false
                             }
                         ,   {
                                 type:       'confirm'
                             ,   name:       'ie8'
-                            ,   message:    'Do you need IE8 and lower support? (affects the jQuery version and shims HTML5 and media query support)'
+                            ,   message:    (
+                                                'Should this app still support IE8?'
+                                            +   chalk.gray( ' - affects the jQuery version and shims HTML5 and media query support.' )
+                                            )
                             ,   default:    false
                             }
                         ,   {
                                 type:       'confirm'
                             ,   name:       'demo'
-                            ,   message:    'Would you like the demo app now? (If not, you can always get it later through `yo bat:demo`)'
+                            ,   message:    (
+                                                'Would you like the demo app now?'
+                                            +   chalk.gray( ' - if not, you can always get it later through `' )
+                                            +   chalk.yellow( 'yo bat:demo ' )
+                                            +   chalk.gray( '`.' )
+                                            )
                             ,   default:    false
                             }
                         ]

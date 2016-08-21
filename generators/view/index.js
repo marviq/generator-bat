@@ -7,7 +7,6 @@
 var generators      = require( 'yeoman-generator' )
 ,   yosay           = require( 'yosay' )
 ,   youtil          = require( './../../lib/youtil.js' )
-,   chalk           = require( 'chalk' )
 ,   _               = require( 'lodash' )
 ;
 
@@ -18,6 +17,8 @@ var ViewGenerator = generators.Base.extend(
         constructor: function ()
         {
             generators.Base.apply( this, arguments );
+
+            this.description    = this._description( 'backbone view' );
 
             this.argument(
                 'viewName'
@@ -47,7 +48,7 @@ var ViewGenerator = generators.Base.extend(
                 'description'
             ,   {
                     type:           String
-                ,   desc:           'The purpose of the view to create.'
+                ,   desc:           'The purpose of this view.'
                 }
             );
 
@@ -55,17 +56,10 @@ var ViewGenerator = generators.Base.extend(
                 'sass'
             ,   {
                     type:           Boolean
-                ,   desc:           'Specify whether this view should have a SASS file of its own.'
+                ,   desc:           'Whether this view should have a SASS file of its own.'
                 }
             );
         }
-
-    ,   description:
-            chalk.bold(
-                'This is the ' + chalk.cyan( 'backbone view' )
-            +   ' generator for BAT, the Backbone Application Template'
-            +   ' created by ' + chalk.blue( 'marv' ) + chalk.red( 'iq' ) + '.'
-            )
 
     ,   initializing: function ()
         {
@@ -105,7 +99,7 @@ var ViewGenerator = generators.Base.extend(
                         ,   {
                                 type:       'confirm'
                             ,   name:       'sass'
-                            ,   message:    'Would you like a SASS file for this view?'
+                            ,   message:    'Should this view have a a SASS file of its own?'
                             ,   default:    true
                             ,   validate:   _.isBoolean
                             }

@@ -19,6 +19,8 @@ var ModelGenerator = generators.Base.extend(
         {
             generators.Base.apply( this, arguments );
 
+            this.description    = this._description( 'backbone model' );
+
             this.argument(
                 'modelName'
             ,   {
@@ -47,7 +49,7 @@ var ModelGenerator = generators.Base.extend(
                 'description'
             ,   {
                     type:           String
-                ,   desc:           'The purpose of the model to create.'
+                ,   desc:           'The purpose of this model.'
                 }
             );
 
@@ -55,17 +57,10 @@ var ModelGenerator = generators.Base.extend(
                 'singleton'
             ,   {
                     type:           Boolean
-                ,   desc:           'Specify whether this model should be a singleton (instance).'
+                ,   desc:           'Whether this model should be a singleton (instance).'
                 }
             );
         }
-
-    ,   description:
-            chalk.bold(
-                'This is the ' + chalk.cyan( 'backbone model' )
-            +   ' generator for BAT, the Backbone Application Template'
-            +   ' created by ' + chalk.blue( 'marv' ) + chalk.red( 'iq' ) + '.'
-            )
 
     ,   initializing: function ()
         {
@@ -106,7 +101,7 @@ var ModelGenerator = generators.Base.extend(
                         ,   {
                                 type:       'confirm'
                             ,   name:       'singleton'
-                            ,   message:    'Should this model be a singleton?'
+                            ,   message:    'Should this model be a singleton (instance)?'
                             ,   default:    false
                             ,   validate:   _.isBoolean
                             }

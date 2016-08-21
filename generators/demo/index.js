@@ -5,7 +5,6 @@
 //
 
 var generators      = require( 'yeoman-generator' )
-,   chalk           = require( 'chalk' )
 ,   tags            = require( 'language-tags' )
 ,   _               = require( 'lodash' )
 ;
@@ -24,6 +23,8 @@ var DemoGenerator = generators.Base.extend(
         {
             this._assertBatApp();
 
+            this.description    = this._description( 'demo app' );
+
             var npm = this.fs.readJSON( this.destinationPath( 'package.json' ));
 
             //  Container for template expansion data.
@@ -35,13 +36,6 @@ var DemoGenerator = generators.Base.extend(
                 }
             ;
         }
-
-    ,   description:
-            chalk.bold(
-                'This is the ' + chalk.cyan( 'demo app' )
-            +   ' generator for BAT, the Backbone Application Template'
-            +   ' created by ' + chalk.blue( 'marv' ) + chalk.red( 'iq' ) + '.'
-            )
 
     ,   configuring: function()
         {
