@@ -218,7 +218,7 @@ module.exports = ( grunt ) ->
                 doc:
                     ##                  NOTE:   Directories to include and to exclude cannot be expressed in a single expression.
                     ##
-                    src:                '<%= build.source %>'
+                    src:                [ '<%= build.source %>', 'vendor' ]
                     srcExclude:         []
 
                     ##                  NOTE:   `tgt` - must - be a directory.
