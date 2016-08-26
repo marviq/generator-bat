@@ -386,6 +386,13 @@ var AppGenerator = generators.Base.extend(
                     ,   'test/unit/spec/models'
                     ,   'test/unit/spec/views'
 
+                        //  Utils
+
+                    ,   'utils'
+                    ,   'utils/hbs'
+                    ,   'utils/hbs/helpers'
+                    ,   'utils/hbs/partials'
+
                         //  Third-party, external libraries:
 
                     ,   'vendor'
@@ -437,6 +444,10 @@ var AppGenerator = generators.Base.extend(
                     ,   'src/models/api-service.coffee'
                     ,   'src/models/build-brief.coffee'
                     ,   [ 'src/models/settings-environment.coffee' ]
+
+                        //  Utils
+
+                    ,   'src/utils/hbs/helpers/moment.coffee'
 
                         //  Style and Compass:
 

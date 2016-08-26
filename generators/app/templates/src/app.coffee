@@ -154,20 +154,11 @@ Handlebars      = require( 'hbsfy/runtime' )
 
 ##  Register Handlebars helpers:
 ##
-do () ->
+require( './utils/hbs/helpers/moment.coffee' )
 
-    ### jshint forin:   false ###
-
-    Handlebars.registerHelper( name, helper ) for name, helper of {
-
-    ##
-    ##  This would be a good place to register any Handlebars helpers:
-    ##
-    ##  foo:    ( value )  -> "bar: #{ value }"
-    ##  etc:    ...
-    ##
-
-    }
+##  Register Handlebars partials:
+##
+#require( './utils/hbs/partials/...' )
 
 
 ## ============================================================================
