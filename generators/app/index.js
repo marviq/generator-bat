@@ -445,6 +445,11 @@ var AppGenerator = generators.Base.extend(
                     ,   'src/models/build-brief.coffee'
                     ,   [ 'src/models/settings-environment.coffee' ]
 
+                        //  App source for debug builds
+
+                    ,   'src/views/debug.environment-ribbon.coffee'
+                    ,   'src/views/debug.environment-ribbon.hbs'
+
                         //  Utils
 
                     ,   'src/utils/hbs/helpers/moment.coffee'
@@ -459,9 +464,17 @@ var AppGenerator = generators.Base.extend(
                     ,   'src/sass/_settings.sass'
                     ,   'src/sass/_views.sass'
                     ,   [ 'src/sass/app.sass' ]
-                    ,   'src/sass/debug.sass'
                     ,   'src/style/images/debug/internals.jpg'
                     ,   'src/style/images/sprites/check-green.png'
+
+                        //  Style for debug builds
+
+                    ,   'src/sass/debug.sass'
+                    ,   'src/sass/views/_debug.environment-ribbon.sass'
+
+                        //  Utils
+
+                    ,   'src/utils/hbs/helpers/moment.coffee'
 
                         //  Target environment settings:
 
