@@ -76,6 +76,24 @@
 
 
         ###*
+        #   Delegated DOM event handler definition.
+        #
+        #   Format:
+        #
+        #   ```coffee
+        #       '<event>[ <selector>]': '<methodName>' || <Function>
+        #       ...
+        #   ```
+        #
+        #   @property       events
+        #   @type           Object
+        #   @final
+        ###
+
+        events:             undefined
+
+
+        ###*
         #   @method         initialize
         #   @protected
         #
