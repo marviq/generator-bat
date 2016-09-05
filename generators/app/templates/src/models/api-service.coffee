@@ -36,7 +36,6 @@
         #
         #   @property       schema
         #   @type           Array[String]
-        #   @static
         #   @final
         ###
 

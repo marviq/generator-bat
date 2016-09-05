@@ -42,7 +42,6 @@
         #
         #   @property       viewName
         #   @type           String
-        #   @static
         #   @final
         #
         #   @default        '<%- viewName %>'
@@ -56,7 +55,6 @@
         #
         #   @property       className
         #   @type           String
-        #   @static
         #   @final
         #
         #   @default        '<%- cssClassName %>'
@@ -71,7 +69,6 @@
         #   @property       template
         #   @type           Function
         #   @protected
-        #   @static
         #   @final
         ###
 

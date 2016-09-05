@@ -48,7 +48,7 @@ settings        = require( 'madlib-settings' )
 #
 #   Often the `document` and this app will share the same base url, but not necessarily so.
 #
-#   @property       appBaseUrl
+#   @attribute      appBaseUrl
 #   @type           String
 #   @final
 ###

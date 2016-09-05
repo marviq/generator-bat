@@ -41,7 +41,6 @@
         #
         #   @property       viewName
         #   @type           String
-        #   @static
         #   @final
         #
         #   @default        'i18n'
@@ -55,7 +54,6 @@
         #
         #   @property       className
         #   @type           String
-        #   @static
         #   @final
         #
         #   @default        'i18n-view'
@@ -70,7 +68,6 @@
         #   @property       template
         #   @type           Function
         #   @protected
-        #   @static
         #   @final
         ###
 
@@ -83,7 +80,6 @@
         #   @property       events
         #   @type           Object
         #   @protected
-        #   @static
         #   @final
         ###
 

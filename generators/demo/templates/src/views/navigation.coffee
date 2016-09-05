@@ -38,7 +38,6 @@
         #
         #   @property       className
         #   @type           String
-        #   @static
         #   @final
         #
         #   @default        'navigation-view'
@@ -53,7 +52,6 @@
         #   @property       template
         #   @type           Function
         #   @protected
-        #   @static
         #   @final
         ###
 

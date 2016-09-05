@@ -43,7 +43,6 @@
         #   @property       model
         #   @type           Backbone.Model
         #   @protected
-        #   @static
         #   @final
         #
         #   @default        ApiServiceModel

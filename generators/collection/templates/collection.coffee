@@ -44,7 +44,6 @@
         #   @property       model
         #   @type           <%- backbone.className %>.Model
         #   @protected
-        #   @static
         #   @final
         #
         #   @default        <%- modelClassName %>

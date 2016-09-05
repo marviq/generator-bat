@@ -36,7 +36,6 @@
         #
         #   @property       viewName
         #   @type           String
-        #   @static
         #   @final
         #
         #   @default        'documentation'
@@ -50,7 +49,6 @@
         #
         #   @property       className
         #   @type           String
-        #   @static
         #   @final
         #
         #   @default        'documentation-view'
@@ -65,7 +63,6 @@
         #   @property       template
         #   @type           Function
         #   @protected
-        #   @static
         #   @final
         ###
 

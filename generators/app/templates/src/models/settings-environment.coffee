@@ -53,7 +53,6 @@
         #
         #   @property       schema
         #   @type           Array[String]
-        #   @static
         #   @final
         ###
 
@@ -109,7 +108,6 @@
         #
         #   @property       url
         #   @type           ApiServiceModel
-        #   @static
         #   @final
         #
         #   @default        '<EnvApi.url>/settings.json'
@@ -144,20 +142,18 @@
                         ###*
                         #   The target-environment's settings.
                         #
-                        #   @property       environment
-                        #   @type           Object
-                        #
+                        #   @attribute      environment
                         #   @for            Settings
+                        #   @type           Object
                         ###
 
                         ###*
                         #   The base URL to use for consuming API services. All `services` URL settings are assumed to be relative to this one.
                         #
-                        #   @property       environment.apiBaseUrl
+                        #   @attribute      environment.apiBaseUrl
+                        #   @for            Settings
                         #   @type           String
                         #   @final
-                        #
-                        #   @for            Settings
                         ###
 
                         ###*
@@ -168,11 +164,10 @@
                         #     * `'acceptance'`
                         #     * `'production'`
                         #
-                        #   @property       environment.environment
+                        #   @attribute      environment.environment
+                        #   @for            Settings
                         #   @type           String
                         #   @final
-                        #
-                        #   @for            Settings
                         ###<% if ( i18n ) { %>
 
                         ###*
@@ -191,11 +186,10 @@
                         #
                         #   See also: [IETF language tags](https://en.wikipedia.org/wiki/IETF_language_tag#Syntax_of_language_tags).
                         #
-                        #   @property       environment.locales
+                        #   @attribute      environment.locales
+                        #   @for            Settings
                         #   @type           {Object}
                         #   @final
-                        #
-                        #   @for            Settings
                         ###<% } %>
 
                         settings.init( 'environment', @attributes )

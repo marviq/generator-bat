@@ -38,7 +38,6 @@
         #
         #   @property       viewName
         #   @type           String
-        #   @static
         #   @final
         #
         #   @default        'buildscript'
@@ -52,7 +51,6 @@
         #
         #   @property       className
         #   @type           String
-        #   @static
         #   @final
         #
         #   @default        'buildscript-view'
@@ -67,7 +65,6 @@
         #   @property       template
         #   @type           Function
         #   @protected
-        #   @static
         #   @final
         ###
 

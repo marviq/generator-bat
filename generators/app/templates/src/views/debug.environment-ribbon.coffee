@@ -66,7 +66,6 @@
         #
         #   @property       className
         #   @type           String
-        #   @static
         #   @final
         #
         #   @default        'environment-ribbon-view'
@@ -81,7 +80,6 @@
         #   @property       template
         #   @type           Function
         #   @protected
-        #   @static
         #   @final
         ###
 
@@ -93,7 +91,6 @@
         #
         #   @property       events
         #   @type           Object
-        #   @static
         #   @final
         ###
 

@@ -43,7 +43,6 @@
         #
         #   @property       schema
         #   @type           Array[String]
-        #   @static
         #   @final
         ###
 
@@ -65,7 +64,6 @@
         #
         #   @property       defaults
         #   @type           Object
-        #   @static
         #   @final
         ###
 
@@ -78,7 +76,6 @@
         #   @property       url<% } else { %>
         #   @property       urlRoot<% } %>
         #   @type           ApiServiceModel
-        #   @static
         #   @final
         #
         #   @default        '<<%- api.className %>.url>/<%- service %>'

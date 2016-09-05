@@ -53,7 +53,6 @@
         #
         #   @property       schema
         #   @type           Array[String]
-        #   @static
         #   @final
         ###
 
@@ -157,7 +156,6 @@
         #
         #   @property       url
         #   @type           ApiServiceModel
-        #   @static
         #   @final
         #
         #   @default        '<EnvApi.url>/build.json'

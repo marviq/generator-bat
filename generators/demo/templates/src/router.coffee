@@ -109,7 +109,6 @@
         #
         #   @property       routes
         #   @type           Object
-        #   @static
         #   @final
         ###
 
@@ -144,7 +143,6 @@
         #
         #   @property       viewMap
         #   @type           Object
-        #   @static
         #   @final
         ###
 
@@ -161,7 +159,6 @@
         #
         #   @property       homeUrl
         #   @type           String
-        #   @static
         #   @final
         #
         #   @default        '/index'

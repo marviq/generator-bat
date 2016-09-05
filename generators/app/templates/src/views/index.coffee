@@ -42,7 +42,6 @@
         #
         #   @property       viewName
         #   @type           String
-        #   @static
         #   @final
         #
         #   @default        'index'
@@ -56,7 +55,6 @@
         #
         #   @property       className
         #   @type           String
-        #   @static
         #   @final
         #
         #   @default        'index-view'
@@ -71,7 +69,6 @@
         #   @property       template
         #   @type           Function
         #   @protected
-        #   @static
         #   @final
         ###
 
