@@ -108,7 +108,7 @@
         ###
 
         ###*
-        #   Flag for signalling wether this was debugging build.
+        #   Flag for signalling whether this was debugging build.
         #
         #   @attribute      debugging
         #   @type           Boolean
