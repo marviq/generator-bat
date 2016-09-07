@@ -9,6 +9,7 @@ var generators      = require( 'yeoman-generator' )
 ,   youtil          = require( './../../lib/youtil.js' )
 ,   chalk           = require( 'chalk' )
 ,   glob            = require( 'glob' )
+,   url             = require( 'url' )                      //  https://nodejs.org/api/url.html
 ,   _               = require( 'lodash' )
 ;
 
@@ -170,10 +171,15 @@ var ModelGenerator = generators.Base.extend(
                                 {
                                     return (
                                         youtil.definedToString( this.options.service )
-                                    ||  answers.modelName
-                                    ||  this.templateData.modelName
+                                    ||  _.kebabCase( _.deburr(
+                                            answers.modelName
+                                        ||  this.templateData.modelName
+                                        ))
                                     );
                                 }.bind( this )
+                            ,   validate: function( value ) {
+                                    return value === url.parse( value ).path
+                                }
                             ,   filter: function ( value )
                                 {
                                     return value.replace( /^\/+/, '' );
