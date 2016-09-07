@@ -14,10 +14,7 @@ var generators      = require( 'yeoman-generator' )
 ,   _               = require( 'lodash' )
 ;
 
-var clean           = require( 'underscore.string/clean' )
-,   dasherize       = require( 'underscore.string/dasherize' )
-,   trim            = require( 'underscore.string/trim' )
-;
+var clean           = require( 'underscore.string/clean' );
 
 //  Use a different delimiter when our template itself is meant to be a template or template-like.
 //
@@ -161,7 +158,7 @@ var AppGenerator = generators.Base.extend(
                             ,   default:
                                     (
                                         youtil.definedToString( this.options.packageName )
-                                    ||  trim( dasherize( youtil.definedToString( this.appname )), '-' )
+                                    ||  _.kebabCase( youtil.definedToString( this.appname ))
                                     )
                             ,   validate:   youtil.isNpmName
                             }
@@ -715,7 +712,7 @@ var AppGenerator = generators.Base.extend(
                         this.spawnCommand( 'command', [ 'compass', '-q', '-v' ], { stdio: [ 'ignore', 'pipe', 'ignore' ] } )
                             .on( 'exit', function ( exit )
                                 {
-                                    version = version.trim();
+                                    version = _.trim( version );
 
                                     if ( exit || !( semver.satisfies( version, '>=' + minver )) ) { error( exit ); }
                                     done();

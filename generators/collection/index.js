@@ -10,8 +10,6 @@ var generators      = require( 'yeoman-generator' )
 ,   _               = require( 'lodash' )
 ;
 
-var decapitalize    = require( 'underscore.string/decapitalize' );
-
 var CollectionGenerator = generators.Base.extend(
     {
         constructor: function ()
@@ -102,7 +100,7 @@ var CollectionGenerator = generators.Base.extend(
                             ,   validate:   youtil.isIdentifier
                             ,   filter: function ( value )
                                 {
-                                    return decapitalize( _.trim( value ).replace( /collection$/i, '' ));
+                                    return _.lowerFirst( _.trim( value ).replace( /collection$/i, '' ));
                                 }
                             }
                         ,   {
@@ -136,7 +134,7 @@ var CollectionGenerator = generators.Base.extend(
                             ,   validate:   youtil.isIdentifier
                             ,   filter: function ( value )
                                 {
-                                    return decapitalize( _.trim( value ).replace( /model$/i, '' ));
+                                    return _.lowerFirst( _.trim( value ).replace( /model$/i, '' ));
                                 }
                             }
                         ,   {
@@ -175,10 +173,10 @@ var CollectionGenerator = generators.Base.extend(
             _.extend(
                 data
             ,   {
-                    className:          _.capitalize( collectionName ) + 'Collection'
+                    className:          _.upperFirst( collectionName ) + 'Collection'
                 ,   fileBase:           _.kebabCase( _.deburr( collectionName ))
 
-                ,   modelClassName:     _.capitalize( modelName ) + 'Model'
+                ,   modelClassName:     _.upperFirst( modelName ) + 'Model'
                 ,   modelFileName:      _.kebabCase( _.deburr( modelName )) + '.coffee'
 
                 ,   userName:           this.user.git.name()

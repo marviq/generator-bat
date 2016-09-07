@@ -12,8 +12,6 @@ var generators      = require( 'yeoman-generator' )
 ,   _               = require( 'lodash' )
 ;
 
-var decapitalize    = require( 'underscore.string/decapitalize' );
-
 var ModelGenerator = generators.Base.extend(
     {
         constructor: function ()
@@ -100,7 +98,7 @@ var ModelGenerator = generators.Base.extend(
                     if ( !( match ) ) { return; }
 
                     var className   = match[ 1 ]
-                    ,   name        = decapitalize( className.replace( /Api$/, '' ))
+                    ,   name        = _.lowerFirst( className.replace( /Api$/, '' ))
                     ;
 
                     apis[ name ]   =
@@ -135,7 +133,7 @@ var ModelGenerator = generators.Base.extend(
                             ,   validate:   youtil.isIdentifier
                             ,   filter: function ( value )
                                 {
-                                    return decapitalize( _.trim( value ).replace( /model$/i, '' ));
+                                    return _.lowerFirst( _.trim( value ).replace( /model$/i, '' ));
                                 }
                             }
                         ,   {
@@ -220,7 +218,7 @@ var ModelGenerator = generators.Base.extend(
             _.extend(
                 data
             ,   {
-                    className:          _.capitalize( modelName ) + 'Model'
+                    className:          _.upperFirst( modelName ) + 'Model'
                 ,   fileBase:           _.kebabCase( _.deburr( modelName ))
 
                 ,   userName:           this.user.git.name()

@@ -11,8 +11,6 @@ var generators      = require( 'yeoman-generator' )
 ,   _               = require( 'lodash' )
 ;
 
-var decapitalize    = require( 'underscore.string/decapitalize' );
-
 var ApiGenerator = generators.Base.extend(
     {
         constructor: function ()
@@ -88,7 +86,7 @@ var ApiGenerator = generators.Base.extend(
                             ,   validate:   youtil.isIdentifier
                             ,   filter: function ( value )
                                 {
-                                    return decapitalize( _.trim( value ).replace( /api$/i, '' ));
+                                    return _.lowerFirst( _.trim( value ).replace( /api$/i, '' ));
                                 }
                             }
                         ,   {
@@ -144,7 +142,7 @@ var ApiGenerator = generators.Base.extend(
             _.extend(
                 data
             ,   {
-                    className:          _.capitalize( apiName ) + 'Api'
+                    className:          _.upperFirst( apiName ) + 'Api'
                 ,   fileBase:           _.kebabCase( _.deburr( apiName ))
 
                 ,   userName:           this.user.git.name()

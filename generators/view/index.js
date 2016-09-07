@@ -10,8 +10,6 @@ var generators      = require( 'yeoman-generator' )
 ,   _               = require( 'lodash' )
 ;
 
-var decapitalize    = require( 'underscore.string/decapitalize' );
-
 var ViewGenerator = generators.Base.extend(
     {
         constructor: function ()
@@ -86,7 +84,7 @@ var ViewGenerator = generators.Base.extend(
                             ,   validate:   youtil.isIdentifier
                             ,   filter: function ( value )
                                 {
-                                    return decapitalize( _.trim( value ).replace( /view$/i, '' ));
+                                    return _.lowerFirst( _.trim( value ).replace( /view$/i, '' ));
                                 }
                             }
                         ,   {
@@ -131,7 +129,7 @@ var ViewGenerator = generators.Base.extend(
             _.extend(
                 data
             ,   {
-                    className:          _.capitalize( viewName ) + 'View'
+                    className:          _.upperFirst( viewName ) + 'View'
                 ,   cssClassName:       _.kebabCase( viewName ) + '-view'
                 ,   fileBase:           _.kebabCase( _.deburr( viewName ))
 
