@@ -133,7 +133,7 @@
 ##  The `--target` command line option sets the build target environment.
 ##  So, for an for-acceptance, non-debugging, all-parts, tested, minified build, do:
 ##
-##      * grunt --target acceptance
+##      * grunt --target=acceptance
 ##
 ##  ====
 ##
