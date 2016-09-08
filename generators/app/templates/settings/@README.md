@@ -2,7 +2,7 @@
 
 This directory contains one settings JSON file per each build distribution's target-environment:
 
-    * local (aka developement)
+    * local (aka development)
     * testing`
     * acceptance
     * production

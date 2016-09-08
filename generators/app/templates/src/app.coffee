@@ -81,13 +81,13 @@ npm             = require( './../package.json' )
 
 Q               = require( 'q' )
 
-##  Comment out or remove this for your developement convenience.
+##  Comment out or remove this for your development convenience.
 ##
 ##  https://github.com/kriskowal/q/wiki/API-Reference#qstopunhandledrejectiontracking
 ##
 Q.stopUnhandledRejectionTracking()
 
-##  Set this to true for your developement convenience.
+##  Set this to true for your development convenience.
 ##
 ##  https://github.com/kriskowal/q/wiki/API-Reference#qlongstacksupport
 ##
