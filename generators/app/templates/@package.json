@@ -4,7 +4,6 @@
     "name": "<%- authorName %>"<% if ( authorUrl ) { %>,
     "url": "<%- authorUrl %>"<% } %>
   },
-  "bugs": {},
   "browser": {},
   "browserify": {
     "transform": [
@@ -18,6 +17,7 @@
       "exports": "global:jQuery"
     }
   <% } %>},
+  "bugs": {},
   "dependencies": {},
   "description": "<%- packageDescription %>",
   "devDependencies": {},
