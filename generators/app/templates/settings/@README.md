@@ -12,7 +12,7 @@ Settings to be determined in such a file include:
     setting         | explanation
     :---            | :---
     `environment`   | The target-environments name (production, acceptance, testing, staging, local, etc). Should really be identical to the settings file's name (excluding the `.json` extension).
-    `apiBaseUrl`    | The base URL of the API to use.
+    `apiBaseUrl`    | The base URL of the *default* API to use.
     `locales`       | A list of available locales.
 
 Feel free to add further files to this directory as you see fit; for instance `<yourname>.js` for your personal local development configuration.
