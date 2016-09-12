@@ -17,8 +17,9 @@
 ##        * Source directory for per target-environment settings
 ##            * settings/
 ##
-##        * Tests directory:
+##        * Tests and reports directories:
 ##            * test/
+##            * test-report/
 ##
 ##    * The build's distribution artifacts
 ##
@@ -172,6 +173,10 @@ module.exports = ( grunt ) ->
             ##  Filesystem:
             ##
 
+            ##  Included for configurations that need an absolute path.
+            ##
+            base:                       '<%= process.cwd() %>/'
+
             source:                     'src/'
             dist:                       'dist/'
             assembly:
@@ -179,7 +184,9 @@ module.exports = ( grunt ) ->
                 doc:                    '<%= build.dist %>doc/'
 
             settings:                   'settings/'
-            test:                       'test/'
+            test:
+                src:                    'test/'
+                report:                 'test-report/'
 
             artifactBase:               '<%= build.dist %><%= npm.pkg.name %>-<%= npm.pkg.version %>'
 
@@ -463,7 +470,7 @@ module.exports = ( grunt ) ->
 
             test:
                 files: [
-                    src:                '<%= build.test %>**/*.coffee'
+                    src:                '<%= build.test.src %>**/*.coffee'
                 ]
 
 
@@ -702,7 +709,7 @@ module.exports = ( grunt ) ->
             ##  https://karma-runner.github.io/1.0/config/configuration-file.html
             ##
             options:
-                basePath:               '<%= build.test %>'
+                basePath:               '<%= build.test.src %>'
 
                 ##  https://karma-runner.github.io/1.0/config/browsers.html
                 ##

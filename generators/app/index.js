@@ -383,6 +383,8 @@ var AppGenerator = generators.Base.extend(
                     ,   'test/unit/spec/models'
                     ,   'test/unit/spec/views'
 
+                    ,   'test-report'
+
                         //  Utils
 
                     ,   'utils'
