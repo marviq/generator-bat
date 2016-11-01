@@ -3,7 +3,7 @@
     var buildRun = 'build-run=' + encodeURIComponent( buildRun );
 
 %>
-<html class="<%- npm.pkg.name %>" <@ if ( i18n ) { @> lang="<@= i18nLocaleDefault @>"<@ } @>>
+<html class="<%- npm.pkg.name %>"<@ if ( i18n ) { @> lang="<@= i18nLocaleDefault @>"<@ } @>>
 <head><%
 
     //
@@ -58,7 +58,7 @@
         link.pathname   = '/livereload.js';
 
         livereload      = document.createElement( 'script' );
-        livereload.src  = link.href
+        livereload.src  = link.href;
 
         document.head.appendChild( livereload );
 
