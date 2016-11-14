@@ -178,7 +178,7 @@ var ModelGenerator = generators.Base.extend(
                                     );
                                 }.bind( this )
                             ,   validate: function( value ) {
-                                    return value === url.parse( value ).path
+                                    return value === url.parse( value ).path;
                                 }
                             ,   filter: function ( value )
                                 {
