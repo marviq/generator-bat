@@ -552,10 +552,10 @@ var AppGenerator = generators.Base.extend(
                     [
                         'backbone'
                     ,   'backbone.cocktail'
+                    ,   'bluebird'
                     ,   ( 'jquery' + ( data.ie8 ? '@<2' : '' ))
                     ,   'madlib-settings'
                     ,   'moment'
-                    ,   'q'
                     ,   'underscore'
                     ]
             ,   devDeps =

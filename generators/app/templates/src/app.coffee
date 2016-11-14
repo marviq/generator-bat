@@ -74,24 +74,11 @@ npm             = require( './../package.json' )
 
 ## ============================================================================
 ##
-##  [Q]
+##  [Promise]
 ##
-##  https://github.com/kriskowal/q#readme
+##  http://bluebirdjs.com/
 ##
-
-Q               = require( 'q' )
-
-##  Comment out or remove this for your development convenience.
-##
-##  https://github.com/kriskowal/q/wiki/API-Reference#qstopunhandledrejectiontracking
-##
-Q.stopUnhandledRejectionTracking()
-
-##  Set this to true for your development convenience.
-##
-##  https://github.com/kriskowal/q/wiki/API-Reference#qlongstacksupport
-##
-Q.longStackSupport = false
+Promise         = require( 'bluebird' )
 
 
 ## ============================================================================
@@ -259,11 +246,11 @@ settings.init( 'locale', locale )<% } %>
 ##
 settingsEnv     = require( './models/settings-environment.coffee' )
 
-initialized     = Q.all(
+initialized     = Promise.all(
     [
         ##  Wait until the DOM is ready.
         ##
-        new Q.Promise( ( resolve ) -> $( resolve ); return; )<% if ( i18n ) { %>
+        new Promise( ( resolve ) -> $( resolve ); return; )<% if ( i18n ) { %>
 
         ##  Initialize `localeManager`, passing in the Handlebars runtime, the default locale, and base url for locale files.
         ##  Wait until it's been loaded.
@@ -280,7 +267,7 @@ initialized     = Q.all(
     ]
 )
 
-initialized.done(
+initialized.then(
 
     () ->
 

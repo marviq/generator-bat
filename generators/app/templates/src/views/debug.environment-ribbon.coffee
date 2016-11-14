@@ -2,8 +2,8 @@
     if typeof exports is 'object'
         module.exports = factory(
             require( 'backbone' )
+            require( 'bluebird' )
             require( 'jquery' )
-            require( 'q' )
 
             require( './../models/build-brief.coffee' )
             require( './../models/settings-environment.coffee' )
@@ -15,8 +15,8 @@
     else if typeof define is 'function' and define.amd
         define( [
             'backbone'
+            'bluebird'
             'jquery'
-            'q'
 
             './../models/build-brief.coffee'
             './../models/settings-environment.coffee'
@@ -28,8 +28,8 @@
     return
 )((
     Backbone
+    Promise
     $
-    Q
 
     buildBrief
     settingsEnv
@@ -107,11 +107,11 @@
 
         initialize: () ->
 
-            Q.all(
+            Promise.all(
                 [
                     ##  Wait until the DOM is ready.
                     ##
-                    new Q.Promise( ( resolve ) -> $( resolve ); return; )
+                    new Promise( ( resolve ) -> $( resolve ); return; )
 
                 ,
                     ##  Wait until the target-environment settings have been loaded.
@@ -126,11 +126,13 @@
                 ,
                 ]
 
-            ).done( () =>
+            ).then(
 
-                @render().$el.appendTo( $( 'body' ))
+                () =>
 
-                return
+                    @render().$el.appendTo( $( 'body' ))
+
+                    return
             )
 
             return

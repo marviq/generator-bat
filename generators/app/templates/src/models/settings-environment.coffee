@@ -2,24 +2,24 @@
     if typeof exports is 'object'
         module.exports = factory(
             require( 'backbone' )
+            require( 'bluebird' )
             require( 'madlib-settings' )
-            require( 'q' )
 
             require( './../apis/env.coffee' )
         )
     else if typeof define is 'function' and define.amd
         define( [
             'backbone'
+            'bluebird'
             'madlib-settings'
-            'q'
 
             './../apis/env.coffee'
         ], factory )
     return
 )((
     Backbone
+    Promise
     settings
-    Q
 
     api
 ) ->
@@ -132,7 +132,7 @@
             ###
 
             @initialized =
-                new Q( @fetch( cache: false ) ).then(
+                Promise.resolve( @fetch( cache: false ) ).then(
 
                     ( attributes ) =>
 

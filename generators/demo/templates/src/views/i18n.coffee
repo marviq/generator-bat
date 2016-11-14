@@ -140,7 +140,7 @@
                     @render()
                 ( error ) ->
                     console.log( error )
-            ).done()
+            )
 
             return
 
