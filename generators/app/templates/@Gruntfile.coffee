@@ -961,6 +961,8 @@ module.exports = ( grunt ) ->
         ##
 
         watch:
+            options:
+                spawn:              false
 
             ##
             ##  The browserify task does its own watching.
@@ -974,7 +976,6 @@ module.exports = ( grunt ) ->
 
             bootstrap:
                 options:
-                    spawn:              false
                     livereload:         true
 
                 files: [
