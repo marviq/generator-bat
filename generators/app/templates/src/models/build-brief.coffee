@@ -152,7 +152,7 @@
 
 
         ###*
-        #   Service API endpoint; defined in the {{#crossLink 'EnvApi/buildBrief:attribute'}}EnvApi{{/crossLink}}.
+        #   Service API endpoint; defined in the {{#crossLink 'EnvApi/buildBrief:attribute'}}`EnvApi`{{/crossLink}}.
         #
         #   @property       url
         #   @type           ApiServiceModel

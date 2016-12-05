@@ -43,7 +43,7 @@
         ###*
         #   The `DefaultApi`'s base url.
         #
-        #   Defined through the {{#crossLink 'Settings/environment.apiBaseUrl:property'}}environment.apiBaseUrl setting{{/crossLink}}.
+        #   Defined through the {{#crossLink 'Settings/environment.apiBaseUrl:property'}}`environment.apiBaseUrl` setting{{/crossLink}}.
         #
         #   @property       url
         #   @type           String

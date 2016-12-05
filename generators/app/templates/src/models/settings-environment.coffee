@@ -104,7 +104,7 @@
 
 
         ###*
-        #   Service API endpoint; defined in the {{#crossLink 'EnvApi/settingsEnvironment:attribute'}}EnvApi{{/crossLink}}.
+        #   Service API endpoint; defined in the {{#crossLink 'EnvApi/settingsEnvironment:attribute'}}`EnvApi`{{/crossLink}}.
         #
         #   @property       url
         #   @type           ApiServiceModel
