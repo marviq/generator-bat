@@ -96,7 +96,7 @@ var CollectionGenerator = generators.Base.extend(
                                 type:       'input'
                             ,   name:       'collectionName'
                             ,   message:    'What is the name of this collection you so desire?'
-                            ,   default:    youtil.definedToString( this.options.collectionName )
+                            ,   default:    _.camelCase( youtil.definedToString( this.options.collectionName ))
                             ,   validate:   youtil.isIdentifier
                             ,   filter: function ( value )
                                 {

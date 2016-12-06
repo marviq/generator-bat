@@ -82,7 +82,7 @@ var ApiGenerator = generators.Base.extend(
                                 type:       'input'
                             ,   name:       'apiName'
                             ,   message:    'What is the name of this API-instance you so desire?'
-                            ,   default:    youtil.definedToString( this.options.apiName )
+                            ,   default:    _.camelCase( youtil.definedToString( this.options.apiName ))
                             ,   validate:   youtil.isIdentifier
                             ,   filter: function ( value )
                                 {
