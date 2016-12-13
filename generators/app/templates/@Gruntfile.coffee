@@ -1054,6 +1054,7 @@ module.exports = ( grunt ) ->
                     syntaxtype:         'coffee'
 
                     linkNatives:        true
+                    tabtospace:         4
 
     )
 
