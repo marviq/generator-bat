@@ -24,6 +24,9 @@
   "dependencies": {},
   "description": "<%- packageDescription %>",
   "devDependencies": {},
+  "direcories": {
+    "doc": "dist/doc"
+  },
   "files": [
     "AUTHORS",
     "CHANGELOG.md",
