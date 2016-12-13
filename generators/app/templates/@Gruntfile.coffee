@@ -1053,6 +1053,8 @@ module.exports = ( grunt ) ->
                     extension:          '.coffee'
                     syntaxtype:         'coffee'
 
+                    linkNatives:        true
+
     )
 
 
