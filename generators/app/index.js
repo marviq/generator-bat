@@ -446,6 +446,7 @@ var AppGenerator = generators.Base.extend(
 
                         //  App source for debug builds
 
+                    ,   'src/debug.backbone-debugger.coffee'
                     ,   'src/views/debug.environment-ribbon.coffee'
                     ,   'src/views/debug.environment-ribbon.hbs'
 
