@@ -1123,7 +1123,7 @@ module.exports = ( grunt ) ->
         ( environment ) ->
 
             if ( ( override = grunt.option( 'target' ) ? process.env.GRUNT_TARGET )? and override isnt environment )
-                grunt.log.ok( "Overriding target environment to #{override}" )
+                grunt.log.ok( "Overriding target environment to \"#{override}\"" )
                 environment = override
 
             grunt.config.set( 'build.environment', environment ) if environment?
