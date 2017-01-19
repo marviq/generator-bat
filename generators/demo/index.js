@@ -63,6 +63,7 @@ var DemoGenerator = Generator.extend(
                 ,   i18nLocaleDefault:          locale.format()
                 ,   i18nLocaleDefaultLanguage:  locale.language().descriptions()[0]
                 ,   i18nLocaleDefaultRegion:    locale.region().format()
+                ,   jqueryCdn:                  true
                 }
             );
         }
