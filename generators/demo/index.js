@@ -4,7 +4,7 @@
 //  Yeoman bat app generator.
 //
 
-var generators      = require( 'yeoman-generator' )
+var Generator       = require( 'yeoman-generator' )
 ,   tags            = require( 'language-tags' )
 ,   _               = require( 'lodash' )
 ;
@@ -17,7 +17,7 @@ var tpl_tpl_settings =
         }
 ;
 
-var DemoGenerator = generators.Base.extend(
+var DemoGenerator = Generator.extend(
     {
         initializing: function ()
         {

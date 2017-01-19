@@ -4,7 +4,7 @@
 //  Yeoman bat app generator.
 //
 
-var generators      = require( 'yeoman-generator' )
+var Generator       = require( 'yeoman-generator' )
 ,   yosay           = require( 'yosay' )
 ,   youtil          = require( './../../lib/youtil.js' )
 ,   mkdirp          = require( 'mkdirp' )
@@ -24,11 +24,11 @@ var tpl_tpl_settings =
         }
 ;
 
-var AppGenerator = generators.Base.extend(
+var AppGenerator = Generator.extend(
     {
         constructor: function ()
         {
-            generators.Base.apply( this, arguments );
+            Generator.apply( this, arguments );
 
             this.description    = this._description( 'project and barebones app' );
 

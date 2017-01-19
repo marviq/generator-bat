@@ -4,17 +4,17 @@
 //  Yeoman bat:collection sub-generator.
 //
 
-var generators      = require( 'yeoman-generator' )
+var Generator       = require( 'yeoman-generator' )
 ,   yosay           = require( 'yosay' )
 ,   youtil          = require( './../../lib/youtil.js' )
 ,   _               = require( 'lodash' )
 ;
 
-var CollectionGenerator = generators.Base.extend(
+var CollectionGenerator = Generator.extend(
     {
         constructor: function ()
         {
-            generators.Base.apply( this, arguments );
+            Generator.apply( this, arguments );
 
             this.description    = this._description( 'backbone collection' );
 
@@ -208,11 +208,8 @@ var CollectionGenerator = generators.Base.extend(
                     ,   {
                             arguments: [ data.modelName ]
 
-                        ,   options:
-                            {
-                                description:    'Model for the `{{#crossLink \'' + data.className + '\'}}{{/crossLink}}`.'
-                            ,   singleton:      false
-                            }
+                        ,   description:    'Model for the `{{#crossLink \'' + data.className + '\'}}{{/crossLink}}`.'
+                        ,   singleton:      false
                         }
                     );
                 }

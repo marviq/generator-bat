@@ -4,17 +4,17 @@
 //  Yeoman bat:view sub-generator.
 //
 
-var generators      = require( 'yeoman-generator' )
+var Generator       = require( 'yeoman-generator' )
 ,   yosay           = require( 'yosay' )
 ,   youtil          = require( './../../lib/youtil.js' )
 ,   _               = require( 'lodash' )
 ;
 
-var ViewGenerator = generators.Base.extend(
+var ViewGenerator = Generator.extend(
     {
         constructor: function ()
         {
-            generators.Base.apply( this, arguments );
+            Generator.apply( this, arguments );
 
             this.description    = this._description( 'backbone view' );
 

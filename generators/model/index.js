@@ -4,7 +4,7 @@
 //  Yeoman bat:model sub-generator.
 //
 
-var generators      = require( 'yeoman-generator' )
+var Generator       = require( 'yeoman-generator' )
 ,   yosay           = require( 'yosay' )
 ,   youtil          = require( './../../lib/youtil.js' )
 ,   chalk           = require( 'chalk' )
@@ -13,11 +13,11 @@ var generators      = require( 'yeoman-generator' )
 ,   _               = require( 'lodash' )
 ;
 
-var ModelGenerator = generators.Base.extend(
+var ModelGenerator = Generator.extend(
     {
         constructor: function ()
         {
-            generators.Base.apply( this, arguments );
+            Generator.apply( this, arguments );
 
             this.description    = this._description( 'backbone model' );
 
