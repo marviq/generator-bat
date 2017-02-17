@@ -49,8 +49,12 @@ tmp
 
 ##  Rooted paths:
 ##
+##    * The Visual BasStudio project dir.
 ##    * All files in the 'dist' build and distribution dir, but not the dir itself.
 ##    * The Netbeans project dir.
+##    * All test runner reports.
 
+/.vscode
 /dist/
 /nbproject
+/test-report
