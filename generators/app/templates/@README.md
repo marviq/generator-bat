@@ -37,7 +37,7 @@ $ npm install
 This will:
 
   * Set up [a helpful reminder](.gitmessage) of how to make [a good commit message](#commit-message-format-discipline).  If you adhere to this, then a
-    detailed, meaningful [CHANGELOG](CHANGELOG.md) can be constructed automatically;
+    detailed, meaningful [CHANGELOG](./CHANGELOG.md) can be constructed automatically;
   * _\[... Ensure you have local ... and ... branches tracking their respective remote counterparts;\]_
   * _\[... Set up the ... [branching model](#branching-model);\]_
   * Install all required dependencies;
@@ -108,7 +108,7 @@ want to change this, then do not forget to adjust the [**setup** section](#setup
 #### Commit Message Format Discipline
 
 This project uses [`conventional-changelog/standard-version`](https://github.com/conventional-changelog/standard-version) for automatic versioning and
-[CHANGELOG](CHANGELOG.md) management.
+[CHANGELOG](./CHANGELOG.md) management.
 
 To make this work, *please* ensure that your commit messages adhere to the
 [Commit Message Format](https://github.com/bcoe/conventional-changelog-standard/blob/master/convention.md#commit-message-format).  Setting your `git config` to
@@ -156,6 +156,11 @@ placeholder.\]_
 
 _\[Ultimately, you may also want to include instructions on how to deploy a production release of *<%- packageName %>*. This text is just a
 placeholder.\]_
+
+
+## Changelog
+
+See [CHANGELOG](./CHANGELOG.md).
 
 
 ## License
