@@ -11,13 +11,13 @@ Ever got tired of having to scaffold your new webapp projects over and over agai
 
 ### What is Yeoman?
 
-Trick question. It's not a thing. It's this guy:
+Trick question.  It's not a thing.  It's this guy:
 
 ![](http://i.imgur.com/JHaAlBJ.png)
 
 Basically, he wears a top hat, lives in your computer, and waits for you to tell him what kind of application you wish to create.
 
-Not every new computer comes with a Yeoman pre-installed. He lives in the [npm](https://npmjs.org) package repository. You only have to ask for him once, then he packs up and moves into your hard drive. *Make sure you clean up, he likes new and shiny things.*
+Not every new computer comes with a Yeoman pre-installed.  He lives in the [npm](https://npmjs.org) package repository.  You only have to ask for him once, then he packs up and moves into your hard drive.  *Make sure you clean up, he likes new and shiny things.*
 
 ```bash
 [sudo ]npm install -g yo
@@ -25,7 +25,7 @@ Not every new computer comes with a Yeoman pre-installed. He lives in the [npm](
 
 ### Yeoman Generators
 
-Yeoman travels light. He didn't pack any generators when he moved in. You can think of a generator like a plug-in. You get to choose what type of application you wish to create, such as a BAT webapp.
+Yeoman travels light.  He didn't pack any generators when he moved in.  You can think of a generator like a plug-in.  You get to choose what type of application you wish to create, such as a BAT webapp.
 
 To install BAT from [npm](https://npmjs.org), run:
 
@@ -93,10 +93,10 @@ To scaffold out a new project like that, simply run:
 yo bat
 ```
 
-Yeoman will ask you some questions, set everything up and install dependencies for you. Wait a bit for him to complete this and you're all set to go.
+Yeoman will ask you some questions, set everything up and install dependencies for you.  Wait a bit for him to complete this and you're all set to go.
 
 Additionally, Yeoman can:
-- Provide you with a demo webapp implementation showcasing the BAT. It is also possible to get this at a later instant through `yo bat:demo`;
+- Provide you with a demo webapp implementation showcasing the BAT.  It is also possible to get this at a later instant through `yo bat:demo`;
 
 
 ### Sub-generators
@@ -117,7 +117,7 @@ Placed into the `src/views` directory, Yeoman will provide you with `*some-view-
 Additionally, Yeoman can:
 - Create a `_*some-view-name*.sass` file into the `src/sass/views` directory and insert an `@import` for it into `src/sass/_views.sass`;
 
-**Note** that for so-called routed views, you would probably want to incorporate this view into your webapp's main `router.coffee`. Yeoman would have liked to do this for you too but is too afraid to break your code, so he doesn't.
+**Note** that for so-called routed views, you would probably want to incorporate this view into your webapp's main `router.coffee`.  Yeoman would have liked to do this for you too but is too afraid to break your code, so he doesn't.
 
 
 #### Model
@@ -147,13 +147,13 @@ Furthermore, Yeoman can:
 
 #### Demo
 
-BAT also comes packed with a demo webapp implementation showcasing its features. To get this, either answer _yes_ to the relevant prompt from an initial `yo bat` run, or when you answered _no_ there earlier, invoke:
+BAT also comes packed with a demo webapp implementation showcasing its features.  To get this, either answer _yes_ to the relevant prompt from an initial `yo bat` run, or when you answered _no_ there earlier, invoke:
 
 ```shell
 yo bat:demo
 ```
 
-**Note:** that the latter _will_ result in a few clashes with some of the files produced from the earlier `yo bat` run. These are however, caveat codor, harmless.
+**Note:** that the latter _will_ result in a few clashes with some of the files produced from the earlier `yo bat` run.  These are however, caveat codor, harmless.
 
 
 ### Grunt tasks
@@ -173,7 +173,7 @@ command           | description
 `grunt [default]` | shortcut for `grunt dist` unless the `GRUNT_TASKS` environment variable specifies a space separated list of alternative tasks to run instead;
 `grunt dist`      | does a for-production, non-debugging, all-parts, tested, minified build plus artifacts;
 `grunt debug`     | does a for-testing, debugging, all-parts except documentation, tested, as-is build;
-`grunt dev`       | does a for-local, debugging, all-parts except documentation, as-is build; <br> _**(Note that this variant doesn't exit**. Instead it'll keep a close watch on filesystem changes, selectively re-triggering part builds as needed)_
+`grunt dev`       | does a for-local, debugging, all-parts except documentation, as-is build; <br> _**(Note that this variant doesn't exit**.  Instead it'll keep a close watch on filesystem changes, selectively re-triggering part builds as needed)_
 `grunt doc`       | will build just the code documentation;
 `grunt lint`      | will just lint your code;
 `grunt test`      | will run your test suite;
@@ -296,7 +296,7 @@ $ git config commit.template ./.gitmessage
     ```
 
     Note that contrary to vanilla `git flow`, the merge commit into `master` will *not* have been tagged (that's what the
-    [`-n`](https://github.com/nvie/gitflow/wiki/Command-Line-Arguments#git-flow-release-finish--fsumpkn-version) was for). This is done because
+    [`-n`](https://github.com/nvie/gitflow/wiki/Command-Line-Arguments#git-flow-release-finish--fsumpkn-version) was for).  This is done because
     `npm run release` has already tagged its own commit.
 
     I believe that in practice, this won't make a difference for the use of `git flow`; and ensuring it's done the other way round instead would render the use
@@ -305,11 +305,25 @@ $ git config commit.template ./.gitmessage
 
 ### Publish
 
+#### To NPM
+
 ```bash
 git checkout v<version>
 npm publish
 git checkout develop
 ```
+
+#### On GitHub
+
+```bash
+git push --follow-tags --all
+```
+
+  * Go to [https://github.com/marviq/generator-bat/releases](https://github.com/marviq/generator-bat/releases);
+  * Click the `Draft a new release` button;
+  * Select the appropriate `v<version>` tag from the dropdown menu;
+  * You could enter a title and some release notes here but most of it _should_ have already been covered in the [CHANGELOG](./CHANGELOG.md).
+  * Click the `Publish release` button;
 
 
 ## ChangeLog
