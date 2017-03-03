@@ -86,7 +86,7 @@ var ApiGenerator = Generator.extend(
                             ,   validate:   youtil.isIdentifier
                             ,   filter: function ( value )
                                 {
-                                    return _.lowerFirst( _.trim( value ).replace( /api$/i, '' ));
+                                    return _.camelCase( _.lowerFirst( _.trim( value ).replace( /api$/i, '' )));
                                 }
                             }
                         ,   {

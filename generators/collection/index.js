@@ -100,7 +100,7 @@ var CollectionGenerator = Generator.extend(
                             ,   validate:   youtil.isIdentifier
                             ,   filter: function ( value )
                                 {
-                                    return _.lowerFirst( _.trim( value ).replace( /collection$/i, '' ));
+                                    return _.camelCase( _.lowerFirst( _.trim( value ).replace( /collection$/i, '' )));
                                 }
                             }
                         ,   {

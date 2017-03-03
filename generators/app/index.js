@@ -156,11 +156,15 @@ var AppGenerator = Generator.extend(
                             ,   name:       'packageName'
                             ,   message:    'What is the name of this app you so desire?'
                             ,   default:
-                                    (
+                                    _.kebabCase(
                                         youtil.definedToString( this.options.packageName )
-                                    ||  _.kebabCase( youtil.definedToString( this.appname ))
+                                    ||  youtil.definedToString( this.appname )
                                     )
                             ,   validate:   youtil.isNpmName
+                            ,   filter: function ( value )
+                                {
+                                    return _.kebabCase( _.trim( value ));
+                                }
                             }
                         ,   {
                                 type:       'input'

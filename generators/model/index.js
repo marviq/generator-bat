@@ -134,7 +134,7 @@ var ModelGenerator = Generator.extend(
                             ,   validate:   youtil.isIdentifier
                             ,   filter: function ( value )
                                 {
-                                    return _.lowerFirst( _.trim( value ).replace( /model$/i, '' ));
+                                    return _.camelCase( _.lowerFirst( _.trim( value ).replace( /model$/i, '' )));
                                 }
                             }
                         ,   {
