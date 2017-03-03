@@ -13,9 +13,21 @@
     //  Frameworks.
     //
 
+    //  You may or may not want to `@at-root` these.
+    //
     //  For instance:
     //
-    //  @import "bootstrap/_bootstrap"
+    //  ```sass
+    //  @at-root
+    //      @import "bootstrap/_bootstrap"
+    //  ```
+    //
+    //  To get bootstrap to work like that, you would probably want to (in this directory):
+    //
+    //  ```bash
+    //  npm install   bootstrap-sass
+    //  ln -s   ../../node_modules/bootstrap-sass/assets/stylesheets   bootstrap
+    //  ```
 
     //
     //  CSS overrides.

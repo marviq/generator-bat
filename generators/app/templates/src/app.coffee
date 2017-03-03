@@ -150,6 +150,17 @@ require( './utils/hbs/helpers/moment.coffee' )
 
 ## ============================================================================
 ##
+##  [Twitter Bootstrap (for Sass)]
+##
+##  http://getbootstrap.com
+##  https://github.com/twbs/bootstrap-sass#b-compass-without-rails
+##
+
+#Bootstrap       = require( 'bootstrap' )
+
+
+## ============================================================================
+##
 ##  [madlib]
 ##
 
