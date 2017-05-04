@@ -24,7 +24,7 @@
   "dependencies": {},
   "description": "<%- packageDescription %>",
   "devDependencies": {},
-  "direcories": {
+  "directories": {
     "doc": "dist/doc"
   },
   "files": [
