@@ -607,8 +607,8 @@ var AppGenerator = Generator.extend(
             +   '"s for you to install required dependencies.'
             ));
 
-            this.npmInstall( deps,      { save:     true } );
             this.npmInstall( devDeps,   { saveDev:  true } );
+            this.npmInstall( deps,      { save:     true } );
         }
 
     ,   end:
