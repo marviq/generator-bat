@@ -21,7 +21,7 @@
   "devDependencies": {
     "coffeelint": "^1.16.0",
     "jshint": "^2.9.4",
-    "standard-version": "^4.0.0"
+    "standard-version": "^4.2.0"
   },
   "files": [
     "AUTHORS",
