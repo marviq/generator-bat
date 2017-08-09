@@ -92,7 +92,7 @@
         #   See also: [IETF language tags](https://en.wikipedia.org/wiki/IETF_language_tag#Syntax_of_language_tags).
         #
         #   @attribute      locales
-        #   @type           {Object}
+        #   @type           Object
         ###<% } %>
 
         schema: [
@@ -188,7 +188,7 @@
                         #
                         #   @attribute      environment.locales
                         #   @for            Settings
-                        #   @type           {Object}
+                        #   @type           Object
                         #   @final
                         ###<% } %>
 

@@ -38,10 +38,10 @@
     class ApiServicesCollection extends Backbone.Collection
 
         ###*
-        #   The collection's `{{#crossLink 'ApiServiceModel'}}{{/crossLink}}`.
+        #   The collection's `{{#crossLink 'ApiServiceModel'}}{{/crossLink}}` constructor.
         #
         #   @property       model
-        #   @type           Backbone.Model
+        #   @type           Function
         #   @protected
         #   @final
         #

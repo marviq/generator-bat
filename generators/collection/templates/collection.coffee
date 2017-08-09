@@ -39,10 +39,10 @@
     class <%- className %> extends <%- backbone.className %>.Collection
 
         ###*
-        #   The collection's `{{#crossLink '<%- modelClassName %>'}}{{/crossLink}}`.
+        #   The collection's `{{#crossLink '<%- modelClassName %>'}}{{/crossLink}}` constructor.
         #
         #   @property       model
-        #   @type           <%- backbone.className %>.Model
+        #   @type           Function
         #   @protected
         #   @final
         #
