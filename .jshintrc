@@ -1,7 +1,7 @@
 {
 
 //
-//   This is a config file for jshint v2.9.4
+//   This is a config file for jshint v2.9.5
 //   http://www.jshint.com/docs/options/
 //
 //   Every option documented is listed here, just to be explicit about *our* defaults.
@@ -26,18 +26,12 @@
 ,   "esversion":        6
 ,   "forin":            true
 ,   "freeze":           true
-
-//  "funcscope"                 //  Is more appropriately listed with the "relaxing" options.
-
 ,   "futurehostile":    true
 
 //  "globals"                   //  Should be used only inline.
 
 ,   "immed":            true    //  *** Deprecation warning; about coding style, not correctness.
 ,   "indent":           4       //  *** Deprecation warning; about coding style, not correctnees.
-
-//  "iterator"                  //  Is more appropriately listed with the "relaxing" options.
-
 ,   "latedef":          "nofunc"//  Because you want to declare functions after they are used.
 
 //  "max..."                    //  `max*` options have their own section, see below.
@@ -49,8 +43,6 @@
 ,   "nonbsp":           true
 ,   "nonew":            true
 
-//  "notypeof"                  //  Is more appropriately listed with the "relaxing" options.
-
 ,   "plusplus":         false   //  Because++.  The documentation list this with the "relaxing" options, but is more appropriately put here.
 
 //  "predef"                    //  They have their own section, see below.
@@ -61,6 +53,7 @@
 
 ,   "singleGroups":     false   //  Because you want to use the grouping operator for readability and clarity.
 ,   "strict":           true
+,   "trailingcomma":    false   //  Because you like comma-*first* style.
 ,   "undef":            true
 ,   "unused":           true
 ,   "varstmt":          false   //  Because we have lots of those.
@@ -80,11 +73,11 @@
 ,   "evil":             false
 ,   "expr":             false
 
-,   "funcscope":        false   //  The documentation lists this with the "enforcing" options, but is more appropriately put here.
+,   "funcscope":        false
 
 ,   "globalstrict":     false   //  *** Depreciation warning; See `strict`.
 
-,   "iterator":         false   //  The documentation lists this with the "enforcing" options, but is more appropriately put here.
+,   "iterator":         false
 
 ,   "lastsemic":        false
 ,   "laxbreak":         true    //  Because, sometimes, you just need a break.  *** Deprecation warning; about coding style, not correctnees.
@@ -92,9 +85,8 @@
 ,   "loopfunc":         false
 ,   "moz":              false
 ,   "multistr":         false   //  *** Deprecation warning; about coding style, not correctnees.
+,   "notypeof":         false
 ,   "noyield":          false
-
-,   "notypeof":         false   //  The documentation lists this with the "enforcing" options, but is more appropriately put here.
 
 //  "plusplus"                  //  Is more appropriately listed with the "enforcing" options.
 
