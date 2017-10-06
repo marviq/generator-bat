@@ -617,7 +617,7 @@ var AppGenerator = Generator.extend(
             //
             prune: function ()
             {
-                this.spawnCommand( 'npm', [ 'prune' ] );
+                this.spawnCommandSync( 'npm', [ 'prune' ] );
             }
 
         ,   intro: function ()
