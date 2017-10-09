@@ -242,6 +242,16 @@ var AppGenerator = generators.Base.extend(
                             }
                         ,   {
                                 type:       'confirm'
+                            ,   name:       'jqueryExpose'
+                            ,   message:    'Do you still need to expose that jQuery on the global scope? (Perhaps because some CDN loaded code expects it to be there)'
+                            ,   default:    false
+                            ,   when: function( answers )
+                                {
+                                    return !( answers.jqueryCdn || this.templateData.jqueryCdn );
+                                }.bind( this )
+                            }
+                        ,   {
+                                type:       'confirm'
                             ,   name:       'ie8'
                             ,   message:    'Do you need IE8 and lower support? (affects the jQuery version and shims HTML5 and media query support)'
                             ,   default:    false
@@ -289,6 +299,11 @@ var AppGenerator = generators.Base.extend(
                 data.i18nLocaleDefaultRegion    = tags( data.i18nLocaleDefault ).region().format();
             }
 
+            if ( data.jqueryExpose == null )
+            {
+                data.jqueryExpose               = false;
+            }
+
             data.copyrightYear              = new Date().getFullYear();
             data.packageDescription         = data.description;
 
@@ -305,6 +320,8 @@ var AppGenerator = generators.Base.extend(
 
                 ,   ie8:                    data.ie8
                 ,   i18n:                   data.i18n
+                ,   jqueryCdn:              data.jqueryCdn
+                ,   jqueryExpose:           data.jqueryExpose
                 }
             );
 
@@ -471,6 +488,13 @@ var AppGenerator = generators.Base.extend(
                             { 'src/i18n/bcp47-language-tag.json': [ 'src/i18n/' + data.i18nLocaleDefault + '.json' ] }
                         );
                     }
+                }
+
+                if ( data.jqueryExpose )
+                {
+                    templates.push(
+                        'vendor/jquery-for-cdns-shim.coffee'
+                    );
                 }
 
                 this._templatesProcess( templates );

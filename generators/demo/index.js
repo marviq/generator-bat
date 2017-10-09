@@ -45,8 +45,8 @@ var DemoGenerator = generators.Base.extend(
 
     ,   configuring: function()
         {
-            var config  = this.config
-            ,   locale  = tags( 'en-GB' )
+            var config          = this.config
+            ,   locale          = tags( 'en-GB' )
             ;
 
             //  A demo app implies 'i'+'nternationalisatio'.length+'n' support.
@@ -61,6 +61,29 @@ var DemoGenerator = generators.Base.extend(
                 }
             }
 
+            //  A demo app with a bundled `jquery` needs to expose it on the global scope for the CDN loaded bootstrap to find.
+            //
+            if ( !( config.get( 'jqueryCdn' )) && !( config.get( 'jqueryExpose' )) )
+            {
+                this.log(
+                    '\n'
+                +   chalk.red(
+                        'The demo app needs '
+                    +   chalk.bold.yellow( 'jQuery' )
+                    +   ' to be exposed on the global scope!\n'
+                    )
+                +   chalk.gray(
+                        'Adjusting your '
+                    +   chalk.bold.yellow( '.yo-rc.jqueryExpose' )
+                    +   ' config setting to '
+                    +   chalk.bold.yellow( 'true' )
+                    +   ' to reflect this...\n'
+                    )
+                );
+
+                config.set( 'jqueryExpose', true );
+            }
+
             _.extend(
                 this.templateData
             ,   {
@@ -69,6 +92,8 @@ var DemoGenerator = generators.Base.extend(
                 ,   i18nLocaleDefault:          locale.format()
                 ,   i18nLocaleDefaultLanguage:  locale.language().descriptions()[0]
                 ,   i18nLocaleDefaultRegion:    locale.region().format()
+                ,   jqueryCdn:                  config.get( 'jqueryCdn' )
+                ,   jqueryExpose:               config.get( 'jqueryExpose' )
                 }
             );
         }
@@ -77,7 +102,8 @@ var DemoGenerator = generators.Base.extend(
         {
             createDemo: function ()
             {
-                var templates =
+                var data        = this.templateData
+                ,   templates   =
                     [
                         //  Project files
 
@@ -130,7 +156,43 @@ var DemoGenerator = generators.Base.extend(
                     ]
                 ;
 
+                if ( data.jqueryExpose )
+                {
+                    templates.push(
+                        'vendor/jquery-for-cdns-shim.coffee'
+                    );
+                }
+
                 this._templatesProcess( templates );
+            }
+        }
+
+    ,   install:
+        {
+            updatePackageJSONForjQueryExpose: function ()
+            {
+                var data        = this.templateData;
+
+                if ( !( data.jqueryExpose )) { return; }
+
+                var pkgPath     = this.destinationPath( 'package.json' )
+                ,   fs          = this.fs
+                ,   npm         = fs.readJSON( pkgPath )
+                ,   jqShimKey   = 'jquery-for-cdns-shim'
+                ,   browser     = ( npm.browser || ( npm.browser = {} ))
+                ,   bfyShimKey  = 'browserify-shim'
+                ,   bfyShim     = ( npm[ bfyShimKey ] || ( npm[ bfyShimKey ] = {} ))
+                ,   jqBfyShim   = ( bfyShim[ jqShimKey ] || ( bfyShim[ jqShimKey ] = {} ))
+                ;
+
+                if ( !( browser[ jqShimKey ] ) )
+                {
+                    browser[ jqShimKey ] = './vendor/jquery-for-cdns-shim.coffee';
+                }
+
+                jqBfyShim.depends = _.union( [ 'jquery:jQuery' ], jqBfyShim.depends ).sort();
+
+                fs.writeJSON( pkgPath, npm );
             }
         }
     }
