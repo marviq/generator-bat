@@ -64,6 +64,7 @@
             ##  Create function handlers for routes that haven't yet got one.
             ##
             ##  Created handlers will pass on to `@_openPage( ... )`:
+            ##    - Their route's matched url pattern;
             ##    - The targeted view class of their route;
             ##    - The url pattern's named arguments of their route;
 
@@ -88,9 +89,9 @@
                     ##
                     routes[ urlPattern ] =
                         if paramNames.length
-                            () -> @_openPage( View, _.object( paramNames, arguments ))
+                            () -> @_openPage( urlPattern, View, _.object( paramNames, arguments ))
                         else
-                            () -> @_openPage( View )
+                            () -> @_openPage( urlPattern, View )
                 else
                     throw new Error( "Cannot create handler for '#{handler}'." )
 
@@ -187,7 +188,6 @@
         #
         #   @method         initialize
         #   @protected
-        #
         ###
 
         initialize: () ->
@@ -214,6 +214,23 @@
             ###
 
             @pageView       = null
+
+            return
+
+
+        ###*
+        #   Convenience method to re-render the current page.
+        #   Navigates `@home()` if no current @page exists.
+        #
+        #   @method         refresh
+        ###
+
+        refresh: () ->
+
+            if ( @page )
+                @_openPage( @page... )
+            else
+                @home()
 
             return
 
@@ -257,7 +274,6 @@
         #
         #   @param          {Object}            [options]
         #   @param          {Boolean}           [options.trigger]
-        #
         ###
 
         navigate: ( fragment, options ) ->
@@ -282,7 +298,6 @@
         #   @method         startApp
         #
         #   @param          {Object}            [options]               Any options you may want to pass on to `Backbone.history.start( options )`.
-        #
         ###
 
         startApp: ( options ) ->
@@ -305,6 +320,70 @@
 
 
         ###*
+        #   Set the browsers url equal to the current fragment with the supplied parameters replaced.
+        #
+        #   Works by reconstructing the url from the route path for the supplied parameters combined with the ones
+        #   saved, and then @navigate()ing to it.
+        #
+        #   @method         youAreHere
+        #   @param          {Object}            paramsNew               The parameters you want changed.
+        #   @param          {Object}            [options]               Options passed on to @navigate().
+        ###
+
+        youAreHere: ( paramsNew, options ) ->
+
+            return unless @page?
+
+            [ path, View, params ] = @page
+
+            ##  Update the current fragments parameters,
+            ##  And get a local handle on it.
+            ##
+            _( params ).extend( paramsNew )
+
+            ##  Recreate a fragment url from the current fragment's route path pattern and the parameters
+            ##
+            fragment =
+                path.replace(
+
+                    ///                         #
+                        (?:                     #   Group but don't capture
+                            \(                  #   A mandatory opening bracket, and:
+                            ( [^:\(\)]* )       #   Optional text (zero or more characters that cannot be ':' '(' or ')' ); capture this text as 'before'.
+                        )?                      #   When the parameter is NOT optional, the preceding group won't be there, so make the group optional.
+                                                #
+                        [:*]                    #   A colon (':') or asterisk ('*') indicates a parameter, followed by:
+                        ( \w+ )                 #   Its identifier (one or more alfanumeric characters); capture this identifier as 'key'.
+                                                #
+                        (?:                     #   Group but don't capture
+                                                #   Again, when a parameter is optional, it may be followed by:
+                            ( [^:\(\)]* )       #   Text (zero or more characters that cannot be ':' '(' or ')' ); capture this text as 'after'.
+                            \)                  #   A closing bracket is a must.
+                        )?                      #   Unless the parameter was NOT optional of course, in which case the preceding group won't be there.
+                                                #
+                    ///g                        #   Repeat
+
+                    ( match, before, key, after ) ->
+
+                        ##  Since the 'before' and 'after' are both optional in the regex, it must still be established
+                        ##  that they either BOTH matched or opted-out.
+                        ##  If only one matched, there's likely something wrong with the path pattern, and we will simply
+                        ##  not touch what we've matched.
+
+                        param = encodeURIComponent( params[ key ] )
+
+                        return if before?
+                            if after? then "#{before}#{param}#{after}" else match
+                        else
+                            if after? then match else param
+                )
+
+            @navigate( fragment, options )
+
+            return
+
+
+        ###*
         #   Load the `@$mainContent` container with an instance of the requested view class.
         #   Either by simply re-rendering (with possibly changed parameters) the current instance if it is of the same class, or by creating a new instance to
         #   replace the current one if they differ.
@@ -312,11 +391,17 @@
         #   @method         _openPage
         #   @protected
         #
+        #   @param          {String}            urlPattern              The route's matched url pattern.
         #   @param          {Class}             View                    The targeted view class of the matched route.
         #   @param          {Object}            params                  A key-value mapping of the matched route's url pattern's parameters.
+        #   @param          {String}            [fragment]              The current history entry's full url fragment. Used only on retries.
         ###
 
-        _openPage: ( View, params ) ->
+        _openPage: ( urlPattern, View, params, fragment ) ->
+
+            ##  Save for possible retries.
+            ##
+            @page   = [ urlPattern, View, params, fragment or Backbone.history.fragment ]
 
             divert  = undefined
 
@@ -335,6 +420,10 @@
                 View    = @viewMap[ divert ]
                 params  = undefined
 
+
+            ##  If `fragment` is set, this was effectively a retry after a diversion, and so the current url may need updating.
+            ##
+            @navigate( fragment, replace: true ) if ( fragment and fragment isnt Backbone.history.fragment )
 
             if ( @pageView instanceof View )
 
@@ -371,7 +460,6 @@
             #
             #   @param          {Backbone.View}     view                    The view instance currently loaded.
             #   @param          {Object}            params                  A key-value mapping of the matched route's url pattern's parameters.
-            #
             ###
 
             @trigger( 'open', @pageView, params )
