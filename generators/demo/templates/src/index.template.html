@@ -3,7 +3,7 @@
     var buildRun = 'build-run=' + encodeURIComponent( buildRun );
 
 %>
-<html class="<%- npm.name %>" lang="en-GB">
+<html class="<%- npm.name %>" <@ if ( i18n ) { @> lang="<@= i18nLocaleDefault @>"<@ } @>>
 <head><%
 
     //
