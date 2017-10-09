@@ -236,6 +236,12 @@ var AppGenerator = generators.Base.extend(
                             }
                         ,   {
                                 type:       'confirm'
+                            ,   name:       'jqueryCdn'
+                            ,   message:    'Would you like your app to load jQuery from a CDN (googleapis.com) instead of bundling it?'
+                            ,   default:    false
+                            }
+                        ,   {
+                                type:       'confirm'
                             ,   name:       'ie8'
                             ,   message:    'Do you need IE8 and lower support? (affects the jQuery version and shims HTML5 and media query support)'
                             ,   default:    false

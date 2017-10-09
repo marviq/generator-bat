@@ -1,4 +1,29 @@
+<% if ( jqueryCdn ) { %>
+## ============================================================================
+##
+##  [jQuery]
+##
+##  http://api.jquery.com/
+##
 
+$               = require( 'jquery' )
+
+## ============================================================================
+##
+##  [Backbone]
+##
+##  http://backbonejs.org/
+##
+
+Backbone        = require( 'backbone' )
+
+##  Expose jQuery to Backbone.
+##  Needed because Backbone's jquery dependency will not be bundled with the build distribution artifact.
+##
+Backbone.$      = $
+
+
+<% } %>
 ## ============================================================================
 ##
 ##  [madlib]
