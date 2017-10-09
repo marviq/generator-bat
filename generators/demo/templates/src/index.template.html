@@ -49,7 +49,26 @@
     <![endif]--><@ } @><% if ( debugging ) { %>
 
     <link rel="stylesheet" type="text/css" href="<%- styleBase %>/debug.css?<%- buildRun %>" />
-    <script src="//localhost:35729/livereload.js"></script><% } %>
+    <script>
+        //
+        //  Load `livereload` relative to document protocol and host, but on a different port.
+        //  Just having been able to write `<script src="//:35729/livereload.js">` would have been far nicer, but that appears not to be possible.
+        //
+        //  See: http://stackoverflow.com/questions/8317059/relative-path-but-for-port#answer-8317663
+        //
+
+        link            = document.createElement( 'a' );
+        link.href       = document.location.origin;
+
+        link.port       = 35729;
+        link.pathname   = '/livereload.js';
+
+        livereload      = document.createElement( 'script' );
+        livereload.src  = link.href
+
+        document.head.appendChild( livereload );
+
+    </script><% } %>
 </head>
 <body>
     <div id="navigation">
