@@ -35,11 +35,11 @@
         #   Expose this view's name to the router.
         #
         #   @property       viewName
-        #
-        #   @default        'documentation'
         #   @type           String
         #   @static
         #   @final
+        #
+        #   @default        'documentation'
         ###
 
         viewName:           'documentation'
@@ -49,11 +49,11 @@
         #   CSS class(es) to set on this view's root DOM element.
         #
         #   @property       className
-        #
-        #   @default        'documentation-view'
         #   @type           String
         #   @static
         #   @final
+        #
+        #   @default        'documentation-view'
         ###
 
         className:          'documentation-view'
@@ -63,7 +63,6 @@
         #   The compiled handlebars template expander function.
         #
         #   @property       template
-        #
         #   @type           Function
         #   @protected
         #   @static
@@ -77,7 +76,6 @@
         #   @method         render
         #
         #   @chainable
-        #
         ###
 
         render: () ->
@@ -98,7 +96,6 @@
         #   @protected
         #
         #   @return         {Object}
-        #
         ###
 
         renderData: () ->

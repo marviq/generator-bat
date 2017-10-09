@@ -39,11 +39,12 @@
         #   The collection's `{{#crossLink "<%- modelClassName %>"}}{{/crossLink}}`.
         #
         #   @property       model
-        #
-        #   @default        <%- modelClassName %>
         #   @type           Backbone.Model
+        #   @protected
         #   @static
         #   @final
+        #
+        #   @default        <%- modelClassName %>
         ###
 
         model:              <%- modelClassName %><% if ( singleton ) { %>

@@ -44,11 +44,12 @@
         #   The collection's `{{#crossLink "ApiServiceModel"}}{{/crossLink}}`.
         #
         #   @property       model
-        #
-        #   @default        ApiServiceModel
         #   @type           Backbone.Model
+        #   @protected
         #   @static
         #   @final
+        #
+        #   @default        ApiServiceModel
         ###
 
         model:              ApiServiceModel
@@ -71,6 +72,32 @@
 
             [
                 ###*
+                #   Absolute url path for retrieving the app's current build's {{#crossLink "BuildBrief"}}briefing data{{/crossLink}}.
+                #
+                #   This data includes:
+                #
+                #     * `buildNumber`
+                #     * `buildId`
+                #     * `revision`
+                #     * `grunted`
+                #     * `environment`
+                #     * `debugging`
+                #     * `name`
+                #     * `version`
+                #     * `timestamp`
+                #
+                #   @property       services.buildBrief
+                #   @type           String
+                #   @final
+                #
+                #   @default        '<app-base-url>/build.json'
+                ###
+
+                id:     'buildBrief'
+                url:    "#{appBaseUrl}build.json"
+
+            ,
+                ###*
                 #   Absolute url path for retrieving the app's {{#crossLink "SettingsEnvironment"}}target-environment settings{{/crossLink}}.
                 #
                 #   These settings include:
@@ -83,8 +110,9 @@
                 #
                 #   @property       services.settingsEnvironment
                 #   @type           String
-                #   @default        '<app-base-url>/settings.json'
                 #   @final
+                #
+                #   @default        '<app-base-url>/settings.json'
                 ###
 
                 id:     'settingsEnvironment'

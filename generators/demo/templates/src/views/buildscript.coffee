@@ -37,11 +37,11 @@
         #   Expose this view's name to the router.
         #
         #   @property       viewName
-        #
-        #   @default        'buildscript'
         #   @type           String
         #   @static
         #   @final
+        #
+        #   @default        'buildscript'
         ###
 
         viewName:           'buildscript'
@@ -51,11 +51,11 @@
         #   CSS class(es) to set on this view's root DOM element.
         #
         #   @property       className
-        #
-        #   @default        'buildscript-view'
         #   @type           String
         #   @static
         #   @final
+        #
+        #   @default        'buildscript-view'
         ###
 
         className:          'buildscript-view'
@@ -65,7 +65,6 @@
         #   The compiled handlebars template expander function.
         #
         #   @property       template
-        #
         #   @type           Function
         #   @protected
         #   @static
@@ -79,7 +78,6 @@
         #   @method         render
         #
         #   @chainable
-        #
         ###
 
         render: () ->
@@ -100,7 +98,6 @@
         #   @protected
         #
         #   @return         {Object}
-        #
         ###
 
         renderData: () ->

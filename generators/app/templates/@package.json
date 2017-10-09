@@ -9,8 +9,8 @@
   "browserify": {
     "transform": [
       "coffeeify",
-      "browserify-shim",
-      "hbsfy"
+      "hbsfy",
+      "browserify-shim"
     ]
   },
   "browserify-shim": {},

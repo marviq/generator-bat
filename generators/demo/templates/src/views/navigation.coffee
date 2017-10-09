@@ -37,11 +37,11 @@
         #   CSS class(es) to set on this view's root DOM element.
         #
         #   @property       className
-        #
-        #   @default        'navigation-view'
         #   @type           String
         #   @static
         #   @final
+        #
+        #   @default        'navigation-view'
         ###
 
         className:          'navigation-view'
@@ -51,7 +51,6 @@
         #   The compiled handlebars template expander function.
         #
         #   @property       template
-        #
         #   @type           Function
         #   @protected
         #   @static
@@ -65,7 +64,6 @@
         #   @method         render
         #
         #   @chainable
-        #
         ###
 
         render: () ->
@@ -90,7 +88,6 @@
         #   @protected
         #
         #   @return         {Object}
-        #
         ###
 
         renderData: () ->
@@ -103,7 +100,6 @@
         #   @method         setActiveMenuItem
         #
         #   @param          {String}            url                     Url excluding the hash belonging to the menuitem
-        #
         ###
 
         setActiveMenuItem: ( url ) ->

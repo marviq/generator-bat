@@ -347,6 +347,13 @@ var AppGenerator = generators.Base.extend(
                         //  Testing:
 
                     ,   'test'
+                    ,   'test/unit'
+                    ,   'test/unit/asset'
+                    ,   'test/unit/spec'
+                    ,   'test/unit/spec/collections'
+                    ,   'test/unit/spec/mixins'
+                    ,   'test/unit/spec/models'
+                    ,   'test/unit/spec/views'
 
                         //  Third-party, external libraries:
 
@@ -395,6 +402,7 @@ var AppGenerator = generators.Base.extend(
 
                     ,   [ 'src/collections/api-services.coffee' ]
                     ,   'src/models/api-service.coffee'
+                    ,   'src/models/build-brief.coffee'
                     ,   [ 'src/models/settings-environment.coffee' ]
 
                         //  Style and Compass:
@@ -418,6 +426,11 @@ var AppGenerator = generators.Base.extend(
                     ,   [ 'settings/acceptance.json' ]
                     ,   [ 'settings/testing.json' ]
                     ,   [ 'settings/local.json' ]
+
+                        //  Testing:
+
+                    ,   [ 'test/unit/init.coffee' ]
+                    ,   'test/unit/spec/trivial.spec.coffee'
 
                     ]
                 ;
@@ -477,14 +490,16 @@ var AppGenerator = generators.Base.extend(
                     ,   'backbone.cocktail'
                     ,   ( 'jquery' + ( data.ie8 ? '@<2' : '' ))
                     ,   'madlib-settings'
+                    ,   'moment'
                     ,   'q'
                     ,   'underscore'
                     ]
             ,   devDeps =
                     [
-                        'browserify-shim'
-                    ,   'chai'
+                        'browserify'
+                    ,   'browserify-shim'
                     ,   'coffeeify'
+                    ,   'coffee-script'
                     ,   'grunt'
                     ,   'grunt-browserify'
                     ,   'grunt-coffee-jshint'
@@ -496,11 +511,18 @@ var AppGenerator = generators.Base.extend(
                     ,   'grunt-contrib-uglify'
                     ,   'grunt-contrib-watch'
                     ,   'grunt-contrib-yuidoc'
-                    ,   'grunt-mocha-test'
+                    ,   'grunt-karma'
                     ,   'grunt-template'
                     ,   'handlebars'
                     ,   'hbsfy'
+                    ,   'jasmine-core'
+                    ,   'karma'
+                    ,   'karma-browserify'
+                    ,   'karma-jasmine'
+                    ,   'karma-phantomjs-launcher'
+                    ,   'phantomjs-prebuilt'
                     ,   'standard-version'
+                    ,   'watchify'
                     ]
             ;
 
@@ -667,6 +689,9 @@ var AppGenerator = generators.Base.extend(
 
                 +   chalk.bold( '  * ' + chalk.yellow( 'grunt test          ' ))
                 +   '- will run your test suite;\n'
+
+                +   chalk.bold( '  * ' + chalk.yellow( 'grunt test:dev      ' ))
+                +   '- will run your test suite and will keep monitoring it for changes, triggering re-runs;\n'
 
                 +   '\n'
                 +   chalk.bold( '  * ' + chalk.yellow( 'grunt --help        ' ))

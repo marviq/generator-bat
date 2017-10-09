@@ -175,20 +175,31 @@ command           | description
 `grunt doc`       | will build just the code documentation;
 `grunt lint`      | will just lint your code;
 `grunt test`      | will run your test suite;
+`grunt test:dev`  | will run your test suite and will keep monitoring it for changes, triggering re-runs;
 `grunt --help`    | will show you all of the above and the kitchen sink;
 
 
 ## Unit tests
 
-BAT comes with support for unit testing using [Mocha](http://mochajs.org/) and [Chai](http://chaijs.com/). The demo webapp has a basic (and admittedly, pretty unconnected) example of this.
+BAT comes with support for unit testing using [Karma](http://karma-runner.github.io/1.0/), [Jasmine](http://jasmine.github.io/2.4/introduction.html) and [PhantomJS](http://phantomjs.org/).
 
-You may already have guessed how to independently run your test suite; it's:
+Unit testing is an integrated build step in both `default` and `debug` build runs, but can also be run independently as:
 
 ```shell
 grunt test
 ```
 
-The default and `debug` grunt tasks also include the `test` task. You may or may not want to add it to your `dev` task too, depending on your workflow.
+And as watched, continuous test runs as:
+
+```shell
+grunt test:dev
+```
+
+The latter invocation, while it is kept running, also offers the opportunity to launch a test suite run in any browser, simply by directing it to this url:
+
+[`http://localhost:9876/debug.html`](http://localhost:9876/debug.html)
+
+*Do not forget to open your dev tools and browser console there!*
 
 
 ## ChangeLog

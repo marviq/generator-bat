@@ -67,7 +67,7 @@
 ##        * Verification and testing:
 ##            * coffeelint
 ##            * coffee_jshint
-##            * mochaTest
+##            * karma & jasmine
 ##
 ##        * Development support tools:
 ##            * watch
@@ -136,6 +136,7 @@
 ##
 
 path    = require( 'path' )
+_       = require( 'underscore' )
 
 module.exports = ( grunt ) ->
 
@@ -252,10 +253,38 @@ module.exports = ( grunt ) ->
         ##  https://github.com/substack/node-browserify#browserifyfiles--opts
         ##
         ##  https://github.com/substack/browserify-handbook#packagejson
+        ##
         ##      file:./package.json
-        ##        - browser : https://gist.github.com/defunctzombie/4339901
-        ##        - browserify-shim : https://github.com/thlorenz/browserify-shim#readme
+        ##
+        ##        - browser : https://github.com/substack/browserify-handbook#browser-field
+        ##
+        ##          You can define a "browser" field in the package.json of any package that will tell browserify to override lookups for the main field and
+        ##          for individual modules.
+        ##
+        ##          The browser field only applies to the current package. Any mappings you put will not propagate down to its dependencies or up to its
+        ##          dependents. This isolation is designed to protect modules from each other so that when you require a module you won't need to worry about
+        ##          any system-wide effects it might have. Likewise, you shouldn't need to wory about how your local configuration might adversely affect
+        ##          modules far away deep into your dependency graph.
+        ##
+        ##          See also:
+        ##            - https://github.com/substack/node-browserify#browser-field
+        ##            - https://gist.github.com/defunctzombie/4339901
+        ##
+        ##
         ##        - browserify.transform : https://github.com/substack/browserify-handbook#browserifytransform-field
+        ##
+        ##          You can configure transforms to be automatically applied when a module is loaded in a package's browserify.transform field.
+        ##
+        ##          Like the "browser" field, transforms configured in package.json will only apply to the local package for the same reasons.
+        ##
+        ##          See also:
+        ##            - https://github.com/substack/node-browserify#browserifytransform
+        ##
+        ##        - browserify-shim : https://github.com/substack/browserify-handbook#browserify-shim
+        ##
+        ##          See also:
+        ##            - https://github.com/thlorenz/browserify-shim#readme
+        ##
         ##
         ##  https://github.com/jnordberg/coffeeify#readme
         ##
@@ -268,15 +297,22 @@ module.exports = ( grunt ) ->
 
                 ##  Transforms are ideally set in 'package.json' as 'browserify.transform'.
                 ##  Shadowed here as comments for easy reference.
+                ##
+                ##  Browserify transforms are run in order and may modify your source code along the way.
+                ##  You'll typically want to include browserify-shim last.
+                ##
                 ###
                 transform: [
-                                        'browserify-shim'
                                         'coffeeify'
                                         'hbsfy'
+                                        'browserify-shim'
                 ]
                 ###
 
-                browserifyOptions:
+                ##  Caveat: Using the extra variable `browserifyOptions` to share a common set between the different targets below. Afaict this can't be done
+                ##  any other way. (Duplicating doesn't count).
+                ##
+                browserifyOptions: ( browserifyOptions =
 
                     ##  Scan all files for process, global, __filename, and __dirname, defining as necessary.
                     ##  With this option npm modules are more likely to work but bundling takes longer.
@@ -298,6 +334,7 @@ module.exports = ( grunt ) ->
                     noParse: [
                                         'jquery'
                     ]
+                )
 
             ##  Non-debugging build
             ##
@@ -312,11 +349,13 @@ module.exports = ( grunt ) ->
             app_debug:
                 options:
                     watch:              true
-                    browserifyOptions:
-                        detectGlobals:  '<%= browserify.options.browserifyOptions.detectGlobals %>'
-                        extensions:     '<%= browserify.options.browserifyOptions.extensions %>'
-                        noParse:        '<%= browserify.options.browserifyOptions.noParse %>'
+                    browserifyOptions:  _.extend(
+                        {}
+                    ,
+                        browserifyOptions
+                    ,
                         debug:          true
+                    )
 
                 files: [
                     src:                [ '<%= build.part.app.src.browserify %>', '<%= build.part.app.src.debug %>' ]
@@ -474,7 +513,12 @@ module.exports = ( grunt ) ->
                 files:                  '<%= coffeelint.gruntfile.files %>'
 
             test:
-                options:                '<%= coffee_jshint.gruntfile.options %>'
+                options:
+                    jshintOptions:      jshintOptions.concat( [
+                        ##              Environment options:
+                                        'jasmine'
+                                        'node'
+                    ] )
 
                 files:                  '<%= coffeelint.test.files %>'
 
@@ -603,24 +647,191 @@ module.exports = ( grunt ) ->
 
 
         ##
-        ##  Test your build.
+        ##  Test your code.
         ##
-        ##  https://github.com/pghalliday/grunt-mocha-test#readme
+        ##  https://github.com/karma-runner/grunt-karma#readme
         ##
-        ##  https://github.com/mochajs/mocha#readme
-        ##  http://mochajs.org/
+        ##  Karma:
+        ##      https://github.com/karma-runner/karma#readme
+        ##      http://karma-runner.github.io/1.0/
+        ##
+        ##  Browserify:
+        ##      https://github.com/nikku/karma-browserify#readme
+        ##
+        ##      See also the `browserify:` section in this config for more info on browserify and **its** preprocessors:
+        ##
+        ##          coffeeify
+        ##
+        ##  Jasmine:
+        ##      https://github.com/karma-runner/karma-jasmine#readme
+        ##      https://github.com/jasmine/jasmine#readme
+        ##      http://jasmine.github.io/
+        ##      http://tryjasmine.com/
+        ##
+        ##  PhantomJS:
+        ##      https://github.com/karma-runner/karma-phantomjs-launcher#readme
+        ##      https://github.com/Medium/phantomjs#readme
+        ##      http://phantomjs.org/
+        ##
+        ##
+        ##  The following combo of posts has been instrumental in getting this to work:
+        ##
+        ##      http://nick.perfectedz.com/browserify-unit-testing-p1/
+        ##      http://nick.perfectedz.com/browserify-unit-testing-p2/
         ##
 
-        mochaTest:
+        karma:
 
-            test:
-                options:
-                    reporter:           'spec'
-                    timeout:            30000
+            ##  https://karma-runner.github.io/1.0/config/configuration-file.html
+            ##
+            options:
+                basePath:               '<%= build.test %>'
 
-                files: [
-                    src:                '<%= build.test %>**/*.{coffee,js}'
+                ##  https://karma-runner.github.io/1.0/config/browsers.html
+                ##
+                browsers: [
+                                        'PhantomJS'
                 ]
+
+                ##  https://karma-runner.github.io/1.0/config/files.html
+                ##
+                exclude:                []
+                files:                  []
+
+                frameworks: [
+                                        ##  https://github.com/nikku/karma-browserify#usage
+                                        ##
+                                        ##      "Add browserify as a framework to your Karma configuration file."
+                                        ##
+                                        'browserify'
+                                        'jasmine'
+                ]
+
+                hostname:               'localhost'
+
+                httpServerOptions:      {}
+
+                logLevel:               'INFO'
+
+                loggers: [
+
+                    ##  https://github.com/nomiddlename/log4js-node#readme
+                    ##
+                    type:               'console'
+                ]
+
+                ##  https://karma-runner.github.io/1.0/config/plugins.html
+                ##
+                ##  By default, Karma loads all sibling NPM modules which have a name starting with karma-*.
+                ##  We like to be explicit, so:
+                ##
+                plugins: [
+                                        'karma-browserify'
+                                        'karma-jasmine'
+                                        'karma-phantomjs-launcher'
+                ]
+
+                port:                   9876
+
+                ##  https://karma-runner.github.io/1.0/config/preprocessors.html
+                ##
+                ##  Note that there's no need for a `karma-coffee-preprocessor` because that's taken care of by browserify.
+                ##
+                preprocessors:
+
+                    'unit/init.coffee': [
+                                        'browserify'
+                    ]
+
+                    '**/spec/**/*': [
+                                        'browserify'
+                    ]
+
+                protocol:               'http:'
+
+                ##  https://karma-runner.github.io/1.0/config/files.html
+                ##
+                ##      Section: Loading Assets
+                ##
+                proxies:                {}
+
+                ##  Not related to `karma.options.proxies` setting above.
+                ##
+                ##  Whether or not Karma or any browsers should raise an error when an inavlid SSL certificate is found.
+                ##
+                proxyValidateSSL:       true
+
+                reporters: [
+                                        'progress'
+                ]
+
+                urlRoot:                '/'
+
+
+                ##  Continuous integration mode:
+                ##
+                autoWatch:              false
+                background:             false
+                colors:                 false
+                singleRun:              true
+
+
+                ##
+                ##  Plugin specific config:
+                ##
+
+                ##  Browserify:
+                ##
+                ##  Reuse `browserify.options.browserifyOptions`.
+                ##
+                browserify:
+                    _.extend(
+                        {}
+                    ,
+                        browserifyOptions
+                    ,
+                        debug:          true
+                    )
+
+
+            unit_ci:
+                options:
+
+                    ##  Note that `files` is part of this task's extenstion of `karma.options` and its files are therefore relative to `karma.options.basePath`.
+                    ##  Despite appearance, this is **not** a grunt task's `files` declaration.
+                    ##
+                    ##  https://karma-runner.github.io/1.0/config/files.html
+                    ##
+                    files: [
+                        ##  Setup / initialization before all tests.
+                        ##
+                        'unit/init.coffee'
+                    ,
+                        ##  The unit tests' specs.
+                        ##
+                        pattern:        'unit/spec/**/*'
+                    ,
+                        ##  Assets; non-code files.
+                        ##  See `proxies` section, below, to see how urls are mapped to these
+                        ##
+                        pattern:        'unit/asset/**/*'
+
+                        included:       false
+                        served:         true
+                    ]
+
+                    proxies:            {}
+
+
+            unit_dev:
+                options:
+
+                    autoWatch:          true
+                    colors:             true
+                    singleRun:          false
+
+                    files:              '<%= karma.unit_ci.options.files %>'
+                    proxies:            '<%= karma.unit_ci.options.proxies %>'
 
 
         ##
@@ -810,7 +1021,7 @@ module.exports = ( grunt ) ->
     grunt.loadNpmTasks( 'grunt-contrib-uglify' )
     grunt.loadNpmTasks( 'grunt-contrib-watch' )
     grunt.loadNpmTasks( 'grunt-contrib-yuidoc' )
-    grunt.loadNpmTasks( 'grunt-mocha-test' )
+    grunt.loadNpmTasks( 'grunt-karma' )
     grunt.loadNpmTasks( 'grunt-template' )
 
 
@@ -972,6 +1183,14 @@ module.exports = ( grunt ) ->
             )
     )
 
+    grunt.registerTask(
+        'test'
+        'Unit test the app\'s code'
+        ( mode = 'ci' ) ->
+            grunt.task.run(
+                "karma:unit_#{mode}"
+            )
+    )
 
     ##  ================================================
     ##  Command line tasks; the usual suspects anyway:
@@ -988,7 +1207,7 @@ module.exports = ( grunt ) ->
 
             'uglify:app'
 
-            'test'
+            'test:ci'
 
             'compress:app_dist'
 
@@ -1006,7 +1225,7 @@ module.exports = ( grunt ) ->
 
             'app:debug'
 
-            'test'
+            'test:ci'
 
             'compress:app_debug'
         ]
@@ -1022,12 +1241,5 @@ module.exports = ( grunt ) ->
             'app:debug'
 
             'watch'
-        ]
-    )
-
-    grunt.registerTask(
-        'test'
-        [
-            'mochaTest'
         ]
     )
