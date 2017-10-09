@@ -340,6 +340,10 @@ var AppGenerator = generators.Base.extend(
                     ,   'src/style/images/debug/'
                     ,   'src/style/images/sprites/'
 
+                        //  Target environment settings:
+
+                    ,   'settings'
+
                         //  Testing:
 
                     ,   'test'
@@ -387,6 +391,12 @@ var AppGenerator = generators.Base.extend(
 
                     ,   [ '@package.json' ]
 
+                        //  App source:
+
+                    ,   [ 'src/collections/api-services.coffee' ]
+                    ,   'src/models/api-service.coffee'
+                    ,   [ 'src/models/settings-environment.coffee' ]
+
                         //  Style and Compass:
 
                     ,   'src/sass/settings/_compass.sass'
@@ -400,6 +410,15 @@ var AppGenerator = generators.Base.extend(
                     ,   'src/sass/debug.sass'
                     ,   'src/style/images/debug/internals.jpg'
                     ,   'src/style/images/sprites/check-green.png'
+
+                        //  Target environment settings:
+
+                    ,   'settings/@README.md'
+                    ,   [ 'settings/production.json' ]
+                    ,   [ 'settings/acceptance.json' ]
+                    ,   [ 'settings/testing.json' ]
+                    ,   [ 'settings/local.json' ]
+
                     ]
                 ;
 
@@ -457,7 +476,6 @@ var AppGenerator = generators.Base.extend(
                         'backbone'
                     ,   'backbone.cocktail'
                     ,   ( 'jquery' + ( data.ie8 ? '@<2' : '' ))
-                    ,   'madlib-hostmapping'
                     ,   'madlib-settings'
                     ,   'q'
                     ,   'underscore'

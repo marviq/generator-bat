@@ -88,6 +88,13 @@ var DemoGenerator = generators.Base.extend(
                     ,   [ 'src/app.coffee' ]
                     ,   [ 'src/index.template.html', tpl_tpl_settings ]
 
+                        //  Target environment settings:
+
+                    ,   'settings/production.json'
+                    ,   'settings/acceptance.json'
+                    ,   'settings/testing.json'
+                    ,   'settings/local.json'
+
                         //  Backbone:
 
                     ,   'src/router.coffee'

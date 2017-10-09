@@ -13,7 +13,7 @@
 ) ->
 
     ###*
-    #   @author         <%- userName %>
+    #   @author         David Bouman
     #   @module         App
     #   @submodule      Models
     ###
@@ -21,16 +21,15 @@
     'use strict'
 
 
-    ###*<% if ( description ) { %>
-    #   <%- description %>
-    #<% } %>
-    #   @class          <%- className %>
-    #   @extends        Backbone.Model<% if ( singleton ) { %>
-    #   @static<% } else { %>
-    #   @constructor<% } %>
+    ###*
+    #   Model for the `{{#crossLink "ApiServicesCollection"}}{{/crossLink}}`.
+    #
+    #   @class          ApiServiceModel
+    #   @extends        Backbone.Model
+    #   @constructor
     ###
 
-    class <%- className %> extends Backbone.Model
+    class ApiServiceModel extends Backbone.Model
 
         ###*
         #   List of [valid attribute names](#attrs).
@@ -43,9 +42,17 @@
         ###
 
         ###*
-        #   The `<%- className %>`'s unique identifier.
+        #   The `ApiServiceModel`'s unique identifier.
         #
         #   @attribute      id
+        #
+        #   @type           String
+        ###
+
+        ###*
+        #   A url base path for accessing this API service.
+        #
+        #   @attribute      url
         #
         #   @type           String
         ###
@@ -53,11 +60,7 @@
         schema: [
 
             'id'
-        ]<% if ( singleton ) { %>
-
-
-    ##  Export singleton.
-    ##
-    return new <%- className %>()<% } %>
+            'url'
+        ]
 
 )
