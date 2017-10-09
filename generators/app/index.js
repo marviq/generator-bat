@@ -340,7 +340,7 @@ var AppGenerator = generators.Base.extend(
 
                         //  Style and Compass:
 
-                    ,   'src/sass/app.sass'
+                    ,   [ 'src/sass/app.sass' ]
                     ,   'src/sass/_settings.sass'
                     ,   'src/sass/_views.sass'
                     ,   'src/style/images/sprites/check-green.png'

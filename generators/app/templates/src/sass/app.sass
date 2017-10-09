@@ -1,9 +1,15 @@
-@import _settings
-@import _views
+.<%- packageName %>
+
+    @import _settings
+
+    //
+    //  Every view should have it's own style file in the `views` folder and be `@import`-ed in '_views.sass'.
+    //
+
+    @import _views
 
 //
 //  Only really global styling should be here.
-//  Every view should have it's one style file in the views folder and be `@import`-ed in '_views.sass'.
 //
 
 body
