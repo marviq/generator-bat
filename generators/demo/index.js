@@ -6,6 +6,7 @@
 
 var generators      = require( 'yeoman-generator' )
 ,   chalk           = require( 'chalk' )
+,   tags            = require( 'language-tags' )
 ,   _               = require( 'lodash' )
 ;
 
@@ -44,20 +45,30 @@ var DemoGenerator = generators.Base.extend(
 
     ,   configuring: function()
         {
-            var config  = this.config;
+            var config  = this.config
+            ,   locale  = tags( 'en-GB' )
+            ;
 
             //  A demo app implies 'i'+'nternationalisatio'.length+'n' support.
             //
             if ( !( config.get( 'i18n' )) )
             {
                 config.set( 'i18n', true );
+
+                if ( !( config.get( 'i18nLocaleDefault' )) )
+                {
+                    config.set( 'i18nLocaleDefault', locale.format() );
+                }
             }
 
             _.extend(
                 this.templateData
             ,   {
-                    ie8:    config.get( 'ie8' )
-                ,   i18n:   true
+                    ie8:                        config.get( 'ie8' )
+                ,   i18n:                       true
+                ,   i18nLocaleDefault:          locale.format()
+                ,   i18nLocaleDefaultLanguage:  locale.language().descriptions()[0]
+                ,   i18nLocaleDefaultRegion:    locale.region().format()
                 }
             );
         }

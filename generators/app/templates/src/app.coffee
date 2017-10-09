@@ -3,7 +3,6 @@
 #   <%- packageDescription %><% } %>
 #
 #   @module         App
-#
 ###
 
 'use strict'
@@ -263,7 +262,28 @@ settings.init( '$appRoot', $appRoot )<% if ( i18n ) { %>
 ##
 ##  https://github.com/marviq/madlib-locale#readme
 ##
-locale          = require( 'madlib-locale' )<% } %>
+localeManager   = require( 'madlib-locale' )
+
+
+###*
+#   The app's currently active locale as a BCP 47 language tag string representation.
+#
+#   https://tools.ietf.org/html/bcp47#section-2
+#
+#   @property       locale
+#
+#   @type           String
+#   @default        '<%= i18nLocaleDefault %>'
+###
+
+##  Derive default locale from either the app root element, the document root, or failing that, a hardcoded default.
+##  Set `lang` attribute on the app's root element when missing.
+##
+locale          = $appRoot.attr( 'lang' )
+
+$appRoot.attr( 'lang', locale = $( 'html' ).attr( 'lang' ) ? '<%= i18nLocaleDefault %>' ) unless ( locale? )
+
+settings.init( 'locale', locale )<% } %>
 
 
 ## ============================================================================
@@ -279,10 +299,10 @@ initialized = Q.all(
         ##
         new Q.Promise( ( resolve ) -> $( resolve ); return; )<% if ( i18n ) { %>
 
-        ##  Initialize locale passing Handlebars runtime, default locale and base url for locale files.
+        ##  Initialize `localeManager`, passing in the Handlebars runtime, the default locale, and base url for locale files.
         ##  Wait until it's been loaded.
         ##
-        locale.initialize( Handlebars, 'en-GB', "#{ appBaseUrl }i18n" )<% } %>
+        localeManager.initialize( Handlebars, locale, "#{ appBaseUrl }i18n" )<% } %>
     ]
 )
 

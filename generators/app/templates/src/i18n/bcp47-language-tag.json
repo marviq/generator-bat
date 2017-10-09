@@ -1,0 +1,29 @@
+{
+    "name":                             "<%- i18nLocaleDefault %>"
+,   "phrases":
+    {
+    }
+,   "formatting":
+    {
+        "number":
+        {
+            "decimalMarker":            "."
+        ,   "thousandMarker":           ","
+        ,   "precision":                3
+        }
+    ,   "datetime":
+        {
+            "date":                     "YYYY-MM-DD"
+        ,   "datetime":                 "YYYY-MM-DD HH:mm"
+        }
+    ,   "money":
+        {
+            "default":                  "euro"
+        ,   "euro":
+            {
+                "sign":                 "\u20AC"
+            ,   "precision":            2
+            }
+        }
+    }
+}
