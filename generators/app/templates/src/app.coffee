@@ -59,6 +59,16 @@
 
 ## ============================================================================
 ##
+##  [npm]
+##
+##  https://docs.npmjs.com/files/package.json
+##
+
+npm             = require( './../package.json' )
+
+
+## ============================================================================
+##
 ##  [Q]
 ##
 ##  https://github.com/kriskowal/q#readme
@@ -244,7 +254,7 @@ settings.init( 'appBaseUrl', appBaseUrl )
 #   @final
 ###
 
-$appRoot = $( '.<%- packageName %>' )
+$appRoot = $( ".#{ npm.name }" )
 
 settings.init( '$appRoot', $appRoot )<% if ( i18n ) { %>
 
