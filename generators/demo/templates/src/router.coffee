@@ -2,9 +2,13 @@
     if typeof exports is 'object'
         module.exports = factory(
             require( 'backbone' )
-            require( 'underscore' )
+
             require( 'jquery' )
+            require( 'madlib-settings' )
+            require( 'underscore' )
+
             require( './views/navigation.coffee' )
+
             require( './views/index.coffee' )
             require( './views/i18n.coffee' )
             require( './views/documentation.coffee' )
@@ -13,9 +17,13 @@
     else if typeof define is 'function' and define.amd
         define( [
             'backbone'
-            'underscore'
+
             'jquery'
+            'madlib-settings'
+            'underscore'
+
             './views/navigation.coffee'
+
             './views/index.coffee'
             './views/i18n.coffee'
             './views/documentation.coffee'
@@ -24,8 +32,9 @@
     return
 )((
     Backbone
-    _
     $
+    settings
+    _
 
     NavigationView
 
@@ -193,7 +202,7 @@
             #   @final
             ###
 
-            @$mainContent   = $( '#main-content' )
+            @$mainContent   = settings.get( '$appRoot' ).find( '#main-content' )
 
             ###*
             #   A handle on the current View instance loaded into `@$mainContent` container.
