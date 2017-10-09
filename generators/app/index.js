@@ -331,9 +331,13 @@ var AppGenerator = generators.Base.extend(
                         //  Style and Compass:
 
                     ,   'src/sass'
+                    ,   'src/sass/overrides'
+                    ,   'src/sass/settings'
+                    ,   'src/sass/views'
 
                     ,   'src/style'
                     ,   'src/style/images/'
+                    ,   'src/style/images/debug/'
                     ,   'src/style/images/sprites/'
 
                         //  Testing:
@@ -385,9 +389,16 @@ var AppGenerator = generators.Base.extend(
 
                         //  Style and Compass:
 
-                    ,   [ 'src/sass/app.sass' ]
+                    ,   'src/sass/settings/_compass.sass'
+                    ,   'src/sass/settings/_fonts.sass'
+                    ,   'src/sass/settings/_icons.scss'
+                    ,   'src/sass/settings/_layout.sass'
+                    ,   'src/sass/_overrides.sass'
                     ,   'src/sass/_settings.sass'
                     ,   'src/sass/_views.sass'
+                    ,   [ 'src/sass/app.sass' ]
+                    ,   'src/sass/debug.sass'
+                    ,   'src/style/images/debug/internals.jpg'
                     ,   'src/style/images/sprites/check-green.png'
                     ]
                 ;
