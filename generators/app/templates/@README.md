@@ -55,9 +55,9 @@ If you would like something different, here's a recap of most common grunt idiom
 
 command           | description
 :--               |:--
-`grunt [default]` | does a production, non-debugging, all-parts, minified build plus artifacts;
-`grunt debug`     | does a testing, debugging, all-parts except documentation, as-is build;
-`grunt dev`       | does a local, debugging, all-parts except documentation, as-is build; <br>_(**Note that this variant doesn't exit**. Instead it'll keep a close watch on filesystem changes, selectively re-triggering part builds as needed)_
+`grunt [default]` | does a for-production, non-debugging, all-parts, tested, minified build plus artifacts;
+`grunt debug`     | does a for-testing, debugging, all-parts except documentation, tested, as-is build;
+`grunt dev`       | does a for-local, debugging, all-parts except documentation, as-is build; <br>_(**Note that this variant doesn't exit**. Instead it'll keep a close watch on filesystem changes, selectively re-triggering part builds as needed)_
 `grunt doc`       | will build just the code documentation;
 `grunt lint`      | will just lint your code;
 `grunt test`      | will run your test suite;
