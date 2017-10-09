@@ -41,8 +41,8 @@
         ###
 
         defaults:
-            propertyOne:    'this should be a string'
-            propertyTwo:    true
+            attributeOne:   'this should be a string'
+            attributeTwo:   true
 
 
         ###*

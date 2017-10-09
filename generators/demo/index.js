@@ -126,7 +126,7 @@ var DemoGenerator = generators.Base.extend(
                         //  Testing example:
 
                     ,   'src/models/example.coffee'
-                    ,   'test/example.coffee'
+                    ,   'test/unit/spec/models/example.spec.coffee'
                     ]
                 ;
 
