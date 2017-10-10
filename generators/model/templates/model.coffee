@@ -71,7 +71,7 @@
 
 
         ###*
-        #   Service API endpoint; defined in the {{#crossLink '<%- api.className %>/<%- modelName %>:attribute'}}<%- api.className %>{{/crossLink}}.
+        #   Service API endpoint; defined in the {{#crossLink '<%- api.className %>/<%- modelName %>:attribute'}}`<%- api.className %>`{{/crossLink}}.
         #<% if ( singleton ) { %>
         #   @property       url<% } else { %>
         #   @property       urlRoot<% } %>

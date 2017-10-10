@@ -72,7 +72,7 @@
             #     * `environment`<% if ( i18n ) { %>
             #     * `locales`<% } %>
             #
-            #   Once retrieved these can be referenced through the {{#crossLink 'Settings/environment:property'}}the `environment` setting{{/crossLink}}.
+            #   Once retrieved these can be referenced through the {{#crossLink 'Settings/environment:property'}}`environment` setting{{/crossLink}}.
             #
             #   @attribute      settingsEnvironment
             #   @type           ApiServiceModel
@@ -91,7 +91,7 @@
         ###*
         #   The `EnvApi`'s base url.
         #
-        #   Defined through the {{#crossLink 'Settings/appBaseUrl:property'}}appBaseUrl setting{{/crossLink}}.
+        #   Defined through the {{#crossLink 'Settings/appBaseUrl:property'}}`appBaseUrl` setting{{/crossLink}}.
         #
         #   @property       url
         #   @type           String

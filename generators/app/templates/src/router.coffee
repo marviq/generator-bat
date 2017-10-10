@@ -462,7 +462,7 @@
 
                     return
 
-            ).done()
+            )
 
             return<% } %>
 

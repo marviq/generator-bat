@@ -130,7 +130,7 @@ var ModelGenerator = generators.Base.extend(
                                 type:       'input'
                             ,   name:       'modelName'
                             ,   message:    'What is the name of this model you so desire?'
-                            ,   default:    youtil.definedToString( this.options.modelName )
+                            ,   default:    _.camelCase( youtil.definedToString( this.options.modelName ))
                             ,   validate:   youtil.isIdentifier
                             ,   filter: function ( value )
                                 {

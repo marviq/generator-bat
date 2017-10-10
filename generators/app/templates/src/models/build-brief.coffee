@@ -2,24 +2,24 @@
     if typeof exports is 'object'
         module.exports = factory(
             require( 'backbone' )
+            require( 'bluebird' )
             require( 'moment' )
-            require( 'q' )
 
             require( './../apis/env.coffee' )
         )
     else if typeof define is 'function' and define.amd
         define( [
             'backbone'
+            'bluebird'
             'moment'
-            'q'
 
             './../apis/env.coffee'
         ], factory )
     return
 )((
     Backbone
+    Promise
     moment
-    Q
 
     api
 ) ->
@@ -108,7 +108,7 @@
         ###
 
         ###*
-        #   Flag for signalling whether this was debugging build.
+        #   Flag for signalling whether this was a debugging build.
         #
         #   @attribute      debugging
         #   @type           Boolean
@@ -152,7 +152,7 @@
 
 
         ###*
-        #   Service API endpoint; defined in the {{#crossLink 'EnvApi/buildBrief:attribute'}}EnvApi{{/crossLink}}.
+        #   Service API endpoint; defined in the {{#crossLink 'EnvApi/buildBrief:attribute'}}`EnvApi`{{/crossLink}}.
         #
         #   @property       url
         #   @type           ApiServiceModel
@@ -180,7 +180,7 @@
             ###
 
             @initialized =
-                new Q( @fetch( cache: false ) ).then(
+                Promise.resolve( @fetch( cache: false ) ).then(
 
                     ( attributes ) =>
 

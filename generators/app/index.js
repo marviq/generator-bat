@@ -478,6 +478,7 @@ var AppGenerator = generators.Base.extend(
 
                         //  App source for debug builds
 
+                    ,   'src/debug.backbone-debugger.coffee'
                     ,   'src/views/debug.environment-ribbon.coffee'
                     ,   'src/views/debug.environment-ribbon.hbs'
 
@@ -591,10 +592,10 @@ var AppGenerator = generators.Base.extend(
                     [
                         'backbone'
                     ,   'backbone.cocktail'
+                    ,   'bluebird'
                     ,   ( 'jquery' + ( data.ie8 ? '@<2' : '' ))
                     ,   'madlib-settings'
                     ,   'moment'
-                    ,   'q'
                     ,   'underscore'
                     ]
             ,   devDeps =

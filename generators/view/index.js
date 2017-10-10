@@ -80,7 +80,7 @@ var ViewGenerator = generators.Base.extend(
                                 type:       'input'
                             ,   name:       'viewName'
                             ,   message:    'What is the name of this view you so desire?'
-                            ,   default:    youtil.definedToString( this.options.viewName )
+                            ,   default:    _.camelCase( youtil.definedToString( this.options.viewName ))
                             ,   validate:   youtil.isIdentifier
                             ,   filter: function ( value )
                                 {

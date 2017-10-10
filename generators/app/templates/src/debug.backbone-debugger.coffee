@@ -1,0 +1,31 @@
+( ( factory ) ->
+    if typeof exports is 'object'
+        module.exports = factory(
+            require( 'backbone' )
+        )
+    else if typeof define is 'function' and define.amd
+        define( [
+            'backbone'
+        ], factory )
+    return
+)((
+    Backbone
+) ->
+
+    ###*
+    #   @author         David Bouman
+    #   @module         App
+    ###
+
+    'use strict'
+
+
+    ##
+    ##  Engage the [Backbone debugger browser plugin](https://github.com/Maluen/Backbone-Debugger#install-from-chrome-web-store) if present.
+    ##
+
+    window.__backboneAgent?.handleBackbone( Backbone )
+
+    return
+
+)

@@ -79,7 +79,7 @@
         #   @method         initialize
         #   @protected
         #
-        #   @param          {Object}            options                 The options object passed in from the constructor.
+        #   @param          {Object}            options                 The options object passed through from the constructor.
         ###
 
         initialize: ( options ) ->
