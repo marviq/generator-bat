@@ -1,0 +1,1 @@
+../../../app/templates/vendor/jquery-for-cdns-shim.coffee
