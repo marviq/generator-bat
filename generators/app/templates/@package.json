@@ -27,7 +27,7 @@
   <% } %>},
   "bugs": {},
   "config": {
-      "dist": "dist/"
+    "dist": "dist/"
   },
   "dependencies": {},
   "description": "<%- packageDescription %>",
