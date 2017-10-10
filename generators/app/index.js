@@ -114,6 +114,22 @@ var AppGenerator = generators.Base.extend(
             );
 
             this.option(
+                'jqueryCdn'
+            ,   {
+                    type:           Boolean
+                ,   desc:           'Whether this app should load jQuery from a CDN (googleapis.com) instead of bundling it.'
+                }
+            );
+
+            this.option(
+                'jqueryExpose'
+            ,   {
+                    type:           Boolean
+                ,   desc:           'Whether this app should still expose jQuery on the global scope (relevant only when jQuery is bundled).'
+                }
+            );
+
+            this.option(
                 'ie8'
             ,   {
                     type:           Boolean
@@ -316,7 +332,7 @@ var AppGenerator = generators.Base.extend(
                 data.i18nLocaleDefaultRegion    = tags( data.i18nLocaleDefault ).region().format();
             }
 
-            if ( data.jqueryExpose == null )
+            if ( data.jqueryCdn )
             {
                 data.jqueryExpose               = false;
             }
