@@ -5,6 +5,7 @@
 //
 
 var Generator       = require( 'yeoman-generator' )
+,   chalk           = require( 'chalk' )
 ,   tags            = require( 'language-tags' )
 ,   _               = require( 'lodash' )
 ;
@@ -39,20 +40,70 @@ var DemoGenerator = Generator.extend(
 
     ,   configuring: function()
         {
-            var config  = this.config
-            ,   locale  = tags( 'en-GB' )
+            var config          = this.config
+            ,   locale          = tags( 'en-GB' )
+            ,   localeFormatted = locale.format()
             ;
 
             //  A demo app implies 'i'+'nternationalisatio'.length+'n' support.
             //
             if ( !( config.get( 'i18n' )) )
             {
+                this.log(
+                    '\n'
+                +   chalk.red( 'The demo app needs internationalisation support!\n' )
+                +   chalk.gray(
+                        'Adjusting your '
+                    +   chalk.bold.yellow( '.yo-rc.i18n' )
+                    +   ' config setting to '
+                    +   chalk.bold.yellow( 'true' )
+                    +   ' to reflect this...'
+                    )
+                );
+
                 config.set( 'i18n', true );
 
+                //  If a default locale has been set anyway, leave it untouched, otherwise initialize.
+                //
                 if ( !( config.get( 'i18nLocaleDefault' )) )
                 {
-                    config.set( 'i18nLocaleDefault', locale.format() );
+                    this.log(
+                        chalk.gray(
+                            'And adding '
+                        +   chalk.bold.yellow( '\'' + localeFormatted + '\'' )
+                        +   ' as your '
+                        +   chalk.bold.yellow( '.yo-rc.i18nLocaleDefault' )
+                        +   ' config setting to reflect this...'
+                        )
+                    );
+
+                    config.set( 'i18nLocaleDefault', localeFormatted );
                 }
+
+                this.log( '' );
+            }
+
+            //  A demo app with a bundled `jquery` needs to expose it on the global scope for the CDN loaded bootstrap to find.
+            //
+            if ( !( config.get( 'jqueryCdn' )) && !( config.get( 'jqueryExpose' )) )
+            {
+                this.log(
+                    '\n'
+                +   chalk.red(
+                        'The demo app needs '
+                    +   chalk.bold.yellow( 'jQuery' )
+                    +   ' to be exposed on the global scope!\n'
+                    )
+                +   chalk.gray(
+                        'Adjusting your '
+                    +   chalk.bold.yellow( '.yo-rc.jqueryExpose' )
+                    +   ' config setting to '
+                    +   chalk.bold.yellow( 'true' )
+                    +   ' to reflect this...\n'
+                    )
+                );
+
+                config.set( 'jqueryExpose', true );
             }
 
             _.extend(
@@ -60,10 +111,11 @@ var DemoGenerator = Generator.extend(
             ,   {
                     ie8:                        config.get( 'ie8' )
                 ,   i18n:                       true
-                ,   i18nLocaleDefault:          locale.format()
+                ,   i18nLocaleDefault:          localeFormatted
                 ,   i18nLocaleDefaultLanguage:  locale.language().descriptions()[0]
                 ,   i18nLocaleDefaultRegion:    locale.region().format()
-                ,   jqueryCdn:                  true
+                ,   jqueryCdn:                  config.get( 'jqueryCdn' )
+                ,   jqueryExpose:               config.get( 'jqueryExpose' )
                 }
             );
         }
@@ -72,7 +124,8 @@ var DemoGenerator = Generator.extend(
         {
             createDemo: function ()
             {
-                var templates =
+                var data        = this.templateData
+                ,   templates   =
                     [
                         //  Project files
 
@@ -121,11 +174,58 @@ var DemoGenerator = Generator.extend(
                         //  Testing example:
 
                     ,   'src/models/example.coffee'
-                    ,   'test/example.coffee'
+                    ,   'test/unit/spec/models/example.spec.coffee'
                     ]
                 ;
 
+                if ( data.jqueryExpose )
+                {
+                    templates.push(
+                        'vendor/jquery-for-cdns-shim.coffee'
+                    );
+                }
+
                 this._templatesProcess( templates );
+            }
+        }
+
+    ,   install:
+        {
+            updatePackageJSONForI18n: function ()
+            {
+                var data        = this.templateData;
+
+                if ( !( data.i18n )) { return; }
+
+                var deps        = [ 'madlib-locale' ];
+
+                this.npmInstall( deps,      { save:     true } );
+            }
+
+        ,   updatePackageJSONForjQueryExpose: function ()
+            {
+                var data        = this.templateData;
+
+                if ( !( data.jqueryExpose )) { return; }
+
+                var pkgPath     = this.destinationPath( 'package.json' )
+                ,   fs          = this.fs
+                ,   npm         = fs.readJSON( pkgPath )
+                ,   jqShimKey   = 'jquery-for-cdns-shim'
+                ,   browser     = ( npm.browser || ( npm.browser = {} ))
+                ,   bfyShimKey  = 'browserify-shim'
+                ,   bfyShim     = ( npm[ bfyShimKey ] || ( npm[ bfyShimKey ] = {} ))
+                ,   jqBfyShim   = ( bfyShim[ jqShimKey ] || ( bfyShim[ jqShimKey ] = {} ))
+                ;
+
+                if ( !( browser[ jqShimKey ] ) )
+                {
+                    browser[ jqShimKey ] = './vendor/jquery-for-cdns-shim.coffee';
+                }
+
+                jqBfyShim.depends = _.union( [ 'jquery:jQuery' ], jqBfyShim.depends ).sort();
+
+                fs.writeJSON( pkgPath, npm );
             }
         }
     }

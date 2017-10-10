@@ -107,9 +107,25 @@ var AppGenerator = Generator.extend(
             this.option(
                 'i18nLocaleDefault'
             ,   {
-                    type:           Boolean
+                    type:           String
                 ,   desc:           'The default locale for this app.'
                 ,   alias:          'locale'
+                }
+            );
+
+            this.option(
+                'jqueryCdn'
+            ,   {
+                    type:           Boolean
+                ,   desc:           'Whether this app should load jQuery from a CDN (googleapis.com) instead of bundling it.'
+                }
+            );
+
+            this.option(
+                'jqueryExpose'
+            ,   {
+                    type:           Boolean
+                ,   desc:           'Whether this app should still expose jQuery on the global scope (relevant only when jQuery is bundled).'
                 }
             );
 
@@ -256,6 +272,21 @@ var AppGenerator = Generator.extend(
                             }
                         ,   {
                                 type:       'confirm'
+                            ,   name:       'jqueryExpose'
+                            ,   message:    (
+                                                'Should this app expose '
+                                            +   chalk.yellow( 'jQuery' )
+                                            +   ' on the global scope?'
+                                            +   chalk.gray( ' - Perhaps because some CDN loaded code expects it to be there.' )
+                                            )
+                            ,   default:    false
+                            ,   when: function( answers )
+                                {
+                                    return !( answers.jqueryCdn || this.templateData.jqueryCdn );
+                                }.bind( this )
+                            }
+                        ,   {
+                                type:       'confirm'
                             ,   name:       'ie8'
                             ,   message:    (
                                                 'Should this app still support IE8?'
@@ -299,16 +330,15 @@ var AppGenerator = Generator.extend(
             ,   localeDefaultOrig           = data.i18nLocaleDefault
             ;
 
-            if ( data.demo )
-            {
-                data.i18n                   = true;
-                data.i18nLocaleDefault      = 'en-GB';
-            }
-
             if ( data.i18n )
             {
                 data.i18nLocaleDefaultLanguage  = tags( data.i18nLocaleDefault ).language().descriptions()[0];
                 data.i18nLocaleDefaultRegion    = tags( data.i18nLocaleDefault ).region().format();
+            }
+
+            if ( data.jqueryCdn )
+            {
+                data.jqueryExpose               = false;
             }
 
             data.copyrightYear              = new Date().getFullYear();
@@ -328,6 +358,8 @@ var AppGenerator = Generator.extend(
 
                 ,   ie8:                    data.ie8
                 ,   i18n:                   data.i18n
+                ,   jqueryCdn:              data.jqueryCdn
+                ,   jqueryExpose:           data.jqueryExpose
 
                 ,   backbone:               data.backbone
                 }
@@ -527,6 +559,13 @@ var AppGenerator = Generator.extend(
                             { 'src/i18n/bcp47-language-tag.json': [ 'src/i18n/' + data.i18nLocaleDefault + '.json' ] }
                         );
                     }
+                }
+
+                if ( data.jqueryExpose )
+                {
+                    templates.push(
+                        'vendor/jquery-for-cdns-shim.coffee'
+                    );
                 }
 
                 this._templatesProcess( templates );

@@ -3,7 +3,7 @@
     var buildRun = 'build-run=' + encodeURIComponent( buildRun );
 
 %>
-<html lang="en-GB">
+<html class="<%- npm.pkg.name %>" <@ if ( i18n ) { @> lang="<@= i18nLocaleDefault @>"<@ } @>>
 <head><%
 
     //
@@ -25,14 +25,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><@= packageName @></title>
-    <meta name="description" content="<@= packageDescription @>">
+    <title><%- npm.pkg.name %></title>
+    <meta name="description" content="<%- npm.pkg.description %>">
 
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="<%- style %>?<%- buildRun %>" /><@ if ( ie8 ) { @><%
 
@@ -48,7 +45,27 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]--><@ } @><% if ( debugging ) { %>
 
-    <script src="//localhost:35729/livereload.js"></script><% } %>
+    <link rel="stylesheet" type="text/css" href="<%- styleBase %>/debug.css?<%- buildRun %>" /><% if ( /^local/.test( environment ) ) { %>
+    <script>
+        //
+        //  Load `livereload` relative to document protocol and host, but on a different port.
+        //  Just having been able to write `<script src="//:35729/livereload.js">` would have been far nicer, but that appears not to be possible.
+        //
+        //  See: http://stackoverflow.com/questions/8317059/relative-path-but-for-port#answer-8317663
+        //
+
+        link            = document.createElement( 'a' );
+        link.href       = document.location.origin;
+
+        link.port       = 35729;
+        link.pathname   = '/livereload.js';
+
+        livereload      = document.createElement( 'script' );
+        livereload.src  = link.href;
+
+        document.head.appendChild( livereload );
+
+    </script><% }} %>
 </head>
 <body>
     <div id="navigation">
@@ -56,7 +73,9 @@
     </div>
     <div id="main-content">
         <!-- main views will be loaded here -->
-    </div>
+    </div><@ if ( jqueryCdn ) { @>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/<%- npm.installed.jquery.version %>/jquery.min.js"></script><@ } @>
     <script src="<%- app %>?<%- buildRun %>"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 </body>
 </html>

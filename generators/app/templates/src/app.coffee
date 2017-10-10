@@ -145,7 +145,20 @@ require( './utils/hbs/helpers/moment.coffee' )
 
 ##  Register Handlebars partials:
 ##
-#require( './utils/hbs/partials/...' )
+#require( './utils/hbs/partials/...' )<% if ( jqueryExpose ) { %>
+
+
+## ============================================================================
+##
+##  [CDN loaded distributions]
+##
+##  Think [bootstrap](https://getbootstrap.com/docs/4.0/getting-started/download/#bootstrap-cdn),
+##  [semantic-ui](https://semantic-ui.com/introduction/advanced-usage.html#cdn-releases) and such.
+##
+
+##  Ensure `jquery` is exposed on the global scope (as `jQuery`) for CDN loaded code.
+##
+require( 'jquery-for-cdns-shim' )<% } %>
 
 
 ## ============================================================================

@@ -4,7 +4,9 @@
     "name": "<%- authorName %>"<% if ( authorUrl ) { %>,
     "url": "<%- authorUrl %>"<% } %>
   },
-  "browser": {},
+  "browser": {<% if ( jqueryExpose ) { %>
+    "jquery-for-cdns-shim": "./vendor/jquery-for-cdns-shim.coffee"
+  <% } %>},
   "browserify": {
     "transform": [
       "coffeeify",
@@ -15,6 +17,12 @@
   "browserify-shim": {<% if ( jqueryCdn ) { %>
     "jquery": {
       "exports": "global:jQuery"
+    }
+  <% } else if ( jqueryExpose ) { %>
+    "jquery-for-cdns-shim": {
+      "depends": [
+        "jquery:jQuery"
+      ]
     }
   <% } %>},
   "bugs": {},
