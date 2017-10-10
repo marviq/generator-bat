@@ -47,18 +47,45 @@ var DemoGenerator = generators.Base.extend(
         {
             var config          = this.config
             ,   locale          = tags( 'en-GB' )
+            ,   localeFormatted = locale.format()
             ;
 
             //  A demo app implies 'i'+'nternationalisatio'.length+'n' support.
             //
             if ( !( config.get( 'i18n' )) )
             {
+                this.log(
+                    '\n'
+                +   chalk.red( 'The demo app needs internationalisation support!\n' )
+                +   chalk.gray(
+                        'Adjusting your '
+                    +   chalk.bold.yellow( '.yo-rc.i18n' )
+                    +   ' config setting to '
+                    +   chalk.bold.yellow( 'true' )
+                    +   ' to reflect this...'
+                    )
+                );
+
                 config.set( 'i18n', true );
 
+                //  If a default locale has been set anyway, leave it untouched, otherwise initialize.
+                //
                 if ( !( config.get( 'i18nLocaleDefault' )) )
                 {
-                    config.set( 'i18nLocaleDefault', locale.format() );
+                    this.log(
+                        chalk.gray(
+                            'And adding '
+                        +   chalk.bold.yellow( '\'' + localeFormatted + '\'' )
+                        +   ' as your '
+                        +   chalk.bold.yellow( '.yo-rc.i18nLocaleDefault' )
+                        +   ' config setting to reflect this...'
+                        )
+                    );
+
+                    config.set( 'i18nLocaleDefault', localeFormatted );
                 }
+
+                this.log( '' );
             }
 
             //  A demo app with a bundled `jquery` needs to expose it on the global scope for the CDN loaded bootstrap to find.
@@ -89,7 +116,7 @@ var DemoGenerator = generators.Base.extend(
             ,   {
                     ie8:                        config.get( 'ie8' )
                 ,   i18n:                       true
-                ,   i18nLocaleDefault:          locale.format()
+                ,   i18nLocaleDefault:          localeFormatted
                 ,   i18nLocaleDefaultLanguage:  locale.language().descriptions()[0]
                 ,   i18nLocaleDefaultRegion:    locale.region().format()
                 ,   jqueryCdn:                  config.get( 'jqueryCdn' )
@@ -169,7 +196,18 @@ var DemoGenerator = generators.Base.extend(
 
     ,   install:
         {
-            updatePackageJSONForjQueryExpose: function ()
+            updatePackageJSONForI18n: function ()
+            {
+                var data        = this.templateData;
+
+                if ( !( data.i18n )) { return; }
+
+                var deps        = [ 'madlib-locale' ];
+
+                this.npmInstall( deps,      { save:     true } );
+            }
+
+        ,   updatePackageJSONForjQueryExpose: function ()
             {
                 var data        = this.templateData;
 

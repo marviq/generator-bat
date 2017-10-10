@@ -287,12 +287,6 @@ var AppGenerator = generators.Base.extend(
             ,   localeDefaultOrig           = data.i18nLocaleDefault
             ;
 
-            if ( data.demo )
-            {
-                data.i18n                   = true;
-                data.i18nLocaleDefault      = 'en-GB';
-            }
-
             if ( data.i18n )
             {
                 data.i18nLocaleDefaultLanguage  = tags( data.i18nLocaleDefault ).language().descriptions()[0];
