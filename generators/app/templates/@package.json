@@ -4,7 +4,6 @@
     "name": "<%- authorName %>"<% if ( authorUrl ) { %>,
     "url": "<%- authorUrl %>"<% } %>
   },
-  "bugs": {},
   "browser": {<% if ( jqueryExpose ) { %>
     "jquery-for-cdns-shim": "./vendor/jquery-for-cdns-shim.coffee"
   <% } %>},
@@ -26,11 +25,16 @@
       ]
     }
   <% } %>},
+  "bugs": {},
+  "config": {
+      "dist": "dist/"
+  },
   "dependencies": {},
   "description": "<%- packageDescription %>",
   "devDependencies": {},
   "files": [
     "AUTHORS",
+    "CHANGELOG.md",
     "LICENSE",
     "README.md",
     "dist"
@@ -43,7 +47,11 @@
   "private": true,
   "repository": {},
   "scripts": {
-    "prepublish": "command -v grunt > /dev/null || { echo >&2 'It appears that \"grunt\" is not installed.  Consider running \"[sudo ]npm install -g grunt-cli\" first.'; exit ; } && grunt",
+    "build": "command -v grunt > /dev/null || { echo >&2 'It appears that \"grunt\" is not installed.  Consider running \"[sudo ]npm install -g grunt-cli\" first.'; exit ; } && grunt --no-color ${npm_config_debug+debug} ${npm_config_target+\"--target=${npm_config_target}\"}",
+    "dist": "true",
+    "prebuild": "rm -rf \"${npm_package_config_dist}\"",
+    "predist": "npm run build",
+    "prepublish": "npm run dist",
     "release": "standard-version",
     "test": "command -v grunt > /dev/null || { echo >&2 'It appears that \"grunt\" is not installed.  Consider running \"[sudo ]npm install -g grunt-cli\" first.'; exit ; } && grunt test"
   },

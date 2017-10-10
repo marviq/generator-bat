@@ -7,17 +7,16 @@
 var generators      = require( 'yeoman-generator' )
 ,   yosay           = require( 'yosay' )
 ,   youtil          = require( './../../lib/youtil.js' )
-,   chalk           = require( 'chalk' )
 ,   _               = require( 'lodash' )
 ;
-
-var decapitalize    = require( 'underscore.string/decapitalize' );
 
 var CollectionGenerator = generators.Base.extend(
     {
         constructor: function ()
         {
             generators.Base.apply( this, arguments );
+
+            this.description    = this._description( 'backbone collection' );
 
             this.argument(
                 'collectionName'
@@ -47,7 +46,7 @@ var CollectionGenerator = generators.Base.extend(
                 'description'
             ,   {
                     type:           String
-                ,   desc:           'The purpose of the collection to create.'
+                ,   desc:           'The purpose of this collection.'
                 }
             );
 
@@ -55,7 +54,7 @@ var CollectionGenerator = generators.Base.extend(
                 'singleton'
             ,   {
                     type:           Boolean
-                ,   desc:           'Specify whether this collection should be a singleton (instance).'
+                ,   desc:           'Whether this collection should be a singleton (instance).'
                 }
             );
 
@@ -63,7 +62,7 @@ var CollectionGenerator = generators.Base.extend(
                 'modelName'
             ,   {
                     type:           String
-                ,   desc:           'The model name for the collection to create.'
+                ,   desc:           'The model name for this collection.'
                 }
             );
 
@@ -71,17 +70,10 @@ var CollectionGenerator = generators.Base.extend(
                 'createModel'
             ,   {
                     type:           Boolean
-                ,   desc:           'Specify whether to create the collection\'s model too.'
+                ,   desc:           'Whether to create this model too.'
                 }
             );
         }
-
-    ,   description:
-            chalk.bold(
-                'This is the ' + chalk.cyan( 'backbone collection' )
-            +   ' generator for BAT, the Backbone Application Template'
-            +   ' created by ' + chalk.blue( 'marv' ) + chalk.red( 'iq' ) + '.'
-            )
 
     ,   initializing: function ()
         {
@@ -108,7 +100,7 @@ var CollectionGenerator = generators.Base.extend(
                             ,   validate:   youtil.isIdentifier
                             ,   filter: function ( value )
                                 {
-                                    return decapitalize( _.trim( value ).replace( /collection$/i, '' ));
+                                    return _.lowerFirst( _.trim( value ).replace( /collection$/i, '' ));
                                 }
                             }
                         ,   {
@@ -122,7 +114,7 @@ var CollectionGenerator = generators.Base.extend(
                         ,   {
                                 type:       'confirm'
                             ,   name:       'singleton'
-                            ,   message:    'Should this collection be a singleton?'
+                            ,   message:    'Should this collection be a singleton (instance)?'
                             ,   default:    false
                             ,   validate:   _.isBoolean
                             }
@@ -135,20 +127,20 @@ var CollectionGenerator = generators.Base.extend(
                                     return (
                                         youtil.definedToString( this.options.modelName )
                                     ||  answers.collectionName
-                                    ||  youtil.definedToString( this.options.collectionName )
+                                    ||  this.templateData.collectionName
                                     );
 
                                 }.bind( this )
                             ,   validate:   youtil.isIdentifier
                             ,   filter: function ( value )
                                 {
-                                    return decapitalize( _.trim( value ).replace( /model$/i, '' ));
+                                    return _.lowerFirst( _.trim( value ).replace( /model$/i, '' ));
                                 }
                             }
                         ,   {
                                 type:       'confirm'
                             ,   name:       'createModel'
-                            ,   message:    'Should i create this model now as well?'
+                            ,   message:    'Should I create this model now as well?'
                             ,   default:    true
                             ,   validate:   _.isBoolean
                             }
@@ -181,13 +173,15 @@ var CollectionGenerator = generators.Base.extend(
             _.extend(
                 data
             ,   {
-                    className:      _.capitalize( collectionName ) + 'Collection'
-                ,   fileBase:       _.kebabCase( _.deburr( collectionName ))
+                    className:          _.upperFirst( collectionName ) + 'Collection'
+                ,   fileBase:           _.kebabCase( _.deburr( collectionName ))
 
-                ,   modelClassName: _.capitalize( modelName ) + 'Model'
-                ,   modelFileName:  _.kebabCase( _.deburr( modelName )) + '.coffee'
+                ,   modelClassName:     _.upperFirst( modelName ) + 'Model'
+                ,   modelFileName:      _.kebabCase( _.deburr( modelName )) + '.coffee'
 
-                ,   userName:       this.user.git.name()
+                ,   userName:           this.user.git.name()
+
+                ,   backbone:           ( this.config.get( 'backbone' ) || { className: 'Backbone', modulePath: 'backbone' } )
                 }
             );
         }
@@ -216,7 +210,7 @@ var CollectionGenerator = generators.Base.extend(
 
                         ,   options:
                             {
-                                description:    'Model for the `{{#crossLink "' + data.className + '"}}{{/crossLink}}`.'
+                                description:    'Model for the `{{#crossLink \'' + data.className + '\'}}{{/crossLink}}`.'
                             ,   singleton:      false
                             }
                         }

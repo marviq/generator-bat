@@ -4,18 +4,24 @@
             require( 'backbone' )
             require( 'madlib-settings' )
             require( 'q' )
+
+            require( './../apis/env.coffee' )
         )
     else if typeof define is 'function' and define.amd
         define( [
             'backbone'
             'madlib-settings'
             'q'
+
+            './../apis/env.coffee'
         ], factory )
     return
 )((
     Backbone
     settings
     Q
+
+    api
 ) ->
 
     ###*
@@ -47,7 +53,6 @@
         #
         #   @property       schema
         #   @type           Array[String]
-        #   @static
         #   @final
         ###
 
@@ -99,15 +104,16 @@
 
 
         ###*
+        #   Service API endpoint; defined in the {{#crossLink 'EnvApi/settingsEnvironment:attribute'}}EnvApi{{/crossLink}}.
+        #
         #   @property       url
-        #   @type           String
-        #   @static
+        #   @type           ApiServiceModel
         #   @final
         #
-        #   @default        '<app-base-url>/settings.json'
+        #   @default        '<EnvApi.url>/settings.json'
         ###
 
-        url:                settings.get( 'services.settingsEnvironment' )
+        url:                api.get( 'settingsEnvironment' )
 
 
         ###*
@@ -136,20 +142,18 @@
                         ###*
                         #   The target-environment's settings.
                         #
-                        #   @property       environment
-                        #   @type           Object
-                        #
+                        #   @attribute      environment
                         #   @for            Settings
+                        #   @type           Object
                         ###
 
                         ###*
                         #   The base URL to use for consuming API services. All `services` URL settings are assumed to be relative to this one.
                         #
-                        #   @property       environment.apiBaseUrl
+                        #   @attribute      environment.apiBaseUrl
+                        #   @for            Settings
                         #   @type           String
                         #   @final
-                        #
-                        #   @for            Settings
                         ###
 
                         ###*
@@ -160,11 +164,10 @@
                         #     * `'acceptance'`
                         #     * `'production'`
                         #
-                        #   @property       environment.environment
+                        #   @attribute      environment.environment
+                        #   @for            Settings
                         #   @type           String
                         #   @final
-                        #
-                        #   @for            Settings
                         ###<% if ( i18n ) { %>
 
                         ###*
@@ -183,11 +186,10 @@
                         #
                         #   See also: [IETF language tags](https://en.wikipedia.org/wiki/IETF_language_tag#Syntax_of_language_tags).
                         #
-                        #   @property       environment.locales
+                        #   @attribute      environment.locales
+                        #   @for            Settings
                         #   @type           {Object}
                         #   @final
-                        #
-                        #   @for            Settings
                         ###<% } %>
 
                         settings.init( 'environment', @attributes )

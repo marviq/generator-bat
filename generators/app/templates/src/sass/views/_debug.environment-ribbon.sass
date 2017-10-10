@@ -1,0 +1,67 @@
+$default_textColor:         #6a6340
+$default_gradientHigh:      #BFDC7A
+$default_gradientLow:       #8EBF45
+
+$acceptance_textColor:      #801111
+$acceptance_gradientHigh:   #d64b4b
+$acceptance_gradientLow:    #ab2c2c
+
+$testing_textColor:         #807712
+$testing_gradientHigh:      #d4c94c
+$testing_gradientLow:       #aba02c
+
+=ribbon-colors( $textColor, $gradientHigh, $gradientLow )
+
+    background-color:       $gradientHigh
+    background-image:       -webkit-gradient(linear, left top, left bottom, from($gradientHigh), to($gradientLow))
+    background-image:       -webkit-linear-gradient(top, $gradientHigh, $gradientLow)
+    background-image:          -moz-linear-gradient(top, $gradientHigh, $gradientLow)
+    background-image:           -ms-linear-gradient(top, $gradientHigh, $gradientLow)
+    background-image:            -o-linear-gradient(top, $gradientHigh, $gradientLow)
+
+    color: $textColor
+
+.environment-ribbon-view
+
+    position:               fixed
+    z-index:                1001
+
+    bottom:                 25px
+    right:                  -100px
+    width:                  300px
+
+    transform:              rotate(-45deg)
+
+    .ribbon
+        padding:                2px 0
+        font:                   bold 15px Sans-Serif
+
+        text-align:             center
+        text-shadow:            rgba(214,92,92,0.5) 0px 1px 0px
+
+        text-shadow:            rgba(255,255,255,0.5) 0px 1px 0px
+
+        box-shadow:             0px 0px 3px rgba(0,0,0,0.3)
+
+        transition:             opacity 0.2s
+
+        &:hover
+            opacity:                0
+
+        .stitches-top
+            margin-bottom:          2px
+            border-top:             1px dashed rgba(0, 0, 0, 0.2)
+            box-shadow:             0px 0px 2px rgba(255, 255, 255, 0.3)
+
+        .stitches-bottom
+            margin-top:             2px
+            border-top:             1px dashed rgba(0, 0, 0, 0.2)
+            box-shadow:             0px 0px 2px rgba(255, 255, 255, 0.3)
+
+        +ribbon-colors( $default_textColor, $default_gradientHigh, $default_gradientLow )
+
+        &.env-acceptance
+            +ribbon-colors( $acceptance_textColor, $acceptance_gradientHigh, $acceptance_gradientLow )
+
+        &.env-testing
+            +ribbon-colors( $testing_textColor, $testing_gradientHigh, $testing_gradientLow )

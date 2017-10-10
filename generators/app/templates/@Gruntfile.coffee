@@ -17,8 +17,9 @@
 ##        * Source directory for per target-environment settings
 ##            * settings/
 ##
-##        * Tests directory:
+##        * Tests and reports directories:
 ##            * test/
+##            * test-report/
 ##
 ##    * The build's distribution artifacts
 ##
@@ -120,7 +121,10 @@
 ##
 ##  Finally, this is how the main grunt commandline tasks are mapped to all of the above:
 ##
-##      * grunt [default]   - does a for-production, non-debugging, all-parts, tested, minified build plus artifacts;
+##      * grunt [default]   - shortcut for `grunt dist` unless the `GRUNT_TASKS` environment variable specifies a space separated list of alternative tasks to
+##                            run instead;
+##
+##      * grunt dist        - does a for-production, non-debugging, all-parts, tested, minified build plus artifacts;
 ##      * grunt debug       - does a for-testing, debugging, all-parts except documentation, tested, as-is build;
 ##      * grunt dev         - does a for-local, debugging, all-parts except documentation, as-is build;
 ##                            (Note that this variant doesn't exit. Instead, it'll keep a close watch on
@@ -130,10 +134,12 @@
 ##  The `--target` command line option sets the build target environment.
 ##  So, for an for-acceptance, non-debugging, all-parts, tested, minified build, do:
 ##
-##      * grunt --target acceptance
+##      * grunt --target=acceptance
 ##
 ##  ====
 ##
+
+'use strict'
 
 child_process   = require( 'child_process' )
 path            = require( 'path' )
@@ -167,6 +173,10 @@ module.exports = ( grunt ) ->
             ##  Filesystem:
             ##
 
+            ##  Included for configurations that need an absolute path.
+            ##
+            base:                       '<%= process.cwd() %>/'
+
             source:                     'src/'
             dist:                       'dist/'
             assembly:
@@ -174,7 +184,9 @@ module.exports = ( grunt ) ->
                 doc:                    '<%= build.dist %>doc/'
 
             settings:                   'settings/'
-            test:                       'test/'
+            test:
+                src:                    'test/'
+                report:                 'test-report/'
 
             artifactBase:               '<%= build.dist %><%= npm.pkg.name %>-<%= npm.pkg.version %>'
 
@@ -213,7 +225,7 @@ module.exports = ( grunt ) ->
                 doc:
                     ##                  NOTE:   Directories to include and to exclude cannot be expressed in a single expression.
                     ##
-                    src:                '<%= build.source %>'
+                    src:                [ '<%= build.source %>', 'vendor' ]
                     srcExclude:         []
 
                     ##                  NOTE:   `tgt` - must - be a directory.
@@ -458,7 +470,7 @@ module.exports = ( grunt ) ->
 
             test:
                 files: [
-                    src:                '<%= build.test %>**/*.coffee'
+                    src:                '<%= build.test.src %>**/*.coffee'
                 ]
 
 
@@ -697,7 +709,7 @@ module.exports = ( grunt ) ->
             ##  https://karma-runner.github.io/1.0/config/configuration-file.html
             ##
             options:
-                basePath:               '<%= build.test %>'
+                basePath:               '<%= build.test.src %>'
 
                 ##  https://karma-runner.github.io/1.0/config/browsers.html
                 ##
@@ -854,7 +866,9 @@ module.exports = ( grunt ) ->
                         served:         true
                     ]
 
-                    proxies:            {}
+                    proxies:
+                        '/settings.json':
+                            '/base/unit/asset/settings.json'
 
 
             unit_dev:
@@ -881,11 +895,13 @@ module.exports = ( grunt ) ->
                 options:
                     data: () ->
 
-                        file = grunt.config( 'build.part.brief.tgt' )
+                        file    = grunt.config( 'build.part.brief.tgt' )
 
                         ##  Don't let grunt handle the exception if this fails.
                         ##
-                        try brief = grunt.file.readJSON( file )
+                        brief   = do () ->
+                            ### jshint  unused: false   ###
+                            try grunt.file.readJSON( file ) catch dummy
 
                         grunt.fail.fatal( "Unable to read the build brief (\"#{file}\"). Wasn't it created?" ) unless brief?.timestamp
 
@@ -1232,6 +1248,15 @@ module.exports = ( grunt ) ->
 
     grunt.registerTask(
         'default'
+        'Shortcut for `grunt dist` unless the `GRUNT_TASKS` environment variable specifies a space separated list of alternative tasks to run instead.'
+        () ->
+            tasks = process.env.GRUNT_TASKS?.split( /\s/ )
+
+            grunt.task.run( if tasks?.length then tasks else 'dist' )
+    )
+
+    grunt.registerTask(
+        'dist'
         [
             'clean:dist'
 

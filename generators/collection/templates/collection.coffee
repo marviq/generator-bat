@@ -1,17 +1,20 @@
 ( ( factory ) ->
     if typeof exports is 'object'
         module.exports = factory(
-            require( 'backbone' )
+            require( '<%- backbone.modulePath %>' )
+
             require( './../models/<%- modelFileName %>' )
         )
     else if typeof define is 'function' and define.amd
         define( [
-            'backbone'
+            '<%- backbone.modulePath %>'
+
             './../models/<%- modelFileName %>'
         ], factory )
     return
 )((
-    Backbone
+    <%- backbone.className %>
+
     <%- modelClassName %>
 ) ->
 
@@ -28,20 +31,19 @@
     #   <%- description %>
     #<% } %>
     #   @class          <%- className %>
-    #   @extends        Backbone.Collection<% if ( singleton ) { %>
+    #   @extends        <%- backbone.className %>.Collection<% if ( singleton ) { %>
     #   @static<% } else { %>
     #   @constructor<% } %>
     ###
 
-    class <%- className %> extends Backbone.Collection
+    class <%- className %> extends <%- backbone.className %>.Collection
 
         ###*
-        #   The collection's `{{#crossLink "<%- modelClassName %>"}}{{/crossLink}}`.
+        #   The collection's `{{#crossLink '<%- modelClassName %>'}}{{/crossLink}}`.
         #
         #   @property       model
-        #   @type           Backbone.Model
+        #   @type           <%- backbone.className %>.Model
         #   @protected
-        #   @static
         #   @final
         #
         #   @default        <%- modelClassName %>

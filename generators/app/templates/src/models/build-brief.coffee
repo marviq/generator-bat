@@ -2,23 +2,26 @@
     if typeof exports is 'object'
         module.exports = factory(
             require( 'backbone' )
-            require( 'madlib-settings' )
             require( 'moment' )
             require( 'q' )
+
+            require( './../apis/env.coffee' )
         )
     else if typeof define is 'function' and define.amd
         define( [
             'backbone'
-            'madlib-settings'
             'moment'
             'q'
+
+            './../apis/env.coffee'
         ], factory )
     return
 )((
     Backbone
-    settings
     moment
     Q
+
+    api
 ) ->
 
     ###*
@@ -50,7 +53,6 @@
         #
         #   @property       schema
         #   @type           Array[String]
-        #   @static
         #   @final
         ###
 
@@ -106,7 +108,7 @@
         ###
 
         ###*
-        #   Flag for signalling wether this was debugging build.
+        #   Flag for signalling whether this was debugging build.
         #
         #   @attribute      debugging
         #   @type           Boolean
@@ -150,15 +152,16 @@
 
 
         ###*
+        #   Service API endpoint; defined in the {{#crossLink 'EnvApi/buildBrief:attribute'}}EnvApi{{/crossLink}}.
+        #
         #   @property       url
-        #   @type           String
-        #   @static
+        #   @type           ApiServiceModel
         #   @final
         #
-        #   @default        'build.json'
+        #   @default        '<EnvApi.url>/build.json'
         ###
 
-        url:                settings.get( 'services.buildBrief' )
+        url:                api.get( 'buildBrief' )
 
 
         ###*

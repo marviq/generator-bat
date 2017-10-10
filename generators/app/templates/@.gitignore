@@ -51,6 +51,8 @@ tmp
 ##
 ##    * All files in the 'dist' build and distribution dir, but not the dir itself.
 ##    * The Netbeans project dir.
+##    * All test runner reports.
 
 /dist/
 /nbproject
+/test-report

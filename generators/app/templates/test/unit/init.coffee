@@ -48,21 +48,11 @@ settings        = require( 'madlib-settings' )
 #
 #   Often the `document` and this app will share the same base url, but not necessarily so.
 #
-#   @property       appBaseUrl
+#   @attribute      appBaseUrl
 #   @type           String
 #   @final
 ###
 
-appBaseUrl = '/'
+appBaseUrl = ''
 
 settings.init( 'appBaseUrl', appBaseUrl )
-
-
-## ============================================================================
-##
-##  [API]
-##
-
-##  `require()` the API services here to ensure their endpoints have been defined on the madlib-settings object before they are used anywhere else.
-##
-services        = require( './../../src/collections/api-services.coffee' )

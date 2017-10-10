@@ -8,16 +8,18 @@ var generators      = require( 'yeoman-generator' )
 ,   yosay           = require( 'yosay' )
 ,   youtil          = require( './../../lib/youtil.js' )
 ,   chalk           = require( 'chalk' )
+,   glob            = require( 'glob' )
+,   url             = require( 'url' )                      //  https://nodejs.org/api/url.html
 ,   _               = require( 'lodash' )
 ;
-
-var decapitalize    = require( 'underscore.string/decapitalize' );
 
 var ModelGenerator = generators.Base.extend(
     {
         constructor: function ()
         {
             generators.Base.apply( this, arguments );
+
+            this.description    = this._description( 'backbone model' );
 
             this.argument(
                 'modelName'
@@ -47,7 +49,23 @@ var ModelGenerator = generators.Base.extend(
                 'description'
             ,   {
                     type:           String
-                ,   desc:           'The purpose of the model to create.'
+                ,   desc:           'The purpose of this model.'
+                }
+            );
+
+            this.option(
+                'api'
+            ,   {
+                    type:           String
+                ,   desc:           'The name of the API this model should connect to.'
+                }
+            );
+
+            this.option(
+                'service'
+            ,   {
+                    type:           String
+                ,   desc:           'The service API endpoint URL this model should connect to (relative to the API\'s base).'
                 }
             );
 
@@ -55,25 +73,49 @@ var ModelGenerator = generators.Base.extend(
                 'singleton'
             ,   {
                     type:           Boolean
-                ,   desc:           'Specify whether this model should be a singleton (instance).'
+                ,   desc:           'Whether this model should be a singleton (instance).'
                 }
             );
         }
-
-    ,   description:
-            chalk.bold(
-                'This is the ' + chalk.cyan( 'backbone model' )
-            +   ' generator for BAT, the Backbone Application Template'
-            +   ' created by ' + chalk.blue( 'marv' ) + chalk.red( 'iq' ) + '.'
-            )
 
     ,   initializing: function ()
         {
             this._assertBatApp();
 
+            //  Find available APIs:
+            //
+            var apis    = this.apis
+                        = {}
+            ,   base    = this.destinationPath( 'src/apis' )
+            ;
+
+            glob.sync( '**/*.coffee', { cwd: base } ).forEach(
+
+                function ( path )
+                {
+                    var pathAbs     = base + '/' + path;
+                    var match       = this.fs.read( pathAbs ).match( /@class\s+(\S+)/ );
+
+                    if ( !( match ) ) { return; }
+
+                    var className   = match[ 1 ]
+                    ,   name        = _.lowerFirst( className.replace( /Api$/, '' ))
+                    ;
+
+                    apis[ name ]   =
+                        {
+                            className:  className
+                        ,   pathAbs:    pathAbs
+                        ,   path:       path
+                        }
+                    ;
+
+                }.bind( this )
+            );
+
             //  Container for template expansion data.
             //
-            this.templateData = {};
+            this.templateData   = {};
         }
 
     ,   prompting:
@@ -92,7 +134,7 @@ var ModelGenerator = generators.Base.extend(
                             ,   validate:   youtil.isIdentifier
                             ,   filter: function ( value )
                                 {
-                                    return decapitalize( _.trim( value ).replace( /model$/i, '' ));
+                                    return _.lowerFirst( _.trim( value ).replace( /model$/i, '' ));
                                 }
                             }
                         ,   {
@@ -104,9 +146,53 @@ var ModelGenerator = generators.Base.extend(
                             ,   filter:     youtil.sentencify
                             }
                         ,   {
+                                type:       'list'
+                            ,   name:       'api'
+                            ,   message:    'Should this model connect to an API?'
+                            ,   choices:    [ '- none -' ].concat( _.keys( this.apis ))
+                            ,   default:    youtil.definedToString( this.options.api )
+                            ,   validate: function ( value )
+                                {
+                                    return value in this.apis;
+                                }.bind( this )
+                            ,   filter: function ( value ) {
+                                    return this.apis[ value ];
+                                }.bind( this )
+                            ,   when:       !( _.isEmpty( this.apis ))
+                            }
+                        ,   {
+                                type:       'input'
+                            ,   name:       'service'
+                            ,   message:    (
+                                                'To which service API endpoint should this model connect?'
+                                            +   chalk.gray ( ' - please enter a URL relative to the API\'s base.' )
+                                            )
+                            ,   default: function ( answers )
+                                {
+                                    return (
+                                        youtil.definedToString( this.options.service )
+                                    ||  _.kebabCase( _.deburr(
+                                            answers.modelName
+                                        ||  this.templateData.modelName
+                                        ))
+                                    );
+                                }.bind( this )
+                            ,   validate: function( value ) {
+                                    return value === url.parse( value ).path
+                                }
+                            ,   filter: function ( value )
+                                {
+                                    return value.replace( /^\/+/, '' );
+                                }
+                            ,   when: function ( answers )
+                                {
+                                    return answers.api || this.templateData.api;
+                                }.bind( this )
+                            }
+                        ,   {
                                 type:       'confirm'
                             ,   name:       'singleton'
-                            ,   message:    'Should this model be a singleton?'
+                            ,   message:    'Should this model be a singleton (instance)?'
                             ,   default:    false
                             ,   validate:   _.isBoolean
                             }
@@ -131,17 +217,19 @@ var ModelGenerator = generators.Base.extend(
 
     ,   configuring: function ()
         {
-            var data        = this.templateData
-            ,   modelName   = data.modelName
+            var data            = this.templateData
+            ,   modelName       = data.modelName
             ;
 
             _.extend(
                 data
             ,   {
-                    className:      _.capitalize( modelName ) + 'Model'
-                ,   fileBase:       _.kebabCase( _.deburr( modelName ))
+                    className:          _.upperFirst( modelName ) + 'Model'
+                ,   fileBase:           _.kebabCase( _.deburr( modelName ))
 
-                ,   userName:       this.user.git.name()
+                ,   userName:           this.user.git.name()
+
+                ,   backbone:           ( this.config.get( 'backbone' ) || { className: 'Backbone', modulePath: 'backbone' } )
                 }
             );
         }
@@ -153,11 +241,120 @@ var ModelGenerator = generators.Base.extend(
                 var data        = this.templateData
                 ,   templates   =
                     {
-                        'model.coffee':    [ 'src/models/' + data.fileBase + '.coffee' ]
+                        'model.coffee': [ 'src/models/' + data.fileBase + '.coffee' ]
                     }
                 ;
 
                 this._templatesProcess( templates );
+            }
+        }
+
+    ,   install: {
+
+            updateApi: function () {
+
+                var data        = this.templateData
+                ,   api         = data.api
+                ,   modelName   = data.modelName
+                ;
+
+                if ( !( api )) { return; }
+
+                //
+                //  Insert the expanded fragment template into the api collection definition.
+                //  Look for a place to insert, preferably at an alfanumerically ordered position.
+                //  Do nothing if an service API endpoint defintion for this model seems to exist already.
+                //
+
+                var fs          = this.fs
+                ,   collection  = fs.read( api.pathAbs )
+                ,   matcherDec  = /^([ \t]*).*?\bnew\s+ApiServicesCollection\(\s*?(^[ \t]*)?\[[ \t]*(\n)?/m
+                //                  1------1                                      2-------2         3--3
+                ,   match       = collection.match( matcherDec )
+                ;
+
+                if ( !( match ) )
+                {
+                    this.log(
+                        'It appears that "' + api.pathAbs + '" does not contains an `ApiServicesCollection`\n'
+                    +   'Leaving it untouched.'
+                    );
+
+                    return;
+                }
+
+                var level       = '    '
+                ,   indent      = (( match[ 2 ] != null ) ? match[ 2 ] : ( match[ 1 ] + level ))
+                ,   insertAt    = match.index + match[ 0 ].length
+                ,   padPre      = match[ 3 ] ? '' : '\n'
+                ,   padPost     = match[ 3 ] ? '' : indent
+                ,   matcherDef  = /^(([ \t]*)([ \t]+))###\*[\s\S]*?^\1###[\s\S]*?^\1id:\s*'([^\]]*?)'[^\]]*?^\2(?:,[ \t]*(\n)?|(?=(\])))/mg
+                //                 ^12======23======31             ^\1           ^\1       4-------4        ^\2          5--5     6--6
+                ;
+
+                //  Start looking for definitions directly after API declaration opening.
+                //
+                matcherDef.lastIndex    = insertAt;
+
+                //  Find a place to insert
+                //
+                while ( (( match = matcherDef.exec( collection ) )) )
+                {
+                    level   = match[ 3 ];
+
+                    if ( modelName > match[ 4 ] )
+                    {
+                        //  Possibly insert after this match.
+                        //
+                        indent      = match[ 2 ];
+                        insertAt    = match.index + match[ 0 ].length;
+                        padPre      = match[ 5 ] ? '' : match[ 6 ] ? ',\n'  : '\n';
+                        padPost     = match[ 5 ] ? '' : indent;
+                        continue;
+                    }
+
+                    if ( modelName < match[ 4 ] )
+                    {
+                        //  Insert before this match.
+                        //
+                        insertAt    = match.index;
+                        padPre      = '';
+                        padPost     = '';
+                        break;
+                    }
+
+                    this.log(
+                        'It appears that "' + api.pathAbs + '" already contains a service API endpoint definition for "' + data.className + '".\n'
+                    +   'Leaving it untouched.'
+                    );
+
+                    return;
+                }
+
+                //  Avoid conflict warning.
+                //
+                this.conflicter.force   = true;
+
+                //  Expand fragment template and read it back.
+                //
+                var fragmentPath        = 'src/apis/api-service-literal-fragment.coffee'
+                ,   fragmentDst         = this.destinationPath( fragmentPath )
+                ;
+
+                this._templatesProcess( [ [ fragmentPath ] ] );
+
+                var fragment            = fs.read( fragmentDst );
+
+                fs.write(
+                    api.pathAbs
+                ,   collection.slice( 0, insertAt )
+                +   padPre
+                +   fragment.replace( /^    /mg, level ).replace( /^(?=.*?\S)/mg, indent )
+                +   padPost
+                +   collection.slice( insertAt )
+                );
+
+                fs.delete( fragmentDst );
             }
         }
     }

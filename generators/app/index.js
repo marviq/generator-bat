@@ -14,10 +14,7 @@ var generators      = require( 'yeoman-generator' )
 ,   _               = require( 'lodash' )
 ;
 
-var clean           = require( 'underscore.string/clean' )
-,   dasherize       = require( 'underscore.string/dasherize' )
-,   trim            = require( 'underscore.string/trim' )
-;
+var clean           = require( 'underscore.string/clean' );
 
 //  Use a different delimiter when our template itself is meant to be a template or template-like.
 //
@@ -33,12 +30,14 @@ var AppGenerator = generators.Base.extend(
         {
             generators.Base.apply( this, arguments );
 
+            this.description    = this._description( 'project and barebones app' );
+
             this.argument(
                 'packageName'
             ,   {
                     type:           String
                 ,   required:       false
-                ,   desc:           'The name of the webapp to create.'
+                ,   desc:           'The name of the app to create.'
                 }
             );
 
@@ -49,7 +48,7 @@ var AppGenerator = generators.Base.extend(
                 'packageName'
             ,   {
                     type:           String
-                ,   desc:           'The name of the webapp to create.'
+                ,   desc:           'The name of the app to create.'
                 ,   default:        this.packageName
                 ,   hide:           true
                 }
@@ -61,7 +60,7 @@ var AppGenerator = generators.Base.extend(
                 'description'
             ,   {
                     type:           String
-                ,   desc:           'The purpose of the webapp to create.'
+                ,   desc:           'The purpose of this app.'
                 }
             );
 
@@ -69,7 +68,7 @@ var AppGenerator = generators.Base.extend(
                 'authorName'
             ,   {
                     type:           String
-                ,   desc:           'The name of the main author creating the webapp.'
+                ,   desc:           'The name of the main author creating this app.'
                 }
             );
 
@@ -77,7 +76,7 @@ var AppGenerator = generators.Base.extend(
                 'authorEmail'
             ,   {
                     type:           String
-                ,   desc:           'The email address of the main author creating the webapp.'
+                ,   desc:           'The email address of this author.'
                 }
             );
 
@@ -85,7 +84,7 @@ var AppGenerator = generators.Base.extend(
                 'authorUrl'
             ,   {
                     type:           String
-                ,   desc:           'A website url identifying the main author creating the webapp.'
+                ,   desc:           'An optional website URL identifying this author.'
                 }
             );
 
@@ -93,7 +92,7 @@ var AppGenerator = generators.Base.extend(
                 'copyrightOwner'
             ,   {
                     type:           String
-                ,   desc:           'The full name of the webapp\'s copyright owner.'
+                ,   desc:           'The full name of the copyright owner of this app.'
                 }
             );
 
@@ -101,7 +100,7 @@ var AppGenerator = generators.Base.extend(
                 'i18n'
             ,   {
                     type:           Boolean
-                ,   desc:           'Specify whether internationalisation support is needed.'
+                ,   desc:           'Whether this app should support internationalisation'
                 }
             );
 
@@ -109,7 +108,7 @@ var AppGenerator = generators.Base.extend(
                 'i18nLocaleDefault'
             ,   {
                     type:           Boolean
-                ,   desc:           'Specify the default locale.'
+                ,   desc:           'The default locale for this app.'
                 ,   alias:          'locale'
                 }
             );
@@ -118,7 +117,7 @@ var AppGenerator = generators.Base.extend(
                 'ie8'
             ,   {
                     type:           Boolean
-                ,   desc:           'Specify whether internet explorer version 8 support is needed.'
+                ,   desc:           'Whether this app should still support IE8.'
                 }
             );
 
@@ -126,17 +125,10 @@ var AppGenerator = generators.Base.extend(
                 'demo'
             ,   {
                     type:           Boolean
-                ,   desc:           'Specify whether the demonstration app should also be included.'
+                ,   desc:           'Whether the demonstration app should also be included.'
                 }
             );
         }
-
-    ,   description:
-            chalk.bold(
-                'This is the ' + chalk.cyan( 'project and barebones app' )
-            +   ' generator for BAT, the Backbone Application Template'
-            +   ' created by ' + chalk.blue( 'marv' ) + chalk.red( 'iq' ) + '.'
-            )
 
     ,   initializing: function ()
         {
@@ -162,18 +154,18 @@ var AppGenerator = generators.Base.extend(
                             {
                                 type:       'input'
                             ,   name:       'packageName'
-                            ,   message:    'What is the name of this webapp you so desire?'
+                            ,   message:    'What is the name of this app you so desire?'
                             ,   default:
                                     (
                                         youtil.definedToString( this.options.packageName )
-                                    ||  trim( dasherize( youtil.definedToString( this.appname )), '-' )
+                                    ||  _.kebabCase( youtil.definedToString( this.appname ))
                                     )
                             ,   validate:   youtil.isNpmName
                             }
                         ,   {
                                 type:       'input'
                             ,   name:       'description'
-                            ,   message:    'What is the purpose (description) of this webapp?'
+                            ,   message:    'What is the purpose (description) of this app?'
                             ,   default:    youtil.definedToString( this.options.description )
                             ,   validate:   youtil.isNonBlank
                             ,   filter:     youtil.sentencify
@@ -181,7 +173,7 @@ var AppGenerator = generators.Base.extend(
                         ,   {
                                 type:       'input'
                             ,   name:       'authorName'
-                            ,   message:    'What is the main author\'s name?'
+                            ,   message:    'What is the name of the main author creating this app?'
                             ,   default:    ( youtil.definedToString( this.options.auhorName ) || youtil.definedToString( this.user.git.name() ))
                             ,   validate:   youtil.isNonBlank
                             ,   filter:     clean
@@ -189,7 +181,7 @@ var AppGenerator = generators.Base.extend(
                         ,   {
                                 type:       'input'
                             ,   name:       'authorEmail'
-                            ,   message:    'What is the main author\'s email address?'
+                            ,   message:    'What is the email address of this author?'
                             ,   default:    ( youtil.definedToString( this.options.auhorEmail ) || youtil.definedToString( this.user.git.email() ))
                             ,   validate:   youtil.isNonBlank
                             ,   filter:     _.trim
@@ -197,18 +189,22 @@ var AppGenerator = generators.Base.extend(
                         ,   {
                                 type:       'input'
                             ,   name:       'authorUrl'
-                            ,   message:    'If any, what is the main author\'s website url?'
+                            ,   message:    'If any, what is the website URL identifying this author?'
                             ,   default:    ( youtil.definedToString( this.options.auhorUrl ) || '' )
                             ,   filter:     _.trim
                             }
                         ,   {
                                 type:       'input'
                             ,   name:       'copyrightOwner'
-                            ,   message:    'What is the full name of the copyright owner of this webapp?'
+                            ,   message:    'What is the full name of the copyright owner of this app?'
                             ,   default: function ( answers )
                                 {
-                                    return answers.authorName;
-                                }
+                                    return (
+                                        youtil.definedToString( this.options.copyrightOwner )
+                                    ||  answers.authorName
+                                    ||  this.templateData.authorName
+                                    );
+                                }.bind( this )
                             ,   validate:   youtil.isNonBlank
                             ,   filter:     _.trim
                             ,   store:      true
@@ -216,13 +212,23 @@ var AppGenerator = generators.Base.extend(
                         ,   {
                                 type:       'confirm'
                             ,   name:       'i18n'
-                            ,   message:    'Do you need internationalisation support?'
+                            ,   message:    'Should this app support internationalisation?'
                             ,   default:    false
                             }
                         ,   {
                                 type:       'input'
                             ,   name:       'i18nLocaleDefault'
-                            ,   message:    'What should the default locale be? (Please use a valid [BCP 47 language tag](https://tools.ietf.org/html/bcp47#section-2))'
+                            ,   message:    (   'What is the default locale for this app?'
+                                            +   chalk.gray(
+                                                    ' - please use a valid '
+                                                +   chalk.cyan( '[' )
+                                                +   'BCP 47 language tag'
+                                                +   chalk.cyan( '](' )
+                                                +   chalk.blue( 'https://tools.ietf.org/html/bcp47#section-2' )
+                                                +   chalk.cyan( ')' )
+                                                +   '.'
+                                                )
+                                            )
                             ,   default:    ( youtil.definedToString( this.options.i18nLocaleDefault ) || 'en-US' )
                             ,   validate:   tags.check
                             ,   filter: function ( value )
@@ -237,13 +243,22 @@ var AppGenerator = generators.Base.extend(
                         ,   {
                                 type:       'confirm'
                             ,   name:       'jqueryCdn'
-                            ,   message:    'Would you like your app to load jQuery from a CDN (googleapis.com) instead of bundling it?'
+                            ,   message:    (
+                                                'Should this app load jQuery from a CDN '
+                                            +   chalk.gray( '(googleapis.com)' )
+                                            +   ' instead of bundling it?'
+                                            )
                             ,   default:    false
                             }
                         ,   {
                                 type:       'confirm'
                             ,   name:       'jqueryExpose'
-                            ,   message:    'Do you still need to expose that jQuery on the global scope? (Perhaps because some CDN loaded code expects it to be there)'
+                            ,   message:    (
+                                                'Should this app expose '
+                                            +   chalk.yellow( 'jQuery' )
+                                            +   ' on the global scope?'
+                                            +   chalk.gray( ' - Perhaps because some CDN loaded code expects it to be there.' )
+                                            )
                             ,   default:    false
                             ,   when: function( answers )
                                 {
@@ -253,13 +268,21 @@ var AppGenerator = generators.Base.extend(
                         ,   {
                                 type:       'confirm'
                             ,   name:       'ie8'
-                            ,   message:    'Do you need IE8 and lower support? (affects the jQuery version and shims HTML5 and media query support)'
+                            ,   message:    (
+                                                'Should this app still support IE8?'
+                                            +   chalk.gray( ' - affects the jQuery version and shims HTML5 and media query support.' )
+                                            )
                             ,   default:    false
                             }
                         ,   {
                                 type:       'confirm'
                             ,   name:       'demo'
-                            ,   message:    'Would you like the demo app now? (If not, you can always get it later through `yo bat:demo`)'
+                            ,   message:    (
+                                                'Would you like the demo app now?'
+                                            +   chalk.gray( ' - if not, you can always get it later through `' )
+                                            +   chalk.yellow( 'yo bat:demo ' )
+                                            +   chalk.gray( '`.' )
+                                            )
                             ,   default:    false
                             }
                         ]
@@ -300,6 +323,7 @@ var AppGenerator = generators.Base.extend(
 
             data.copyrightYear              = new Date().getFullYear();
             data.packageDescription         = data.description;
+            data.backbone                   = ( this.config.get( 'backbone' ) || { className: 'Backbone', modulePath: 'backbone' } );
 
             //
             //  Save a '.yo-rc.json' config file.
@@ -316,6 +340,8 @@ var AppGenerator = generators.Base.extend(
                 ,   i18n:                   data.i18n
                 ,   jqueryCdn:              data.jqueryCdn
                 ,   jqueryExpose:           data.jqueryExpose
+
+                ,   backbone:               data.backbone
                 }
             );
 
@@ -337,6 +363,7 @@ var AppGenerator = generators.Base.extend(
                         //  App source:
 
                         'src'
+                    ,   'src/apis'
 
                         //  Backbone:
 
@@ -371,6 +398,15 @@ var AppGenerator = generators.Base.extend(
                     ,   'test/unit/spec/mixins'
                     ,   'test/unit/spec/models'
                     ,   'test/unit/spec/views'
+
+                    ,   'test-report'
+
+                        //  Utils
+
+                    ,   'utils'
+                    ,   'utils/hbs'
+                    ,   'utils/hbs/helpers'
+                    ,   'utils/hbs/partials'
 
                         //  Third-party, external libraries:
 
@@ -417,10 +453,21 @@ var AppGenerator = generators.Base.extend(
 
                         //  App source:
 
+                    ,   'src/apis/default.coffee'
+                    ,   [ 'src/apis/env.coffee' ]
                     ,   [ 'src/collections/api-services.coffee' ]
                     ,   'src/models/api-service.coffee'
                     ,   'src/models/build-brief.coffee'
                     ,   [ 'src/models/settings-environment.coffee' ]
+
+                        //  App source for debug builds
+
+                    ,   'src/views/debug.environment-ribbon.coffee'
+                    ,   'src/views/debug.environment-ribbon.hbs'
+
+                        //  Utils
+
+                    ,   'src/utils/hbs/helpers/moment.coffee'
 
                         //  Style and Compass:
 
@@ -432,9 +479,17 @@ var AppGenerator = generators.Base.extend(
                     ,   'src/sass/_settings.sass'
                     ,   'src/sass/_views.sass'
                     ,   [ 'src/sass/app.sass' ]
-                    ,   'src/sass/debug.sass'
                     ,   'src/style/images/debug/internals.jpg'
                     ,   'src/style/images/sprites/check-green.png'
+
+                        //  Style for debug builds
+
+                    ,   'src/sass/debug.sass'
+                    ,   'src/sass/views/_debug.environment-ribbon.sass'
+
+                        //  Utils
+
+                    ,   'src/utils/hbs/helpers/moment.coffee'
 
                         //  Target environment settings:
 
@@ -447,6 +502,7 @@ var AppGenerator = generators.Base.extend(
                         //  Testing:
 
                     ,   [ 'test/unit/init.coffee' ]
+                    ,   'test/unit/spec/models/settings-environment.spec.coffee'
                     ,   'test/unit/spec/trivial.spec.coffee'
 
                     ]
@@ -492,6 +548,13 @@ var AppGenerator = generators.Base.extend(
                 }
 
                 this._templatesProcess( templates );
+
+                //
+                //  Symlink assets for Testing:
+                //
+
+                this._symLink( 'settings/testing.json', 'test/unit/asset/settings.json' );
+
             }
 
         ,   setupDemo: function ()
@@ -568,7 +631,14 @@ var AppGenerator = generators.Base.extend(
 
     ,   end:
         {
-            intro: function ()
+            //  Get rid of any extraneous packages; perhaps left over from previous generator attemtps.
+            //
+            prune: function ()
+            {
+                this.spawnCommand( 'npm', [ 'prune' ] );
+            }
+
+        ,   intro: function ()
             {
                 /* jshint laxbreak: true */
 
@@ -667,7 +737,7 @@ var AppGenerator = generators.Base.extend(
                         this.spawnCommand( 'command', [ 'compass', '-q', '-v' ], { stdio: [ 'ignore', 'pipe', 'ignore' ] } )
                             .on( 'exit', function ( exit )
                                 {
-                                    version = version.trim();
+                                    version = _.trim( version );
 
                                     if ( exit || !( semver.satisfies( version, '>=' + minver )) ) { error( exit ); }
                                     done();
@@ -694,6 +764,11 @@ var AppGenerator = generators.Base.extend(
 
                 +   '\n'
                 +   chalk.bold( '  * ' + chalk.yellow( 'grunt ' + chalk.cyan( '[' ) + 'default' + chalk.cyan( ']' ) + '     ' ))
+                +   '- is a shortcut for ' + chalk.bold.yellow( 'grunt dist' ) + ' unless the ' + chalk.bold.yellow( 'GRUNT_TASKS' ) + ' environment '
+                +   'variable specifies a space separated list of alternative tasks to run instead;\n'
+
+                +   '\n'
+                +   chalk.bold( '  * ' + chalk.yellow( 'grunt dist          ' ))
                 +   '- does a for-production, non-debugging, all-parts, tested, minified build plus artifacts;\n'
 
                 +   chalk.bold( '  * ' + chalk.yellow( 'grunt debug         ' ))

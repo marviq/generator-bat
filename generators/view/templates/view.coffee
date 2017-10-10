@@ -1,17 +1,20 @@
 ( ( factory ) ->
     if typeof exports is 'object'
         module.exports = factory(
-            require( 'backbone' )
+            require( '<%- backbone.modulePath %>' )
+
             require( './<%- fileBase %>.hbs' )
         )
     else if typeof define is 'function' and define.amd
         define( [
-            'backbone'
+            '<%- backbone.modulePath %>'
+
             './<%- fileBase %>.hbs'
         ], factory )
     return
 )((
-    Backbone
+    <%- backbone.className %>
+
     template
 ) ->
 
@@ -28,18 +31,17 @@
     #   <%- description %>
     #<% } %>
     #   @class          <%- className %>
-    #   @extends        Backbone.View
+    #   @extends        <%- backbone.className %>.View
     #   @constructor
     ###
 
-    class <%- className %> extends Backbone.View
+    class <%- className %> extends <%- backbone.className %>.View
 
         ###*
         #   Expose this view's name to the router.
         #
         #   @property       viewName
         #   @type           String
-        #   @static
         #   @final
         #
         #   @default        '<%- viewName %>'
@@ -53,7 +55,6 @@
         #
         #   @property       className
         #   @type           String
-        #   @static
         #   @final
         #
         #   @default        '<%- cssClassName %>'
@@ -68,11 +69,28 @@
         #   @property       template
         #   @type           Function
         #   @protected
-        #   @static
         #   @final
         ###
 
         template:           template
+
+
+        ###*
+        #   Delegated DOM event handler definition.
+        #
+        #   Format:
+        #
+        #   ```coffee
+        #       '<event>[ <selector>]': '<methodName>' || <Function>
+        #       ...
+        #   ```
+        #
+        #   @property       events
+        #   @type           Object
+        #   @final
+        ###
+
+        events:             undefined
 
 
         ###*

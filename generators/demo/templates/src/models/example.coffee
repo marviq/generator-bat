@@ -36,7 +36,6 @@
         #   @property       defaults
         #   @type           Object
         #   @protected
-        #   @static
         #   @final
         ###
 

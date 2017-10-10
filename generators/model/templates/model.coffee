@@ -1,15 +1,21 @@
 ( ( factory ) ->
     if typeof exports is 'object'
         module.exports = factory(
-            require( 'backbone' )
+            require( '<%- backbone.modulePath %>' )<% if ( api ) { %>
+
+            require( './../apis/<%- api.path %>' )<% } %>
         )
     else if typeof define is 'function' and define.amd
         define( [
-            'backbone'
+            '<%- backbone.modulePath %>'<% if ( api ) { %>
+
+            './../apis/<%- api.path %>'<% } %>
         ], factory )
     return
 )((
-    Backbone
+    <%- backbone.className %><% if ( api ) { %>
+
+    api<% } %>
 ) ->
 
     ###*
@@ -25,19 +31,18 @@
     #   <%- description %>
     #<% } %>
     #   @class          <%- className %>
-    #   @extends        Backbone.Model<% if ( singleton ) { %>
+    #   @extends        <%- backbone.className %>.Model<% if ( singleton ) { %>
     #   @static<% } else { %>
     #   @constructor<% } %>
     ###
 
-    class <%- className %> extends Backbone.Model
+    class <%- className %> extends <%- backbone.className %>.Model
 
         ###*
         #   List of [valid attribute names](#attrs).
         #
         #   @property       schema
         #   @type           Array[String]
-        #   @static
         #   @final
         ###
 
@@ -51,7 +56,33 @@
         schema: [
 
             'id'
-        ]<% if ( singleton ) { %>
+        ]
+
+
+        ###*
+        #   Default attribute values.
+        #
+        #   @property       defaults
+        #   @type           Object
+        #   @final
+        ###
+
+        defaults:           {}<% if ( api ) { %>
+
+
+        ###*
+        #   Service API endpoint; defined in the {{#crossLink '<%- api.className %>/<%- modelName %>:attribute'}}<%- api.className %>{{/crossLink}}.
+        #<% if ( singleton ) { %>
+        #   @property       url<% } else { %>
+        #   @property       urlRoot<% } %>
+        #   @type           ApiServiceModel
+        #   @final
+        #
+        #   @default        '<<%- api.className %>.url>/<%- service %>'
+        ###
+<% if ( singleton ) { %>
+        url:                api.get( '<%- modelName %>' )<% } else { %>
+        urlRoot:            api.get( '<%- modelName %>' )<% } %><% } %><% if ( singleton ) { %>
 
 
     ##  Export singleton.

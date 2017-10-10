@@ -22,6 +22,12 @@
 ##
 
 ###*
+#   The app's APIs.
+#
+#   @submodule      Apis
+###
+
+###*
 #   The app's backbone collections.
 #
 #   @submodule      Collections
@@ -75,13 +81,13 @@ npm             = require( './../package.json' )
 
 Q               = require( 'q' )
 
-##  Comment out or remove this for your developement convenience.
+##  Comment out or remove this for your development convenience.
 ##
 ##  https://github.com/kriskowal/q/wiki/API-Reference#qstopunhandledrejectiontracking
 ##
 Q.stopUnhandledRejectionTracking()
 
-##  Set this to true for your developement convenience.
+##  Set this to true for your development convenience.
 ##
 ##  https://github.com/kriskowal/q/wiki/API-Reference#qlongstacksupport
 ##
@@ -148,20 +154,11 @@ Handlebars      = require( 'hbsfy/runtime' )
 
 ##  Register Handlebars helpers:
 ##
-do () ->
+require( './utils/hbs/helpers/moment.coffee' )
 
-    ### jshint forin:   false ###
-
-    Handlebars.registerHelper( name, helper ) for name, helper of {
-
-    ##
-    ##  This would be a good place to register any Handlebars helpers:
-    ##
-    ##  foo:    ( value )  -> "bar: #{ value }"
-    ##  etc:    ...
-    ##
-
-    }<% if ( jqueryExpose ) { %>
+##  Register Handlebars partials:
+##
+#require( './utils/hbs/partials/...' )<% if ( jqueryExpose ) { %>
 
 
 ## ============================================================================
@@ -187,7 +184,7 @@ require( 'jquery-for-cdns-shim' )<% } %>
 #
 #   These are exposed through the `madlib-settings` singleton object. Simply `require(...)` it wherever you have a need for them.
 #
-#   @class      Settings
+#   @class          Settings
 #   @static
 ###
 
@@ -211,14 +208,14 @@ settings        = require( 'madlib-settings' )
 #
 #   Often the `document` and this app will share the same base url, but not necessarily so.
 #
-#   @property       appBaseUrl
+#   @attribute      appBaseUrl
 #   @type           String
 #   @final
 ###
 
 ##  Leverage `document.currentScript` or a fallback (for IE <=11).
 ##
-appBaseUrl = ( document.currentScript ? Array::slice.call( document.scripts, -1 )[0] ).src.match( /^.*\// )[0]
+appBaseUrl = ( document.currentScript ? Array::slice.call( document.scripts, -1 )[0] ).src.match( /^(.*)\// )[1]
 
 settings.init( 'appBaseUrl', appBaseUrl )
 
@@ -228,7 +225,7 @@ settings.init( 'appBaseUrl', appBaseUrl )
 #
 #   Often the `document` and this app will share the same root element, but not necessarily so.
 #
-#   @property       $appRoot
+#   @attribute      $appRoot
 #   @type           jQuery
 #   @final
 ###
@@ -250,8 +247,9 @@ localeManager   = require( 'madlib-locale' )
 #
 #   https://tools.ietf.org/html/bcp47#section-2
 #
-#   @property       locale
+#   @attribute      locale
 #   @type           String
+#
 #   @default        '<%= i18nLocaleDefault %>'
 ###
 
@@ -267,24 +265,12 @@ settings.init( 'locale', locale )<% } %>
 
 ## ============================================================================
 ##
-##  [API]
-##
-
-##  `require()` the API services here to ensure their endpoints have been defined on the madlib-settings object before they are used anywhere else.
-##
-services        = require( './collections/api-services.coffee' )
-
-
-## ============================================================================
-##
 ##  [App]
 ##
 
 ##  The target environment's settings to be loaded (async) through its "service" and incorporated into the madlib-settings object.
 ##
 settingsEnv     = require( './models/settings-environment.coffee' )
-
-router          = require( './router.coffee' )
 
 initialized     = Q.all(
     [
@@ -298,7 +284,7 @@ initialized     = Q.all(
         ##  At this point we cannot know for sure that this locale really is available.
         ##  Once the `settingsEnv` has been initialized we -will- know this, but we're not going to wait for that; instead, just assume it'll be there.
         ##
-        localeManager.initialize( Handlebars, locale, "#{ appBaseUrl }i18n" )<% } %>
+        localeManager.initialize( Handlebars, locale, "#{ appBaseUrl }/i18n" )<% } %>
 
         ##  Wait until the target-environment settings have been loaded.<% if ( i18n ) { %>
         ##  This should list the available locales.<% } %>
@@ -310,6 +296,10 @@ initialized     = Q.all(
 initialized.done(
 
     () ->
+
+        ##  Load router only now, so the environment settings are known to have been loaded, and so the `DefaultApi` is ready to be used.
+        ##
+        router  = require( './router.coffee' )
 
         router.startApp()
 

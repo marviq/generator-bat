@@ -7,18 +7,20 @@
 
 ### Prerequisites
 
-* [npm and node](https://nodejs.org/en/download/)
-* [git flow](https://github.com/nvie/gitflow/wiki/Installation)
-* [jq](https://stedolan.github.io/jq/download/)
-* [grunt](http://gruntjs.com/getting-started#installing-the-cli)
-  ```bash
-  $ [sudo ]npm install -g grunt-cli
-  ```
+  * [npm and node](https://nodejs.org/en/download/)
+  * [git flow](https://github.com/nvie/gitflow/wiki/Installation)
+  * [jq](https://stedolan.github.io/jq/download/)
+  * [grunt](http://gruntjs.com/getting-started#installing-the-cli)
 
-* [compass v1.0.0 or greater](http://thesassway.com/beginner/getting-started-with-sass-and-compass#install-sass-and-compass)
-  ```bash
-  $ [sudo ]gem install compass
-  ```
+    ```bash
+    $ [sudo ]npm install -g grunt-cli
+    ```
+
+  * [compass v1.0.0 or greater](http://thesassway.com/beginner/getting-started-with-sass-and-compass#install-sass-and-compass)
+
+    ```bash
+    $ [sudo ]gem install compass
+    ```
 
 
 ### Setup
@@ -27,37 +29,45 @@ Clone this repository somewhere, switch to it, then:
 
 ```bash
 $ git config commit.template ./.gitmessage
-# ... initialize your branching model tools here, if need be ... ex: git flow init -d
+# ... Set up any local tracking branches in addition to the default one. Depends on the branching model used, if any;
+# ... Initialize your branching model tools, if need be ... ex: `git flow init -d`;
 $ npm install
 ```
 
 This will:
-  * Setup [a helpful reminder](.gitmessage) of how to make [a good commit message](#commit-message-format-discipline).  If you adhere to this, then a detailed,
-    meaningful [CHANGELOG](CHANGELOG.md) can be constructed automatically.
-  * Setup the git flow [branching model](#branching-model) and checkout the `develop` branch.
-  * Install all required dependencies.
-  * The latter command will also invoke `grunt` (no args) for you, creating a production build in `./dist` (plus artifacts).
+
+  * Set up [a helpful reminder](.gitmessage) of how to make [a good commit message](#commit-message-format-discipline).  If you adhere to this, then a
+    detailed, meaningful [CHANGELOG](CHANGELOG.md) can be constructed automatically;
+  * _\[... Ensure you have local ... and ... branches tracking their respective remote counterparts;\]_
+  * _\[... Set up the ... [branching model](#branching-model);\]_
+  * Install all required dependencies;
+  * The latter command will also invoke `grunt` (no args) for you, creating a production build in `./dist` (plus artifacts);
 
 
 ### Build
 
 Most of the time you will want to do a
+
 ```bash
 grunt dev
 ```
+
 ... for creating a watched development build, or simply
+
 ```bash
 grunt
 ```
+
 ... for a production-ready build.
 
 If you would like something different, here's a recap of most common grunt idioms:
 
 command           | description
 :--               |:--
-`grunt [default]` | does a for-production, non-debugging, all-parts, tested, minified build plus artifacts;
+`grunt [default]` | shortcut for `grunt dist` unless the `GRUNT_TASKS` environment variable specifies a space separated list of alternative tasks to run instead;
+`grunt dist`      | does a for-production, non-debugging, all-parts, tested, minified build plus artifacts;
 `grunt debug`     | does a for-testing, debugging, all-parts except documentation, tested, as-is build;
-`grunt dev`       | does a for-local, debugging, all-parts except documentation, as-is build; <br>_(**Note that this variant doesn't exit**. Instead it'll keep a close watch on filesystem changes, selectively re-triggering part builds as needed)_
+`grunt dev`       | does a for-local, debugging, all-parts except documentation, as-is build; <br> _**(Note that this variant doesn't exit**. Instead it'll keep a close watch on filesystem changes, selectively re-triggering part builds as needed)_
 `grunt doc`       | will build just the code documentation;
 `grunt lint`      | will just lint your code;
 `grunt test`      | will run your test suite;
@@ -67,7 +77,7 @@ command           | description
 
 ### Test
 
-Unit testing is an integrated build step in both `default` and `debug` build runs, but can also be run independently as:
+Unit testing is an integrated build step in both `dist` and `debug` build runs, but can also be run independently as:
 
 ```shell
 grunt test
@@ -90,7 +100,9 @@ The latter invocation, while it is kept running, also offers the opportunity to 
 
 #### Branching Model
 
-_\[Here, you might want to say something about the branching model you intend to use. Examples are [git flow](https://github.com/nvie/gitflow#readme), [GitHub flow](https://help.github.com/articles/what-is-a-good-git-workflow/) and [GitLab flow](http://docs.gitlab.com/ee/workflow/gitlab_flow.html). Should you want to change this, then do not forget to adjust the [**setup** section](#setup) accordingly.)
+_\[Here, you might want to say something about the branching model you intend to use. Examples are [git flow](https://github.com/nvie/gitflow#readme),
+[GitHub flow](https://help.github.com/articles/what-is-a-good-git-workflow/) and [GitLab flow](http://docs.gitlab.com/ee/workflow/gitlab_flow.html). Should you
+want to change this, then do not forget to adjust the [**setup** section](#setup) accordingly.\]_
 
 
 #### Commit Message Format Discipline
@@ -109,30 +121,40 @@ $ git config commit.template ./.gitmessage
 
 ### Release
 
-_\[Here, you might want to say something about your release- and versioning strategy. Likely, this is related to what you chose for a branching model. At the very least it should include:]_
+_\[Here, you might want to say something about your release- and versioning strategy. Likely, this is related to what you chose for a branching model. At the 
+very least it should include:\]_
 
-* Determine what your next [semver](https://docs.npmjs.com/getting-started/semantic-versioning#semver-for-publishers) `<version>` should be:
-  ```bash
-  $ version="<version>"
-  ```
+  * Determine what your next [semver](https://docs.npmjs.com/getting-started/semantic-versioning#semver-for-publishers) `<version>` should be:
 
-* Bump the package's `.version`, update the [CHANGELOG](./CHANGELOG.md), commit these, and tag the commit as `v<version>`:
-  ```bash
-  $ npm run release
-  ```
+    ```bash
+    $ version="<version>"
+    ```
 
-* If all is well this new `version` **should** be identical to your intended `<version>`:
-  ```bash
-  $ jq ".version == \"${version}\"" package.json
-  ```
+  * Bump the package's `.version`, update the [CHANGELOG](./CHANGELOG.md), commit these, and tag the commit as `v<version>`:
 
-  *If this is not the case*, then either your assumptions about what changed are wrong, or (at least) one of your commits did not adhere to the
-  [Commit Message Format Discipline](#commit-message-format-discipline); **Abort the release, and sort it out first.**
+    ```bash
+    $ npm run release
+    ```
+
+  * If all is well this new `version` **should** be identical to your intended `<version>`:
+
+    ```bash
+    $ jq ".version == \"${version}\"" package.json
+    ```
+
+    *If this is not the case*, then either your assumptions about what changed are wrong, or (at least) one of your commits did not adhere to the
+    [Commit Message Format Discipline](#commit-message-format-discipline); **Abort the release, and sort it out first.**
 
 
 ### Publish
 
-_\[Ultimately, you may also want to include instructions on how to publish and deploy a production release of *<%- packageName %>*. This text is just a
+_\[Ultimately, you may also want to include instructions on how to publish a production release of *<%- packageName %>*. This text is just a
+placeholder.\]_
+
+
+### Deploy
+
+_\[Ultimately, you may also want to include instructions on how to deploy a production release of *<%- packageName %>*. This text is just a
 placeholder.\]_
 
 

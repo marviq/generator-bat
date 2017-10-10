@@ -1,17 +1,20 @@
 ( ( factory ) ->
     if typeof exports is 'object'
         module.exports = factory(
-            require( 'backbone' )
+            require( '<%- backbone.modulePath %>' )
+
             require( './index.hbs' )
         )
     else if typeof define is 'function' and define.amd
         define( [
-            'backbone'
+            '<%- backbone.modulePath %>'
+
             './index.hbs'
         ], factory )
     return
 )((
-    Backbone
+    <%- backbone.className %>
+
     template
 ) ->
 
@@ -23,22 +26,22 @@
 
     'use strict'
 
+
     ###*
     #   Default index view of BAT
     #
     #   @class          IndexView
-    #   @extends        Backbone.View
+    #   @extends        <%- backbone.className %>.View
     #   @constructor
     ###
 
-    class IndexView extends Backbone.View
+    class IndexView extends <%- backbone.className %>.View
 
         ###*
         #   Expose this view's name to the router.
         #
         #   @property       viewName
         #   @type           String
-        #   @static
         #   @final
         #
         #   @default        'index'
@@ -52,7 +55,6 @@
         #
         #   @property       className
         #   @type           String
-        #   @static
         #   @final
         #
         #   @default        'index-view'
@@ -67,7 +69,6 @@
         #   @property       template
         #   @type           Function
         #   @protected
-        #   @static
         #   @final
         ###
 
