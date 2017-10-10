@@ -107,7 +107,7 @@ var AppGenerator = generators.Base.extend(
             this.option(
                 'i18nLocaleDefault'
             ,   {
-                    type:           Boolean
+                    type:           String
                 ,   desc:           'The default locale for this app.'
                 ,   alias:          'locale'
                 }
