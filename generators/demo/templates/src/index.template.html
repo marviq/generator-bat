@@ -45,7 +45,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]--><@ } @><% if ( debugging ) { %>
 
-    <link rel="stylesheet" type="text/css" href="<%- styleBase %>/debug.css?<%- buildRun %>" /><% if ( environment === 'local' ) { %>
+    <link rel="stylesheet" type="text/css" href="<%- styleBase %>/debug.css?<%- buildRun %>" /><% if ( /^local/.test( environment ) ) { %>
     <script>
         //
         //  Load `livereload` relative to document protocol and host, but on a different port.
