@@ -166,7 +166,7 @@ class DemoGenerator extends Generator
                 ,   'src/views/navigation.coffee'
 
                 ,   'src/style/images/marviq-logo-web.png'
-                ,   'src/style/images/documentation.jpg'
+                ,   'src/style/images/documentation.png'
 
                     //  i18n:
 
