@@ -168,7 +168,11 @@ class AppGenerator extends Generator
                     {
                         type:       'input'
                     ,   name:       'packageName'
-                    ,   message:    'What is the name of this app you so desire?'
+                    ,   message:    (
+                                        'What is the name of this '
+                                    +   chalk.green( 'app' )
+                                    +   ' you so desire?'
+                                    )
                     ,   default:
                             _.kebabCase(
                                 youtil.definedToString( this.options.packageName )
@@ -180,7 +184,11 @@ class AppGenerator extends Generator
                 ,   {
                         type:       'input'
                     ,   name:       'description'
-                    ,   message:    'What is the purpose (description) of this app?'
+                    ,   message:    (
+                                        'What is the '
+                                    +   chalk.green( 'purpose' )
+                                    +   ' (description) of this app?'
+                                    )
                     ,   default:    youtil.definedToString( this.options.description )
                     ,   validate:   youtil.isNonBlank
                     ,   filter:     youtil.sentencify
@@ -188,7 +196,11 @@ class AppGenerator extends Generator
                 ,   {
                         type:       'input'
                     ,   name:       'authorName'
-                    ,   message:    'What is the name of the main author creating this app?'
+                    ,   message:    (
+                                        'What is the name of the '
+                                    +   chalk.green( 'main author' )
+                                    +   ' creating this app?'
+                                    )
                     ,   default:    ( youtil.definedToString( this.options.auhorName ) || youtil.definedToString( this.user.git.name() ))
                     ,   validate:   youtil.isNonBlank
                     ,   filter:     clean
@@ -196,7 +208,11 @@ class AppGenerator extends Generator
                 ,   {
                         type:       'input'
                     ,   name:       'authorEmail'
-                    ,   message:    'What is the email address of this author?'
+                    ,   message:    (
+                                        'What is the '
+                                    +   chalk.green( 'email address' )
+                                    +   ' of this author?'
+                                    )
                     ,   default:    ( youtil.definedToString( this.options.auhorEmail ) || youtil.definedToString( this.user.git.email() ))
                     ,   validate:   youtil.isNonBlank
                     ,   filter:     _.trim
@@ -204,15 +220,22 @@ class AppGenerator extends Generator
                 ,   {
                         type:       'input'
                     ,   name:       'authorUrl'
-                    ,   message:    'If any, what is the website URL identifying this author?'
+                    ,   message:    (
+                                        'If any, what is the '
+                                    +   chalk.green( 'website URL' )
+                                    +   ' identifying this author?'
+                                    )
                     ,   default:    ( youtil.definedToString( this.options.auhorUrl ) || '' )
                     ,   filter:     _.trim
                     }
                 ,   {
                         type:       'input'
                     ,   name:       'copyrightOwner'
-                    ,   message:    'What is the full name of the copyright owner of this app?'
-
+                    ,   message:    (
+                                        'What is the full name of the '
+                                    +   chalk.green( 'copyright owner' )
+                                    +   ' of this app?'
+                                    )
                     ,   default:    ( answers ) => (
                                         youtil.definedToString( this.options.copyrightOwner )
                                     ||  answers.authorName
@@ -225,13 +248,19 @@ class AppGenerator extends Generator
                 ,   {
                         type:       'confirm'
                     ,   name:       'i18n'
-                    ,   message:    'Should this app support internationalisation?'
+                    ,   message:    (
+                                        'Should this app support '
+                                    +   chalk.green( 'internationalisation' )
+                                    +   '?'
+                                    )
                     ,   default:    false
                     }
                 ,   {
                         type:       'input'
                     ,   name:       'i18nLocaleDefault'
-                    ,   message:    (   'What is the default locale for this app?'
+                    ,   message:    (   'What is the '
+                                    +   chalk.green( 'default locale' )
+                                    +   ' for this app?'
                                     +   chalk.gray(
                                             ' - please use a valid '
                                         +   chalk.cyan( '[' )
@@ -251,7 +280,11 @@ class AppGenerator extends Generator
                         type:       'confirm'
                     ,   name:       'jqueryCdn'
                     ,   message:    (
-                                        'Should this app load jQuery from a CDN '
+                                        'Should this app load '
+                                    +   chalk.yellow( 'jQuery' )
+                                    +   ' from a '
+                                    +   chalk.green( 'CDN' )
+                                    +   ' '
                                     +   chalk.gray( '(googleapis.com)' )
                                     +   ' instead of bundling it?'
                                     )
@@ -263,7 +296,9 @@ class AppGenerator extends Generator
                     ,   message:    (
                                         'Should this app expose '
                                     +   chalk.yellow( 'jQuery' )
-                                    +   ' on the global scope?'
+                                    +   ' on the '
+                                    +   chalk.green( 'global scope' )
+                                    +   '?'
                                     +   chalk.gray( ' - Perhaps because some CDN loaded code expects it to be there.' )
                                     )
                     ,   default:    false
@@ -273,7 +308,9 @@ class AppGenerator extends Generator
                         type:       'confirm'
                     ,   name:       'ie8'
                     ,   message:    (
-                                        'Should this app still support IE8?'
+                                        'Should this app still support '
+                                    +   chalk.green( 'IE8' )
+                                    +   '?'
                                     +   chalk.gray( ' - affects the jQuery version and shims HTML5 and media query support.' )
                                     )
                     ,   default:    false
@@ -282,7 +319,9 @@ class AppGenerator extends Generator
                         type:       'confirm'
                     ,   name:       'demo'
                     ,   message:    (
-                                        'Would you like the demo app now?'
+                                        'Would you like the '
+                                    +   chalk.green( 'demo app' )
+                                    +   ' now?'
                                     +   chalk.gray( ' - if not, you can always get it later through `' )
                                     +   chalk.yellow( 'yo bat:demo ' )
                                     +   chalk.gray( '`.' )
