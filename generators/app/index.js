@@ -309,14 +309,17 @@ class AppGenerator extends Generator
 
     configuring ()
     {
-        var data                        = this.templateData
-        ,   localeDefaultOrig           = data.i18nLocaleDefault
+        var data                            = this.templateData
+        ,   locale
+        ,   localeOverride
         ;
 
         if ( data.i18n )
         {
-            data.i18nLocaleDefaultLanguage  = tags( data.i18nLocaleDefault ).language().descriptions()[0];
-            data.i18nLocaleDefaultRegion    = tags( data.i18nLocaleDefault ).region().format();
+            locale                          = tags( data.i18nLocaleDefault );
+
+            data.i18nLocaleDefaultLanguage  = locale.language().descriptions()[0];
+            data.i18nLocaleDefaultRegion    = locale.region().format();
         }
 
         if ( data.jqueryCdn )
@@ -324,9 +327,9 @@ class AppGenerator extends Generator
             data.jqueryExpose               = false;
         }
 
-        data.copyrightYear              = new Date().getFullYear();
-        data.packageDescription         = data.description;
-        data.backbone                   = ( this.config.get( 'backbone' ) || { className: 'Backbone', modulePath: 'backbone' } );
+        data.copyrightYear                  = new Date().getFullYear();
+        data.packageDescription             = data.description;
+        data.backbone                       = ( this.config.get( 'backbone' ) || { className: 'Backbone', modulePath: 'backbone' } );
 
         //
         //  Save a '.yo-rc.json' config file.
@@ -337,22 +340,40 @@ class AppGenerator extends Generator
 
         this.config.set(
             {
-                'generator-version':    this.pkg.version
+                'generator-version':        this.pkg.version
 
-            ,   ie8:                    data.ie8
-            ,   i18n:                   data.i18n
-            ,   jqueryCdn:              data.jqueryCdn
-            ,   jqueryExpose:           data.jqueryExpose
+            ,   ie8:                        data.ie8
+            ,   i18n:                       data.i18n
+            ,   i18nLocaleDefault:          data.i18nLocaleDefault
+            ,   jqueryCdn:                  data.jqueryCdn
+            ,   jqueryExpose:               data.jqueryExpose
 
-            ,   backbone:               data.backbone
+            ,   backbone:                   data.backbone
             }
         );
 
-        if ( data.i18n )
+        if ( data.demo )
         {
-            //  Save the intended default locale if any.
             //
-            this.config.set( 'i18nLocaleDefault',   localeDefaultOrig || data.i18nLocaleDefault );
+            //  Override some settings when a demo app is wanted right now; avoids conflicts.
+            //  Do not persist them to the config here so that the demo generator is still able to warn about the changes.
+            //
+
+            //  The demo app needs internationalization.
+            //
+            localeOverride                  = tags( 'en-GB' );
+
+            data.i18n                       = true;
+            data.i18nLocaleDefault          = localeOverride.format();
+            data.i18nLocaleDefaultLanguage  = localeOverride.language().descriptions()[0];
+            data.i18nLocaleDefaultRegion    = localeOverride.region().format();
+
+            //  The demo app needs jQuery to be exposed on the global scope for Bootstrap to find.
+            //
+            if ( !( data.jqueryCdn ))
+            {
+                data.jqueryExpose           = true;
+            }
         }
     }
 
