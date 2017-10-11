@@ -59,6 +59,7 @@
     "prebuild": "rm -rf \"${npm_package_config_dist}\"",
     "predist": "npm run build",
     "prepublishOnly": "npm run dist",
+    "refresh": "set -x; npm prune && npm install && npm dedupe",
     "release": "standard-version",
     "test": "command -v grunt > /dev/null || { echo >&2 'It appears that \"grunt\" is not installed.  Consider running \"[sudo ]npm install -g grunt-cli\" first.'; exit ; } && grunt test"
   },

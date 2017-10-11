@@ -491,6 +491,11 @@ class AppGenerator extends Generator
                     //  Third-party, external libraries:
 
                 ,   'vendor'
+
+                    //  Version-controlled git hooks
+
+                ,   '.git/hooks'
+                ,   '.git-hooks'
                 ]
             ;
 
@@ -589,6 +594,9 @@ class AppGenerator extends Generator
                 ,   'test/unit/spec/models/settings-environment.spec.coffee'
                 ,   'test/unit/spec/trivial.spec.coffee'
 
+                    //  Version controlled git hook scripts.
+
+                ,   '@.git-hooks/git-hook-on-npm-lockfile-change.sh'
                 ]
             ;
 
@@ -638,6 +646,13 @@ class AppGenerator extends Generator
             //
 
             this._symLink( 'settings/testing.json', 'test/unit/asset/settings.json' );
+
+            //
+            //  Symlink git hooks:
+            //
+
+            this._symLink( '.git-hooks/git-hook-on-npm-lockfile-change.sh', '.git/hooks/post-checkout' );
+            this._symLink( '.git-hooks/git-hook-on-npm-lockfile-change.sh', '.git/hooks/post-merge' );
 
         }
         )();

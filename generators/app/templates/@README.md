@@ -31,7 +31,9 @@ Clone this repository somewhere, switch to it, then:
 $ git config commit.template ./.gitmessage
 # ... Set up any local tracking branches in addition to the default one.  Depends on the branching model used, if any;
 # ... Initialize your branching model tools, if need be ... ex: `git flow init -d`;
-$ npm install
+$ ( cd ./.git/hooks && ln -s ../../.git-hooks/git-hook-on-npm-lockfile-change.sh post-checkout )
+$ ( cd ./.git/hooks && ln -s ../../.git-hooks/git-hook-on-npm-lockfile-change.sh post-merge )
+$ npm run refresh
 ```
 
 This will:
@@ -40,7 +42,10 @@ This will:
     detailed, meaningful [CHANGELOG](./CHANGELOG.md) can be constructed automatically;
   * _\[... Ensure you have local ... and ... branches tracking their respective remote counterparts;\]_
   * _\[... Set up the ... [branching model](#branching-model);\]_
-  * Install all required dependencies;
+  * Set up two [git hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) to ensure that your `node_modules` will be synced with the
+    [`package-lock.json`](https://docs.npmjs.com/files/package-lock.json) dependency tree definition whenever a `git merge` or -`checkout` causes it to
+    change.
+  * Install all required dependencies, pruned and deduplicated;
 
 
 ### Build
@@ -110,8 +115,8 @@ This project uses [`conventional-changelog/standard-version`](https://github.com
 [CHANGELOG](./CHANGELOG.md) management.
 
 To make this work, *please* ensure that your commit messages adhere to the
-[Commit Message Format](https://github.com/bcoe/conventional-changelog-standard/blob/master/convention.md#commit-message-format).  Setting your `git config` to
-have the `commit.template` as referenced below will help you with [a detailed reminder](.gitmessage) of how to do this on every `git commit`.
+[Commit Message Format](https://github.com/bcoe/conventional-changelog-standard/blob/master/convention.md#commit-message-format).  Setting your `git config`
+to have the `commit.template` as referenced below will help you with [a detailed reminder](.gitmessage) of how to do this on every `git commit`.
 
 ```bash
 $ git config commit.template ./.gitmessage
@@ -120,8 +125,8 @@ $ git config commit.template ./.gitmessage
 
 ### Release
 
-_\[Here, you might want to say something about your release- and versioning strategy.  Likely, this is related to what you chose for a branching model.  At the
-very least it should include:\]_
+_\[Here, you might want to say something about your release- and versioning strategy.  Likely, this is related to what you chose for a branching model.  At
+the very least it should include:\]_
 
   * Determine what your next [semver](https://docs.npmjs.com/getting-started/semantic-versioning#semver-for-publishers) `<version>` should be:
 
