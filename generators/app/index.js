@@ -702,7 +702,7 @@ class AppGenerator extends Generator
             '\n'
         +   'Running a number of "'
         +   chalk.yellow( 'npm install ' + chalk.cyan( '<package>' ) + ' --save' + chalk.cyan( '[' ) + '-dev' + chalk.cyan( ']' ))
-        +   '"s for you to install required dependencies.'
+        +   '"s for you to install required dependencies...\n'
         ));
 
         this.npmInstall( devDeps,   { saveDev:  true } );

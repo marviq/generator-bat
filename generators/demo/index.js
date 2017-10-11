@@ -202,9 +202,22 @@ class DemoGenerator extends Generator
 
             if ( !( data.i18n )) { return; }
 
-            var deps        = [ 'madlib-locale' ];
+            var pkgPath     = this.destinationPath( 'package.json' )
+            ,   fs          = this.fs
+            ,   npm         = fs.readJSON( pkgPath )
+            ,   dep         = 'madlib-locale'
+            ;
 
-            this.npmInstall( deps,      { save:     true } );
+            if ( npm.dependencies[ dep ] ) { return; }
+
+            this.log( chalk.bold(
+                '\n'
+            +   'Running "'
+            +   chalk.yellow( 'npm install ' + chalk.cyan( dep ) + ' --save' )
+            +   '" for you to install required dependencies...\n'
+            ));
+
+            this.npmInstall( [ dep ],      { save:     true } );
         }
         )();
 
