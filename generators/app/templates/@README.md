@@ -41,7 +41,6 @@ This will:
   * _\[... Ensure you have local ... and ... branches tracking their respective remote counterparts;\]_
   * _\[... Set up the ... [branching model](#branching-model);\]_
   * Install all required dependencies;
-  * The latter command will also invoke `grunt` (no args) for you, creating a production build in `./dist` (plus artifacts);
 
 
 ### Build
