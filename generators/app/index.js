@@ -594,6 +594,13 @@ class AppGenerator extends Generator
         {
             if ( this.templateData.demo )
             {
+                this.log( chalk.bold(
+                    '\n'
+                +   'Composing in the '
+                +   chalk.yellow( 'bat:demo' )
+                +   ' generator...\n'
+                ));
+
                 this.composeWith( 'bat:demo' );
             }
         }
