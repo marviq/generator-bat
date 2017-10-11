@@ -167,6 +167,21 @@ class AppGenerator extends Generator
                 [
                     {
                         type:       'input'
+                    ,   name:       'iKnowWhatImDoing'
+                    ,   message:    chalk.redBright(
+                                        chalk.inverse( ' Whoa there!!  It would appear that your target directory is not empty! ' )
+                                    +   '  Type "YES" if you would like to proceed anyway.'
+                                    )
+                    ,   default:    ''
+                    ,   validate:   ( iKnowWhatImDoing ) =>
+                                    {
+                                        if ( 'YES' === iKnowWhatImDoing ) { return true; }
+                                        this.env.error( 'Bailing out' );
+                                    }
+                    ,   when:       !( this._isRootSafe() )
+                    }
+                 ,  {
+                        type:       'input'
                     ,   name:       'packageName'
                     ,   message:    (
                                         'What is the name of this '
