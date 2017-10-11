@@ -227,7 +227,9 @@ $ git config commit.template ./.gitmessage
 $ git checkout master
 $ git checkout develop
 $ git flow init -d
-$ npm install
+$ ( cd ./.git/hooks && ln -s ../../.git-hooks/git-hook-on-npm-lockfile-change.sh post-checkout )
+$ ( cd ./.git/hooks && ln -s ../../.git-hooks/git-hook-on-npm-lockfile-change.sh post-merge )
+$ npm run refresh
 ```
 
 This will:
@@ -236,7 +238,10 @@ This will:
     detailed, meaningful [CHANGELOG](./CHANGELOG.md) can be constructed automatically;
   * Ensure you have local `master` and `develop` branches tracking their respective remote counterparts;
   * Set up the git flow [branching model](#branching-model) with default branch names;
-  * Install all required dependencies;
+  * Set up two [git hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) to ensure that your `node_modules` will be synced with the
+    [`package-lock.json`](https://docs.npmjs.com/files/package-lock.json) dependency tree definition whenever a `git merge` or -`checkout` causes it to
+    change.
+  * Install all required dependencies, pruned and deduplicated;
 
 
 ### Commit
@@ -252,8 +257,8 @@ This project uses [`conventional-changelog/standard-version`](https://github.com
 [CHANGELOG](./CHANGELOG.md) management.
 
 To make this work, *please* ensure that your commit messages adhere to the
-[Commit Message Format](https://github.com/bcoe/conventional-changelog-standard/blob/master/convention.md#commit-message-format).  Setting your `git config` to
-have the `commit.template` as referenced below will help you with [a detailed reminder](.gitmessage) of how to do this on every `git commit`.
+[Commit Message Format](https://github.com/bcoe/conventional-changelog-standard/blob/master/convention.md#commit-message-format).  Setting your `git config`
+to have the `commit.template` as referenced below will help you with [a detailed reminder](.gitmessage) of how to do this on every `git commit`.
 
 ```bash
 $ git config commit.template ./.gitmessage
@@ -299,8 +304,8 @@ $ git config commit.template ./.gitmessage
     [`-n`](https://github.com/nvie/gitflow/wiki/Command-Line-Arguments#git-flow-release-finish--fsumpkn-version) was for).  This is done because
     `npm run release` has already tagged its own commit.
 
-    I believe that in practice, this won't make a difference for the use of `git flow`; and ensuring it's done the other way round instead would render the use
-    of `conventional-changelog` impossible.
+    I believe that in practice, this won't make a difference for the use of `git flow`; and ensuring it's done the other way round instead would render the
+    use of `conventional-changelog` impossible.
 
 
 ### Publish
