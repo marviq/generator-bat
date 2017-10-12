@@ -1,0 +1,41 @@
+{
+    "name":                         "nl-NL"
+,   "phrases":
+    {
+        "i18n-value":               "Waarde"
+    ,   "i18n-type":                "Type"
+    ,   "i18n-date":                "Datum"
+    ,   "i18n-text":                "Tekst"
+    ,   "i18n-exampleText":         "Deze tekst is in het Nederlands"
+    ,   "i18n-number":              "Getallen"
+    ,   "i18n-money":               "Bedragen"
+    }
+,   "formatting":
+    {
+        "number":
+        {
+            "decimalMarker":        ","
+        ,   "thousandMarker":       "."
+        ,   "precision":            3
+        }
+    ,   "datetime":
+        {
+            "date":                 "DD-MM-YYYY"
+        ,   "datetime":             "DD-MM-YYYY HH:mm"
+        }
+    ,   "money":
+        {
+            "default":              "euro"
+        ,   "euro":
+            {
+                "sign":             "\u20AC"
+            ,   "precision":        2
+            }
+        ,   "dollar":
+            {
+                "sign":             "$"
+            ,   "precision":        2
+            }
+        }
+    }
+}

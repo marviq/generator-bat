@@ -1,159 +1,244 @@
-var yeoman  = require( "yeoman-generator" )
-,   yosay   = require( "yosay" )
-,   path    = require( "path" )
-,   varname = require( "varname" )
-,   fs      = require( "fs" )
-;
+'use strict';
 
-// Get the current running directory name
 //
-var fullPath        = process.cwd()
-,   folderName      = fullPath.split( '/' ).pop()
-,   rootLocation    = fullPath
+//  Yeoman bat:view sub-generator.
+//
+
+var Generator       = require( 'yeoman-generator' )
+,   yosay           = require( 'yosay' )
+,   youtil          = require( './../../lib/youtil.js' )
+,   _               = require( 'lodash' )
 ;
 
-
-module.exports = yeoman.generators.Base.extend(
+class ViewGenerator extends Generator
 {
-    // Function is used to determine if we are currently in the root off the project
-    // if not, try to find the root and change to that directory
-    //
-    determineRoot: function()
+    constructor ()
     {
-        var callback        = this.async()
-        ,   rootFound       = false 
-        ,   tries           = 0
+        super( ...arguments );
+
+        this.description    = this._description( 'backbone view' );
+
+        this.argument(
+            'viewName'
+        ,   {
+                type:           String
+            ,   required:       false
+            ,   desc:           'The name of the view to create.'
+            }
+        );
+
+        //  Also add 'viewName' as a - hidden - option, defaulting to the positional argument's value.
+        //  This way `_promptsPruneByOptions()` can filter away prompting for the view name too.
+        //
+        this.option(
+            'viewName'
+        ,   {
+                type:           String
+            ,   desc:           'The name of the view to create.'
+            ,   default:        this.viewName
+            ,   hide:           true
+            }
+        );
+
+        //  Normal options.
+        //
+        this.option(
+            'description'
+        ,   {
+                type:           String
+            ,   desc:           'The purpose of this view.'
+            }
+        );
+
+        this.option(
+            'sass'
+        ,   {
+                type:           Boolean
+            ,   desc:           'Whether this view should have a SASS file of its own.'
+            }
+        );
+    }
+
+    initializing ()
+    {
+        this._assertBatApp();
+
+        //  Container for template expansion data.
+        //
+        this.templateData = {};
+    }
+
+    prompting ()
+    {
+        //  Ask only those question that have not yet been provided with answers via the command line.
+        //
+        var prompts = this._promptsPruneByOptions(
+                [
+                    {
+                        type:       'input'
+                    ,   name:       'viewName'
+                    ,   message:    'What is the name of this view you so desire?'
+                    ,   default:    _.camelCase( youtil.definedToString( this.options.viewName ))
+                    ,   validate:   youtil.isIdentifier
+                    ,   filter:     ( value ) => ( _.camelCase( _.lowerFirst( _.trim( value ).replace( /view$/i, '' ))) )
+                    }
+                ,   {
+                        type:       'input'
+                    ,   name:       'description'
+                    ,   message:    'What is the purpose (description) of this view?'
+                    ,   validate:   youtil.isNonBlank
+                    ,   filter:     youtil.sentencify
+                    }
+                ,   {
+                        type:       'confirm'
+                    ,   name:       'sass'
+                    ,   message:    'Should this view have a a SASS file of its own?'
+                    ,   default:    true
+                    ,   validate:   _.isBoolean
+                    }
+                ]
+            )
         ;
 
-        if( fs.existsSync( "src" ) === false )
+        if ( prompts.length )
         {
-            while( rootFound === false && tries < 10 )
-            {
-                // Split old path
-                //
-                var previousLocation = rootLocation.split( "/" );
-
-                // Pop the last folder from the path
-                //  
-                previousLocation.pop();
-
-                // Create the new path and open it
-                //
-                rootLocation = previousLocation.join( "/" );
-                
-                // Change the process location
-                //
-                process.chdir( rootLocation );
-                
-                // Check if we found the project root, up the counter
-                // we should stop looking some time.....
-                //
-                rootFound = fs.existsSync( "src" );
-                tries++;
-            }
-
-            // If we couldn't find the root, let the user know and exit the proces...
+            //  Have Yeoman greet the user.
             //
-            if( rootFound == false )
-            {
-                yeoman.log( "Failed to find root of the project, check that you are somewhere within your project." );
-                process.exit();
-            }
+            this.log( yosay( 'So you want a BAT view?' ) );
+
+            return (
+                this
+                    .prompt( prompts )
+                    .then( ( answers ) => { _.extend( this.templateData, answers ); } )
+            );
         }
-
-        callback();
     }
 
-,   askSomeQuestions: function ()
+    configuring ()
     {
-        // This is async 
-        //
-        var callback = this.async();
+        var data        = this.templateData
+        ,   viewName    = data.viewName
+        ;
 
-        // Have Yeoman greet the user.
-        //
-        this.log( yosay( "So you want an BAT view?" ) );
+        _.extend(
+            data
+        ,   {
+                className:          _.upperFirst( viewName ) + 'View'
+            ,   cssClassName:       _.kebabCase( viewName ) + '-view'
+            ,   fileBase:           _.kebabCase( _.deburr( viewName ))
 
-        // Ask the user for the webapp details
+            ,   userName:           this.user.git.name()
+
+            ,   backbone:           ( this.config.get( 'backbone' ) || { className: 'Backbone', modulePath: 'backbone' } )
+            }
+        );
+    }
+
+    writing ()
+    {
+        //  createView:
         //
-        var prompts = [
+        ( () =>
+        {
+            var data        = this.templateData
+            ,   templates   =
+                {
+                    'view.hbs':     [ 'src/views/' + data.fileBase + '.hbs' ]
+                ,   'view.coffee':  [ 'src/views/' + data.fileBase + '.coffee' ]
+                }
+            ;
+
+            if ( data.sass )
             {
-                name:       "viewName"
-            ,   message:    "What's the name of this view you so desire? ( use camelcasing! )"
+                templates[ 'view.sass' ] = [ 'src/sass/views/_' + data.fileBase + '.sass' ];
             }
-        ,   {
-                name:       "description"
-            ,   message:    "What's the description for this view?"
-            ,   default:    "No description given...."
-            }
-        ,   {
-                type:       "confirm"
-            ,   name:       "sassFile"
-            ,   message:    "Would you like an SASS file for this view?"
-            ,   default:    true
-            }
-        ];
 
-        // Ask the question and when done make answers available
-        // on the this scope. This way they are reachable in the template
-        // function for example
-        //
-        this.prompt( prompts, function( props )
-        {
-            this.viewName       = props.viewName;
-            this.description    = props.description;
-                
-            // Convert the filename to dashes instead of camel casing
-            //
-            this.fileName       = varname.dash( this.viewName )
-
-            // Classnames are uppercase by convention
-            //
-            this.className      = props.viewName.charAt( 0 ).toUpperCase() + props.viewName.slice( 1 );
-
-            // Whether the user wants a sass file or not
-            //
-            this.sassFile       = props.sassFile;
-
-            // Call the callback so yeoman knows this async function is done
-            //
-            callback();
-
-        }.bind( this ) );
+            this._templatesProcess( templates );
+        }
+        )();
     }
 
-,   createView: function( obj )
+    install ()
     {
-        // Create the views coffee file and handlebars template file
+        //  updateViewsSass:
         //
-        this.template( "view.hbs",      "src/views/" + this.fileName + ".hbs"  );
-        this.template( "view.coffee",   "src/views/" + this.fileName + ".coffee" );
-
-        // Check if a sass file should be created for this view
-        //
-        if( this.sassFile === true )
+        ( () =>
         {
-            // Avoid the conflict warning and use force for the write
+            /* jshint laxbreak: true */
+
+            var data = this.templateData;
+
+            if ( !( data.sass )) { return; }
+
+            //
+            //  Add an `@import "views/_<fileBase>" statement to the '_views.sass' file.
+            //
+
+            var viewsPath   = 'src/sass/_views.sass'
+            ,   fs          = this.fs
+            ,   views       = fs.read( viewsPath )
+            ,   statement   = '@import "views/_' + data.fileBase + '"'
+            ;
+
+            //  Look for a place to insert, preferably at an alfanumerically ordered position.
+            //  Do nothing if an `@import` for this sass file seems to exist already.
+            //
+            var insertAt, indent, match, matcher = /^([ \t]*)(@import.*)/mg;
+
+            while ( (( match = matcher.exec( views ) )) )
+            {
+                if ( statement > match[ 2 ] )
+                {
+                    //  Use indent of the (possibly) preceding line.
+                    //
+                    indent      = match[ 1 ];
+                    continue;
+                }
+
+                if ( statement < match[ 2 ] )
+                {
+                    insertAt    = match.index;
+                    break;
+                }
+
+                this.log(
+                    'It appears that "' + viewsPath + '" already contains an `@import` for "' + data.fileBase + '.sass".\n'
+                +   'Leaving it untouched.'
+                );
+
+                return;
+            }
+
+            //  Avoid the conflict warning and use force for the write
             //
             this.conflicter.force = true;
 
-            // Create the sass file with the same name as the view
-            //
-            this.template( "view.sass", "src/sass/views/_" + this.fileName + ".sass" );
-
-            // Read in the _views.sass file so we can add the import statement
-            // for the newly created sass file
-            //
-            var views   = this.readFileAsString( "src/sass/_views.sass" )
-            ,   insert  = '@import "views/_' + this.fileName + '"';
-
-            // Check if there isn't already in import for this file
-            // just in case....
-            //
-            if( views.indexOf( insert ) === -1 )
+            if ( indent == null )
             {
-                this.write( "src/sass/_views.sass", views + "\n" + insert );
+                //  First @import; use indent of the following line, if any.
+                //
+                indent = match ? match[ 1 ] : '';
+            }
+
+            if ( insertAt == null )
+            {
+                //  Append at end of file; Take care of possibly missing trailing newline.
+                //
+                fs.write( viewsPath, views + (( views.length && views.slice( -1 ) !== '\n' ) ? '\n' : '' ) + indent + statement + '\n' );
+            }
+            else
+            {
+                fs.write( viewsPath, views.slice( 0, insertAt ) + indent + statement + '\n' + views.slice( insertAt ) );
             }
         }
+        )();
     }
-} );
+}
+
+_.extend(
+    ViewGenerator.prototype
+,   require( './../../lib/generator.js' )
+,   require( './../../lib/sub-generator.js' )
+);
+
+module.exports = ViewGenerator;

@@ -1,44 +1,148 @@
 ( ( factory ) ->
-    if typeof exports is "object"
+    if typeof exports is 'object'
         module.exports = factory(
-            require "backbone"
-            require "jquery"
-            require "./<%= fileName %>.hbs"
+            require( '<%- backbone.modulePath %>' )
+
+            require( './<%- fileBase %>.hbs' )
         )
-    else if typeof define is "function" and define.amd
+    else if typeof define is 'function' and define.amd
         define( [
-            "backbone"
-            "jquery"
-            "./<%= fileName %>.hbs"
+            '<%- backbone.modulePath %>'
+
+            './<%- fileBase %>.hbs'
         ], factory )
+    return
+)((
+    <%- backbone.className %>
 
-)( ( Backbone, $, template ) ->
+    template
+) ->
+
     ###*
-    #   <%= description %>
-    #
-    #   @author         <%= user.git.username %>
-    #   @class          <%= className %>View
-    #   @extends        Backbone.View
-    #   @moduletype     view
-    #   @constructor
-    #   @version        0.1
+    #   @author         <%- userName %>
+    #   @module         App
+    #   @submodule      Views
     ###
-    class <%= className %>View extends Backbone.View
 
-        # We need to expose our name to the router
+    'use strict'
+
+
+    ###*<% if ( description ) { %>
+    #   <%- description %>
+    #<% } %>
+    #   @class          <%- className %>
+    #   @extends        <%- backbone.className %>.View
+    #   @constructor
+    ###
+
+    class <%- className %> extends <%- backbone.className %>.View
+
+        ###*
+        #   Expose this view's name to the router.
         #
-        viewName:   "<%= viewName %>"
-        className:  "<%= fileName %>-view"
+        #   @property       viewName
+        #   @type           String
+        #   @final
+        #
+        #   @default        '<%- viewName %>'
+        ###
 
-        initialize: () ->
-            # placeholder
+        viewName:           '<%- viewName %>'
+
+
+        ###*
+        #   CSS class(es) to set on this view's root DOM element.
+        #
+        #   @property       className
+        #   @type           String
+        #   @final
+        #
+        #   @default        '<%- cssClassName %>'
+        ###
+
+        className:          '<%- cssClassName %>'
+
+
+        ###*
+        #   The compiled handlebars template expander function.
+        #
+        #   @property       template
+        #   @type           Function
+        #   @protected
+        #   @final
+        ###
+
+        template:           template
+
+
+        ###*
+        #   Delegated DOM event handler definition.
+        #
+        #   Format:
+        #
+        #   ```coffee
+        #       '<event>[ <selector>]': '<methodName>' || <Function>
+        #       ...
+        #   ```
+        #
+        #   @property       events
+        #   @type           Object
+        #   @final
+        ###
+
+        events:             undefined
+
+
+        ###*
+        #   @method         initialize
+        #   @protected
+        #
+        #   @param          {Object}            options                 The options object passed through from the constructor.
+        ###
+
+        initialize: ( options ) ->
+
+            ##
+            ##  This would be a good place to do any set up work.
+            ##  This method may be removed altogether if none needed.
+            ##
+            ##  If you are not going to use the `options` parameter, remove it or jshint will complain.
+            ##  Alternatively, leave in the jshint directive below:
+            ##
+
+            ### jshint  unused: false   ###
+
+            return
+
+
+        ###*
+        #   @method         render
+        #
+        #   @chainable
+        ###
 
         render: () ->
 
-            @$el.html( template() )
+            ##  Expand the handlebars template into this view's container element.
+            ##
+            @$el.html( @template( @renderData() ) )
 
-            # By convention always return this so people can chain functions
-            # for example grab the .el after rendering ;-)
-            #
+            ##  This method is chainable.
+            ##
             return @
+
+
+        ###*
+        #   Collect and return all data needed to expand the handlebars `@template` with.
+        #
+        #   @method         renderData
+        #   @protected
+        #
+        #   @return         {Object}
+        ###
+
+        renderData: () ->
+
+            return {}
+
 )

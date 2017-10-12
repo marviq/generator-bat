@@ -1,33 +1,92 @@
 ( ( factory ) ->
-    if typeof exports is "object"
+    if typeof exports is 'object'
         module.exports = factory(
-            require "q"
-            require "backbone"
-        )
-    else if typeof define is "function" and define.amd
-        define( [
-            "q"
-            "backbone"
-        ], factory )
+            require( '<%- backbone.modulePath %>' )<% if ( api ) { %>
 
-)( ( Q, Backbone ) ->
+            require( './../apis/<%- api.path %>' )<% } %>
+        )
+    else if typeof define is 'function' and define.amd
+        define( [
+            '<%- backbone.modulePath %>'<% if ( api ) { %>
+
+            './../apis/<%- api.path %>'<% } %>
+        ], factory )
+    return
+)((
+    <%- backbone.className %><% if ( api ) { %>
+
+    api<% } %>
+) ->
 
     ###*
-    #   <%= description %>
-    #
-    #   @author <%= user.git.username %>
-    #   @class <%= className %>Model
-    #   @static
-    #   @extends Backbone.Model
-    #   @moduletype model
-    #   @version 0.1
+    #   @author         <%- userName %>
+    #   @module         App
+    #   @submodule      Models
     ###
-    class <%= className %>Model extends Backbone.Model
+
+    'use strict'
 
 
-<% if( singleton === true ) { %>
-    my<%= className %>Model = new <%= className %>Model()
-    return my<%= className %>Model
-<% } %>
+    ###*<% if ( description ) { %>
+    #   <%- description %>
+    #<% } %>
+    #   @class          <%- className %>
+    #   @extends        <%- backbone.className %>.Model<% if ( singleton ) { %>
+    #   @static<% } else { %>
+    #   @constructor<% } %>
+    ###
+
+    class <%- className %> extends <%- backbone.className %>.Model
+
+        ###*
+        #   List of [valid attribute names](#attrs).
+        #
+        #   @property       schema
+        #   @type           Array[String]
+        #   @final
+        ###
+
+        ###*
+        #   The `<%- className %>`'s unique identifier.
+        #
+        #   @attribute      id
+        #   @type           String
+        ###
+
+        schema: [
+
+            'id'
+        ]
+
+
+        ###*
+        #   Default attribute values.
+        #
+        #   @property       defaults
+        #   @type           Object
+        #   @final
+        ###
+
+        defaults:           {}<% if ( api ) { %>
+
+
+        ###*
+        #   Service API endpoint; defined in the {{#crossLink '<%- api.className %>/<%- modelName %>:attribute'}}`<%- api.className %>`{{/crossLink}}.
+        #<% if ( singleton ) { %>
+        #   @property       url<% } else { %>
+        #   @property       urlRoot<% } %>
+        #   @type           ApiServiceModel
+        #   @final
+        #
+        #   @default        '<<%- api.className %>.url>/<%- service %>'
+        ###
+<% if ( singleton ) { %>
+        url:                api.get( '<%- modelName %>' )<% } else { %>
+        urlRoot:            api.get( '<%- modelName %>' )<% } %><% } %><% if ( singleton ) { %>
+
+
+    ##  Export singleton.
+    ##
+    return new <%- className %>()<% } %>
 
 )

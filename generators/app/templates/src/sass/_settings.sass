@@ -1,22 +1,44 @@
-// All variables and loading of mixins should be done here
+
+//
+//  Define only variables and mixins here.
+//
+//  Variable definitions are best done in a corresponding 'settings/*' section.
 //
 
+//
+//  Compass's mixins and variables definitions.
+//
 
-// Load default compass mixins
-//
-@import "compass/utilities/general/clearfix"
-@import "compass/utilities/general/hacks"
-@import "compass/css3"
-@import "compass/css3/box-shadow"
-@import "compass/css3/user-interface"
+@import "settings/_compass"
 
-// Setup the automatic spriting
+
 //
-// Want to use a sprite?
-// Step 1: Add the image to the sprites folder
-// Step 2: Use example:  "background: sprite( $sprites-sprite, name-of-file-without-extension ) no-repeat"
-// Step 3: Sit back and relax, when compass compiles it generates the sprite for you and
-//         does the heavy lifting for you....
+//  Font definitions.
 //
-$sprites-path:    "images/sprites/"
-$sprites-sprite:  sprite-map( "sprites/*.png" )
+
+@import "settings/_fonts"
+
+
+//
+//  Icon definitions.
+//
+
+@import "settings/_icons"
+
+
+//
+//  App variables definitions.
+//
+
+@import "settings/_layout"
+
+//  ... add more as needed...
+
+
+//
+//  Framework variable defaults.
+//
+
+//  For instance:
+//
+//  @import "settings/_bootstrap"

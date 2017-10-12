@@ -1,44 +1,130 @@
 ( ( factory ) ->
-    if typeof exports is "object"
+    if typeof exports is 'object'
         module.exports = factory(
-            require "backbone"
-            require "jquery"
-            require "./index.hbs"
-        )
-    else if typeof define is "function" and define.amd
-        define( [
-            "backbone"
-            "jquery"
-            "./index.hbs"
-        ], factory )
+            require( '<%- backbone.modulePath %>' )
 
-)( ( Backbone, $, template ) ->
+            require( './index.hbs' )
+        )
+    else if typeof define is 'function' and define.amd
+        define( [
+            '<%- backbone.modulePath %>'
+
+            './index.hbs'
+        ], factory )
+    return
+)((
+    <%- backbone.className %>
+
+    template
+) ->
+
+    ###*<% if ( authorName ) { %>
+    #   @author         <%- authorName %><% } %>
+    #   @module         App
+    #   @submodule      Views
+    ###
+
+    'use strict'
+
+
     ###*
     #   Default index view of BAT
     #
-    #   @author         <%= user.git.username %>
     #   @class          IndexView
-    #   @extends        Backbone.View
+    #   @extends        <%- backbone.className %>.View
     #   @constructor
-    #   @version        0.1
     ###
-    class IndexView extends Backbone.View
 
-        # We need to expose our name to the router
+    class IndexView extends <%- backbone.className %>.View
+
+        ###*
+        #   Expose this view's name to the router.
         #
-        viewName:   "index"
-        className:  "index-view"
+        #   @property       viewName
+        #   @type           String
+        #   @final
+        #
+        #   @default        'index'
+        ###
 
-        initialize: () ->
-            # Add the pre-compiled handlebars template to our element
-            # or do that in your render that's up to you...
-            #
-            @$el.append( template() )
+        viewName:           'index'
+
+
+        ###*
+        #   CSS class(es) to set on this view's root DOM element.
+        #
+        #   @property       className
+        #   @type           String
+        #   @final
+        #
+        #   @default        'index-view'
+        ###
+
+        className:          'index-view'
+
+
+        ###*
+        #   The compiled handlebars template expander function.
+        #
+        #   @property       template
+        #   @type           Function
+        #   @protected
+        #   @final
+        ###
+
+        template:           template
+
+
+        ###*
+        #   @method         initialize
+        #   @protected
+        #
+        #   @param          {Object}            options                 The options object passed through from the constructor.
+        ###
+
+        initialize: ( options ) ->
+
+            ##
+            ##  This would be a good place to do any set up work.
+            ##  This method may be removed altogether if none needed.
+            ##
+            ##  If you are not going to use the `options` parameter, remove it or jshint will complain.
+            ##  Alternatively, leave in the jshint directive below:
+            ##
+
+            ### jshint  unused: false   ###
+
+            return
+
+
+        ###*
+        #   @method         render
+        #
+        #   @chainable
+        ###
 
         render: () ->
 
-            # By convention always return this so people can chain functions
-            # for example grab the .el after rendering ;-)
-            #
+            ##  Expand the handlebars template into this view's container element.
+            ##
+            @$el.html( @template( @renderData() ) )
+
+            ##  This method is chainable.
+            ##
             return @
+
+
+        ###*
+        #   Collect and return all data needed to expand the handlebars `@template` with.
+        #
+        #   @method         renderData
+        #   @protected
+        #
+        #   @return         {Object}
+        ###
+
+        renderData: () ->
+
+            return {}
+
 )

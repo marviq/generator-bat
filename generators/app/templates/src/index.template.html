@@ -1,0 +1,72 @@
+<!DOCTYPE html><%
+
+    var buildRun = 'build-run=' + encodeURIComponent( buildRun );
+
+%>
+<html class="<%- npm.pkg.name %>"<@ if ( i18n ) { @> lang="<@= i18nLocaleDefault @>"<@ } @>>
+<head><%
+
+    //
+    //  Why the initial three `<meta ... >` tags need to be as they are, in this order:
+    //
+    //    * 'charset' and 'X-UA-Compatible' :
+    //
+    //      https://github.com/h5bp/html5-boilerplate/blob/master/src/doc/html.md#the-order-of-the-title-and-meta-tags
+    //
+    //    * 'viewport'
+    //
+    //      https://developers.google.com/web/fundamentals/layouts/rwd-fundamentals/set-the-viewport
+    //      https://github.com/h5bp/html5-boilerplate/blob/master/src/doc/html.md#mobile-viewport
+    //      https://docs.google.com/present/view?id=dkx3qtm_22dxsrgcf4
+    //      http://webdesign.tutsplus.com/articles/quick-tip-dont-forget-the-viewport-meta-tag--webdesign-5972
+    //
+
+    %>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%- npm.pkg.name %></title>
+    <meta name="description" content="<%- npm.pkg.description %>">
+
+    <link rel="stylesheet" type="text/css" href="<%- style %>?<%- buildRun %>" /><@ if ( ie8 ) { @><%
+
+    //
+    //  HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries.
+    //
+    //  NOTE: Respond.js doesn't work if you view the page via `file://`.
+    //
+
+    %>
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]--><@ } @><% if ( debugging ) { %>
+
+    <link rel="stylesheet" type="text/css" href="<%- styleBase %>/debug.css?<%- buildRun %>" /><% if ( /^local/.test( environment ) ) { %>
+    <script>
+        //
+        //  Load `livereload` relative to document protocol and host, but on a different port.
+        //  Just having been able to write `<script src="//:35729/livereload.js">` would have been far nicer, but that appears not to be possible.
+        //
+        //  See: http://stackoverflow.com/questions/8317059/relative-path-but-for-port#answer-8317663
+        //
+
+        link            = document.createElement( 'a' );
+        link.href       = document.location.origin;
+
+        link.port       = 35729;
+        link.pathname   = '/livereload.js';
+
+        livereload      = document.createElement( 'script' );
+        livereload.src  = link.href;
+
+        document.head.appendChild( livereload );
+
+    </script><% }} %>
+</head>
+<body>
+    <div id="main-content"></div><@ if ( jqueryCdn ) { @>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/<%- npm.installed.jquery.version %>/jquery.min.js"></script><@ } @>
+    <script src="<%- app %>?<%- buildRun %>"></script>
+</body>
+</html>

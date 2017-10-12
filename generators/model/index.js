@@ -1,143 +1,351 @@
-var yeoman  = require( "yeoman-generator" )
-,   yosay   = require( "yosay" )
-,   path    = require( 'path' )
-,   varname = require( "varname" )
-,   fs      = require( "fs" )
-;
+'use strict';
 
-// Get the current running directory name
 //
-var fullPath        = process.cwd()
-,   folderName      = fullPath.split( '/' ).pop()
-,   rootLocation    = fullPath
+//  Yeoman bat:model sub-generator.
+//
+
+var Generator       = require( 'yeoman-generator' )
+,   yosay           = require( 'yosay' )
+,   youtil          = require( './../../lib/youtil.js' )
+,   chalk           = require( 'chalk' )
+,   glob            = require( 'glob' )
+,   url             = require( 'url' )                      //  https://nodejs.org/api/url.html
+,   _               = require( 'lodash' )
 ;
 
-
-module.exports = yeoman.generators.Base.extend(
+class ModelGenerator extends Generator
 {
-    constructor: function( args, options )
+    constructor ()
     {
-        yeoman.generators.Base.apply( this, arguments );
+        super( ...arguments );
 
-        // Check if any options are passed. Collection generator might be
-        // calling this generator for example
-        if( options ) {
+        this.description    = this._description( 'backbone model' );
 
-            if( options.modelName ) {
-                this.modelName = options.modelName;
+        this.argument(
+            'modelName'
+        ,   {
+                type:           String
+            ,   required:       false
+            ,   desc:           'The name of the model to create.'
             }
+        );
 
-            if( options.description ) {
-                this.description = options.description;
+        //  Also add 'modelName' as a - hidden - option, defaulting to the positional argument's value.
+        //  This way `_promptsPruneByOptions()` can filter away prompting for the model name too.
+        //
+        this.option(
+            'modelName'
+        ,   {
+                type:           String
+            ,   desc:           'The name of the model to create.'
+            ,   default:        this.modelName
+            ,   hide:           true
             }
+        );
 
-            if( typeof( options.singleton) === "boolean" ) {
-                this.singleton = options.singleton;
+        //  Normal options.
+        //
+        this.option(
+            'description'
+        ,   {
+                type:           String
+            ,   desc:           'The purpose of this model.'
             }
-        }
+        );
+
+        this.option(
+            'api'
+        ,   {
+                type:           String
+            ,   desc:           'The name of the API this model should connect to.'
+            }
+        );
+
+        this.option(
+            'service'
+        ,   {
+                type:           String
+            ,   desc:           'The service API endpoint URL this model should connect to (relative to the API\'s base).'
+            }
+        );
+
+        this.option(
+            'singleton'
+        ,   {
+                type:           Boolean
+            ,   desc:           'Whether this model should be a singleton (instance).'
+            }
+        );
     }
 
-
-
-    // Function is used to determine if we are currently in the root off the project
-    // if not, try to find the root and change to that directory
-    //
-,   determineRoot: function()
+    initializing ()
     {
-        var callback        = this.async()
-        ,   rootFound       = false
-        ,   tries           = 0
+        this._assertBatApp();
+
+        //  Find available APIs:
+        //
+        var apis    = this.apis
+                    = {}
+        ,   base    = this.destinationPath( 'src/apis' )
         ;
 
-        if( fs.existsSync( "src" ) === false )
+        glob.sync( '**/*.coffee', { cwd: base } ).forEach(
+
+            ( path ) =>
+            {
+                var pathAbs     = base + '/' + path;
+                var match       = this.fs.read( pathAbs ).match( /@class\s+(\S+)/ );
+
+                if ( !( match ) ) { return; }
+
+                var className   = match[ 1 ]
+                ,   name        = _.lowerFirst( className.replace( /Api$/, '' ))
+                ;
+
+                apis[ name ]   =
+                    {
+                        className:  className
+                    ,   pathAbs:    pathAbs
+                    ,   path:       path
+                    }
+                ;
+            }
+        );
+
+        //  Container for template expansion data.
+        //
+        this.templateData   = {};
+    }
+
+    prompting ()
+    {
+        //  Ask only those question that have not yet been provided with answers via the command line.
+        //
+        var prompts = this._promptsPruneByOptions(
+                [
+                    {
+                        type:       'input'
+                    ,   name:       'modelName'
+                    ,   message:    'What is the name of this model you so desire?'
+                    ,   default:    _.camelCase( youtil.definedToString( this.options.modelName ))
+                    ,   validate:   youtil.isIdentifier
+                    ,   filter:     ( value ) => ( _.camelCase( _.lowerFirst( _.trim( value ).replace( /model$/i, '' ))) )
+                    }
+                ,   {
+                        type:       'input'
+                    ,   name:       'description'
+                    ,   message:    'What is the purpose (description) of this model?'
+                    ,   default:    youtil.definedToString( this.options.description )
+                    ,   validate:   youtil.isNonBlank
+                    ,   filter:     youtil.sentencify
+                    }
+                ,   {
+                        type:       'list'
+                    ,   name:       'api'
+                    ,   message:    'Should this model connect to an API?'
+                    ,   choices:    [ '- none -' ].concat( _.keys( this.apis ))
+                    ,   default:    youtil.definedToString( this.options.api )
+                    ,   validate:   ( value ) => ( value in this.apis )
+                    ,   filter:     ( value ) => ( this.apis[ value ] )
+                    ,   when:       !( _.isEmpty( this.apis ))
+                    }
+                ,   {
+                        type:       'input'
+                    ,   name:       'service'
+                    ,   message:    (
+                                        'To which service API endpoint should this model connect?'
+                                    +   chalk.gray ( ' - please enter a URL relative to the API\'s base.' )
+                                    )
+                    ,   default:    ( answers ) => (
+                                        youtil.definedToString( this.options.service )
+                                    ||  _.kebabCase( _.deburr(
+                                            answers.modelName
+                                        ||  this.templateData.modelName
+                                        ))
+                                    )
+                    ,   validate:   ( value ) => ( value === url.parse( value ).path )
+                    ,   filter:     ( value ) => ( value.replace( /^\/+/, '' ) )
+                    ,   when:       ( answers ) => ( answers.api || this.templateData.api )
+                    }
+                ,   {
+                        type:       'confirm'
+                    ,   name:       'singleton'
+                    ,   message:    'Should this model be a singleton (instance)?'
+                    ,   default:    false
+                    ,   validate:   _.isBoolean
+                    }
+                ]
+            )
+        ;
+
+        if ( prompts.length )
         {
-            while( rootFound === false && tries < 10 )
-            {
-                // Split old path
-                //
-                var previousLocation = rootLocation.split( "/" );
-
-                // Pop the last folder from the path
-                //
-                previousLocation.pop();
-
-                // Create the new path and open it
-                //
-                rootLocation = previousLocation.join( "/" );
-
-                // Change the process location
-                //
-                process.chdir( rootLocation );
-
-                // Check if we found the project root, up the counter
-                // we should stop looking some time.....
-                //
-                rootFound = fs.existsSync( "src" );
-                tries++;
-            }
-
-            // If we couldn't find the root, let the user know and exit the proces...
+            //  Have Yeoman greet the user.
             //
-            if( rootFound === false )
-            {
-                yeoman.log( "Failed to find root of the project, check that you are somewhere within your project." );
-                process.exit();
-            }
-        }
+            this.log( yosay( 'So you want a BAT model?' ) );
 
-        callback();
+            return (
+                this
+                    .prompt( prompts )
+                    .then( ( answers ) => { _.extend( this.templateData, answers ); } )
+            );
+        }
     }
 
-,   askSomeQuestions: function ()
+    configuring ()
     {
-        var callback = this.async();
+        var data            = this.templateData
+        ,   modelName       = data.modelName
+        ;
 
-        // Have Yeoman greet the user.
+        _.extend(
+            data
+        ,   {
+                className:          _.upperFirst( modelName ) + 'Model'
+            ,   fileBase:           _.kebabCase( _.deburr( modelName ))
+
+            ,   userName:           this.user.git.name()
+
+            ,   backbone:           ( this.config.get( 'backbone' ) || { className: 'Backbone', modulePath: 'backbone' } )
+            }
+        );
+    }
+
+    writing ()
+    {
+        //  createModel:
         //
-        if( !this.options.nested ) {
-            this.log( yosay( "So you want an BAT model?" ) );
-
-            // Ask the user for the webapp details
-            //
-            var prompts = [
+        ( () =>
+        {
+            var data        = this.templateData
+            ,   templates   =
                 {
-                    name:       "modelName"
-                ,   message:    "What's the name of this model you so desire? ( use camelcasing! )"
+                    'model.coffee': [ 'src/models/' + data.fileBase + '.coffee' ]
                 }
-            ,   {
-                    name:       "description"
-                ,   message:    "What's the description for this model?"
-                ,   default:    "No description"
-                }
-            ,   {
-                    type:       "confirm"
-                ,   name:       "singleton"
-                ,   message:    'Should this model be a singleton?'
-                ,   default:    false
-                }
-            ];
+            ;
 
-            this.prompt( prompts, function( props )
-            {
-                this.modelName      = props.modelName;
-                this.description    = props.description;
-                this.singleton      = props.singleton;
-
-                callback();
-            }.bind( this ) );
-        } else {
-            callback();
+            this._templatesProcess( templates );
         }
+        )();
     }
 
-,   createModel: function()
+    install ()
     {
-        this.fileName       = varname.dash( this.modelName );
-
-        // Class names start with a capital by convention
+        //  updateApi:
         //
-        this.className      = this.modelName.charAt( 0 ).toUpperCase() + this.modelName.slice( 1 );
+        ( () =>
+        {
+            var data        = this.templateData
+            ,   api         = data.api
+            ,   modelName   = data.modelName
+            ;
 
-        this.template( "model.coffee", "src/models/" + this.fileName + ".coffee" );
+            if ( !( api )) { return; }
+
+            //
+            //  Insert the expanded fragment template into the api collection definition.
+            //  Look for a place to insert, preferably at an alfanumerically ordered position.
+            //  Do nothing if an service API endpoint defintion for this model seems to exist already.
+            //
+
+            var fs          = this.fs
+            ,   collection  = fs.read( api.pathAbs )
+            ,   matcherDec  = /^([ \t]*).*?\bnew\s+ApiServicesCollection\(\s*?(^[ \t]*)?\[[ \t]*(\n)?/m
+            //                  1------1                                      2-------2         3--3
+            ,   match       = collection.match( matcherDec )
+            ;
+
+            if ( !( match ) )
+            {
+                this.log(
+                    'It appears that "' + api.pathAbs + '" does not contains an `ApiServicesCollection`\n'
+                +   'Leaving it untouched.'
+                );
+
+                return;
+            }
+
+            var level       = '    '
+            ,   indent      = (( match[ 2 ] != null ) ? match[ 2 ] : ( match[ 1 ] + level ))
+            ,   insertAt    = match.index + match[ 0 ].length
+            ,   padPre      = match[ 3 ] ? '' : '\n'
+            ,   padPost     = match[ 3 ] ? '' : indent
+            ,   matcherDef  = /^(([ \t]*)([ \t]+))###\*[\s\S]*?^\1###[\s\S]*?^\1id:\s*'([^\]]*?)'[^\]]*?^\2(?:,[ \t]*(\n)?|(?=(\])))/mg
+            //                 ^12======23======31             ^\1           ^\1       4-------4        ^\2          5--5     6--6
+            ;
+
+            //  Start looking for definitions directly after API declaration opening.
+            //
+            matcherDef.lastIndex    = insertAt;
+
+            //  Find a place to insert
+            //
+            while ( (( match = matcherDef.exec( collection ) )) )
+            {
+                level   = match[ 3 ];
+
+                if ( modelName > match[ 4 ] )
+                {
+                    //  Possibly insert after this match.
+                    //
+                    indent      = match[ 2 ];
+                    insertAt    = match.index + match[ 0 ].length;
+                    padPre      = match[ 5 ] ? '' : match[ 6 ] ? ',\n'  : '\n';
+                    padPost     = match[ 5 ] ? '' : indent;
+                    continue;
+                }
+
+                if ( modelName < match[ 4 ] )
+                {
+                    //  Insert before this match.
+                    //
+                    insertAt    = match.index;
+                    padPre      = '';
+                    padPost     = '';
+                    break;
+                }
+
+                this.log(
+                    'It appears that "' + api.pathAbs + '" already contains a service API endpoint definition for "' + data.className + '".\n'
+                +   'Leaving it untouched.'
+                );
+
+                return;
+            }
+
+            //  Avoid conflict warning.
+            //
+            this.conflicter.force   = true;
+
+            //  Expand fragment template and read it back.
+            //
+            var fragmentPath        = 'src/apis/api-service-literal-fragment.coffee'
+            ,   fragmentDst         = this.destinationPath( fragmentPath )
+            ;
+
+            this._templatesProcess( [ [ fragmentPath ] ] );
+
+            var fragment            = fs.read( fragmentDst );
+
+            fs.write(
+                api.pathAbs
+            ,   collection.slice( 0, insertAt )
+            +   padPre
+            +   fragment.replace( /^    /mg, level ).replace( /^(?=.*?\S)/mg, indent )
+            +   padPost
+            +   collection.slice( insertAt )
+            );
+
+            fs.delete( fragmentDst );
+        }
+        )();
     }
-} );
+}
+
+_.extend(
+    ModelGenerator.prototype
+,   require( './../../lib/generator.js' )
+,   require( './../../lib/sub-generator.js' )
+);
+
+module.exports = ModelGenerator;

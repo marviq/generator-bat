@@ -1,27 +1,148 @@
 {
-    "evil":         true
-,   "regexdash":    true
-,   "browser":      true
-,   "wsh":          true
-,   "trailing":     true
-,   "sub":          true
-,   "curly":        true
-,   "laxcomma":     true
-,   "laxbreak":     true
-,   "undef":        true
-,   "jquery":       true
-,   "globals":
-    {
-        "console":      false
-    ,   "Ti":           false
-    ,   "Titanium":     false
-    ,   "Alloy":        false
-    ,   "L":            false
-    ,   "exports":      false
-    ,   "define":       false
-    ,   "require":      false
-    ,   "module":       false
-    ,   "process":      false
-    ,   "__dirname":    false
-    }
+
+//
+//   This is a config file for jshint v2.9.5
+//   http://www.jshint.com/docs/options/
+//
+//   Every option documented is listed here, just to be explicit about *our* defaults.
+//
+//   Note that -- grunt-coffee-jshint -- does not use this file.
+//
+
+//
+//   Below you'll find jshint's "enforcing" options: You'll want most of them set.
+//
+
+    "bitwise":          false   //  Because you want to use the bitwise operators.
+,   "camelcase":        false   //  Because camelCasingSucks.  *** Deprecation warning; about coding style, not correctness.
+,   "curly":            true
+,   "enforceall":       false   //  *** Deprecation warning; too magic.
+,   "eqeqeq":           true
+
+//  "es3"                       //  *** Depreciation warning; replaced with `esversion`.
+//  "es5"                       //  *** Depreciation warning; replaced with `esversion`.
+//  "esnext"                    //  *** Depreciation warning; replaced with `esversion`.
+
+,   "esversion":        6
+,   "forin":            true
+,   "freeze":           true
+,   "futurehostile":    true
+
+//  "globals"                   //  Should be used only inline.
+
+,   "immed":            true    //  *** Deprecation warning; about coding style, not correctness.
+,   "indent":           4       //  *** Deprecation warning; about coding style, not correctnees.
+,   "latedef":          "nofunc"//  Because you want to declare functions after they are used.
+
+//  "max..."                    //  `max*` options have their own section, see below.
+
+,   "newcap":           true    //  *** Deprecation warning; about coding style, not correctnees.
+,   "noarg":            true
+,   "nocomma":          true
+,   "noempty":          false   //  Because you do use empty blocks.  *** Deprecation warning; about coding style, not correctnees.
+,   "nonbsp":           true
+,   "nonew":            true
+
+,   "plusplus":         false   //  Because++.  The documentation list this with the "relaxing" options, but is more appropriately put here.
+
+//  "predef"                    //  They have their own section, see below.
+
+,   "quotmark":         "single"//  Because single quotes are easier; on the eye; to type.  *** Deprecation warning; about coding style, not correctnees.
+
+//  "shadow"                    //  Is more appropriately listed with the "relaxing" options.
+
+,   "singleGroups":     false   //  Because you want to use the grouping operator for readability and clarity.
+,   "strict":           true
+,   "trailingcomma":    false   //  Because you like comma-*first* style.
+,   "undef":            true
+,   "unused":           true
+,   "varstmt":          false   //  Because we have lots of those.
+
+//
+//  Below you'll find jshint's "relaxing" options: You'll want to leave most of them unset.
+//
+
+,   "asi":              false
+,   "boss":             false
+,   "debug":            true    //  Because you want to use `debugger` statements, just not in production code.
+,   "elision":          false
+,   "eqnull":           true    //  Because `== null` makes sense.
+
+//  "esnext"                    //  *** Depreciation warning; replaced with `esversion`.
+
+,   "evil":             false
+,   "expr":             false
+
+,   "funcscope":        false
+
+,   "globalstrict":     false   //  *** Depreciation warning; See `strict`.
+
+,   "iterator":         false
+
+,   "lastsemic":        false
+,   "laxbreak":         true    //  Because, sometimes, you just need a break.  *** Deprecation warning; about coding style, not correctnees.
+,   "laxcomma":         true    //  Because you *like* comma-first style.  *** Deprecation warning; about coding style, not correctnees.
+,   "loopfunc":         false
+,   "moz":              false
+,   "multistr":         false   //  *** Deprecation warning; about coding style, not correctnees.
+,   "notypeof":         false
+,   "noyield":          false
+
+//  "plusplus"                  //  Is more appropriately listed with the "enforcing" options.
+
+,   "proto":            false
+,   "scripturl":        false
+
+,   "shadow":           "outer" //  The documentation lists this with the "enforcing" options, but is more appropriately put here.
+
+,   "sub":              false   //  *** Deprecation warning; about coding style, not correctnees.
+,   "supernew":         false
+,   "validthis":        false
+,   "withstmt":         false
+
+//
+//  These options fall into neither category really, have more to do with coding style actually, and we have no opinion about them either way.
+//
+
+,   "maxcomplexity":    null
+,   "maxdepth":         null
+,   "maxerr":           null
+,   "maxlen":           null    //  *** Deprecation warning; about coding style, not correctnees.
+,   "maxparams":        null
+,   "maxstatements":    null
+
+//
+//  Environments, determine sets of pre-defined globals
+//
+
+,   "browser":          false
+,   "browserify":       false
+,   "couch":            false
+,   "devel":            false
+,   "dojo":             false
+,   "jasmine":          false
+,   "jquery":           false
+,   "mocha":            false
+,   "module":           false
+,   "mootools":         false
+,   "node":             true
+,   "nonstandard":      false
+,   "phantom":          false
+,   "prototypejs":      false
+,   "qunit":            false
+,   "rhino":            false
+,   "shelljs":          false
+,   "typed":            false
+,   "worker":           false
+,   "wsh":              false
+,   "yui":              false
+
+//
+//  Pre-define these other globals
+//
+
+,   "predef": [
+                        "define"    //  Added "define" because of AMD / RequireJS.
+    ]
+
 }

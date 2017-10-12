@@ -1,37 +1,59 @@
 ( ( factory ) ->
-    if typeof exports is "object"
+    if typeof exports is 'object'
         module.exports = factory(
-            require "q"
-            require "backbone"
-            require "./../models/<%= modelFileName %>.coffee"
-        )
-    else if typeof define is "function" and define.amd
-        define( [
-            "q"
-            "backbone"
-            "./../models/<%= modelFileName %>.coffee"
-        ], factory )
+            require( '<%- backbone.modulePath %>' )
 
-)( ( Q, Backbone, <%= modelClass %>Model ) ->
+            require( './../models/<%- modelFileName %>' )
+        )
+    else if typeof define is 'function' and define.amd
+        define( [
+            '<%- backbone.modulePath %>'
+
+            './../models/<%- modelFileName %>'
+        ], factory )
+    return
+)((
+    <%- backbone.className %>
+
+    <%- modelClassName %>
+) ->
 
     ###*
-    #   <%= description %>
-    #
-    #   @author <%= user.git.username %>
-    #   @class <%= className %>Collection
-    #   @static
-    #   @extends Backbone.Collection
-    #   @moduletype collection
-    #   @version 0.1
+    #   @author         <%- userName %>
+    #   @module         App
+    #   @submodule      Collections
     ###
-    class <%= className %>Collection extends Backbone.Collection
 
-        model: <%= modelClass %>Model
+    'use strict'
 
 
-<% if( singleton === true ) { %>
-    my<%= className %>Collection = new <%= className %>Collection()
-    return my<%= className %>Collection
-<% } %>
+    ###*<% if ( description ) { %>
+    #   <%- description %>
+    #<% } %>
+    #   @class          <%- className %>
+    #   @extends        <%- backbone.className %>.Collection<% if ( singleton ) { %>
+    #   @static<% } else { %>
+    #   @constructor<% } %>
+    ###
+
+    class <%- className %> extends <%- backbone.className %>.Collection
+
+        ###*
+        #   The collection's `{{#crossLink '<%- modelClassName %>'}}{{/crossLink}}` constructor.
+        #
+        #   @property       model
+        #   @type           Function
+        #   @protected
+        #   @final
+        #
+        #   @default        <%- modelClassName %>
+        ###
+
+        model:              <%- modelClassName %><% if ( singleton ) { %>
+
+
+    ##  Export singleton.
+    ##
+    return new <%- className %>()<% } %>
 
 )

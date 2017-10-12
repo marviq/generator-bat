@@ -1,11 +1,62 @@
-@import _settings
-@import _views
+.<%- packageName %>
+
+    //
+    //  App variables definitions.
+    //  Fonts definitions.
+    //  Compass's mixins and variables definitions.
+    //  Defaults for framework variables.
+    //
+
+    @import "_settings"
+
+    //
+    //  Frameworks.
+    //
+
+    //  You may or may not want to `@at-root` these.
+    //
+    //  For instance:
+    //
+    //  ```sass
+    //  @at-root
+    //      @import "bootstrap/_bootstrap"
+    //  ```
+    //
+    //  To get bootstrap to work like that, you would probably want to (in this directory):
+    //
+    //  ```bash
+    //  npm install   bootstrap-sass
+    //  ln -s   ../../node_modules/bootstrap-sass/assets/stylesheets   bootstrap
+    //  ```
+
+    //
+    //  CSS overrides.
+    //
+
+    @import "_overrides"
+
+    //
+    //  App views' CSS.
+    //  Every view should have its own style file in the `views` folder and be `@import`-ed in '_views.sass'.
+    //
+
+    @import "_views"
+
+    //
+    //  App-global styling should be here.
+    //
 
 
-// Only really global styling should be here
-// every view should have it's one style file
-// in the views folder and be imported in _views.sass
+//
+//  Only really global styling should be here.
 //
 
 body
-    background-color: white
+    //  https://css-tricks.com/just-one-of-those-weird-things-about-css-background-on-body/
+    //
+    background:                         #FFF
+    min-height:                         100vh
+    margin:                             0
+
+html
+    height:                             100vh

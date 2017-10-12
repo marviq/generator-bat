@@ -1,0 +1,9 @@
+{
+    "apiBaseUrl": "/api"
+,   "environment": "production"
+,   "locales":
+        {
+            "en-GB": "English (UK)"
+        ,   "nl-NL": "Nederlands (NL)"
+        }
+}

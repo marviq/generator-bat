@@ -1,7 +1,36 @@
 {
-  "name": "generator-bat",
-  "version": "0.1.27",
-  "description": "BAT ( Backbone Application Template ). A yeoman-generator created by Marviq.",
+  "author": {
+    "name": "Raymond de Wit"
+  },
+  "bugs": {
+    "url": "https://github.com/marviq/generator-bat/issues"
+  },
+  "dependencies": {
+    "chalk": "^2.1.0",
+    "coffee-script": "^1.12.7",
+    "glob": "^7.1.1",
+    "language-tags": "^1.0.5",
+    "lodash": "^4.17.4",
+    "mkdirp": "^0.5.1",
+    "semver": "^5.4.1",
+    "underscore.string": "^3.3.4",
+    "yeoman-generator": "^2.0.1",
+    "yosay": "^2.0.1"
+  },
+  "description": "BAT, the Backbone Application Template; a Yeoman generator collection created by marviq",
+  "devDependencies": {
+    "coffeelint": "^1.16.0",
+    "jshint": "^2.9.5",
+    "standard-version": "^4.2.0"
+  },
+  "files": [
+    "AUTHORS",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md",
+    "generators"
+  ],
+  "homepage": "https://github.com/marviq/generator-bat#readme",
   "keywords": [
     "yeoman-generator",
     "yeoman",
@@ -21,25 +50,17 @@
     "chai",
     "yuidoc"
   ],
-  "homepage": "https://www.marviq.com",
-  "author": {
-    "name": "Raymond de Wit",
-    "url": "http://www.marviq.com"
-  },
-  "contributors": [
-    {
-      "name": "Mark Doeswijk"
-    }
-  ],
+  "license": "BSD-3-Clause",
+  "name": "generator-bat",
+  "private": false,
   "repository": {
     "type": "git",
-    "url": "git://github.com/marviq/generator-bat.git"
+    "url": "git+https://github.com/marviq/generator-bat.git"
   },
-  "dependencies": {
-    "coffee-script": "^1.7.1",
-    "path": "^0.4.9",
-    "varname": "^1.0.2",
-    "yeoman-generator": "^0.16.0",
-    "yosay": "^0.2.1"
-  }
+  "scripts": {
+    "refresh": "set -x; npm prune && npm install && npm dedupe",
+    "release": "standard-version",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.0"
 }

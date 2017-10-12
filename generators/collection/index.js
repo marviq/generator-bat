@@ -1,169 +1,216 @@
-var yeoman  = require( "yeoman-generator" )
-,   yosay   = require( "yosay" )
-,   path    = require( 'path' )
-,   varname = require( "varname" )
-,   fs      = require( "fs" )
-;
+'use strict';
 
-// Get the current running directory name
 //
-var fullPath        = process.cwd()
-,   folderName      = fullPath.split( '/' ).pop()
-,   rootLocation    = fullPath
+//  Yeoman bat:collection sub-generator.
+//
+
+var Generator       = require( 'yeoman-generator' )
+,   yosay           = require( 'yosay' )
+,   youtil          = require( './../../lib/youtil.js' )
+,   _               = require( 'lodash' )
 ;
 
-module.exports = yeoman.generators.Base.extend(
+class CollectionGenerator extends Generator
 {
-    // Function is used to determine if we are currently in the root off the project
-    // if not, try to find the root and change to that directory
-    //
-    determineRoot: function()
+    constructor ()
     {
-        var callback        = this.async()
-        ,   rootFound       = false
-        ,   tries           = 0
+        super( ...arguments );
+
+        this.description    = this._description( 'backbone collection' );
+
+        this.argument(
+            'collectionName'
+        ,   {
+                type:           String
+            ,   required:       false
+            ,   desc:           'The name of the collection to create.'
+            }
+        );
+
+        //  Also add 'collectionName' as a - hidden - option, defaulting to the positional argument's value.
+        //  This way `_promptsPruneByOptions()` can filter away prompting for the collection name too.
+        //
+        this.option(
+            'collectionName'
+        ,   {
+                type:           String
+            ,   desc:           'The name of the collection to create.'
+            ,   default:        this.collectionName
+            ,   hide:           true
+            }
+        );
+
+        //  Normal options.
+        //
+        this.option(
+            'description'
+        ,   {
+                type:           String
+            ,   desc:           'The purpose of this collection.'
+            }
+        );
+
+        this.option(
+            'singleton'
+        ,   {
+                type:           Boolean
+            ,   desc:           'Whether this collection should be a singleton (instance).'
+            }
+        );
+
+        this.option(
+            'modelName'
+        ,   {
+                type:           String
+            ,   desc:           'The model name for this collection.'
+            }
+        );
+
+        this.option(
+            'createModel'
+        ,   {
+                type:           Boolean
+            ,   desc:           'Whether to create this model too.'
+            }
+        );
+    }
+
+    initializing ()
+    {
+        this._assertBatApp();
+
+        //  Container for template expansion data.
+        //
+        this.templateData = {};
+    }
+
+    prompting ()
+    {
+        //  Ask only those question that have not yet been provided with answers via the command line.
+        //
+        var prompts = this._promptsPruneByOptions(
+                [
+                    {
+                        type:       'input'
+                    ,   name:       'collectionName'
+                    ,   message:    'What is the name of this collection you so desire?'
+                    ,   default:    _.camelCase( youtil.definedToString( this.options.collectionName ))
+                    ,   validate:   youtil.isIdentifier
+                    ,   filter:     ( value ) => ( _.camelCase( _.lowerFirst( _.trim( value ).replace( /collection$/i, '' ))) )
+                    }
+                ,   {
+                        type:       'input'
+                    ,   name:       'description'
+                    ,   message:    'What is the purpose (description) of this collection?'
+                    ,   default:    youtil.definedToString( this.options.description )
+                    ,   validate:   youtil.isNonBlank
+                    ,   filter:     youtil.sentencify
+                    }
+                ,   {
+                        type:       'confirm'
+                    ,   name:       'singleton'
+                    ,   message:    'Should this collection be a singleton (instance)?'
+                    ,   default:    false
+                    ,   validate:   _.isBoolean
+                    }
+                ,   {
+                        type:       'input'
+                    ,   name:       'modelName'
+                    ,   message:    'What is the model name for this collection?'
+                    ,   default:    ( answers ) => (
+                                        youtil.definedToString( this.options.modelName )
+                                    ||  answers.collectionName
+                                    ||  this.templateData.collectionName
+                                    )
+                    ,   validate:   youtil.isIdentifier
+                    ,   filter:     ( value ) => ( _.lowerFirst( _.trim( value ).replace( /model$/i, '' )) )
+                    }
+                ,   {
+                        type:       'confirm'
+                    ,   name:       'createModel'
+                    ,   message:    'Should I create this model now as well?'
+                    ,   default:    true
+                    ,   validate:   _.isBoolean
+                    }
+                ]
+            )
         ;
 
-        if( fs.existsSync( "src" ) === false )
+        if ( prompts.length )
         {
-            while( rootFound === false && tries < 10 )
-            {
-                // Split old path
-                //
-                var previousLocation = rootLocation.split( "/" );
-
-                // Pop the last folder from the path
-                //
-                previousLocation.pop();
-
-                // Create the new path and open it
-                //
-                rootLocation = previousLocation.join( "/" );
-
-                // Change the process location
-                //
-                process.chdir( rootLocation );
-
-                // Check if we found the project root, up the counter
-                // we should stop looking some time.....
-                //
-                rootFound = fs.existsSync( "src" );
-                tries++;
-            }
-
-            // If we couldn't find the root, let the user know and exit the proces...
+            //  Have Yeoman greet the user.
             //
-            if( rootFound === false )
-            {
-                yeoman.log( "Failed to find root of the project, check that you are somewhere within your project." );
-                process.exit();
-            }
+            this.log( yosay( 'So you want a BAT collection?' ) );
+
+            return (
+                this
+                    .prompt( prompts )
+                    .then( ( answers ) => { _.extend( this.templateData, answers ); } )
+            );
         }
-
-        callback();
     }
 
-,   askSomeQuestions: function ()
+    configuring ()
     {
-        var callback = this.async();
+        var data            = this.templateData
+        ,   collectionName  = data.collectionName
+        ,   modelName       = data.modelName
+        ;
 
-        // Have Yeoman greet the user.
-        //
-        this.log( yosay( "So you want an BAT collection?" ) );
-
-        // Ask the user for the webapp details
-        //
-        var prompts = [
-            {
-                name:       "collectionName"
-            ,   message:    "What's the name of this collection you so desire? ( use camelcasing! )"
-            ,   default:    "myCollection"
-            }
+        _.extend(
+            data
         ,   {
-                name:       "description"
-            ,   message:    "What's the description for this collection?"
-            ,   default:    "No description"
-            }
-        ,   {
-                type:       "confirm"
-            ,   name:       "singleton"
-            ,   message:    'Should this collection be a singleton?'
-            ,   default:    false
-            }
-        ];
+                className:          _.upperFirst( collectionName ) + 'Collection'
+            ,   fileBase:           _.kebabCase( _.deburr( collectionName ))
 
-        this.prompt( prompts, function( props )
-        {
-            this.collectionName = props.collectionName;
-            this.description    = props.description;
-            this.singleton      = props.singleton;
+            ,   modelClassName:     _.upperFirst( modelName ) + 'Model'
+            ,   modelFileName:      _.kebabCase( _.deburr( modelName )) + '.coffee'
 
-            callback();
-        }.bind( this ) );
+            ,   userName:           this.user.git.name()
+
+            ,   backbone:           ( this.config.get( 'backbone' ) || { className: 'Backbone', modulePath: 'backbone' } )
+            }
+        );
     }
 
-
-,   askModelQuestions: function()
+    writing ()
     {
-        var callback = this.async();
-
-        // We are gonna do a "smart" guess for the modelName to have a default value
-        // If the last characters of the collectionName is a "s" we are gonna assume it's
-        // plural and remove the trailing as and use that a default modelName
+        //  createCollection:
         //
-        var modelName = this.collectionName;
-
-        if( this.collectionName.slice( -1 ) === "s" )
+        ( () =>
         {
-            modelName = this.collectionName.slice( 0, -1 );
-        }
-
-        var prompts = [
-            {
-                name:       "modelName"
-            ,   message:    "Whats the model name for this collection ( use camelcasing! )"
-            ,   default:    modelName
-            }
-        ,   {
-                type:       "confirm"
-            ,   name:       "createModel"
-            ,   message:    "Should i create this model now as well?"
-            ,   default:    true
-            }
-        ];
-
-        this.prompt( prompts, function( props )
-        {
-            this.modelName      = props.modelName;
-            this.createModel    = props.createModel;
-
-            callback();
-        }.bind( this ) );
-
-    }
-
-,   createCollection: function()
-    {
-        // Create the needed variables
-        this.modelClass     = this.modelName.charAt(0).toUpperCase() + this.modelName.slice(1);
-        this.className      = this.collectionName.charAt(0).toUpperCase() + this.collectionName.slice(1);
-        this.modelFileName  = varname.dash( this.modelName );
-        this.fileName       = varname.dash( this.collectionName );
-
-        // Create the collection
-        this.template( "collection.coffee", "src/collections/" + this.fileName + ".coffee" );
-
-        // Create the model if needed
-        if( this.crateModel === true )
-        {
-            this.invoke( "bat:model", {
-                options: {
-                    nested:         true
-                ,   modelName:      this.modelName
-                ,   description:    "Model for the " + this.collectionName
-                ,   singleton:      false
+            var data        = this.templateData
+            ,   templates   =
+                {
+                    'collection.coffee':    [ 'src/collections/' + data.fileBase + '.coffee' ]
                 }
-            } );
+            ;
+
+            this._templatesProcess( templates );
+
+            //  Create the model too if needed.
+            //
+            if ( data.createModel )
+            {
+                this.composeWith(
+                    'bat:model'
+                ,   {
+                        arguments: [ data.modelName ]
+
+                    ,   description:    'Model for the `{{#crossLink \'' + data.className + '\'}}{{/crossLink}}`.'
+                    ,   singleton:      false
+                    }
+                );
+            }
         }
+        )();
     }
-} );
+}
+
+_.extend(
+    CollectionGenerator.prototype
+,   require( './../../lib/generator.js' )
+,   require( './../../lib/sub-generator.js' )
+);
+
+module.exports = CollectionGenerator;
