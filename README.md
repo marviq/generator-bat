@@ -1,6 +1,6 @@
 # BAT, the Backbone Application Template
 
-[![npm version](https://badge.fury.io/js/generator-bat.svg)](http://badge.fury.io/js/generator-bat)
+[![npm version](https://badge.fury.io/js/generator-bat.svg)](https://badge.fury.io/js/generator-bat)
 [![David dependency drift detection](https://david-dm.org/marviq/generator-bat.svg)](https://david-dm.org/marviq/generator-bat)
 
 A Yeoman generator collection created by marviq.
