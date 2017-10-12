@@ -76,7 +76,7 @@ The main app generator will provide you with the following out of the box:
     - `.gitmessage`
     - `.jshintrc`
     - `.coffeelint.json`
-- [Grunt](http://gruntjs.com), or rather, a complete and annotated `Gruntfile.coffee`, set up for [Browserify](https://github.com/jmreidy/grunt-browserify#readme), [Compass](https://github.com/gruntjs/grunt-contrib-compass#readme), code [linting](https://github.com/vojtajina/grunt-coffeelint#readme), [-testing](https://github.com/pghalliday/grunt-mocha-test#readme), [-minification](https://github.com/gruntjs/grunt-contrib-uglify#readme) and [-documentation generation](https://github.com/gruntjs/grunt-contrib-yuidoc#readme);
+- [Grunt](http://gruntjs.com), or rather, a complete and annotated `Gruntfile.coffee`, set up for [Browserify](https://github.com/jmreidy/grunt-browserify#readme), [Compass](https://github.com/gruntjs/grunt-contrib-compass#readme), code [linting](https://github.com/vojtajina/grunt-coffeelint#readme), [-testing](https://github.com/karma-runner/grunt-karma#readme), [-minification](https://github.com/gruntjs/grunt-contrib-uglify#readme) and [-documentation generation](https://github.com/gruntjs/grunt-contrib-yuidoc#readme);
 - [Browserify](http://browserify.org/), bundling modular code for the browser, supporting [CoffeeScript](https://github.com/jnordberg/coffeeify#readme), [Handlebars](https://github.com/epeli/node-hbsfy#readme) and [browserify shims](https://github.com/thlorenz/browserify-shim#readme);
 - [Backbone.js](http://backbonejs.org/) MV*x* foundation, including a main [router](http://backbonejs.org/#Router) implementation;
 - [Backbone-Debugger](https://github.com/Maluen/Backbone-Debugger) browser plugin engagement (when available), automatically included with debugging builds;
