@@ -240,7 +240,7 @@ This will:
   * Set up the git flow [branching model](#branching-model) with default branch names;
   * Set up two [git hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) to ensure that your `node_modules` will be synced with the
     [`package-lock.json`](https://docs.npmjs.com/files/package-lock.json) dependency tree definition whenever a `git merge` or -`checkout` causes it to
-    change.
+    change;
   * Install all required dependencies, pruned and deduplicated;
 
 
