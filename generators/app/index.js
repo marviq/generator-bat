@@ -331,7 +331,7 @@ class AppGenerator extends Generator
                                     +   ' on the '
                                     +   chalk.green( 'global scope' )
                                     +   '?'
-                                    +   chalk.gray( ' - Perhaps because some CDN loaded code expects it to be there.' )
+                                    +   chalk.gray( ' - Perhaps because some other CDN loaded code expects it to be there.' )
                                     )
                     ,   default:    false
                     ,   when:       ( answers ) => !( answers.jqueryCdn || this.templateData.jqueryCdn )
