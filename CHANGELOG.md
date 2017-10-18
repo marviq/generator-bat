@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.1"></a>
+## [1.0.1](https://github.com/marviq/generator-bat/compare/v1.0.0...v1.0.1) (2017-10-18)
+
+
+### Bug Fixes
+
+* **generators/{app,demo}/templates:** prevent undefined optional parameters from appearing in de url as `"null"` or `"undefined"` (the strings that is) ([625776b](https://github.com/marviq/generator-bat/commit/625776b))
+* **generators/app/templates:** modernize environment ribbon (debug) ([066ecad](https://github.com/marviq/generator-bat/commit/066ecad))
+
+
+### Features
+
+* **generators/app:** include warning about generated localization file ([60b98da](https://github.com/marviq/generator-bat/commit/60b98da))
+* **generators/app/templates:** add revision (commit) to environment ribbon ([a24c9ad](https://github.com/marviq/generator-bat/commit/a24c9ad))
+
+
+
 <a name="1.0.0"></a>
 # [1.0.0](https://github.com/marviq/generator-bat/compare/v0.1.27...v1.0.0) (2017-10-12)
 
