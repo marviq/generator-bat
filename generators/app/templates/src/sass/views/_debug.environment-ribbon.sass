@@ -1,14 +1,14 @@
-$default_textColor:         #6a6340
+$default_textColor:         #6A6340
 $default_gradientHigh:      #BFDC7A
 $default_gradientLow:       #8EBF45
 
 $acceptance_textColor:      #801111
-$acceptance_gradientHigh:   #d64b4b
-$acceptance_gradientLow:    #ab2c2c
+$acceptance_gradientHigh:   #D64B4B
+$acceptance_gradientLow:    #AB2C2C
 
 $testing_textColor:         #807712
-$testing_gradientHigh:      #d4c94c
-$testing_gradientLow:       #aba02c
+$testing_gradientHigh:      #D4C94C
+$testing_gradientLow:       #ABA02C
 
 =ribbon-colors( $textColor, $gradientHigh, $gradientLow )
 
@@ -26,14 +26,15 @@ $testing_gradientLow:       #aba02c
     position:               fixed
     z-index:                1001
 
-    bottom:                 25px
-    right:                  -100px
+    bottom:                 0
+    right:                  0
     width:                  300px
 
     transform-origin:       initial
-    transform:              rotate(-45deg)
+    transform:              translate(30%,-40%) rotate(-45deg)
 
     .ribbon
+
         padding:                2px 0
         font:                   bold 15px Sans-Serif
 
@@ -47,22 +48,48 @@ $testing_gradientLow:       #aba02c
         transition:             opacity 0.2s
 
         &:hover
+
             opacity:                0
 
-        .stitches-top
-            margin-bottom:          2px
+
+        &::before,
+        &::after
+            //
+            //  Stitches
+
+            display:                block
+            content:                ''
             border-top:             1px dashed rgba(0, 0, 0, 0.2)
             box-shadow:             0px 0px 2px rgba(255, 255, 255, 0.3)
 
-        .stitches-bottom
+
+        &::before
+
+            margin-bottom:          2px
+
+
+        &::after
+
             margin-top:             2px
-            border-top:             1px dashed rgba(0, 0, 0, 0.2)
-            box-shadow:             0px 0px 2px rgba(255, 255, 255, 0.3)
+
+
+        .build-revision
+
+            display:                inline-block
+            margin-left:            18%
+            width:                  7.5em
+            overflow:               hidden
+            white-space:            nowrap
+            text-overflow:          ellipsis
+
 
         +ribbon-colors( $default_textColor, $default_gradientHigh, $default_gradientLow )
 
         &.env-acceptance
+
             +ribbon-colors( $acceptance_textColor, $acceptance_gradientHigh, $acceptance_gradientLow )
 
+
         &.env-testing
+
             +ribbon-colors( $testing_textColor, $testing_gradientHigh, $testing_gradientLow )

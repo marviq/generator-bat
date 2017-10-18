@@ -161,8 +161,7 @@
         #   @default        '/'
         ###
 
-        homeUrl:
-            '/'
+        homeUrl:            '/'
 
 
         ###*
@@ -347,12 +346,12 @@
                         ##  If only one matched, there's likely something wrong with the path pattern, and we will simply
                         ##  not touch what we've matched.
 
-                        param = encodeURIComponent( params[ key ] )
+                        param = params[ key ]
 
                         return if before?
-                            if after? then "#{before}#{param}#{after}" else match
+                            unless after? then match else ( if param? then "#{ before }#{ encodeURIComponent( param ) }#{ after }" else '' )
                         else
-                            if after? then match else param
+                            if     after? then match else ( if param? then                encodeURIComponent( param )              else '' )
                 )
 
             @navigate( fragment, options )

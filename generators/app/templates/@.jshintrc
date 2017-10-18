@@ -72,13 +72,11 @@
 
 ,   "evil":             false
 ,   "expr":             false
-
 ,   "funcscope":        false
 
 ,   "globalstrict":     false   //  *** Depreciation warning; See `strict`.
 
 ,   "iterator":         false
-
 ,   "lastsemic":        false
 ,   "laxbreak":         true    //  Because, sometimes, you just need a break.  *** Deprecation warning; about coding style, not correctnees.
 ,   "laxcomma":         true    //  Because you *like* comma-first style.  *** Deprecation warning; about coding style, not correctnees.

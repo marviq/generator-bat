@@ -1,7 +1,7 @@
 <div class="ribbon env-{{settings.environment}}">
-    <div class="stitches-top"></div>
-    {{#if buildBrief.buildNumber}}{{buildBrief.buildNumber}} / {{/if}} {{moment buildBrief.timestamp "MMM DD HH:mm"}}
-    <br />
-    {{settings.environment}}
-    <div class="stitches-bottom"></div>
+    <span class="build-revision">{{buildBrief.revision}}</span>
+    <br>
+    {{#if buildBrief.buildNumber}}<span class="build-number">{{buildBrief.buildNumber}}</span> / {{/if}} <span class="build-timestamp">{{moment buildBrief.timestamp "MMM DD HH:mm"}}</span>
+    <br>
+    <span class="target-environment">{{settings.environment}}</span>
 </div>

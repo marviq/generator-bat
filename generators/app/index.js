@@ -288,7 +288,24 @@ class AppGenerator extends Generator
                                     )
                     ,   default:    ( youtil.definedToString( this.options.i18nLocaleDefault ) || 'en-US' )
                     ,   validate:   tags.check
-                    ,   filter:     ( value )   => ( tags( value ).format() )
+                    ,   filter:     ( value )   => {
+                                        if ( value !== 'en-US' )
+                                        {
+                                            this.log( chalk.magenta(
+                                                '\n\n    If this locale differs from '
+                                            +   chalk.bold.yellow( 'en-US' )
+                                            +   ' in terms of its number-, money- or date formatting,'
+                                            +   ' then be sure to verify/correct the generated '
+                                            +  chalk.bold.yellow(
+                                                    '\'src/i18n/'
+                                                +   value
+                                                +   '.json\''
+                                                )
+                                            +   ' localization file afterwards.\n'
+                                            ));
+                                        }
+                                        return tags( value ).format();
+                                    }
                     ,   when:       ( answers ) => ( answers.i18n || this.templateData.i18n )
                     }
                 ,   {
@@ -314,7 +331,7 @@ class AppGenerator extends Generator
                                     +   ' on the '
                                     +   chalk.green( 'global scope' )
                                     +   '?'
-                                    +   chalk.gray( ' - Perhaps because some CDN loaded code expects it to be there.' )
+                                    +   chalk.gray( ' - Perhaps because some other CDN loaded code expects it to be there.' )
                                     )
                     ,   default:    false
                     ,   when:       ( answers ) => !( answers.jqueryCdn || this.templateData.jqueryCdn )

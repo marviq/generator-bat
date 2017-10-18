@@ -1,6 +1,6 @@
 # BAT, the Backbone Application Template
 
-[![npm version](https://badge.fury.io/js/generator-bat.svg)](http://badge.fury.io/js/generator-bat)
+[![npm version](https://badge.fury.io/js/generator-bat.svg)](https://badge.fury.io/js/generator-bat)
 [![David dependency drift detection](https://david-dm.org/marviq/generator-bat.svg)](https://david-dm.org/marviq/generator-bat)
 
 A Yeoman generator collection created by marviq.
@@ -76,7 +76,7 @@ The main app generator will provide you with the following out of the box:
     - `.gitmessage`
     - `.jshintrc`
     - `.coffeelint.json`
-- [Grunt](http://gruntjs.com), or rather, a complete and annotated `Gruntfile.coffee`, set up for [Browserify](https://github.com/jmreidy/grunt-browserify#readme), [Compass](https://github.com/gruntjs/grunt-contrib-compass#readme), code [linting](https://github.com/vojtajina/grunt-coffeelint#readme), [-testing](https://github.com/pghalliday/grunt-mocha-test#readme), [-minification](https://github.com/gruntjs/grunt-contrib-uglify#readme) and [-documentation generation](https://github.com/gruntjs/grunt-contrib-yuidoc#readme);
+- [Grunt](http://gruntjs.com), or rather, a complete and annotated `Gruntfile.coffee`, set up for [Browserify](https://github.com/jmreidy/grunt-browserify#readme), [Compass](https://github.com/gruntjs/grunt-contrib-compass#readme), code [linting](https://github.com/vojtajina/grunt-coffeelint#readme), [-testing](https://github.com/karma-runner/grunt-karma#readme), [-minification](https://github.com/gruntjs/grunt-contrib-uglify#readme) and [-documentation generation](https://github.com/gruntjs/grunt-contrib-yuidoc#readme);
 - [Browserify](http://browserify.org/), bundling modular code for the browser, supporting [CoffeeScript](https://github.com/jnordberg/coffeeify#readme), [Handlebars](https://github.com/epeli/node-hbsfy#readme) and [browserify shims](https://github.com/thlorenz/browserify-shim#readme);
 - [Backbone.js](http://backbonejs.org/) MV*x* foundation, including a main [router](http://backbonejs.org/#Router) implementation;
 - [Backbone-Debugger](https://github.com/Maluen/Backbone-Debugger) browser plugin engagement (when available), automatically included with debugging builds;
@@ -240,7 +240,7 @@ This will:
   * Set up the git flow [branching model](#branching-model) with default branch names;
   * Set up two [git hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) to ensure that your `node_modules` will be synced with the
     [`package-lock.json`](https://docs.npmjs.com/files/package-lock.json) dependency tree definition whenever a `git merge` or -`checkout` causes it to
-    change.
+    change;
   * Install all required dependencies, pruned and deduplicated;
 
 
@@ -327,7 +327,10 @@ git push --follow-tags --all
   * Go to [https://github.com/marviq/generator-bat/releases](https://github.com/marviq/generator-bat/releases);
   * Click the `Draft a new release` button;
   * Select the appropriate `v<version>` tag from the dropdown menu;
-  * You could enter a title and some release notes here but most of it _should_ have already been covered in the [CHANGELOG](./CHANGELOG.md).
+  * You could enter a title and some release notes here; at the very least include a link to the corresponding section in the [CHANGELOG](./CHANGELOG.md) as:
+    ```markdown
+    [Change log](CHANGELOG.md# ... )
+    ```
   * Click the `Publish release` button;
 
 
