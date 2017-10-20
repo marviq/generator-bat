@@ -13,4 +13,6 @@ function changed
     echo "${changed_files}" | grep --quiet "${1}"
 }
 
-changed package-lock.json && npm run refresh
+if changed package-lock.json ; then
+    npm run refresh
+fi
