@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.2"></a>
+## [1.0.2](https://github.com/marviq/generator-bat/compare/v1.0.1...v1.0.2) (2017-10-20)
+
+
+### Bug Fixes
+
+* **generators/{app,demo}/templates:** fix non-html5 self-closing tags ([d88e8b4](https://github.com/marviq/generator-bat/commit/d88e8b4))
+* **generators/app/templates:** ensure git hooks don't error-exit when there's nothing to do ([3fd33d7](https://github.com/marviq/generator-bat/commit/3fd33d7))
+
+
+
 <a name="1.0.1"></a>
 ## [1.0.1](https://github.com/marviq/generator-bat/compare/v1.0.0...v1.0.1) (2017-10-18)
 
