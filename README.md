@@ -204,17 +204,12 @@ The latter invocation, while it is kept running, also offers the opportunity to 
 *Do not forget to open your dev tools and browser console there!*
 
 
-## ChangeLog
-
-Refer to the [releases on GitHub](https://github.com/marviq/generator-bat/releases) for a detailed log of changes.
-
-
 ## Contributing
 
 See [CONTRIBUTING](./CONTRIBUTING.md).
 
 
-## ChangeLog
+## Change Log
 
 See [CHANGELOG](./CHANGELOG.md) for versions >`0.1.27`; For older versions, refer to the [releases on GitHub](https://github.com/marviq/generator-bat/releases?after=v1.0.0) for a detailed log of changes.
 
