@@ -514,6 +514,7 @@ module.exports = ( grunt ) ->
                     ##                  Relaxing options:
                                         'debug'
                                         'loopfunc'
+                                        'validthis'
                 ])
 
             app:

@@ -1,3 +1,5 @@
+'use strict'
+
 ( ( factory ) ->
     if typeof exports is 'object'
         module.exports = factory(
@@ -17,8 +19,6 @@
     #   @module         App
     #   @submodule      Models
     ###
-
-    'use strict'
 
 
     ###*

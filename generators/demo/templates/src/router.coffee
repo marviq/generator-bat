@@ -1,3 +1,5 @@
+'use strict'
+
 ( ( factory ) ->
     if typeof exports is 'object'
         module.exports = factory(
@@ -47,7 +49,6 @@
     #   @submodule      Routers
     ###
 
-    'use strict'
 
     ###*
     #   The app's main router.
