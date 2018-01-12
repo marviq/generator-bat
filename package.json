@@ -28,7 +28,8 @@
     "CHANGELOG.md",
     "LICENSE",
     "README.md",
-    "generators"
+    "generators",
+    "lib"
   ],
   "homepage": "https://github.com/marviq/generator-bat#readme",
   "keywords": [
