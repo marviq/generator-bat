@@ -68,7 +68,7 @@
             #
             #   These settings include:
             #
-            #     * `apiBaseUrl`
+            #     * `api`
             #     * `environment`<% if ( i18n ) { %>
             #     * `locales`<% } %>
             #
@@ -97,7 +97,7 @@
         #   @type           String
         #   @final
         #
-        #   @default        `settings.get( 'appBaseUrl' )`
+        #   @default        settings.get( 'appBaseUrl' )
         ###
 
         url:                settings.get( 'appBaseUrl' )

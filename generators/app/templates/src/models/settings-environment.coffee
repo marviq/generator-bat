@@ -41,7 +41,7 @@
     ###*
     #   Settings for the target environment.
     #
-    #   @class          SettingsEnvironment
+    #   @class          SettingsEnvironmentModel
     #   @extends        Backbone.Model
     #   @static
     ###
@@ -57,10 +57,11 @@
         ###
 
         ###*
-        #   The base URL to use for consuming API services. All `services` URL settings are assumed to be relative to this one.
+        #   A mapping of API names to their base URLs.  For each API, the URL endpoints of its services will be assumed to be relative to the base
+        #   URLs laid out here.
         #
-        #   @attribute      apiBaseUrl
-        #   @type           String
+        #   @attribute      api
+        #   @type           Object
         ###
 
         ###*
@@ -97,7 +98,7 @@
 
         schema: [
 
-            'apiBaseUrl'
+            'api'
             'environment'<% if ( i18n ) { %>
             'locales'<% } %>
         ]
@@ -148,11 +149,12 @@
                         ###
 
                         ###*
-                        #   The base URL to use for consuming API services. All `services` URL settings are assumed to be relative to this one.
+                        #   A mapping of API names to their base URLs.  For each API, the URL endpoints of its services will be assumed to be
+                        #   relative to the base URLs laid out here.
                         #
-                        #   @attribute      environment.apiBaseUrl
+                        #   @attribute      environment.api
                         #   @for            Settings
-                        #   @type           String
+                        #   @type           Object
                         #   @final
                         ###
 

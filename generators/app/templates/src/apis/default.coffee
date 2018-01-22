@@ -43,16 +43,16 @@
         ###*
         #   The `DefaultApi`'s base url.
         #
-        #   Defined through the {{#crossLink 'Settings/environment.apiBaseUrl:property'}}`environment.apiBaseUrl` setting{{/crossLink}}.
+        #   Defined through the {{#crossLink 'SettingsEnvironmentModel/api:attribute'}}`environment.api.default` setting{{/crossLink}}.
         #
         #   @property       url
         #   @type           String
         #   @final
         #
-        #   @default        `settings.get( 'environment.apiBaseUrl' )`
+        #   @default        settings.get( 'environment.api.default' )
         ###
 
-        url:                settings.get( 'environment.apiBaseUrl' )
+        url:                settings.get( 'environment.api.default' )
 
     )
 

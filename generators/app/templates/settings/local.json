@@ -1,8 +1,9 @@
 {
-    "apiBaseUrl": "/api"
-,   "environment": "local"<% if ( i18n ) { %>
-,   "locales":
-        {
-            "<%- i18nLocaleDefault %>":    "<%- i18nLocaleDefaultLanguage %> (<%- i18nLocaleDefaultRegion %>)"
-        }<% } %>
+    "api": {
+        "default":                      "/api"
+    }
+,   "environment":                  "local"<% if ( i18n ) { %>
+,   "locales": {
+        "<%- i18nLocaleDefault %>":                        "<%- i18nLocaleDefaultLanguage %> (<%- i18nLocaleDefaultRegion %>)"
+    }<% } %>
 }

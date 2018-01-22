@@ -8,6 +8,8 @@ var Generator       = require( 'yeoman-generator' )
 ,   yosay           = require( 'yosay' )
 ,   youtil          = require( './../../lib/youtil.js' )
 ,   chalk           = require( 'chalk' )
+,   glob            = require( 'glob' )
+,   jsStringify     = require( 'json-stable-stringify' )
 ,   _               = require( 'lodash' )
 ;
 
@@ -65,6 +67,34 @@ class ApiGenerator extends Generator
     {
         this._assertBatApp();
 
+        //  Find available Environment settings files:
+        //
+        var envs    = this.envs
+                    = {}
+        ,   base    = this.destinationPath( 'settings' )
+        ;
+
+        glob.sync( '**/*.json', { cwd: base } ).forEach(
+
+            ( path ) =>
+            {
+                var pathAbs     = base + '/' + path;
+                var match       = this.fs.read( pathAbs ).match( /"environment"\s*:\s*"([^"]+)"/ );
+
+                if ( !( match ) ) { return; }
+
+                var name        = match[ 1 ];
+
+                envs[ name ]   =
+                    {
+                        name
+                    ,   pathAbs
+                    ,   path
+                    }
+                ;
+            }
+        );
+
         //  Container for template expansion data.
         //
         this.templateData = {};
@@ -72,6 +102,8 @@ class ApiGenerator extends Generator
 
     prompting ()
     {
+        var previous;
+
         //  Ask only those question that have not yet been provided with answers via the command line.
         //
         var prompts = this._promptsPruneByOptions(
@@ -99,16 +131,34 @@ class ApiGenerator extends Generator
                     ,   validate:   youtil.isNonBlank
                     ,   filter:     youtil.sentencify
                     }
-                ,   {
-                        type:       'input'
-                    ,   name:       'url'
-                    ,   message:    'What is the base URL for this API? ' + chalk.gray( ' - please enter as code:' )
-                    ,   default:    youtil.definedToString( this.options.url )
-                    ,   validate:   youtil.isCoffeeScript
-                    }
                 ]
             )
         ;
+
+        //  Add per-environment prompts; each previous prompt's answer serves as the next one's default, using `this.options.url` as a base case.
+        //
+        prompts.push(
+
+            ...Object.keys( this.envs ).map (
+
+                ( envName ) =>
+                {
+                    var prompt  =
+                            {
+                                type:       'input'
+                            ,   name:       `env_${ envName }_url`
+                            ,   message:    'What is the base URL for this API in the ' + chalk.green( envName ) + ' environment?'
+                            ,   default:    (( previous ) => ( answers ) => previous ? answers[ previous ] : youtil.definedToString( this.options.url )
+                                            )( previous )
+                            ,   validate:   youtil.isNonBlank
+                            }
+
+                    previous    = prompt.name
+
+                    return prompt
+                }
+            )
+        );
 
         if ( prompts.length )
         {
@@ -156,6 +206,53 @@ class ApiGenerator extends Generator
             ;
 
             this._templatesProcess( templates );
+        }
+        )();
+    }
+
+    install ()
+    {
+        //  updateEnvironmentsSettings:
+        //
+        ( () =>
+        {
+            var data        = this.templateData
+            ,   fs          = this.fs
+            ,   ts          = 4
+            ,   align       = 8 * ts
+            ;
+
+            //  Insert each environment's base `url` for this API.
+            //
+            Object.entries( this.envs ).forEach(
+                ( [ envName, env ] ) =>
+                {
+                    var envSettings = fs.readJSON( env.pathAbs )
+                    ,   apis        = envSettings.api
+                    ,   url         = data[ `env_${ envName }_url` ]
+                    ;
+
+                    if ( !( apis ) || !( url ) ) { return; }
+
+                    apis[ data.apiName ] = url;
+
+                    //  Keep entries sorted, comma-first style, aligned.
+                    //
+                    fs.write(
+                        env.pathAbs
+                    ,   jsStringify( envSettings, { space: ts } )
+                            .replace(
+                                /,$(\s*)\s{4}(?=\S)/gm
+                            ,   ( match, space ) => space + ','.padEnd( ts )
+                            )
+                            .replace(
+                                /(".*?")\s*:\s*(?![{\s[])/gm
+                            ,   ( match, key ) => ( key += ': ' ).padEnd( key.length <= align ? align : ( key.length + ts - 1 - ( key.length - 1 ) % ts ) )
+                            )
+                    );
+                }
+            );
+
         }
         )();
     }

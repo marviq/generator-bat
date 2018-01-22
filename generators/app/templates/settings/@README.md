@@ -11,8 +11,8 @@ Settings to be determined in such a file include:
 
     setting         | explanation
     :---            | :---
-    `environment`   | The target-environments name (production, acceptance, testing, staging, local, etc). Should really be identical to the settings file's name (excluding the `.json` extension).
-    `apiBaseUrl`    | The base URL of the *default* API to use.
+    `environment`   | The target-environment's name (production, acceptance, testing, staging, local, etc). Should really be identical to the settings file's name (excluding the `.json` extension).
+    `api`           | A mappping of symbolic API names to their services' base URLs.
     `locales`       | A list of available locales.
 
 Feel free to add further files to this directory as you see fit; for instance `<yourname>.js` for your personal local development configuration.
@@ -36,14 +36,15 @@ grunt --target=acceptance`
 
 ```json
 {
-    "environment": "production"
-,   "apiBaseUrl": "/api"
-,   "locales":
-        {
-            "en-GB":    "English"
-        ,   "en-US":    "English (US)"
-        ,   "nl-NL":    "Nederlands"
-        }
+    "api": {
+        "default": "/api"
+    },
+    "environment": "production",
+    "locales": {
+        "en-GB": "English",
+        "en-US": "English (US)",
+        "nl-NL": "Nederlands",
+    }
 }
 ```
 

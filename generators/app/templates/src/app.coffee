@@ -1,11 +1,11 @@
+'use strict'
+
 ###*<% if ( packageDescription ) { %>
 #
 #   <%- packageDescription %><% } %>
 #
 #   @module         App
 ###
-
-'use strict'
 
 ##
 ##  Declare and load app pre-requisites, then start.
@@ -295,7 +295,7 @@ initialized.then(
 
     () ->
 
-        ##  Load router only now, so the environment settings are known to have been loaded, and so the `DefaultApi` is ready to be used.
+        ##  Load router only now, so the environment settings are known to have been loaded, and so the APIs are ready to be used.
         ##
         router  = require( './router.coffee' )
 

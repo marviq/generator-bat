@@ -7,6 +7,7 @@ A Yeoman generator collection created by marviq.
 
 Ever got tired of having to scaffold your new webapp projects over and over again? Moan no more; Yeoman and BAT will do it for you!
 
+
 ## Getting Started
 
 ### What is Yeoman?
@@ -22,6 +23,7 @@ Not every new computer comes with a Yeoman pre-installed.  He lives in the [npm]
 ```bash
 [sudo ]npm install -g yo
 ```
+
 
 ### Yeoman Generators
 
@@ -39,12 +41,13 @@ Finally, initiate the main app generator:
 yo bat
 ```
 
-Some of its subs:
+Its subs:
 
 ```bash
 yo bat:view
 yo bat:model
 yo bat:collection
+yo bat:api
 ```
 
 Or, if you want a head start, even:
@@ -52,6 +55,7 @@ Or, if you want a head start, even:
 ```bash
 yo bat:demo
 ```
+
 
 ## The Finer Print
 
@@ -145,6 +149,16 @@ Furthermore, Yeoman can:
 - Cause a singleton instance of the collection to be exported instead of the `class` itself;
 
 
+#### Api
+
+```shell
+yo bat:api
+```
+
+An API is an instance of the BAT provided `ApiServicesCollection` which lives in the `src/apis/` section of your project map. Its purpose is, in essence, to
+have a convenient way to organize the endpoint urls of a backend API's services relative to the common base-url defined for that API.
+
+
 #### Demo
 
 BAT also comes packed with a demo webapp implementation showcasing its features.  To get this, either answer _yes_ to the relevant prompt from an initial `yo bat` run, or when you answered _no_ there earlier, invoke:
@@ -211,7 +225,8 @@ See [CONTRIBUTING](./CONTRIBUTING.md).
 
 ## Change Log
 
-See [CHANGELOG](./CHANGELOG.md) for versions >`0.1.27`; For older versions, refer to the [releases on GitHub](https://github.com/marviq/generator-bat/releases?after=v1.0.0) for a detailed log of changes.
+See [CHANGELOG](./CHANGELOG.md) for versions >`0.1.27`; For older versions, refer to the
+[releases on GitHub](https://github.com/marviq/generator-bat/releases?after=v1.0.0) for a detailed log of changes.
 
 
 ## License
