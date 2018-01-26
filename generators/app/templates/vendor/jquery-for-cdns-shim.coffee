@@ -19,7 +19,7 @@
 #   ```json
 #   "browser": {
 #      ...
-#      "jquery-expose": "./vendor/jquery-expose.coffee"
+#      "jquery-for-cdns-shim": "./vendor/jquery-for-cdns-shim.coffee"
 #      ...
 #   },
 #   ```
@@ -27,7 +27,7 @@
 #   ```json
 #   "browserify-shim": {
 #     ...
-#     "jquery-expose": {
+#     "jquery-for-cdns-shim": {
 #       "depends": [ "jquery:jQuery" ]
 #     }
 #     ...
@@ -38,7 +38,7 @@
 #   `jquery` package as `jQuery` on the global scope, and so, any externally loaded framework code will be able to find it there too.
 #
 #   (It also tells [`browserify`](https://github.com/substack/browserify-handbook#browser-field) where it can find this file whenever a
-#   `require('jquery-expose')` happens.)
+#   `require('jquery-for-cdns-shim')` happens.)
 #
 #   <h5>Why not just `window.jQuery = require( 'jquery' )`?</h5>
 #
