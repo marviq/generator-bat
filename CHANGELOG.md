@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/marviq/generator-bat/compare/v1.0.3...v1.1.0) (2018-01-29)
+
+
+### Bug Fixes
+
+* **generators/app/templates:** remove `bash` command blocks' inconsistencies ([59d7124](https://github.com/marviq/generator-bat/commit/59d7124))
+* **generators/app/templates:** tweak ribbon ([d00f512](https://github.com/marviq/generator-bat/commit/d00f512))
+* **generators/app/templatestests:** fix unit test descriptions grammar ([440f8dc](https://github.com/marviq/generator-bat/commit/440f8dc))
+* **generators/apps/templates:** fix references in documentation ([8b3ffc2](https://github.com/marviq/generator-bat/commit/8b3ffc2))
+
+
+### Features
+
+* **generators:** change how the settings object(s) defines available apis ([d4f395e](https://github.com/marviq/generator-bat/commit/d4f395e))
+* **generators/app/templates:** add support for easy access to generated code documentation ([db714c6](https://github.com/marviq/generator-bat/commit/db714c6))
+
+
+
 <a name="1.0.3"></a>
 ## [1.0.3](https://github.com/marviq/generator-bat/compare/v1.0.2...v1.0.3) (2018-01-22)
 
