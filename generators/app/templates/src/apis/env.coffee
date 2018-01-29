@@ -1,3 +1,5 @@
+'use strict'
+
 ( ( factory ) ->
     if typeof exports is 'object'
         module.exports = factory(
@@ -23,8 +25,6 @@
     #   @module         App
     #   @submodule      Apis
     ###
-
-    'use strict'
 
 
     ###*
@@ -68,7 +68,7 @@
             #
             #   These settings include:
             #
-            #     * `apiBaseUrl`
+            #     * `api`
             #     * `environment`<% if ( i18n ) { %>
             #     * `locales`<% } %>
             #
@@ -97,7 +97,7 @@
         #   @type           String
         #   @final
         #
-        #   @default        `settings.get( 'appBaseUrl' )`
+        #   @default        settings.get( 'appBaseUrl' )
         ###
 
         url:                settings.get( 'appBaseUrl' )

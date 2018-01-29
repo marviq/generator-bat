@@ -13,13 +13,13 @@
   * [grunt](http://gruntjs.com/getting-started#installing-the-cli)
 
     ```bash
-    $ [sudo ]npm install -g grunt-cli
+    [sudo ]npm install -g grunt-cli
     ```
 
   * [compass v1.0.0 or greater](http://thesassway.com/beginner/getting-started-with-sass-and-compass#install-sass-and-compass)
 
     ```bash
-    $ [sudo ]gem install compass
+    [sudo ]gem install compass
     ```
 
 
@@ -28,12 +28,12 @@
 Clone this repository somewhere, switch to it, then:
 
 ```bash
-$ git config commit.template ./.gitmessage
+git config commit.template ./.gitmessage
 # ... Set up any local tracking branches in addition to the default one.  Depends on the branching model used, if any;
 # ... Initialize your branching model tools, if need be ... ex: `git flow init -d`;
-$ ( cd ./.git/hooks && ln -s ../../.git-hooks/git-hook-on-npm-lockfile-change.sh post-checkout )
-$ ( cd ./.git/hooks && ln -s ../../.git-hooks/git-hook-on-npm-lockfile-change.sh post-merge )
-$ npm run refresh
+( cd ./.git/hooks && ln -s ../../.git-hooks/git-hook-on-npm-lockfile-change.sh post-checkout )
+( cd ./.git/hooks && ln -s ../../.git-hooks/git-hook-on-npm-lockfile-change.sh post-merge )
+npm run refresh
 ```
 
 This will:
@@ -79,6 +79,18 @@ command           | description
 `grunt --help`    | will show you all of the above and the kitchen sink;
 
 
+### Document
+
+Code documentation is generated from [comments in your source code](http://yui.github.io/yuidoc/syntax/index.html) using
+[YUIDoc](http://yui.github.io/yuidoc/).
+
+To easily access the generated code documentation, do:
+
+```bash
+npm run doc
+```
+
+
 ### Test
 
 Unit testing is an integrated build step in both `dist` and `debug` build runs, but can also be run independently as:
@@ -119,7 +131,7 @@ To make this work, *please* ensure that your commit messages adhere to the
 to have the `commit.template` as referenced below will help you with [a detailed reminder](.gitmessage) of how to do this on every `git commit`.
 
 ```bash
-$ git config commit.template ./.gitmessage
+git config commit.template ./.gitmessage
 ```
 
 
@@ -131,19 +143,19 @@ the very least it should include:\]_
   * Determine what your next [semver](https://docs.npmjs.com/getting-started/semantic-versioning#semver-for-publishers) `<version>` should be:
 
     ```bash
-    $ version="<version>"
+    version="<version>"
     ```
 
   * Bump the package's `.version`, update the [CHANGELOG](./CHANGELOG.md), commit these, and tag the commit as `v<version>`:
 
     ```bash
-    $ npm run release
+    npm run release
     ```
 
   * If all is well this new `version` **should** be identical to your intended `<version>`:
 
     ```bash
-    $ jq ".version == \"${version}\"" package.json
+    jq ".version == \"${version}\"" package.json
     ```
 
     *If this is not the case*, then either your assumptions about what changed are wrong, or (at least) one of your commits did not adhere to the

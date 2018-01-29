@@ -1,16 +1,21 @@
+'use strict'
+
 ( ( factory ) ->
     if typeof exports is 'object'
         module.exports = factory(
+            require( 'madlib-settings' )
 
             require( './../collections/api-services.coffee' )
         )
     else if typeof define is 'function' and define.amd
         define( [
+            'madlib-settings'
 
             './../collections/api-services.coffee'
         ], factory )
     return
 )((
+    settings
 
     ApiServicesCollection
 ) ->
@@ -20,8 +25,6 @@
     #   @module         App
     #   @submodule      Apis
     ###
-
-    'use strict'
 
 
     ###*<% if ( description ) { %>
@@ -40,14 +43,16 @@
         ###*
         #   The `<%- className %>`'s base url.
         #
+        #   Defined through the {{#crossLink 'SettingsEnvironmentModel/api:attribute'}}`environment.api.<%- apiName %>` setting{{/crossLink}}.
+        #
         #   @property       url
         #   @type           String
         #   @final
         #
-        #   @default        <%- url %>
+        #   @default        settings.get( 'environment.api.<%- apiName %>' )
         ###
 
-        url:                <%- url %>
+        url:                settings.get( 'environment.api.<%- apiName %>' )
 
     )
 

@@ -142,6 +142,7 @@
 'use strict'
 
 child_process   = require( 'child_process' )
+glob            = require( 'glob' )
 path            = require( 'path' )
 _               = require( 'underscore' )
 
@@ -154,8 +155,8 @@ module.exports = ( grunt ) ->
         ##  ------------------------------------------------
 
         ##
-        ##  Contents of npm's 'package.json' file as '<%= npm.pkg.* %>'
-        ##  Installed dependencies of npm's 'package.json' file as '<%= npm.installed.* %>'
+        ##  Contents of npm's 'package.json' file as `<%= npm.pkg.* %>`
+        ##  Installed dependencies of npm's 'package.json' file as `<%= npm.installed.* %>`
         ##
 
         npm:
@@ -164,7 +165,7 @@ module.exports = ( grunt ) ->
 
 
         ##
-        ##  Local data as '<%= build.* %>'
+        ##  Local data as `<%= build.* %>`
         ##
 
         build:
@@ -211,7 +212,7 @@ module.exports = ( grunt ) ->
 
                         lint:           '<%= build.source %>**/*.coffee'
 
-                    ##                  NOTE:   <%= npm.pkg.main %> should have <%= build.dist %> as its prefix:
+                    ##                  NOTE:   `<%= npm.pkg.main %>` should have `<%= build.dist %>` as its prefix:
                     ##
                     tgt:                '<%= npm.pkg.main %>'
 
@@ -300,26 +301,31 @@ module.exports = ( grunt ) ->
         ##          See also:
         ##            - https://github.com/thlorenz/browserify-shim#readme
         ##
-        ##
-        ##  https://github.com/jnordberg/coffeeify#readme
-        ##
-        ##  https://github.com/epeli/node-hbsfy#readme
-        ##
 
         browserify:
 
             options:
 
                 ##  Transforms are ideally set in 'package.json' as 'browserify.transform'.
-                ##  Shadowed here as comments for easy reference.
+                ##
+                ##  Shadowed here - commented out - but documented, for easy reference.
                 ##
                 ##  Browserify transforms are run in order and may modify your source code along the way.
-                ##  You'll typically want to include browserify-shim last.
+                ##
+                ##  You'll typically want to include 'browserify-shim' last.
                 ##
                 ###
                 transform: [
+                                        ##  https://github.com/jnordberg/coffeeify#readme
+                                        ##
                                         'coffeeify'
+
+                                        ##  https://github.com/epeli/node-hbsfy#readme
+                                        ##
                                         'hbsfy'
+
+                                        ##  https://github.com/thlorenz/browserify-shim#readme
+                                        ##
                                         'browserify-shim'
                 ]
                 ###
@@ -514,6 +520,7 @@ module.exports = ( grunt ) ->
                     ##                  Relaxing options:
                                         'debug'
                                         'loopfunc'
+                                        'validthis'
                 ])
 
             app:
@@ -685,6 +692,8 @@ module.exports = ( grunt ) ->
         ##      See also the `browserify:` section in this config for more info on browserify and **its** preprocessors:
         ##
         ##          coffeeify
+        ##          hbsfy
+        ##          browserify-shim
         ##
         ##  Jasmine:
         ##      https://github.com/karma-runner/karma-jasmine#readme
@@ -1056,6 +1065,11 @@ module.exports = ( grunt ) ->
                     linkNatives:        true
                     tabtospace:         4
 
+                    ##              NOTE:   The list of YUIDoc documentation sets, as bundled with installed packages will be dynamically established
+                    ##                      when the 'doc' task is run.
+                    ##
+                    external:           {}
+
     )
 
 
@@ -1180,6 +1194,46 @@ module.exports = ( grunt ) ->
             path = 'yuidoc.app.options.paths'
 
             grunt.config( path, grunt.file.expand( grunt.config( path )))
+
+            ##
+
+            ##  Include any installed npm dependencies with bundled YUIDoc documentation, signalled by the presence of a `data.json` and some duck typing.
+            ##
+            externals =
+                glob
+                    .sync(
+                        "node_modules/@(#{
+                            Object
+                                ##  Names of installed `dependencies`.
+                                ##
+                                .keys( grunt.config( 'npm.installed' ))
+                                ##
+                                ##  Escaped for use in this glob expression.
+                                ##
+                                .map( ( name ) -> name.replace( /[!()*+?@\[\]^{|}]/g, '\\$&' ) )
+                                .join( '|' )
+                        })/**/data.json"
+                    )
+                    .filter( ( path ) ->
+
+                        data = grunt.file.readJSON( path )
+
+                        ##  Does it walk like a duck?
+                        ##
+                        for prop in [ 'project', 'files', 'modules', 'classes', 'elements', 'classitems', 'warnings' ]
+                            return false unless data[ prop ]
+
+                        return true
+
+                    )
+                    .map( ( path ) ->
+
+                        base:   "/#{ path.slice( 0, -( 'data.json'.length )) }"
+                        json:   path
+                    )
+
+
+            grunt.config( 'yuidoc.app.options.external', data: externals ) if externals.length
 
             ##
 

@@ -1,3 +1,5 @@
+'use strict'
+
 ( ( factory ) ->
     if typeof exports is 'object'
         module.exports = factory(
@@ -21,7 +23,6 @@
     #   @submodule      Views
     ###
 
-    'use strict'
 
     ###*
     #   @class          DocumentationView

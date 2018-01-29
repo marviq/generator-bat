@@ -7,6 +7,7 @@ A Yeoman generator collection created by marviq.
 
 Ever got tired of having to scaffold your new webapp projects over and over again? Moan no more; Yeoman and BAT will do it for you!
 
+
 ## Getting Started
 
 ### What is Yeoman?
@@ -22,6 +23,7 @@ Not every new computer comes with a Yeoman pre-installed.  He lives in the [npm]
 ```bash
 [sudo ]npm install -g yo
 ```
+
 
 ### Yeoman Generators
 
@@ -39,12 +41,13 @@ Finally, initiate the main app generator:
 yo bat
 ```
 
-Some of its subs:
+Its subs:
 
 ```bash
 yo bat:view
 yo bat:model
 yo bat:collection
+yo bat:api
 ```
 
 Or, if you want a head start, even:
@@ -52,6 +55,7 @@ Or, if you want a head start, even:
 ```bash
 yo bat:demo
 ```
+
 
 ## The Finer Print
 
@@ -145,6 +149,16 @@ Furthermore, Yeoman can:
 - Cause a singleton instance of the collection to be exported instead of the `class` itself;
 
 
+#### Api
+
+```shell
+yo bat:api
+```
+
+An API is an instance of the BAT provided `ApiServicesCollection` which lives in the `src/apis/` section of your project map. Its purpose is, in essence, to
+have a convenient way to organize the endpoint urls of a backend API's services relative to the common base-url defined for that API.
+
+
 #### Demo
 
 BAT also comes packed with a demo webapp implementation showcasing its features.  To get this, either answer _yes_ to the relevant prompt from an initial `yo bat` run, or when you answered _no_ there earlier, invoke:
@@ -181,6 +195,15 @@ command           | description
 `grunt --help`    | will show you all of the above and the kitchen sink;
 
 
+### Documentation
+
+For both building and then launching the code documentation in your browser, BAT also supplies this convenient shortcut:
+
+```bash
+npm run doc
+```
+
+
 ### Unit tests
 
 BAT comes with support for unit testing using [Karma](http://karma-runner.github.io/1.0/), [Jasmine](http://jasmine.github.io/2.4/introduction.html) and [PhantomJS](http://phantomjs.org/).
@@ -204,139 +227,15 @@ The latter invocation, while it is kept running, also offers the opportunity to 
 *Do not forget to open your dev tools and browser console there!*
 
 
-## ChangeLog
-
-Refer to the [releases on GitHub](https://github.com/marviq/generator-bat/releases) for a detailed log of changes.
-
-
 ## Contributing
 
-### Prerequisites
-
-* [npm and node](https://nodejs.org/en/download/)
-* [git flow](https://github.com/nvie/gitflow/wiki/Installation)
-* [jq](https://stedolan.github.io/jq/download/)
+See [CONTRIBUTING](./CONTRIBUTING.md).
 
 
-### Setup
+## Change Log
 
-Clone this repository somewhere, switch to it, then:
-
-```bash
-$ git config commit.template ./.gitmessage
-$ git checkout master
-$ git checkout develop
-$ git flow init -d
-$ ( cd ./.git/hooks && ln -s ../../.git-hooks/git-hook-on-npm-lockfile-change.sh post-checkout )
-$ ( cd ./.git/hooks && ln -s ../../.git-hooks/git-hook-on-npm-lockfile-change.sh post-merge )
-$ npm run refresh
-```
-
-This will:
-
-  * Set up [a helpful reminder](.gitmessage) of how to make [a good commit message](#commit-message-format-discipline).  If you adhere to this, then a
-    detailed, meaningful [CHANGELOG](./CHANGELOG.md) can be constructed automatically;
-  * Ensure you have local `master` and `develop` branches tracking their respective remote counterparts;
-  * Set up the git flow [branching model](#branching-model) with default branch names;
-  * Set up two [git hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) to ensure that your `node_modules` will be synced with the
-    [`package-lock.json`](https://docs.npmjs.com/files/package-lock.json) dependency tree definition whenever a `git merge` or -`checkout` causes it to
-    change;
-  * Install all required dependencies, pruned and deduplicated;
-
-
-### Commit
-
-#### Branching Model
-
-This project uses [`git flow`](https://github.com/nvie/gitflow#readme).  Here's a quick [cheat sheet](http://danielkummer.github.io/git-flow-cheatsheet/).
-
-
-#### Commit Message Format Discipline
-
-This project uses [`conventional-changelog/standard-version`](https://github.com/conventional-changelog/standard-version) for automatic versioning and
-[CHANGELOG](./CHANGELOG.md) management.
-
-To make this work, *please* ensure that your commit messages adhere to the
-[Commit Message Format](https://github.com/bcoe/conventional-changelog-standard/blob/master/convention.md#commit-message-format).  Setting your `git config`
-to have the `commit.template` as referenced below will help you with [a detailed reminder](.gitmessage) of how to do this on every `git commit`.
-
-```bash
-$ git config commit.template ./.gitmessage
-```
-
-
-### Release
-
-  * Determine what your next [semver](https://docs.npmjs.com/getting-started/semantic-versioning#semver-for-publishers) `<version>` should be:
-
-    ```bash
-    $ version="<version>"
-    ```
-
-  * Create and checkout a `release/v<version>` branch off of `develop`:
-
-    ```bash
-    $ git flow release start "v${version}"
-    ```
-
-  * Bump the package's `.version`, update the [CHANGELOG](./CHANGELOG.md), commit these, and tag the commit as `v<version>`:
-
-    ```bash
-    $ npm run release
-    ```
-
-  * If all is well this new `version` **should** be identical to your intended `<version>`:
-
-    ```bash
-    $ jq ".version == \"${version}\"" package.json
-    ```
-
-    *If this is not the case*, then either your assumptions about what changed are wrong, or (at least) one of your commits did not adhere to the
-    [Commit Message Format Discipline](#commit-message-format-discipline); **Abort the release, and sort it out first.**
-
-  * Merge `release/v<version>` back into both `develop` and `master`, checkout `develop` and delete `release/v<version>`:
-
-    ```bash
-    $ git flow release finish -n "v${version}"
-    ```
-
-    Note that contrary to vanilla `git flow`, the merge commit into `master` will *not* have been tagged (that's what the
-    [`-n`](https://github.com/nvie/gitflow/wiki/Command-Line-Arguments#git-flow-release-finish--fsumpkn-version) was for).  This is done because
-    `npm run release` has already tagged its own commit.
-
-    I believe that in practice, this won't make a difference for the use of `git flow`; and ensuring it's done the other way round instead would render the
-    use of `conventional-changelog` impossible.
-
-
-### Publish
-
-#### To NPM
-
-```bash
-git checkout v<version>
-npm publish
-git checkout develop
-```
-
-#### On GitHub
-
-```bash
-git push --follow-tags --all
-```
-
-  * Go to [https://github.com/marviq/generator-bat/releases](https://github.com/marviq/generator-bat/releases);
-  * Click the `Draft a new release` button;
-  * Select the appropriate `v<version>` tag from the dropdown menu;
-  * You could enter a title and some release notes here; at the very least include a link to the corresponding section in the [CHANGELOG](./CHANGELOG.md) as:
-    ```markdown
-    [Change log](CHANGELOG.md# ... )
-    ```
-  * Click the `Publish release` button;
-
-
-## ChangeLog
-
-See [CHANGELOG](./CHANGELOG.md) for versions >`0.1.27`; For older versions, refer to the [releases on GitHub](https://github.com/marviq/generator-bat/releases?after=v1.0.0) for a detailed log of changes.
+See [CHANGELOG](./CHANGELOG.md) for versions >`0.1.27`; For older versions, refer to the
+[releases on GitHub](https://github.com/marviq/generator-bat/releases?after=v1.0.0) for a detailed log of changes.
 
 
 ## License

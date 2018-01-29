@@ -31,7 +31,7 @@ describe( 'An `ExampleModel` unit test suite', () ->
 
         it( 'should be overridden', () ->
 
-            newString = 'This should be overriden now'
+            newString = 'This should have been overridden now'
 
             emptyModel.set( 'attributeOne', newString )
 
@@ -43,12 +43,12 @@ describe( 'An `ExampleModel` unit test suite', () ->
         return
     )
 
-    ##  Test model when xxx it data, check if defaults are overriden
+    ##  Test model when passing-in attributes on instantiation, check if defaults are being overridden.
     ##
     populatedModel =
         new ExampleModel(
 
-            attributeOne:    'This should be overriden now'
+            attributeOne:    'This should have been overridden now'
             attributeTwo:    false
         )
 
@@ -56,7 +56,7 @@ describe( 'An `ExampleModel` unit test suite', () ->
 
         it( 'Should have been populated with the attributes as they were passed-in on its constructor', () ->
 
-            expect( populatedModel.get( 'attributeOne' )).toEqual( 'This should be overriden now' )
+            expect( populatedModel.get( 'attributeOne' )).toEqual( 'This should have been overridden now' )
             expect( populatedModel.get( 'attributeTwo' )).toEqual( false )
 
             return

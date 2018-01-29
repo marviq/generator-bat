@@ -1,3 +1,5 @@
+'use strict'
+
 ( ( factory ) ->
     if typeof exports is 'object'
         module.exports = factory(
@@ -16,8 +18,6 @@
     #   @author         David Bouman
     #   @module         App
     ###
-
-    'use strict'
 
 
     ##

@@ -1,8 +1,10 @@
 {
     "name":                             "<%- i18nLocaleDefault %>"
+
 ,   "phrases":
     {
     }
+
 ,   "formatting":
     {
         "number":
