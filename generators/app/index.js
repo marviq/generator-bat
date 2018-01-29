@@ -714,6 +714,7 @@ class AppGenerator extends Generator
                 ,   'browserify-shim'
                 ,   'coffeeify@<3'
                 ,   'coffee-script@<2'
+                ,   'glob'
                 ,   'grunt'
                 ,   'grunt-browserify'
                 ,   'grunt-coffee-jshint@<2'

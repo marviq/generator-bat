@@ -142,6 +142,7 @@
 'use strict'
 
 child_process   = require( 'child_process' )
+glob            = require( 'glob' )
 path            = require( 'path' )
 _               = require( 'underscore' )
 
@@ -1064,6 +1065,11 @@ module.exports = ( grunt ) ->
                     linkNatives:        true
                     tabtospace:         4
 
+                    ##              NOTE:   The list of YUIDoc documentation sets, as bundled with installed packages will be dynamically established
+                    ##                      when the 'doc' task is run.
+                    ##
+                    external:           {}
+
     )
 
 
@@ -1188,6 +1194,46 @@ module.exports = ( grunt ) ->
             path = 'yuidoc.app.options.paths'
 
             grunt.config( path, grunt.file.expand( grunt.config( path )))
+
+            ##
+
+            ##  Include any installed npm dependencies with bundled YUIDoc documentation, signalled by the presence of a `data.json` and some duck typing.
+            ##
+            externals =
+                glob
+                    .sync(
+                        "node_modules/@(#{
+                            Object
+                                ##  Names of installed `dependencies`.
+                                ##
+                                .keys( grunt.config( 'npm.installed' ))
+                                ##
+                                ##  Escaped for use in this glob expression.
+                                ##
+                                .map( ( name ) -> name.replace( /[!()*+?@\[\]^{|}]/g, '\\$&' ) )
+                                .join( '|' )
+                        })/**/data.json"
+                    )
+                    .filter( ( path ) ->
+
+                        data = grunt.file.readJSON( path )
+
+                        ##  Does it walk like a duck?
+                        ##
+                        for prop in [ 'project', 'files', 'modules', 'classes', 'elements', 'classitems', 'warnings' ]
+                            return false unless data[ prop ]
+
+                        return true
+
+                    )
+                    .map( ( path ) ->
+
+                        base:   "/#{ path.slice( 0, -( 'data.json'.length )) }"
+                        json:   path
+                    )
+
+
+            grunt.config( 'yuidoc.app.options.external', data: externals ) if externals.length
 
             ##
 

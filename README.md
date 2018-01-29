@@ -195,6 +195,15 @@ command           | description
 `grunt --help`    | will show you all of the above and the kitchen sink;
 
 
+### Documentation
+
+For both building and then launching the code documentation in your browser, BAT also supplies this convenient shortcut:
+
+```bash
+npm run doc
+```
+
+
 ### Unit tests
 
 BAT comes with support for unit testing using [Karma](http://karma-runner.github.io/1.0/), [Jasmine](http://jasmine.github.io/2.4/introduction.html) and [PhantomJS](http://phantomjs.org/).

@@ -79,6 +79,18 @@ command           | description
 `grunt --help`    | will show you all of the above and the kitchen sink;
 
 
+### Document
+
+Code documentation is generated from [comments in your source code](http://yui.github.io/yuidoc/syntax/index.html) using
+[YUIDoc](http://yui.github.io/yuidoc/).
+
+To easily access the generated code documentation, do:
+
+```bash
+npm run doc
+```
+
+
 ### Test
 
 Unit testing is an integrated build step in both `dist` and `debug` build runs, but can also be run independently as:
