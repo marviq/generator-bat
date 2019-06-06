@@ -60,7 +60,7 @@
     "url": "git+https://github.com/marviq/generator-bat.git"
   },
   "scripts": {
-    "refresh": "set -x; npm prune && npm install && npm dedupe",
+    "refresh": "set -x; npm install && npm prune && npm dedupe",
     "release": "standard-version",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
