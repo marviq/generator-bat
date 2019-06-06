@@ -44,7 +44,6 @@
     "handlebars",
     "jasmine",
     "karma",
-    "marviq",
     "sass",
     "yeoman",
     "yeoman-generator",
@@ -53,6 +52,9 @@
   "license": "BSD-3-Clause",
   "name": "generator-bat",
   "private": false,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/marviq/generator-bat.git"

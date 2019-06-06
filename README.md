@@ -232,7 +232,7 @@ The latter invocation, while it is kept running, also offers the opportunity to 
 See [CONTRIBUTING](./CONTRIBUTING.md).
 
 
-## Change Log
+## Changelog
 
 See [CHANGELOG](./CHANGELOG.md) for versions >`0.1.27`; For older versions, refer to the
 [releases on GitHub](https://github.com/marviq/generator-bat/releases?after=v1.0.0) for a detailed log of changes.
@@ -240,4 +240,4 @@ See [CHANGELOG](./CHANGELOG.md) for versions >`0.1.27`; For older versions, refe
 
 ## License
 
-[BSD-3-Clause](LICENSE)
+[BSD-3-Clause](./LICENSE)
