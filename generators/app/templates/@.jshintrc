@@ -50,7 +50,7 @@
 //  "predef"                    //  They have their own section, see below.
 
 ,   "quotmark":         "single"//  Because single quotes are easier; on the eye; to type.  *** Deprecation warning; about coding style, not correctnees.
-,   "regexpu":          false   //  Would like to set to `true` but see: https://github.com/jshint/jshint/issues/3404
+,   "regexpu":          true    //
 
 //  "shadow"                    //  Is more appropriately listed with the "relaxing" options.
 
