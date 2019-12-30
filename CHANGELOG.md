@@ -1,6 +1,15 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [1.1.1](https://github.com/marviq/generator-bat/compare/v1.1.0...v1.1.1) (2019-12-30)
+
+
+### Bug Fixes
+
+* **generators/app:** fix typo ([72bdb85](https://github.com/marviq/generator-bat/commit/72bdb854c04f597386b9c9de43c58a6c8cf3c89a))
+* **generators/app:** update project baseline files with current best practices and defaults ([fbcfd8c](https://github.com/marviq/generator-bat/commit/fbcfd8ca7926adf07b81e09aeb584090eefc2e2d))
+* **generators/app/templates:** fix comment ([03321a0](https://github.com/marviq/generator-bat/commit/03321a0d00fed538724a2e614180d007fa3622dc))
 
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/marviq/generator-bat/compare/v1.0.3...v1.1.0) (2018-01-29)
