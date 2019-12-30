@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.2](https://github.com/marviq/generator-bat/compare/v1.1.1...v1.1.2) (2019-12-30)
+
+
+### Bug Fixes
+
+* **generators/app:** match documented `jshint` version with dependency's ([5e35d5f](https://github.com/marviq/generator-bat/commit/5e35d5f116e9ee4c5bb92f32c80c451d1f4f8cd6))
+
 ### [1.1.1](https://github.com/marviq/generator-bat/compare/v1.1.0...v1.1.1) (2019-12-30)
 
 
