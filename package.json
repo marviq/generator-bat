@@ -6,23 +6,23 @@
     "url": "https://github.com/marviq/generator-bat/issues"
   },
   "dependencies": {
-    "chalk": "^2.3.0",
+    "chalk": "^3.0.0",
     "coffee-script": "^1.12.7",
-    "glob": "^7.1.1",
+    "glob": "^7.1.6",
     "json-stable-stringify": "^1.0.1",
     "language-tags": "^1.0.5",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.15",
     "mkdirp": "^0.5.1",
-    "semver": "^5.5.0",
-    "underscore.string": "^3.3.4",
-    "yeoman-generator": "^2.0.2",
-    "yosay": "^2.0.1"
+    "semver": "^7.1.1",
+    "underscore.string": "^3.3.5",
+    "yeoman-generator": "^4.4.0",
+    "yosay": "^2.0.2"
   },
   "description": "BAT, the Backbone Application Template; a Yeoman generator collection created by marviq",
   "devDependencies": {
     "coffeelint": "^1.16.0",
-    "jshint": "^2.9.5",
-    "standard-version": "^4.3.0"
+    "jshint": "^2.10.3",
+    "standard-version": "^7.0.1"
   },
   "files": [
     "AUTHORS",
@@ -44,7 +44,6 @@
     "handlebars",
     "jasmine",
     "karma",
-    "marviq",
     "sass",
     "yeoman",
     "yeoman-generator",
@@ -53,14 +52,17 @@
   "license": "BSD-3-Clause",
   "name": "generator-bat",
   "private": false,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/marviq/generator-bat.git"
   },
   "scripts": {
-    "refresh": "set -x; npm prune && npm install && npm dedupe",
+    "refresh": "set -x; npm install && npm prune && npm dedupe",
     "release": "standard-version",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "1.1.0"
+  "version": "1.1.1"
 }

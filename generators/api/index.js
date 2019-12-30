@@ -148,14 +148,17 @@ class ApiGenerator extends Generator
                                 type:       'input'
                             ,   name:       `env_${ envName }_url`
                             ,   message:    'What is the base URL for this API in the ' + chalk.green( envName ) + ' environment?'
-                            ,   default:    (( previous ) => ( answers ) => previous ? answers[ previous ] : youtil.definedToString( this.options.url )
+                            ,   default:    (
+                                                ( prv ) => ( answers ) => prv ? answers[ prv ] : youtil.definedToString( this.options.url )
+
                                             )( previous )
                             ,   validate:   youtil.isNonBlank
                             }
+                    ;
 
-                    previous    = prompt.name
+                    previous    = prompt.name;
 
-                    return prompt
+                    return prompt;
                 }
             )
         );

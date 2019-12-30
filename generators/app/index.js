@@ -784,7 +784,7 @@ class AppGenerator extends Generator
 
             this.log(
                 '\n'
-            +   chalk.bold( 'I\m all done.\n' )
+            +   chalk.bold( 'I\'m all done.\n' )
 
             +   '\n'
             +   chalk.bold(

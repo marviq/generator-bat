@@ -1065,8 +1065,8 @@ module.exports = ( grunt ) ->
                     linkNatives:        true
                     tabtospace:         4
 
-                    ##              NOTE:   The list of YUIDoc documentation sets, as bundled with installed packages will be dynamically established
-                    ##                      when the 'doc' task is run.
+                    ##                  NOTE:   The list of external YUIDoc documentation sets, as bundled with installed packages will be dynamically
+                    ##                          established when the 'doc' task is run.
                     ##
                     external:           {}
 
