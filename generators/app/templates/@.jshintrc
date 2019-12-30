@@ -1,7 +1,7 @@
 {
 
 //
-//   This is a config file for jshint v2.10.2
+//   This is a config file for jshint v2.10.3
 //   http://www.jshint.com/docs/options/
 //
 //   Every option documented is listed here, just to be explicit about *our* defaults.
@@ -50,7 +50,7 @@
 //  "predef"                    //  They have their own section, see below.
 
 ,   "quotmark":         "single"//  Because single quotes are easier; on the eye; to type.  *** Deprecation warning; about coding style, not correctnees.
-,   "regexpu":          true    //
+,   "regexpu":          true
 
 //  "shadow"                    //  Is more appropriately listed with the "relaxing" options.
 
