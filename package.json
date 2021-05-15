@@ -6,23 +6,23 @@
     "url": "https://github.com/marviq/generator-bat/issues"
   },
   "dependencies": {
-    "chalk": "^4.1.0",
+    "chalk": "^4.1.1",
     "coffee-script": "^1.12.7",
-    "glob": "^7.1.6",
+    "glob": "^7.1.7",
     "json-stable-stringify": "^1.0.1",
     "language-tags": "^1.0.5",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "mkdirp": "^1.0.4",
-    "semver": "^7.3.2",
+    "semver": "^7.3.5",
     "underscore.string": "^3.3.5",
-    "yeoman-generator": "^4.12.0",
+    "yeoman-generator": "^4.13.0",
     "yosay": "^2.0.2"
   },
   "description": "BAT, the Backbone Application Template; a Yeoman generator collection created by marviq",
   "devDependencies": {
     "coffeelint": "^1.16.2",
     "jshint": "^2.12.0",
-    "standard-version": "^9.0.0"
+    "standard-version": "^9.3.0"
   },
   "files": [
     "AUTHORS",
